@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--compiler=GNU|INTEL] [--system=CLUSTER|SUSE|MINT] [--python-version=2.7|3.6]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--compiler=GNU|INTEL] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--python-version=2.7|3.6]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -129,6 +129,10 @@ elif [ "$system" = "SUSE" ]; then
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
 
 elif [ "$system" = "MINT" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+elif [ "$system" = "CYGWIN" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 fi
