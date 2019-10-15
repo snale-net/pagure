@@ -1,2 +1,2 @@
 # install-softs
-Installation of librairies, models
+Librairies and models installation
