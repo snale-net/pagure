@@ -332,11 +332,27 @@ for ((group=1;group<=$maxGroup;group++)) do
 			then
 				$pythonInterpreter setup.py install --user || leave 1
 
+            # Début Compilation spécifique #
+
 			elif [[ "${builder["$group$index"]}" == "swan-builder" ]]
 			then				             
 				make mpi || leave 1
                 chmod +x swanrun || leave 1
-			fi			
+
+			elif [[ "${builder["$group$index"]}" == "gmt5" ]]
+			then
+				mkdir build
+				cd build
+
+				if [[ ! -z "${configfilename["$group$index"]}" ]] ; then mv ../${configfilename["$group$index"]} . || leave 1 ; fi
+
+				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
+				make || leave 1
+                make docs_man [[ leave 1
+				make install || leave 1
+            fi		
+
+            # Fin Compilation spécifique #	
 
 			if [[ ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} " && ! -z "${modulefile["$group$index"]}" ]]
 		        then

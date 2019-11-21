@@ -134,3 +134,33 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# pygdal 3.0.1.5
+index=7
+name["$group$index"]=pygdal
+version["$group$index"]=3.0.1.5
+details["$group$index"]="(version Python - required GDAL 3.0.1)"
+url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
+filename["$group$index"]=pygdal-3.0.1.5.tar.gz
+dirname["$group$index"]=pygdal-3.0.1.5
+builder["$group$index"]="python"
+dependencies["$group$index"]="gdal/$compilo/3.0.1"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# matplotlib 3.1.1
+index=8
+name["$group$index"]=matplotlib
+version["$group$index"]=3.1.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
+filename["$group$index"]=matplotlib-3.1.1.tar.gz
+dirname["$group$index"]=matplotlib-3.1.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
