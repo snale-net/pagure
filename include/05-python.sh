@@ -164,3 +164,35 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# pymesh 0.2.1
+index=9
+name["$group$index"]=pymesh
+version["$group$index"]=0.2.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/PyMesh/PyMesh/archive/v0.2.1.tar.gz -O pymesh-0.2.1.tar.gz"
+filename["$group$index"]=pymesh-0.2.1.tar.gz
+dirname["$group$index"]=PyMesh-0.2.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# mpi4py 3.0.3
+index=10
+name["$group$index"]=mpi4py
+version["$group$index"]=3.0.3
+details["$group$index"]="required OpenMPI 1.70.7"
+url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
+filename["$group$index"]=mpi4py-3.0.3.tar.gz
+dirname["$group$index"]=mpi4py-3.0.3
+builder["$group$index"]="python"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+
+
