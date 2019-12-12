@@ -170,7 +170,7 @@ prepend-path CPATH $prefix/p${dirinstall["$group$index"]}/include
 index=6
 name["$group$index"]=gdal
 version["$group$index"]=2.4.2
-details["$group$index"]="(required for GMT)"
+details["$group$index"]=""
 url["$group$index"]="https://download.osgeo.org/gdal/2.4.2/gdal-2.4.2.tar.gz"
 filename["$group$index"]=gdal-2.4.2.tar.gz
 dirname["$group$index"]=gdal-2.4.2
@@ -200,7 +200,7 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 index=7
 name["$group$index"]=gdal
 version["$group$index"]=3.0.1
-details["$group$index"]=""
+details["$group$index"]="(required for GMT)"
 url["$group$index"]="https://github.com/OSGeo/gdal/releases/download/v3.0.1/gdal-3.0.1.tar.gz"
 filename["$group$index"]=gdal-3.0.1.tar.gz
 dirname["$group$index"]=gdal-3.0.1
@@ -265,7 +265,7 @@ url["$group$index"]="ftp://ftp.soest.hawaii.edu/gmt/gmt-5.4.5-src.tar.gz"
 filename["$group$index"]=gmt-5.4.5-src.tar.gz
 dirname["$group$index"]=gmt-5.4.5
 builder["$group$index"]="gmt5"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/2.4.2 lapack-blas/$compilo/3.8.0"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DGSHHG_PATH=$prefix/src/gshhg-gmt-2.3.7 -DDCW_PATH=$prefix/src/dcw-gmt-1.1.4 "
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -273,12 +273,12 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tGdal ${version["$group$index"]}1\"
+puts stderr \"\tGMT ${version["$group$index"]}1\"
 }
  
-module-whatis \"Gdal ${version["$group$index"]}\"
+module-whatis \"GMT ${version["$group$index"]}\"
 
-module load gdal/$compilo/2.4.2
+module load gdal/$compilo/3.0.1
 
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib

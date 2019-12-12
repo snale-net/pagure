@@ -78,7 +78,46 @@ case "$1" in
     esac
 done
 
-# Récupérer la version du compilateur
+# 1. Tester le système
+if [ -z "$system" ]; then
+
+	systemOS=`echo "CLUSTER" | awk '{print tolower($0)}'`	
+
+elif [ "$system" = "SUSE" ]; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
+
+elif [ "$system" = "MINT" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+elif [ "$system" = "CYGWIN" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+fi
+log notice "system is set to $systemOS"
+
+# 2. Installation des paquets système
+if [ ! "$systemOS" == "cluster" ]
+then
+	echo "......................"
+	while true; do
+		read -p "Do you wish to install system packages (root acces is required) ?" yn
+		case $yn in
+		        [Yy]* )
+	log step "Install System packages (root acces is required)"
+
+	source $basedir/include/00-system-$systemOS.sh
+
+	log 0 "Install System packages"
+	break;;
+		        [Nn]* ) break ;;
+		        *) echo "Please answer yes or no." ;;
+		esac
+	done
+fi
+
+# 3. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
@@ -121,24 +160,7 @@ else
 	leave 1
 fi
 
-# Tester le system
-if [ -z "$system" ]; then
-	systemOS=`echo "CLUSTER" | awk '{print tolower($0)}'`	
-elif [ "$system" = "SUSE" ]; then
-
-	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
-
-elif [ "$system" = "MINT" ] ; then
-
-	systemOS=`echo "$system" | awk '{print tolower($0)}'`
-
-elif [ "$system" = "CYGWIN" ] ; then
-
-	systemOS=`echo "$system" | awk '{print tolower($0)}'`
-fi
-log notice "system is set to $systemOS"
-
-# Tester le prefix
+# 4. Tester le prefix
 if [ -z "$prefix" ]; then
 prefix=`pwd`
 while true; do 
@@ -154,54 +176,15 @@ done
 fi
 log notice "prefix is set to $prefix"
 
-# Tester le module-dir
-if [ -z "$moduleDir" ]; then
-	moduleDir="$prefix/Modules/local"
-else
-	log notice "module dir is set to $moduleDir"
-fi
-
-# Tester la version de Python
-if [ -z "$pythonVersion" ]; then
-	pythonInterpreter=python
-elif [ "$pythonVersion" = "2.7" ]; then
-	pythonInterpreter=python2.7
-
-elif [ "$pythonVersion" = "3.6" ] ; then
-	pythonInterpreter=python3.6
-
-else
-	log fail "Unable to find suitable version for Python" 
-	leave 1
-fi
-log notice "Python interpreter is set to $pythonInterpreter"
-
-# 1. Créer le répertoire dédié aux logiciels & librairies
+# 5. Créer le répertoire dédié aux logiciels & librairies
 if [ ! -d "$prefix" ] ; then mkdir $prefix ; fi
 if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src ; fi
 if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz ; fi
 log 0 "Make dir prefix"
 
-# 2. Installation des paquets système
+# 6. Installation du gestionnaire d'environnement Modules
 if [ ! "$systemOS" == "cluster" ]
 then
-	echo "......................"
-	while true; do
-		read -p "Do you wish to install system packages (root acces is required) ?" yn
-		case $yn in
-		        [Yy]* )
-	log step "Install System packages (root acces is required)"
-
-	source $basedir/include/00-system-$systemOS.sh
-
-	log 0 "Install System packages"
-	break;;
-		        [Nn]* ) break ;;
-		        *) echo "Please answer yes or no." ;;
-		esac
-	done
-
-	# 3. Installation du gestionnaire d'environnement Modules
 	if ! hash module 2>/dev/null
 	then
 		if [ ! -d "$prefix/Modules" ]
@@ -228,6 +211,30 @@ then
 	fi
 
 fi
+
+# 7. Tester le module-dir
+if [ -z "$moduleDir" ]; then
+	moduleDir="$prefix/Modules/local"
+else
+	log notice "module dir is set to $moduleDir"
+fi
+
+# 8. Tester la version de Python
+if [ -z "$pythonVersion" ]; then
+	pythonInterpreter=python
+elif [ "$pythonVersion" = "2.7" ]; then
+	pythonInterpreter=python2.7
+
+elif [ "$pythonVersion" = "3.6" ] ; then
+	pythonInterpreter=python3.6
+elif [ "$pythonVersion" = "3.7" ] ; then
+	pythonInterpreter=python3.7
+else
+	log fail "Unable to find suitable version for Python" 
+	leave 1
+fi
+log notice "Python interpreter is set to $pythonInterpreter"
+
 
 
 declare -a groupname
@@ -348,7 +355,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
 				make || leave 1
-                make docs_man [[ leave 1
+                		make docs_man || leave 1
 				make install || leave 1
             fi		
 
