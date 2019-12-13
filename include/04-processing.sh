@@ -105,14 +105,14 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include 
 "
 
-# NCO 4.6.9
+# NCO 4.9.0
 index=4
 name["$group$index"]=nco
-version["$group$index"]=4.6.9
+version["$group$index"]=4.9.0
 details["$group$index"]=""
-url["$group$index"]="https://sourceforge.net/projects/nco/files/nco-4.6.9.tar.gz/download -O nco-4.6.9.tar.gz"
-filename["$group$index"]=nco-4.6.9.tar.gz
-dirname["$group$index"]=nco-4.6.9
+url["$group$index"]="https://github.com/nco/nco/archive/4.9.0.tar.gz -O nco-4.9.0.tar.gz"
+filename["$group$index"]=nco-4.9.0.tar.gz
+dirname["$group$index"]=nco-4.9.0
 builder["$group$index"]="configure"
 dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25 antlr/$compilo/2.7.7"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
