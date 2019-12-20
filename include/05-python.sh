@@ -20,7 +20,7 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# Numpy 1.13.1
+# numpy 1.13.1
 index=2
 name["$group$index"]=numpy
 version["$group$index"]=1.13.1
@@ -80,8 +80,129 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# netCDF4 1.2.9
+# Cython 0.29.14
 index=6
+name["$group$index"]=cython
+version["$group$index"]=0.29.14
+details["$group$index"]=""
+url["$group$index"]=https://files.pythonhosted.org/packages/9c/9b/706dac7338c2860cd063a28cdbf5e9670995eaea408abbf2e88ba070d90d/Cython-0.29.14.tar.gz
+filename["$group$index"]=Cython-0.29.14.tar.gz
+dirname["$group$index"]=Cython-0.29.14
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# cftime 1.0.4.2
+index=7
+name["$group$index"]=cftime
+version["$group$index"]=1.0.4.2
+details["$group$index"]="(version Python - required NetCDF C / HDF5)"
+url["$group$index"]="https://files.pythonhosted.org/packages/f3/a7/203301f17c2ce458fad9b2da7c71b26dc3890b12a0200426ae960f8c9b60/cftime-1.0.4.2.tar.gz"
+filename["$group$index"]=cftime-1.0.4.2.tar.gz
+dirname["$group$index"]=cftime-1.0.4.2
+builder["$group$index"]="python"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# netcdf4-python 1.5.3
+index=8
+name["$group$index"]=netcdf4-python
+version["$group$index"]=1.5.3
+details["$group$index"]="(version Python - required HDF5 1.10.5 / NetCDF C 7.4.3 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2)"
+url["$group$index"]="https://github.com/Unidata/netcdf4-python/archive/v1.5.3rel.tar.gz -O netcdf4-python-1.5.3.tar.gz"
+filename["$group$index"]=netcdf4-python-1.5.3.tar.gz
+dirname["$group$index"]=netcdf4-python-1.5.3rel
+builder["$group$index"]="python"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.12.1 netcdf/hdf5.110/openmpi110/$compilo/4.7.3 udunits/$compilo/2.2.25"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# pygdal 3.0.1.5
+index=9
+name["$group$index"]=pygdal
+version["$group$index"]=3.0.1.5
+details["$group$index"]="(version Python - required GDAL 3.0.1)"
+url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
+filename["$group$index"]=pygdal-3.0.1.5.tar.gz
+dirname["$group$index"]=pygdal-3.0.1.5
+builder["$group$index"]="python"
+dependencies["$group$index"]="gdal/$compilo/3.0.1"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# matplotlib 3.1.1
+index=10
+name["$group$index"]=matplotlib
+version["$group$index"]=3.1.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
+filename["$group$index"]=matplotlib-3.1.1.tar.gz
+dirname["$group$index"]=matplotlib-3.1.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# pymesh 0.2.1
+index=12
+name["$group$index"]=pymesh
+version["$group$index"]=0.2.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/PyMesh/PyMesh/archive/v0.2.1.tar.gz -O pymesh-0.2.1.tar.gz"
+filename["$group$index"]=pymesh-0.2.1.tar.gz
+dirname["$group$index"]=PyMesh-0.2.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# mpi4py 3.0.3
+index=11
+name["$group$index"]=mpi4py
+version["$group$index"]=3.0.3
+details["$group$index"]="required OpenMPI 1.70.7"
+url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
+filename["$group$index"]=mpi4py-3.0.3.tar.gz
+dirname["$group$index"]=mpi4py-3.0.3
+builder["$group$index"]="python"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# array_split 0.2.0
+index=12
+name["$group$index"]=array_split
+version["$group$index"]=0.2.0
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/8c/34/ab1bb66a6c7f8b27b7cd8bfb5eb87deeac705587194127529d0449243098/array_split-0.2.0.tar.gz"
+filename["$group$index"]=array_split-0.2.0.tar.gz
+dirname["$group$index"]=array_split-0.2.0
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# OLD
+# netCDF4 1.2.9
+index=13
 name["$group$index"]=netCDF4
 version["$group$index"]=1.2.9
 details["$group$index"]="(version Python - required NetCDF C)"
@@ -134,65 +255,7 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# pygdal 3.0.1.5
-index=7
-name["$group$index"]=pygdal
-version["$group$index"]=3.0.1.5
-details["$group$index"]="(version Python - required GDAL 3.0.1)"
-url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
-filename["$group$index"]=pygdal-3.0.1.5.tar.gz
-dirname["$group$index"]=pygdal-3.0.1.5
-builder["$group$index"]="python"
-dependencies["$group$index"]="gdal/$compilo/3.0.1"
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
 
-# matplotlib 3.1.1
-index=8
-name["$group$index"]=matplotlib
-version["$group$index"]=3.1.1
-details["$group$index"]=
-url["$group$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
-filename["$group$index"]=matplotlib-3.1.1.tar.gz
-dirname["$group$index"]=matplotlib-3.1.1
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# pymesh 0.2.1
-index=9
-name["$group$index"]=pymesh
-version["$group$index"]=0.2.1
-details["$group$index"]=
-url["$group$index"]="https://github.com/PyMesh/PyMesh/archive/v0.2.1.tar.gz -O pymesh-0.2.1.tar.gz"
-filename["$group$index"]=pymesh-0.2.1.tar.gz
-dirname["$group$index"]=PyMesh-0.2.1
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# mpi4py 3.0.3
-index=10
-name["$group$index"]=mpi4py
-version["$group$index"]=3.0.3
-details["$group$index"]="required OpenMPI 1.70.7"
-url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
-filename["$group$index"]=mpi4py-3.0.3.tar.gz
-dirname["$group$index"]=mpi4py-3.0.3
-builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7"
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
 
 
 
