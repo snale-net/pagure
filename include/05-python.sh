@@ -5,44 +5,44 @@
 group=5
 groupname[$group]="Python librairies"
 
-# setuptools 36.5.0
+# setuptools 42.0.2
 index=1
 name["$group$index"]=setuptools
-version["$group$index"]=36.5.0
+version["$group$index"]=42.0.2
 details["$group$index"]=""
-url["$group$index"]=https://pypi.python.org/packages/a4/c8/9a7a47f683d54d83f648d37c3e180317f80dc126a304c45dc6663246233a/setuptools-36.5.0.zip#md5=704f500dd55f4bd0be905444f3ba892c
-filename["$group$index"]=setuptools-36.5.0.zip
-dirname["$group$index"]=setuptools-36.5.0
+url["$group$index"]=https://files.pythonhosted.org/packages/f7/b6/5b98441b6749ea1db1e41e5e6e7a93cbdd7ffd45e11fe1b22d45884bc777/setuptools-42.0.2.zip
+filename["$group$index"]=setuptools-42.0.2.zip
+dirname["$group$index"]=setuptools-42.0.2
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1"
+dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# numpy 1.13.1
+# numpy 1.17.4
 index=2
 name["$group$index"]=numpy
-version["$group$index"]=1.13.1
+version["$group$index"]=1.17.4
 details["$group$index"]=""
-url["$group$index"]=https://pypi.python.org/packages/c0/3a/40967d9f5675fbb097ffec170f59c2ba19fc96373e73ad47c2cae9a30aed/numpy-1.13.1.zip#md5=2c3c0f4edf720c3a7b525dacc825b9ae
-filename["$group$index"]=numpy-1.13.1.zip
-dirname["$group$index"]=numpy-1.13.1
+url["$group$index"]=https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
+filename["$group$index"]=numpy-1.17.4.zip
+dirname["$group$index"]=numpy-1.17.4
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1"
+dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# python-dateutil 1.5
+# python-dateutil 2.8.1
 index=3
 name["$group$index"]=python-dateutil
-version["$group$index"]=1.5
+version["$group$index"]=2.8.1
 details["$group$index"]=""
-url["$group$index"]=https://pypi.python.org/packages/b4/7c/df59c89a753eb33c7c44e1dd42de0e9bc2ccdd5a4d576e0bfad97cc280cb/python-dateutil-1.5.tar.gz#md5=0dcb1de5e5cad69490a3b6ab63f0cfa5
-filename["$group$index"]=python-dateutil-1.5.tar.gz
-dirname["$group$index"]=python-dateutil-1.5
+url["$group$index"]=https://files.pythonhosted.org/packages/be/ed/5bbc91f03fa4c839c4c7360375da77f9659af5f7086b7a7bdda65771c8e0/python-dateutil-2.8.1.tar.gz
+filename["$group$index"]=python-dateutil-2.8.1.tar.gz
+dirname["$group$index"]=python-dateutil-2.8.1
 builder["$group$index"]="python"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
@@ -50,29 +50,14 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# pandas 0.20.3
+# pybind11 2.4.3
 index=4
-name["$group$index"]=pandas
-version["$group$index"]=0.20.3
+name["$group$index"]=pybind11
+version["$group$index"]=2.4.3
 details["$group$index"]=""
-url["$group$index"]=https://pypi.python.org/packages/ee/aa/90c06f249cf4408fa75135ad0df7d64c09cf74c9870733862491ed5f3a50/pandas-0.20.3.tar.gz#md5=4df858f28b4bf4fa07d9fbb7f2568173
-filename["$group$index"]=pandas-0.20.3.tar.gz
-dirname["$group$index"]=pandas-0.20.3
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# scipy 0.19.1
-index=5
-name["$group$index"]=scipy
-version["$group$index"]=0.19.1
-details["$group$index"]=""
-url["$group$index"]=https://pypi.python.org/packages/52/67/d9ef9b5058d4a9e3f0ae641ec151790622cbeb37f157de5773358e2bf3da/scipy-0.19.1.tar.gz#md5=6b4d91b62f1926282b127194a06b72b3
-filename["$group$index"]=scipy-0.19.1.tar.gz
-dirname["$group$index"]=scipy-0.19.1
+url["$group$index"]=https://files.pythonhosted.org/packages/aa/91/deb6743e79e22ab01502296570b39b8404f10cc507a6692d612a7fee8d51/pybind11-2.4.3.tar.gz
+filename["$group$index"]=pybind11-2.4.3.tar.gz
+dirname["$group$index"]=pybind11-2.4.3
 builder["$group$index"]="python"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
@@ -81,7 +66,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # Cython 0.29.14
-index=6
+index=5
 name["$group$index"]=cython
 version["$group$index"]=0.29.14
 details["$group$index"]=""
@@ -95,8 +80,38 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# cftime 1.0.4.2
+# pandas 0.25.3
+index=6
+name["$group$index"]=pandas
+version["$group$index"]=0.25.3
+details["$group$index"]=""
+url["$group$index"]=https://files.pythonhosted.org/packages/b7/93/b544dd08092b457d88e10fc1e0989d9397fd32ca936fdfcbb2584178dd2b/pandas-0.25.3.tar.gz
+filename["$group$index"]=pandas-0.25.3.tar.gz
+dirname["$group$index"]=pandas-0.25.3
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# scipy 1.4.1
 index=7
+name["$group$index"]=scipy
+version["$group$index"]=1.4.1
+details["$group$index"]=""
+url["$group$index"]="https://github.com/scipy/scipy/archive/v1.4.1.tar.gz -O scipy-1.4.1.tar.gz"
+filename["$group$index"]=scipy-1.4.1.tar.gz
+dirname["$group$index"]=scipy-1.4.1
+builder["$group$index"]="python"
+dependencies["$group$index"]="lapack-blas/$compilo/3.8.0"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# cftime 1.0.4.2
+index=8
 name["$group$index"]=cftime
 version["$group$index"]=1.0.4.2
 details["$group$index"]="(version Python - required NetCDF C / HDF5)"
@@ -104,14 +119,34 @@ url["$group$index"]="https://files.pythonhosted.org/packages/f3/a7/203301f17c2ce
 filename["$group$index"]=cftime-1.0.4.2.tar.gz
 dirname["$group$index"]=cftime-1.0.4.2
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.6.1 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
+dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+################### OpenMPI 1.10.7 ##############################
+if [ "$mpilib" = "openmpi110" ]; then
+
+# mpi4py 3.0.3
+index=9
+name["$group$index"]=mpi4py
+version["$group$index"]=3.0.3
+details["$group$index"]="required OpenMPI 1.70.7"
+url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
+filename["$group$index"]=mpi4py-3.0.3.tar.gz
+dirname["$group$index"]=mpi4py-3.0.3
+builder["$group$index"]="python"
+dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+fi # end-openmpi110
+
 # netcdf4-python 1.5.3
-index=8
+index=10
 name["$group$index"]=netcdf4-python
 version["$group$index"]=1.5.3
 details["$group$index"]="(version Python - required HDF5 1.10.5 / NetCDF C 7.4.3 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2)"
@@ -125,84 +160,10 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# pygdal 3.0.1.5
-index=9
-name["$group$index"]=pygdal
-version["$group$index"]=3.0.1.5
-details["$group$index"]="(version Python - required GDAL 3.0.1)"
-url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
-filename["$group$index"]=pygdal-3.0.1.5.tar.gz
-dirname["$group$index"]=pygdal-3.0.1.5
-builder["$group$index"]="python"
-dependencies["$group$index"]="gdal/$compilo/3.0.1"
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
+if [ "$showOldVersion" = "1" ]; then
 
-# matplotlib 3.1.1
-index=10
-name["$group$index"]=matplotlib
-version["$group$index"]=3.1.1
-details["$group$index"]=
-url["$group$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
-filename["$group$index"]=matplotlib-3.1.1.tar.gz
-dirname["$group$index"]=matplotlib-3.1.1
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# pymesh 0.2.1
-index=12
-name["$group$index"]=pymesh
-version["$group$index"]=0.2.1
-details["$group$index"]=
-url["$group$index"]="https://github.com/PyMesh/PyMesh/archive/v0.2.1.tar.gz -O pymesh-0.2.1.tar.gz"
-filename["$group$index"]=pymesh-0.2.1.tar.gz
-dirname["$group$index"]=PyMesh-0.2.1
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# mpi4py 3.0.3
-index=11
-name["$group$index"]=mpi4py
-version["$group$index"]=3.0.3
-details["$group$index"]="required OpenMPI 1.70.7"
-url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
-filename["$group$index"]=mpi4py-3.0.3.tar.gz
-dirname["$group$index"]=mpi4py-3.0.3
-builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7"
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# array_split 0.2.0
-index=12
-name["$group$index"]=array_split
-version["$group$index"]=0.2.0
-details["$group$index"]=
-url["$group$index"]="https://files.pythonhosted.org/packages/8c/34/ab1bb66a6c7f8b27b7cd8bfb5eb87deeac705587194127529d0449243098/array_split-0.2.0.tar.gz"
-filename["$group$index"]=array_split-0.2.0.tar.gz
-dirname["$group$index"]=array_split-0.2.0
-builder["$group$index"]="python"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# OLD
 # netCDF4 1.2.9
-index=13
+index=11
 name["$group$index"]=netCDF4
 version["$group$index"]=1.2.9
 details["$group$index"]="(version Python - required NetCDF C)"
@@ -255,7 +216,66 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+fi # end-old-version
 
+# pygdal 3.0.1.5
+index=12
+name["$group$index"]=pygdal
+version["$group$index"]=3.0.1.5
+details["$group$index"]="(version Python - required GDAL 3.0.1)"
+url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
+filename["$group$index"]=pygdal-3.0.1.5.tar.gz
+dirname["$group$index"]=pygdal-3.0.1.5
+builder["$group$index"]="python"
+dependencies["$group$index"]="gdal/$compilo/3.0.1"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
 
+# matplotlib 3.1.1
+index=13
+name["$group$index"]=matplotlib
+version["$group$index"]=3.1.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
+filename["$group$index"]=matplotlib-3.1.1.tar.gz
+dirname["$group$index"]=matplotlib-3.1.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# array_split 0.2.0
+index=14
+name["$group$index"]=array_split
+version["$group$index"]=0.2.0
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/8c/34/ab1bb66a6c7f8b27b7cd8bfb5eb87deeac705587194127529d0449243098/array_split-0.2.0.tar.gz"
+filename["$group$index"]=array_split-0.2.0.tar.gz
+dirname["$group$index"]=array_split-0.2.0
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# pymesh 0.2.1
+index=15
+name["$group$index"]=pymesh
+version["$group$index"]=0.2.1
+details["$group$index"]=
+url["$group$index"]="https://github.com/PyMesh/PyMesh/archive/v0.2.1.tar.gz -O pymesh-0.2.1.tar.gz"
+filename["$group$index"]=pymesh-0.2.1.tar.gz
+dirname["$group$index"]=PyMesh-0.2.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
 
 

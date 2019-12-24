@@ -5,6 +5,7 @@
 group=2
 groupname[$group]="MPI librairies"
 
+if [ "$mpilib" = "openmpi110" ]; then
 #OpenMPI 1.10.7
 index=1
 name["$group$index"]=openmpi
@@ -37,7 +38,9 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 setenv MPI_HOME $prefix/${dirinstall["$group$index"]}/
 setenv MPI_RUN $prefix/${dirinstall["$group$index"]}/bin/mpirun
 "
+fi
 
+if [ "$mpilib" = "openmpi300" ]; then
 #OpenMPI 3.0.0
 index=2
 name["$group$index"]=openmpi
@@ -70,7 +73,9 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 setenv MPI_HOME $prefix/${dirinstall["$group$index"]}/
 setenv MPI_RUN $prefix/${dirinstall["$group$index"]}/bin/mpirun
 "
+fi
 
+if [ "$mpilib" = "mpich321" ]; then
 # Mpich 3.2.1
 index=3
 name["$group$index"]=mpich
@@ -103,3 +108,4 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 setenv MPI_HOME $prefix/${dirinstall["$group$index"]}/
 setenv MPI_RUN $prefix/${dirinstall["$group$index"]}/bin/mpirun
 "
+fi

@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--compiler=GNU|INTEL] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--python-version=2.7|3.6]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -71,6 +71,8 @@ case "$1" in
     -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//'`; shift ;;
     -system=* | --system=*) system=`echo $1 | sed 's/.*=//'`; shift ;;
     -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//'`; shift ;;
+    -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//'`; shift ;;
+    -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -160,7 +162,38 @@ else
 	leave 1
 fi
 
-# 4. Tester le prefix
+# 4. Tester la version du MPI
+if [ -z "$mpi" ]; then
+
+	mpilib="openmpi110"
+
+elif [ "$mpi" = "openmpi110" ]; then
+
+	mpilib="openmpi110"
+
+elif [ "$mpi" = "openmpi300" ] ; then
+
+	mpilib="openmpi300"
+
+elif [ "$mpi" = "mpich321" ] ; then
+
+	mpilib="mpich321"
+fi
+log notice "MPI librairy is set to $mpilib"
+
+# 5. Tester la version de Python
+if [ -z "$pythonVersion" ]; then
+	pythonInterpreter=python
+elif hash python${pythonVersion} 2>/dev/null
+then
+	pythonInterpreter=python${pythonVersion}
+else
+	log fail "Unable to find suitable version for Python ${pythonVersion}" 
+	leave 1
+fi
+log notice "Python interpreter is set to $pythonInterpreter"
+
+# 6. Tester le prefix
 if [ -z "$prefix" ]; then
 prefix=`pwd`
 while true; do 
@@ -176,13 +209,13 @@ done
 fi
 log notice "prefix is set to $prefix"
 
-# 5. Créer le répertoire dédié aux logiciels & librairies
+# 7. Créer le répertoire dédié aux logiciels & librairies
 if [ ! -d "$prefix" ] ; then mkdir $prefix ; fi
 if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src ; fi
 if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz ; fi
 log 0 "Make dir prefix"
 
-# 6. Installation du gestionnaire d'environnement Modules
+# 8. Installation du gestionnaire d'environnement Modules
 if [ ! "$systemOS" == "cluster" ]
 then
 	if ! hash module 2>/dev/null
@@ -212,30 +245,25 @@ then
 
 fi
 
-# 7. Tester le module-dir
+# 9. Tester le module-dir
 if [ -z "$moduleDir" ]; then
 	moduleDir="$prefix/Modules/local"
 else
 	log notice "module dir is set to $moduleDir"
 fi
 
-# 8. Tester la version de Python
-if [ -z "$pythonVersion" ]; then
-	pythonInterpreter=python
-elif [ "$pythonVersion" = "2.7" ]; then
-	pythonInterpreter=python2.7
-
-elif [ "$pythonVersion" = "3.6" ] ; then
-	pythonInterpreter=python3.6
-elif [ "$pythonVersion" = "3.7" ] ; then
-	pythonInterpreter=python3.7
+# 10. Ancienne version
+if [ -z "$oldVersion" ]; then
+	showOldVersion=0
+elif [ "${oldVersion}" = "0" ]; then
+	showOldVersion=0
+elif  [ "${oldVersion}" = "1" ]; then
+	showOldVersion=1
 else
-	log fail "Unable to find suitable version for Python" 
+	log fail "Unable to decode boolean for old version ${oldVersion}" 
 	leave 1
 fi
-log notice "Python interpreter is set to $pythonInterpreter"
-
-
+log notice "Show old version is set to $showOldVersion"
 
 declare -a groupname
 declare -a name
@@ -355,7 +383,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
 				make || leave 1
-                		make docs_man || leave 1
+                		#make docs_man || leave 1
 				make install || leave 1
             fi		
 

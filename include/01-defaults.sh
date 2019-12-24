@@ -29,6 +29,8 @@ module-whatis \"Lapack & Blas ${version["$group$index"]}\"
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path LAPACK $prefix/${dirinstall["$group$index"]}
+prepend-path BLAS $prefix/${dirinstall["$group$index"]}
 "
 
 #Lapack & Blas 3.8.0 Static lib
@@ -44,18 +46,7 @@ builder["$group$index"]="cmake"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=OFF -DLAPACKE=ON"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tLapack & Blas ${version["$group$index"]}\"
-}
- 
-module-whatis \"Lapack & Blas ${version["$group$index"]}\"
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
-"
+#modulefile["$group$index"]=""
 
 #Zlib 1.2.11
 index=3
