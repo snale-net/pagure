@@ -155,10 +155,10 @@ then
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
-	#export CC=icc
-	#export CXX=icpc
-	#export F77=ifort
-	#export FC=ifort
+	export CC=icc
+	export CXX=icpc
+	export F77=ifort
+	export FC=ifort
 	log notice "compiler is set to INTEL"
 else
 	log fail "Unable to find suitable compilers (gcc or icc)" 
