@@ -182,6 +182,14 @@ elif [ "$mpi" = "openmpi300" ] ; then
 
 	mpilib="openmpi300"
 
+elif [ "$mpi" = "intel2016" ] ; then
+
+	mpilib="intel2016"
+
+elif [ "$mpi" = "intel2017" ] ; then
+
+	mpilib="intel2017"
+
 elif [ "$mpi" = "mpich321" ] ; then
 
 	mpilib="mpich321"
@@ -196,6 +204,10 @@ elif [ "$mpilib" = "openmpi201" ]; then
 	mpi_dep="openmpi/$compilo/2.0.1"
 elif [ "$mpilib" = "openmpi300" ]; then
 	mpi_dep="openmpi/$compilo/3.0.0"
+elif [ "$mpilib" = "intel2016" ]; then
+	mpi_dep="intelmpi/$compilo/2016"
+elif [ "$mpilib" = "intel2017" ]; then
+	mpi_dep="intelmpi/$compilo/2017"
 elif [ "$mpilib" = "mpich321" ]; then
 	mpi_dep="mpich/$compilo/3.2.1"
 else

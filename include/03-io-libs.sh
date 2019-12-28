@@ -165,7 +165,14 @@ dirname["$group$index"]=netcdf-fortran-4.5.2
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf/hdf5.110/$mpilib/$compilo/4.7.3"
 dirinstall["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group$index"]}"
-args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpif90 FC=mpif90"
+if [ "$mpilib" == *"mpich"* ]; then
+	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpif90 FC=mpif90"
+elif [ "$mpilib" == *"intel"* ]; then
+	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpiifort FC=mpiifort"
+else
+	#openmpi
+	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpif90 FC=mpif90"
+fi
 dirmodule["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo"
 #modulefile["$group$index"]=""
 
