@@ -82,8 +82,11 @@ done
 
 # 1. Tester le système
 if [ -z "$system" ]; then
-
 	systemOS=`echo "CLUSTER" | awk '{print tolower($0)}'`	
+
+elif [ "$system" = "CLUSTER" ]; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
 
 elif [ "$system" = "SUSE" ]; then
 
@@ -242,7 +245,13 @@ then
 	else	
 		log notice "Modules -- Software Environment Management is already installed"
 	fi
-
+else
+	# On sauvegarde le module list actuel pour le rajouter aux dépendences
+	module load use.own || leave 1 
+	module list -t 2> module_list  || leave 1 	
+	sed -i -e 's/(default)//' module_list  || leave 1 
+	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`  || leave 1 
+	rm module_list  || leave 1 
 fi
 
 # 9. Tester le module-dir
@@ -311,6 +320,12 @@ for ((group=1;group<=$maxGroup;group++)) do
 					[Yy]* )
 			log notice "Install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]} "
 			module purge || leave 1
+
+			if [ "$systemOS" == "cluster" ] ; then 
+				# On enlève les modules installés sur le cluster : openmpi,...							
+				dependencies["$group$index"]=${dependencies["$group$index"]/openmpi\/$compilo\/1.10.7/}								
+				dependencies["$group$index"]=`echo $moduleList ${dependencies["$group$index"]}`							
+			fi
 
 			if [[ ! -z "${dependencies["$group$index"]}" ]] ; then  module load ${dependencies["$group$index"]} || leave 1 ; fi
 
