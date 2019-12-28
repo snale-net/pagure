@@ -182,6 +182,17 @@ elif [ "$mpi" = "mpich321" ] ; then
 
 	mpilib="mpich321"
 fi
+
+if [ "$mpilib" = "openmpi110" ]; then
+	mpi_dep="openmpi/$compilo/1.10.7"
+elif [ "$mpilib" = "openmpi201" ]; then
+	mpi_dep="openmpi/$compilo/2.0.1"
+elif [ "$mpilib" = "openmpi300" ]; then
+	mpi_dep="openmpi/$compilo/3.0.0"
+elif [ "$mpilib" = "mpich321" ]; then
+	mpi_dep="mpich/$compilo/3.2.1"
+fi
+
 log notice "MPI librairy is set to $mpilib"
 
 # 5. Tester la version de Python
@@ -322,9 +333,22 @@ for ((group=1;group<=$maxGroup;group++)) do
 			module purge || leave 1
 
 			if [ "$systemOS" == "cluster" ] ; then 
-				# On enlève les modules installés sur le cluster : openmpi,...							
-				dependencies["$group$index"]=${dependencies["$group$index"]/openmpi\/$compilo\/1.10.7/}								
-				dependencies["$group$index"]=`echo $moduleList ${dependencies["$group$index"]}`							
+				# On enlève le module mpi
+				mpi_dep_no_slash=${mpi_dep//\//\\/}							
+				dependencies["$group$index"]=${dependencies["$group$index"]/$mpi_dep_no_slash/}
+
+				# On enlève le module gdal
+				if [[ $moduleList == *"gdal"* ]]; then 
+					dependencies["$group$index"]=${dependencies["$group$index"]/gdal\/"$compilo"\/3.0.1/}
+				fi
+				
+				# On enlève le module proj
+				if [[ $moduleList == *"proj"* ]]; then 
+					dependencies["$group$index"]=${dependencies["$group$index"]/proj\/"$compilo"\/6.1.1/}
+				fi
+					
+				# On ajoute les deps du cluster				
+				dependencies["$group$index"]=`echo $moduleList ${dependencies["$group$index"]}`													
 			fi
 
 			if [[ ! -z "${dependencies["$group$index"]}" ]] ; then  module load ${dependencies["$group$index"]} || leave 1 ; fi

@@ -125,9 +125,6 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-################### OpenMPI 1.10.7 ##############################
-if [ "$mpilib" = "openmpi110" ]; then
-
 # mpi4py 3.0.3
 index=9
 name["$group$index"]=mpi4py
@@ -137,13 +134,11 @@ url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566d
 filename["$group$index"]=mpi4py-3.0.3.tar.gz
 dirname["$group$index"]=mpi4py-3.0.3
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf/hdf5.110/$mpilib/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
-
-fi # end-openmpi110
 
 # netcdf4-python 1.5.3
 index=10
@@ -154,7 +149,7 @@ url["$group$index"]="https://github.com/Unidata/netcdf4-python/archive/v1.5.3rel
 filename["$group$index"]=netcdf4-python-1.5.3.tar.gz
 dirname["$group$index"]=netcdf4-python-1.5.3rel
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 parallel-netcdf/openmpi110/$compilo/1.12.1 netcdf/hdf5.110/openmpi110/$compilo/4.7.3 udunits/$compilo/2.2.25"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.25"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -210,7 +205,7 @@ patch["$group$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
 patchfile["$group$index"]="setup.py"
 
 builder["$group$index"]="python"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 zlib/$compilo/1.2.11 hdf5/openmpi110/$compilo/1.10.5 netcdf/hdf5.110/openmpi110/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf/hdf5.110/$mpilib/$compilo/4.4.1.1 udunits/$compilo/2.2.25"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
