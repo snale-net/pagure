@@ -174,6 +174,10 @@ elif [ "$mpi" = "openmpi110" ]; then
 
 	mpilib="openmpi110"
 
+elif [ "$mpi" = "openmpi201" ]; then
+
+	mpilib="openmpi201"
+
 elif [ "$mpi" = "openmpi300" ] ; then
 
 	mpilib="openmpi300"
@@ -181,6 +185,9 @@ elif [ "$mpi" = "openmpi300" ] ; then
 elif [ "$mpi" = "mpich321" ] ; then
 
 	mpilib="mpich321"
+else
+	log fail "Unable to find suitable MPI librairy for '$mpi'" 
+	leave 1
 fi
 
 if [ "$mpilib" = "openmpi110" ]; then
@@ -191,6 +198,9 @@ elif [ "$mpilib" = "openmpi300" ]; then
 	mpi_dep="openmpi/$compilo/3.0.0"
 elif [ "$mpilib" = "mpich321" ]; then
 	mpi_dep="mpich/$compilo/3.2.1"
+else
+	log fail "Unable to load suitable MPI librairy module for '$mpilib'" 
+	leave 1
 fi
 
 log notice "MPI librairy is set to $mpilib"
