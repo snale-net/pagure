@@ -9,7 +9,8 @@ sudo apt-get install libfreetype6-dev libpng-dev libx11-dev libxaw7-dev m4 patch
 # Python v2.x
 sudo apt-get install python-dev 
 # Python v3.x
-sudo apt-get install python3-dev python3-distutils 
+sudo apt-get install python3-dev 
+sudo apt-get install python3-distutils 
 # GDAL deps
 sudo apt-get install sqlite3 libsqlite3-dev
 # GMT Man deps
