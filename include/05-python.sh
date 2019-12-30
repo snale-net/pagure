@@ -288,4 +288,19 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# f90nml 1.1.2
+index=17
+name["$group$index"]=f90nml
+version["$group$index"]=1.1.2
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/39/7e/578388fad751a75dd087598c3e28a8e045b95ee219eb768ee3c80c5c1d88/f90nml-1.1.2.tar.gz"
+filename["$group$index"]=f90nml-1.1.2.tar.gz
+dirname["$group$index"]=f90nml-1.1.2
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
 
