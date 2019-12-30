@@ -273,4 +273,19 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# Jinja2 2.10.3
+index=16
+name["$group$index"]=Jinja2
+version["$group$index"]=2.10.3
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/7b/db/1d037ccd626d05a7a47a1b81ea73775614af83c2b3e53d86a0bb41d8d799/Jinja2-2.10.3.tar.gz"
+filename["$group$index"]=Jinja2-2.10.3.tar.gz
+dirname["$group$index"]=Jinja2-2.10.3
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
 
