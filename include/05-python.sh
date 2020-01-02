@@ -20,14 +20,14 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# numpy 1.17.4
+# numpy 1.18.0
 index=2
 name["$group$index"]=numpy
-version["$group$index"]=1.17.4
+version["$group$index"]=1.18.0
 details["$group$index"]=""
-url["$group$index"]=https://files.pythonhosted.org/packages/ff/59/d3f6d46aa1fd220d020bdd61e76ca51f6548c6ad6d24ddb614f4037cf49d/numpy-1.17.4.zip
-filename["$group$index"]=numpy-1.17.4.zip
-dirname["$group$index"]=numpy-1.17.4
+url["$group$index"]=https://files.pythonhosted.org/packages/31/0a/5df350c29a06835d534a6c4f5681075304da38d85f1c69e5226a635a67ce/numpy-1.18.0.zip
+filename["$group$index"]=numpy-1.18.0.zip
+dirname["$group$index"]=numpy-1.18.0
 builder["$group$index"]="python"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
