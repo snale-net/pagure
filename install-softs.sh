@@ -468,7 +468,16 @@ for ((group=1;group<=$maxGroup;group++)) do
 					log fail "Unable to get pybind11 include directories" 
 					leave 1 
 				fi
-            		fi
+
+            		elif [[ "${builder["$group$index"]}" == "numpy" ]]
+			then
+				if [ "$mpilib" = "intel2017" ] ; then
+
+					CFLAGS='-std=c99' $pythonInterpreter setup.py install --user || leave 1
+				else
+					$pythonInterpreter setup.py install --user || leave 1
+				fi
+			fi
             		# Fin Compilation spécifique #	
 
 			if [[ ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} " && ! -z "${modulefile["$group$index"]}" ]]
