@@ -87,7 +87,11 @@ dirname["$group$index"]=hdf5-1.10.5
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="--enable-parallel"
+if [ "$mpilib" = "intel2017" ] ; then
+	args["$group$index"]="--enable-parallel CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
+else
+	args["$group$index"]="--enable-parallel"
+fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
