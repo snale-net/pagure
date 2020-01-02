@@ -136,7 +136,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
-	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
+	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}
+	
 	log notice "compiler is set to GNU"
 
 elif [ "$compiler" = "INTEL" ]
@@ -430,7 +431,11 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "python" ]]
 			then
-				$pythonInterpreter setup.py install --user || leave 1
+				if [ "$mpilib" = "intel2017" ] ; then
+					LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
+				else
+					$pythonInterpreter setup.py install --user || leave 1
+				fi				
 
             		# Début Compilation spécifique #
 			elif [[ "${builder["$group$index"]}" == "swan-builder" ]]
