@@ -126,11 +126,7 @@ fi
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
-	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}
-	#export CC=mpicc
-	#export CXX=mpic++
-	#export F77=mpif90
-	#export FC=mpif90
+	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
 	log notice "compiler is set to GNU"
 
 elif [ "$compiler" = "GNU" ]
@@ -140,11 +136,7 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
-	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}
-	#export CC=mpicc
-	#export CXX=mpic++
-	#export F77=mpif90
-	#export FC=mpif90
+	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
 	log notice "compiler is set to GNU"
 
 elif [ "$compiler" = "INTEL" ]
@@ -158,7 +150,7 @@ then
 	export CC=icc
 	export CXX=icpc
 	export F77=ifort
-	export FC=ifort
+	export FC=ifort	
 	log notice "compiler is set to INTEL"
 else
 	log fail "Unable to find suitable compilers (gcc or icc)" 
@@ -185,10 +177,22 @@ elif [ "$mpi" = "openmpi300" ] ; then
 elif [ "$mpi" = "intel2016" ] ; then
 
 	mpilib="intel2016"
+	export MPICC=mpiicc
+	export MPIF77=mpiifort
+	export MPIFC=mpiifort
+	export MPIF90=mpiifort
+	export MPIF90=mpif90
+	export MPICXX=mpiicpc
 
 elif [ "$mpi" = "intel2017" ] ; then
 
 	mpilib="intel2017"
+	export MPICC=mpiicc
+	export MPIF77=mpiifort
+	export MPIFC=mpiifort
+	export MPIF90=mpiifort
+	export MPIF90=mpif90
+	export MPICXX=mpiicpc
 
 elif [ "$mpi" = "mpich321" ] ; then
 
