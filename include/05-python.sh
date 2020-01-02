@@ -20,8 +20,23 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-# numpy 1.18.0
+# Cython 0.29.14
 index=2
+name["$group$index"]=cython
+version["$group$index"]=0.29.14
+details["$group$index"]=""
+url["$group$index"]=https://files.pythonhosted.org/packages/9c/9b/706dac7338c2860cd063a28cdbf5e9670995eaea408abbf2e88ba070d90d/Cython-0.29.14.tar.gz
+filename["$group$index"]=Cython-0.29.14.tar.gz
+dirname["$group$index"]=Cython-0.29.14
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# numpy 1.18.0
+index=3
 name["$group$index"]=numpy
 version["$group$index"]=1.18.0
 details["$group$index"]=""
@@ -36,7 +51,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # python-dateutil 2.8.1
-index=3
+index=4
 name["$group$index"]=python-dateutil
 version["$group$index"]=2.8.1
 details["$group$index"]=""
@@ -51,7 +66,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # pybind11 2.4.3
-index=4
+index=5
 name["$group$index"]=pybind11
 version["$group$index"]=2.4.3
 details["$group$index"]=""
@@ -59,21 +74,6 @@ url["$group$index"]=https://files.pythonhosted.org/packages/aa/91/deb6743e79e22a
 filename["$group$index"]=pybind11-2.4.3.tar.gz
 dirname["$group$index"]=pybind11-2.4.3
 builder["$group$index"]="pybind11"
-dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-#modulefile["$group$index"]=""
-
-# Cython 0.29.14
-index=5
-name["$group$index"]=cython
-version["$group$index"]=0.29.14
-details["$group$index"]=""
-url["$group$index"]=https://files.pythonhosted.org/packages/9c/9b/706dac7338c2860cd063a28cdbf5e9670995eaea408abbf2e88ba070d90d/Cython-0.29.14.tar.gz
-filename["$group$index"]=Cython-0.29.14.tar.gz
-dirname["$group$index"]=Cython-0.29.14
-builder["$group$index"]="python"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
