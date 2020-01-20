@@ -17,7 +17,8 @@ dirname["$group$index"]=pnetcdf-1.12.1
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="--enable-shared"
+args["$group$index"]=""
+#args["$group$index"]="--enable-shared"
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
