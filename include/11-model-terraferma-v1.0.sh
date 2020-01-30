@@ -15,8 +15,8 @@ url["$group$index"]="https://bitbucket.org/tferma/petsc/get/tferma-v1.0.tar.gz -
 filename["$group$index"]=petsc-tferma-v1.0.tar.gz
 dirname["$group$index"]=tferma-petsc-111ef2698fa5
 builder["$group$index"]="configure"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7"
-dirinstall["$group$index"]="${name["$group$index"]}/openmpi110/$compilo/${version["$group$index"]}"
+dependencies["$group$index"]="$mpi_dep"
+dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 args["$group$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --download-hypre --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis"
 dirmodule["$group$index"]="${name["$group$index"]}/openmpi110/$compilo"
 modulefile["$group$index"]="#%Module1.0
@@ -47,7 +47,7 @@ url["$group$index"]="https://bitbucket.org/eigen/eigen/get/3.2.3.tar.gz -O eigen
 filename["$group$index"]=eigen-3.2.3.tar.gz
 dirname["$group$index"]=eigen-eigen-36fd1ba04c12
 builder["$group$index"]="cmake"
-dependencies["$group$index"]="petsc/openmpi110/$compilo/tferma-v1.0"
+dependencies["$group$index"]="petsc/$mpilib/$compilo/tferma-v1.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DMETIS_LIBRARIES=${PETSC_DIR}/lib/libmetis.so -DSCOTCH_LIBRARIES=${PETSC_DIR}/lib/libscotch.a"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -74,7 +74,7 @@ url["$group$index"]="https://github.com/FluidityProject/spud/archive/last-merge-
 filename["$group$index"]=spud-9f53a5f.tar.gz
 dirname["$group$index"]=spud-last-merge-into-fluidity-pre-subtree
 builder["$group$index"]="configure"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7"
+dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -196,7 +196,7 @@ url["$group$index"]="https://bitbucket.org/tferma/dolfin/get/tferma-v1.0.tar.gz 
 filename["$group$index"]=dolphin-tferma-v1.0.tar.gz
 dirname["$group$index"]=tferma-dolfin-75dc693dce68
 builder["$group$index"]="cmake"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 petsc/openmpi110/$compilo/tferma-v1.0 eigen/gcc74/3.2.3"
+dependencies["$group$index"]="$mpi_dep petsc/$mpilib/$compilo/tferma-v1.0 eigen/gcc74/3.2.3"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DCMAKE_BUILD_TYPE=RelWithDebInfo       -DDOLFIN_ENABLE_CHOLMOD:BOOL=OFF       -DDOLFIN_ENABLE_UMFPACK:BOOL=OFF       -DDOLFIN_ENABLE_TRILINOS:BOOL=OFF       -DDOLFIN_ENABLE_SLEPC:BOOL=OFF        -DMETIS_LIBRARY=${PETSC_DIR}/lib/libmetis.so       -DPARMETIS_INCLUDE_DIRS=${PETSC_DIR}/include       -DPARMETIS_LIBRARY=${PETSC_DIR}/lib/libparmetis.so       -DDOLFIN_ENABLE_TESTING:BOOL=ON       -DEIGEN3_INCLUDE_DIR=$prefix/eigen/$compilo/3.2.3/include/eigen3"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -249,7 +249,7 @@ patch["$group$index"]="*** buckettools/cpp/CMakeLists.txt.old	2019-08-05 17:35:5
 "
 patchfile["$group$index"]="buckettools/cpp/CMakeLists.txt"
 builder["$group$index"]="cmake"
-dependencies["$group$index"]="openmpi/$compilo/1.10.7 petsc/openmpi110/$compilo/tferma-v1.0 spud/$compilo/9f53a5f eigen/$compilo/3.2.3 dolfin/$compilo/tferma-v1.0"
+dependencies["$group$index"]="$mpi_dep petsc/$mpilib/$compilo/tferma-v1.0 spud/$compilo/9f53a5f eigen/$compilo/3.2.3 dolfin/$compilo/tferma-v1.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DSPUD_INCLUDE_DIRS=$SPUD_DIR/include -DSPUD_LIBRARIES=$SPUD_DIR/lib/libspud.so"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
