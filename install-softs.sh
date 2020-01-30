@@ -68,11 +68,11 @@ case "$1" in
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
     -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;;
-    -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//'`; shift ;;
-    -system=* | --system=*) system=`echo $1 | sed 's/.*=//'`; shift ;;
-    -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//'`; shift ;;
-    -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//'`; shift ;;
-    -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//'`; shift ;;
+    -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -82,23 +82,22 @@ done
 
 # 1. Tester le système
 if [ -z "$system" ]; then
-	systemOS=`echo "CLUSTER" | awk '{print tolower($0)}'`	
+	systemOS=`echo "cluster" | awk '{print tolower($0)}'`	
 
-elif [ "$system" = "CLUSTER" ]; then
-
-	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
-
-elif [ "$system" = "SUSE" ]; then
+elif [ "$system" = "suse" ]; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
 
-elif [ "$system" = "MINT" ] ; then
+elif [ "$system" = "mint" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
-elif [ "$system" = "CYGWIN" ] ; then
+elif [ "$system" = "cygwin" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+else
+	systemOS=`echo "cluster" | awk '{print tolower($0)}'`
 fi
 log notice "system is set to $systemOS"
 
@@ -129,7 +128,7 @@ then
 	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
 	log notice "compiler is set to GNU"
 
-elif [ "$compiler" = "GNU" ]
+elif [ "$compiler" = "gnu" ]
 then
 	if ! [ -x "$(command -v gcc)" ] ; then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
@@ -140,7 +139,7 @@ then
 	
 	log notice "compiler is set to GNU"
 
-elif [ "$compiler" = "INTEL" ]
+elif [ "$compiler" = "intel" ]
 then
 	if ! [ -x "$(command -v icc)" ] ; then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
