@@ -90,6 +90,8 @@ dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 if [ "$mpilib" = "intel2017" ] ; then
 	args["$group$index"]="--enable-parallel CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
+elif [ "$mpilib" = "openmpi*" ] ; then
+	args["$group$index"]="--enable-parallel CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
 else
 	args["$group$index"]="--enable-parallel"
 fi

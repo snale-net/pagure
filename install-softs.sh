@@ -161,18 +161,42 @@ fi
 if [ -z "$mpi" ]; then
 
 	mpilib="openmpi110"
+    export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
 
 elif [ "$mpi" = "openmpi110" ]; then
 
 	mpilib="openmpi110"
+    export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
 
 elif [ "$mpi" = "openmpi201" ]; then
 
 	mpilib="openmpi201"
+    export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
 
 elif [ "$mpi" = "openmpi300" ] ; then
 
 	mpilib="openmpi300"
+    export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
 
 elif [ "$mpi" = "intel2016" ] ; then
 
