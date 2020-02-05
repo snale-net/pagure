@@ -81,19 +81,19 @@ fi # end-old-version
 index=3
 name["$group$index"]=hdf5
 version["$group$index"]=1.10.5
-details["$group$index"]=""
+details["$group$index"]="with parallel I/O if MPI lib is available"
 url["$group$index"]=https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10.5.tar.gz
 filename["$group$index"]=hdf5-1.10.5.tar.gz
 dirname["$group$index"]=hdf5-1.10.5
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-if [ "$mpilib" = "intel2017" ] ; then
+if [ "$mpilib" == *"intel"* ] ; then
 	args["$group$index"]="--enable-parallel CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
-elif [ "$mpilib" = "openmpi*" ] ; then
+elif [ "$mpilib" == *"openmpi"* ] ; then
 	args["$group$index"]="--enable-parallel CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
 else
-	args["$group$index"]="--enable-parallel"
+	args["$group$index"]=""
 fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
