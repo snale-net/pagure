@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -84,15 +84,15 @@ done
 if [ -z "$system" ]; then
 	systemOS=`echo "cluster" | awk '{print tolower($0)}'`	
 
-elif [ "$system" = "suse" ]; then
+elif [ "$system" == "suse" ]; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
 
-elif [ "$system" = "mint" ] ; then
+elif [ "$system" == "mint" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
-elif [ "$system" = "cygwin" ] ; then
+elif [ "$system" == "cygwin" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
@@ -128,7 +128,7 @@ then
 	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
 	log notice "compiler is set to GNU"
 
-elif [ "$compiler" = "gnu" ]
+elif [ "$compiler" == "gnu" ]
 then
 	if ! [ -x "$(command -v gcc)" ] ; then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
@@ -139,7 +139,7 @@ then
 	
 	log notice "compiler is set to GNU"
 
-elif [ "$compiler" = "intel" ]
+elif [ "$compiler" == "intel" ]
 then
 	if ! [ -x "$(command -v icc)" ] ; then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
@@ -160,15 +160,9 @@ fi
 # 4. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
-	mpilib="openmpi110"
-    export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
+	mpilib="none"  
 
-elif [ "$mpi" = "openmpi110" ]; then
+elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
     export MPICC=mpicc
@@ -178,7 +172,7 @@ elif [ "$mpi" = "openmpi110" ]; then
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" = "openmpi201" ]; then
+elif [ "$mpi" == "openmpi201" ]; then
 
 	mpilib="openmpi201"
     export MPICC=mpicc
@@ -188,7 +182,7 @@ elif [ "$mpi" = "openmpi201" ]; then
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" = "openmpi300" ] ; then
+elif [ "$mpi" == "openmpi300" ] ; then
 
 	mpilib="openmpi300"
     export MPICC=mpicc
@@ -198,7 +192,7 @@ elif [ "$mpi" = "openmpi300" ] ; then
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" = "intel2016" ] ; then
+elif [ "$mpi" == "intel2016" ] ; then
 
 	mpilib="intel2016"
 	export MPICC=mpiicc
@@ -208,7 +202,7 @@ elif [ "$mpi" = "intel2016" ] ; then
 	export MPIF90=mpif90
 	export MPICXX=mpiicpc
 
-elif [ "$mpi" = "intel2017" ] ; then
+elif [ "$mpi" == "intel2017" ] ; then
 
 	mpilib="intel2017"
 	export MPICC=mpiicc
@@ -218,32 +212,35 @@ elif [ "$mpi" = "intel2017" ] ; then
 	export MPIF90=mpif90
 	export MPICXX=mpiicpc
 
-elif [ "$mpi" = "mpich321" ] ; then
+elif [ "$mpi" == "mpich321" ] ; then
 
 	mpilib="mpich321"
-else
+else   
 	log fail "Unable to find suitable MPI librairy for '$mpi'" 
 	leave 1
 fi
 
-if [ "$mpilib" = "openmpi110" ]; then
+if [ "$mpilib" == "openmpi110" ]; then
 	mpi_dep="openmpi/$compilo/1.10.7"
-elif [ "$mpilib" = "openmpi201" ]; then
+elif [ "$mpilib" == "openmpi201" ]; then
 	mpi_dep="openmpi/$compilo/2.0.1"
-elif [ "$mpilib" = "openmpi300" ]; then
+elif [ "$mpilib" == "openmpi300" ]; then
 	mpi_dep="openmpi/$compilo/3.0.0"
-elif [ "$mpilib" = "intel2016" ]; then
+elif [ "$mpilib" == "intel2016" ]; then
 	mpi_dep="intelmpi/$compilo/2016"
-elif [ "$mpilib" = "intel2017" ]; then
+elif [ "$mpilib" == "intel2017" ]; then
 	mpi_dep="intelmpi/$compilo/2017"
-elif [ "$mpilib" = "mpich321" ]; then
+elif [ "$mpilib" == "mpich321" ]; then
 	mpi_dep="mpich/$compilo/3.2.1"
 else
-	log fail "Unable to load suitable MPI librairy module for '$mpilib'" 
-	leave 1
+    mpi_dep=""
 fi
 
-log notice "MPI librairy is set to $mpilib"
+if [ "$mpilib" == "none" ]; then
+    log notice "No MPI librairy"  
+else
+    log notice "MPI librairy is set to $mpilib"
+fi
 
 # 5. Tester la version de Python
 if [ -z "$pythonVersion" ]; then
@@ -325,9 +322,9 @@ fi
 # 10. Ancienne version
 if [ -z "$oldVersion" ]; then
 	showOldVersion=0
-elif [ "${oldVersion}" = "0" ]; then
+elif [ "${oldVersion}" == "0" ]; then
 	showOldVersion=0
-elif  [ "${oldVersion}" = "1" ]; then
+elif  [ "${oldVersion}" == "1" ]; then
 	showOldVersion=1
 else
 	log fail "Unable to decode boolean for old version ${oldVersion}" 

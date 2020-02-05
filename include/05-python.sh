@@ -125,6 +125,7 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+if [ "$mpilib" != "none" ]; then # MPI-only
 # mpi4py 3.0.3
 index=9
 name["$group$index"]=mpi4py
@@ -139,6 +140,7 @@ dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$i
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
+fi # MPI-only
 
 # netcdf4-python 1.5.3
 index=10
