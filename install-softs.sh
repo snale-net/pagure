@@ -199,7 +199,7 @@ elif [ "$mpi" == "intel2016" ] ; then
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
-	export MPIF90=mpif90
+	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
 elif [ "$mpi" == "intel2017" ] ; then
@@ -209,7 +209,7 @@ elif [ "$mpi" == "intel2017" ] ; then
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
-	export MPIF90=mpif90
+	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
 elif [ "$mpi" == "mpich321" ] ; then
