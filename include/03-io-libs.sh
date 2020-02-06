@@ -19,8 +19,7 @@ dirname["$group$index"]=pnetcdf-1.12.1
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-#args["$group$index"]="--enable-shared"
+args["$group$index"]="--enable-shared"
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -147,17 +146,17 @@ builder["$group$index"]="configure"
 if [[ $mpilib == openmpi* ]]; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group$index"]}"
-	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpif90 FC=mpif90"
+	args["$group$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90"
 	dirmodule["$group$index"]="${name["$group$index"]}-c/hdf5.110/$mpilib/$compilo"
 elif [[ $mpilib == mpich* ]]; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group$index"]}"
-	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpif90 FC=mpif90"
+	args["$group$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90"
 	dirmodule["$group$index"]="${name["$group$index"]}-c/hdf5.110/$mpilib/$compilo"
 elif [[ $mpilib == intel* ]]; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group$index"]}"
-	args["$group$index"]="--enable-pnetcdf --with-pnetcdf=$prefix/parallel-netcdf/$mpilib/$compilo/1.12.1/lib F77=mpiifort FC=mpiifort"
+	args["$group$index"]="--enable-pnetcdf F77=mpiifort FC=mpiifort"
 	dirmodule["$group$index"]="${name["$group$index"]}-c/hdf5.110/$mpilib/$compilo"
 else
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5"
