@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CYGWIN] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -84,6 +84,10 @@ done
 if [ -z "$system" ]; then
 	systemOS=`echo "cluster" | awk '{print tolower($0)}'`	
 
+elif [ "$system" == "cluster" ]; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
+
 elif [ "$system" == "suse" ]; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
@@ -92,12 +96,13 @@ elif [ "$system" == "mint" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
-elif [ "$system" == "cygwin" ] ; then
-
-	systemOS=`echo "$system" | awk '{print tolower($0)}'`
-
+#elif [ "$system" == "cygwin" ] ; then
+#
+#	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+#
 else
-	systemOS=`echo "cluster" | awk '{print tolower($0)}'`
+	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT" 
+	leave 1
 fi
 log notice "system is set to $systemOS"
 
@@ -153,7 +158,7 @@ then
 	export FC=ifort	
 	log notice "compiler is set to INTEL"
 else
-	log fail "Unable to find suitable compilers (gcc or icc)" 
+	log fail "Unable to decode argument '--compiler'. Accepted values : GNU|INTEL" 
 	leave 1
 fi
 
@@ -216,8 +221,8 @@ elif [ "$mpi" == "mpich321" ] ; then
 
 	mpilib="mpich321"
 else   
-	log fail "Unable to find suitable MPI librairy for '$mpi'" 
-	leave 1
+    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321" 
+	leave 1	
 fi
 
 if [ "$mpilib" == "openmpi110" ]; then

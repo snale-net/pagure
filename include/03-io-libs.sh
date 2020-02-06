@@ -301,9 +301,9 @@ index=7
 name["$group$index"]=netcdf
 version["$group$index"]=4.4.4
 if [ "$mpilib" == "none" ]; then
-	details["$group$index"]="(version Fortran - required Netcdf-C 4.4.4.1 and HDF 1.10.5)"
+	details["$group$index"]="(version Fortran - required Netcdf-C 4.4.1.1 and HDF 1.10.5)"
 else
-	details["$group$index"]="(version Fortran - required Netcdf-C 4.4.4.1, HDF 1.10.5)"
+	details["$group$index"]="(version Fortran - required Netcdf-C 4.4.1.1, HDF 1.10.5)"
 fi
 url["$group$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.4.4.tar.gz
 filename["$group$index"]=netcdf-fortran-4.4.4.tar.gz
