@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -217,11 +217,31 @@ elif [ "$mpi" == "intel2017" ] ; then
 	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
+elif [ "$mpi" == "intel2018" ] ; then
+
+	mpilib="intel2018"
+	export MPICC=mpiicc
+	export MPIF77=mpiifort
+	export MPIFC=mpiifort
+	export MPIF90=mpiifort
+	export MPIF90=mpiifort
+	export MPICXX=mpiicpc
+
+elif [ "$mpi" == "intel2019" ] ; then
+
+	mpilib="intel2019"
+	export MPICC=mpiicc
+	export MPIF77=mpiifort
+	export MPIFC=mpiifort
+	export MPIF90=mpiifort
+	export MPIF90=mpiifort
+	export MPICXX=mpiicpc
+
 elif [ "$mpi" == "mpich321" ] ; then
 
 	mpilib="mpich321"
 else   
-    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|mpich321" 
+    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321" 
 	leave 1	
 fi
 
@@ -235,6 +255,10 @@ elif [ "$mpilib" == "intel2016" ]; then
 	mpi_dep="intelmpi/$compilo/2016"
 elif [ "$mpilib" == "intel2017" ]; then
 	mpi_dep="intelmpi/$compilo/2017"
+elif [ "$mpilib" == "intel2018" ]; then
+	mpi_dep="intelmpi/$compilo/2018"
+elif [ "$mpilib" == "intel2019" ]; then
+	mpi_dep="intelmpi/$compilo/2019"
 elif [ "$mpilib" == "mpich321" ]; then
 	mpi_dep="mpich/$compilo/3.2.1"
 else
