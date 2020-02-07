@@ -78,27 +78,27 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 "
 
 #Automake 1.16
-index=4
-name["$group$index"]=automake
-version["$group$index"]=1.16
-details["$group$index"]=""
-url["$group$index"]=http://ftp.gnu.org/gnu/automake/automake-1.16.tar.gz
-filename["$group$index"]=automake-1.16.tar.gz
-dirname["$group$index"]=automake-1.16
-builder["$group$index"]="configure"
+#index=4
+#name["$group$index"]=automake
+#version["$group$index"]=1.16
+#details["$group$index"]=""
+#url["$group$index"]=http://ftp.gnu.org/gnu/automake/automake-1.16.tar.gz
+#filename["$group$index"]=automake-1.16.tar.gz
+#dirname["$group$index"]=automake-1.16
+#builder["$group$index"]="configure"
 #dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tAutomake ${version["$group$index"]}\"
-}
- 
-module-whatis \"Autoake ${version["$group$index"]}\"
-prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
-prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
-"
+#dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+#args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]="#%Module1.0
+#proc ModulesHelp { } {
+#global dotversion
+# 
+#puts stderr \"\tAutomake ${version["$group$index"]}\"
+#}
+# 
+#module-whatis \"Autoake ${version["$group$index"]}\"
+#prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+#prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
+#"
 
