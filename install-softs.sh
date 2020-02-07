@@ -456,17 +456,17 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "python" ]]
 			then
-				if [ "$mpilib" = "intel2017" ] ; then
+				if [[ "$compiler" == "intel" ]] ; then
 					LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
 				else
 					$pythonInterpreter setup.py install --user || leave 1
 				fi				
 
-            		# Début Compilation spécifique #
+            # Début Compilation spécifique #
 			elif [[ "${builder["$group$index"]}" == "swan-builder" ]]
 			then				             
 				make mpi || leave 1
-                		chmod +x swanrun || leave 1
+                chmod +x swanrun || leave 1
 
 			elif [[ "${builder["$group$index"]}" == "gmt5" ]]
 			then
@@ -477,10 +477,10 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
 				make || leave 1
-                		#make docs_man || leave 1
+                #make docs_man || leave 1
 				make install || leave 1
 			
-            		elif [[ "${builder["$group$index"]}" == "pybind11" ]]
+            elif [[ "${builder["$group$index"]}" == "pybind11" ]]
 			then
 				$pythonInterpreter setup.py install --user || leave 1
 				nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
@@ -494,16 +494,15 @@ for ((group=1;group<=$maxGroup;group++)) do
 					leave 1 
 				fi
 
-            		elif [[ "${builder["$group$index"]}" == "numpy" ]]
+            elif [[ "${builder["$group$index"]}" == "numpy" ]]
 			then
-				if [ "$mpilib" = "intel2017" ] ; then
-
+				if [[  "$compiler" == "intel" ]] ; then
 					CFLAGS='-std=c99' $pythonInterpreter setup.py install --user || leave 1
 				else
 					$pythonInterpreter setup.py install --user || leave 1
 				fi
 			fi
-            		# Fin Compilation spécifique #	
+            # Fin Compilation spécifique #	
 
 			if [[ ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} " && ! -z "${modulefile["$group$index"]}" ]]
 		        then
