@@ -36,14 +36,14 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
-# numpy 1.18.0
+# numpy 1.18.1
 index=3
 name["$group$index"]=numpy
-version["$group$index"]=1.18.0
+version["$group$index"]=1.18.1
 details["$group$index"]=""
-url["$group$index"]=https://files.pythonhosted.org/packages/31/0a/5df350c29a06835d534a6c4f5681075304da38d85f1c69e5226a635a67ce/numpy-1.18.0.zip
-filename["$group$index"]=numpy-1.18.0.zip
-dirname["$group$index"]=numpy-1.18.0
+url["$group$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
+filename["$group$index"]=numpy-1.18.1.zip
+dirname["$group$index"]=numpy-1.18.1
 builder["$group$index"]="numpy"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
