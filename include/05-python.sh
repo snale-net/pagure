@@ -44,6 +44,20 @@ details["$group$index"]=""
 url["$group$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
 filename["$group$index"]=numpy-1.18.1.zip
 dirname["$group$index"]=numpy-1.18.1
+patch["$group$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14 11:17:16.471959103 +0100
++++ numpy/distutils/intelccompiler.py	2020-02-14 11:16:30.791713000 +0100
+@@ -60,7 +60,7 @@
+ 
+         v = self.get_version()
+         mpopt = 'openmp' if v and v < '15' else 'qopenmp'
+-        self.cc_exe = ('icc -m64 -fPIC -fp-model strict -O3 '
++        self.cc_exe = ('icc -m64 -std=c99 -fPIC -fp-model strict -O3 '
+                        '-fomit-frame-pointer -{}').format(mpopt)
+         compiler = self.cc_exe
+ 
+
+"
+patchfile["$group$index"]="numpy/distutils/intelccompiler.py"
 builder["$group$index"]="numpy"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
