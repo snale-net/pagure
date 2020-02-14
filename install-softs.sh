@@ -521,7 +521,7 @@ for ((group=1;group<=$maxGroup;group++)) do
             elif [[ "${builder["$group$index"]}" == "numpy" ]]
 			then
 				if [[  "$compiler" == "intel" ]] ; then
-					CFLAGS="--std=c99" $pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1
+					CFLAGS="-std=c99" $pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1
 				else
 					$pythonInterpreter setup.py install --user || leave 1
 				fi
