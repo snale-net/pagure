@@ -40,7 +40,7 @@ if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 index=3
 name["$group$index"]=numpy
 version["$group$index"]=1.18.1
-details["$group$index"]=""
+details["$group$index"]="(required Lapack-Blas 3.8.0)"
 url["$group$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
 filename["$group$index"]=numpy-1.18.1.zip
 dirname["$group$index"]=numpy-1.18.1
@@ -59,7 +59,7 @@ patch["$group$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14
 "
 patchfile["$group$index"]="numpy/distutils/intelccompiler.py"
 builder["$group$index"]="numpy"
-dependencies["$group$index"]=""
+dependencies["$group$index"]="lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -69,12 +69,12 @@ else
 index=3
 name["$group$index"]=numpy
 version["$group$index"]=1.16.6
-details["$group$index"]=""
+details["$group$index"]="(required Lapack-Blas 3.8.0)"
 url["$group$index"]=https://files.pythonhosted.org/packages/b7/6f/24647f014eef9b67a24adfcbcd4f4928349b4a0f8393b3d7fe648d4d2de3/numpy-1.16.6.zip
 filename["$group$index"]=numpy-1.16.6.zip
 dirname["$group$index"]=numpy-1.16.6
 builder["$group$index"]="numpy"
-dependencies["$group$index"]=""
+dependencies["$group$index"]="lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -148,11 +148,11 @@ if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 index=7
 name["$group$index"]=scipy
 version["$group$index"]=1.4.1
-details["$group$index"]=""
+details["$group$index"]="(required Lapack-Blas 3.8.0)"
 url["$group$index"]="https://github.com/scipy/scipy/archive/v1.4.1.tar.gz -O scipy-1.4.1.tar.gz"
 filename["$group$index"]=scipy-1.4.1.tar.gz
 dirname["$group$index"]=scipy-1.4.1
-builder["$group$index"]="python"
+builder["$group$index"]="scipy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
@@ -163,11 +163,11 @@ else
 index=7
 name["$group$index"]=scipy
 version["$group$index"]=1.2.3
-details["$group$index"]=""
+details["$group$index"]="(required Lapack-Blas 3.8.0)"
 url["$group$index"]="https://github.com/scipy/scipy/archive/v1.2.3.tar.gz -O scipy-1.2.3.tar.gz"
 filename["$group$index"]=scipy-1.2.3.tar.gz
 dirname["$group$index"]=scipy-1.2.3
-builder["$group$index"]="python"
+builder["$group$index"]="scipy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
@@ -194,8 +194,7 @@ if [ "$mpilib" != "none" ]; then # MPI-only
 # mpi4py 3.0.3
 index=9
 name["$group$index"]=mpi4py
-version["$group$index"]=3.0.3
-details["$group$index"]=""
+version["$group$index"]=3.0.3details["$group$index"]=""
 url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
 filename["$group$index"]=mpi4py-3.0.3.tar.gz
 dirname["$group$index"]=mpi4py-3.0.3

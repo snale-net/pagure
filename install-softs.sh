@@ -518,8 +518,8 @@ for ((group=1;group<=$maxGroup;group++)) do
 					leave 1 
 				fi
 
-            elif [[ "${builder["$group$index"]}" == "numpy" ]]
-			then
+            elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
+			then                
 				if [[  "$compiler" == "intel" ]] ; then					
                     $pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1 
 				else
