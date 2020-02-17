@@ -380,4 +380,50 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# toolz 0.10.0
+index=17
+name["$group$index"]=toolz
+version["$group$index"]=0.10.0
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/22/8e/037b9ba5c6a5739ef0dcde60578c64d49f45f64c5e5e886531bfbc39157f/toolz-0.10.0.tar.gz"
+filename["$group$index"]=toolz-0.10.0.tar.gz
+dirname["$group$index"]=toolz-0.10.0
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# dask 2.10.1
+index=18
+name["$group$index"]=dask
+version["$group$index"]=2.10.1
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/3b/4c/f8500abb07ac3144d08aeae106e467f17d942b4d9198ba1010deba89dfa0/dask-2.10.1.tar.gz"
+filename["$group$index"]=dask-2.10.1.tar.gz
+dirname["$group$index"]=dask-2.10.1
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+# xarray 0.15.0
+index=19
+name["$group$index"]=xarray
+version["$group$index"]=0.15.0
+details["$group$index"]=
+url["$group$index"]="https://files.pythonhosted.org/packages/06/16/1f256c5bb6e47a771f97c8d5bcb3a124263bf38c2a3baf0b80ba2dcc55b2/xarray-0.15.0.tar.gz"
+filename["$group$index"]=xarray-0.15.0.tar.gz
+dirname["$group$index"]=xarray-0.15.0
+builder["$group$index"]="python"
+dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
+
 
