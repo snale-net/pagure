@@ -97,6 +97,11 @@ if [[ $mpilib == intel* ]] ; then
 	dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 	args["$group$index"]="--enable-parallel CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
 	dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
+elif [[ $mpilib == mpich* ]] ; then
+	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11"
+	dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
+	args["$group$index"]="--enable-parallel CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
+	dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 elif [[ $mpilib == openmpi* ]] ; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
