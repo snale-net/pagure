@@ -358,5 +358,37 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include"
 
 fi # old-version
 
+# eccodes 2.16.0
+index=8
+name["$group$index"]=eccodes
+version["$group$index"]=2.16.0
+details["$group$index"]="(Grib file)"
+url["$group$index"]=https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.16.0-Source.tar.gz
+filename["$group$index"]=eccodes-2.16.0-Source.tar.gz
+dirname["$group$index"]=eccodes-2.16.0-Source
+builder["$group$index"]="cmake"
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 netcdf-fortran/hdf5.110/$compilo/4.5.2"
+else
+	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
+fi
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3"
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tecCodes ${version["$group$index"]}\"
+}
+ 
+module-whatis \"ecCodes ${version["$group$index"]}\"
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path LAPACK $prefix/${dirinstall["$group$index"]}
+prepend-path BLAS $prefix/${dirinstall["$group$index"]}
+"
+
 
 
