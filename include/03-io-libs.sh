@@ -19,7 +19,11 @@ dirname["$group$index"]=pnetcdf-1.12.1
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="--enable-shared"
+if [[ $mpilib == mpich* ]] ; then
+	args["$group$index"]="--enable-shared CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
+else
+	args["$group$index"]="--enable-shared"
+fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
