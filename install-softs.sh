@@ -170,30 +170,27 @@ if [ -z "$mpi" ]; then
 elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
-    export MPICC=mpicc
+    	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
-	export MPIF90=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
 elif [ "$mpi" == "openmpi201" ]; then
 
 	mpilib="openmpi201"
-    export MPICC=mpicc
+    	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
-	export MPIF90=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
 elif [ "$mpi" == "openmpi300" ] ; then
 
 	mpilib="openmpi300"
-    export MPICC=mpicc
+	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
-	export MPIF90=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
@@ -204,7 +201,6 @@ elif [ "$mpi" == "intel2016" ] ; then
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
-	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
 elif [ "$mpi" == "intel2017" ] ; then
@@ -213,7 +209,6 @@ elif [ "$mpi" == "intel2017" ] ; then
 	export MPICC=mpiicc
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
-	export MPIF90=mpiifort
 	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
@@ -224,7 +219,6 @@ elif [ "$mpi" == "intel2018" ] ; then
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
-	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
 elif [ "$mpi" == "intel2019" ] ; then
@@ -234,12 +228,16 @@ elif [ "$mpi" == "intel2019" ] ; then
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
-	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
 elif [ "$mpi" == "mpich321" ] ; then
 
 	mpilib="mpich321"
+	export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
 else   
     log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321" 
 	leave 1	
