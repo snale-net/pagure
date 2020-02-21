@@ -194,7 +194,8 @@ if [ "$mpilib" != "none" ]; then # MPI-only
 # mpi4py 3.0.3
 index=9
 name["$group$index"]=mpi4py
-version["$group$index"]=3.0.3details["$group$index"]=""
+version["$group$index"]=3.0.3
+details["$group$index"]=""
 url["$group$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
 filename["$group$index"]=mpi4py-3.0.3.tar.gz
 dirname["$group$index"]=mpi4py-3.0.3
