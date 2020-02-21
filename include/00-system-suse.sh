@@ -11,4 +11,6 @@ sudo zypper install python3-devel
 sudo zypper install sqlite3 sqlite3-devel
 # GMT Man deps
 sudo zypper install python2-Sphinx python3-Sphinx
+# ecCodes deps
+sudo zypper install libjasper-devel
 

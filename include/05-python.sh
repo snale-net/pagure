@@ -426,5 +426,20 @@ args["$group$index"]=""
 #dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
+# cfgrib 0.9.7.7
+index=20
+name["$group$index"]=cfgrib
+version["$group$index"]=0.9.7.7
+details["$group$index"]="(required ecCodes 2.16.0)"
+url["$group$index"]="https://github.com/ecmwf/cfgrib/archive/0.9.7.7.tar.gz -O cfgrib-0.9.7.7.tar.gz"
+filename["$group$index"]=cfgrib-0.9.7.7.tar.gz
+dirname["$group$index"]=cfgrib-0.9.7.7
+builder["$group$index"]="python"
+dependencies["$group$index"]="eccodes/$compilo/2.16.0"
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+#dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+#modulefile["$group$index"]=""
+
 
 
