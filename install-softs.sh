@@ -478,6 +478,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "python" ]]
 			then
+                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				if [[ "$compiler" == "intel" ]] ; then
 					LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
 				else
@@ -504,6 +505,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 			
             elif [[ "${builder["$group$index"]}" == "pybind11" ]]
 			then
+                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				$pythonInterpreter setup.py install --user || leave 1
 				nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
 
@@ -517,19 +519,25 @@ for ((group=1;group<=$maxGroup;group++)) do
 				fi
 
             elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
-			then                
+			then    
+                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}            
 				if [[  "$compiler" == "intel" ]] ; then					
                     $pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1 
-				else
+				else                   
 					$pythonInterpreter setup.py install --user || leave 1
 				fi
 			fi
             # Fin Compilation spécifique #	
-
-			if [[ ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} " && ! -z "${modulefile["$group$index"]}" ]]
-		        then
-				mkdir -p $moduleDir/${dirmodule["$group$index"]}		
-				echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} 
+           
+			if [[ ! -z "${modulefile["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${pythonVersion}" ]]
+		    then
+				mkdir -p $moduleDir/${dirmodule["$group$index"]}	
+                if [[ ${dirmodule["$group$index"]} == python* ]]
+                then	                    
+				    echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${pythonVersion}
+                else                                      
+                    echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} 
+                fi
 			fi
 
 			log 0 "Install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]}"
