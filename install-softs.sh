@@ -530,17 +530,17 @@ for ((group=1;group<=$maxGroup;group++)) do
 			then
                 export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				$pythonInterpreter setup.py install --user || leave 1
-				nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
+                cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
 
-				if [[ $nb -eq 1 ]] ; then
-					localDir=`$pythonInterpreter -m pybind11 --includes | awk -F'-I' '{for (i=1; i<=NF; i++)if (index($i,"home")!=0) printf("%s \n",$i);}'`
-					if [[ ! -f "$localDir"  ]] ; then mkdir -p $localDir || leave 1 ; fi
-					#cp -r include/pybind11/ $localDir
-                    cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
-				else
-					log fail "Unable to get pybind11 include directories" 
-					leave 1 
-				fi
+				#nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
+				#if [[ $nb -eq 1 ]] ; then
+				#	localDir=`$pythonInterpreter -m pybind11 --includes | awk -F'-I' '{for (i=1; i<=NF; i++)if (index($i,"home")!=0) printf("%s \n",$i);}'`
+				#	if [[ ! -f "$localDir"  ]] ; then mkdir -p $localDir || leave 1 ; fi
+				#	cp -r include/pybind11/ $localDir                   
+				#else
+				#	log fail "Unable to get pybind11 include directories" 
+				#	leave 1 
+				#fi
 
             elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
 			then    
