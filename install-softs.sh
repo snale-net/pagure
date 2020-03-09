@@ -363,7 +363,11 @@ log notice "Show old version is set to $showOldVersion"
  
 if [[ ! -f "$moduleDir/python/$compilo" ]]
 then
-	mkdir -p "$moduleDir/python/$compilo"
+	mkdir -p "$moduleDir/python/$compilo" || leave 1
+    mkdir -p "$prefix/python/$compilo/bin" || leave 1
+    mkdir -p "$prefix/python/$compilo/include/$pythonInterpreter" || leave 1
+    mkdir -p "$prefix/python/$compilo/lib/$pythonInterpreter/site-packages" || leave 1
+
     pymodulefile="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
