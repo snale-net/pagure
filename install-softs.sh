@@ -359,6 +359,29 @@ else
 fi
 log notice "Show old version is set to $showOldVersion"
 
+# 11. Python dir install
+ 
+if [[ ! -f "$moduleDir/python/$compilo" ]]
+then
+	mkdir -p "$moduleDir/python/$compilo"
+    pymodulefile="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tPython librairies\"
+}
+ 
+module-whatis \"Python librairies\"
+
+prepend-path PATH $prefix/python/$compilo/bin
+prepend-path C_INCLUDE_PATH $prefix/python/$compilo/include/$pythonInterpreter
+prepend-path INCLUDE $prefix/python/$compilo/include/$pythonInterpreter
+prepend-path CPATH $prefix/python/$compilo/include/$pythonInterpreter
+prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
+"
+    echo $"${pymodulefile}" >> $moduleDir/python/$compilo/${pythonVersion}   
+fi
+
 declare -a groupname
 declare -a name
 declare -a version
@@ -512,7 +535,8 @@ for ((group=1;group<=$maxGroup;group++)) do
 				if [[ $nb -eq 1 ]] ; then
 					localDir=`$pythonInterpreter -m pybind11 --includes | awk -F'-I' '{for (i=1; i<=NF; i++)if (index($i,"home")!=0) printf("%s \n",$i);}'`
 					if [[ ! -f "$localDir"  ]] ; then mkdir -p $localDir || leave 1 ; fi
-					cp -r include/pybind11/ $localDir || leave 1 
+					#cp -r include/pybind11/ $localDir
+                    cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
 				else
 					log fail "Unable to get pybind11 include directories" 
 					leave 1 

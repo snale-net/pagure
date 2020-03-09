@@ -14,22 +14,11 @@ url["$group$index"]=https://files.pythonhosted.org/packages/f7/b6/5b98441b6749ea
 filename["$group$index"]=setuptools-42.0.2.zip
 dirname["$group$index"]=setuptools-42.0.2
 builder["$group$index"]="python"
-dependencies["$group$index"]=""
+dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # Cython 0.29.14
 index=2
@@ -43,19 +32,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # numpy 1.18.1
@@ -84,19 +62,9 @@ builder["$group$index"]="numpy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 else
 # numpy 1.16.6
 index=3
@@ -110,19 +78,9 @@ builder["$group$index"]="numpy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 fi
 
 # python-dateutil 2.8.1
@@ -137,19 +95,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # pybind11 2.4.3
 index=5
@@ -163,19 +110,8 @@ builder["$group$index"]="pybind11"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.0" |bc -l) )); then # only Python>=3.0
 # pandas 0.25.3
@@ -190,19 +126,9 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 else
 # pandas 0.23.4
 index=6
@@ -216,19 +142,9 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 fi
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
@@ -244,19 +160,9 @@ builder["$group$index"]="scipy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 else
 # scipy 1.2.3
 index=7
@@ -270,19 +176,9 @@ builder["$group$index"]="scipy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.8.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 fi
 
 # cftime 1.0.4.2
@@ -297,19 +193,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 if [ "$mpilib" != "none" ]; then # MPI-only
 # mpi4py 3.0.3
@@ -355,19 +240,8 @@ builder["$group$index"]="python"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.25 python/$compilo/${pythonVersion}"
 	dirinstall["$group$index"]="python/$compilo"
-	dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+	#dirmodule["$group$index"]=""
+	#modulefile["$group$index"]=""
 else
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.25 python/$compilo/${pythonVersion} python/$mpilib/$compilo/${pythonVersion}"
 	dirinstall["$group$index"]="python/$mpilib/$compilo"
@@ -440,19 +314,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.4.1.1 udunits/$compilo/2.2.25 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 fi # end-old-version
 
@@ -468,19 +331,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="gdal/$compilo/3.0.1 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
@@ -495,19 +347,9 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 else
 # matplotlib 2.1.0
 index=13
@@ -521,19 +363,9 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
 fi
 
 # array_split 0.2.0
@@ -548,19 +380,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # Jinja2 2.10.3
 index=15
@@ -574,19 +395,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # f90nml 1.1.2
 index=16
@@ -600,19 +410,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # toolz 0.10.0
 index=17
@@ -626,19 +425,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # dask 2.10.1
 index=18
@@ -652,19 +440,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # xarray 0.15.0
 index=19
@@ -678,19 +455,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 # cfgrib 0.9.7.7
 index=20
@@ -704,19 +470,8 @@ builder["$group$index"]="python"
 dependencies["$group$index"]="eccodes/$compilo/2.16.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
 args["$group$index"]=""
-dirmodule["$group$index"]="python/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tPython librairies\"
-}
- 
-module-whatis \"Python librairies\"
-
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
-"
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
 
 
 
