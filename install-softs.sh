@@ -274,11 +274,12 @@ if [ -z "$pythonVersion" ]; then
     if ! hash python 2>/dev/null; then        
 	    log fail "Unable to find suitable version for Python" 
 	    leave 1
-    fi
-	pythonInterpreter=python
+    fi	
     python --version &> version_test
     pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
     rm -f version_test
+    pythonInterpreter=python${pythonVersion}
+
 elif hash python${pythonVersion} 2>/dev/null
 then    
 	pythonInterpreter=python${pythonVersion}
