@@ -170,7 +170,7 @@ if [ -z "$mpi" ]; then
 elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
-    	export MPICC=mpicc
+    export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -179,7 +179,7 @@ elif [ "$mpi" == "openmpi110" ]; then
 elif [ "$mpi" == "openmpi201" ]; then
 
 	mpilib="openmpi201"
-    	export MPICC=mpicc
+    export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -271,9 +271,16 @@ fi
 
 # 5. Tester la version de Python
 if [ -z "$pythonVersion" ]; then
+    if ! hash python 2>/dev/null; then        
+	    log fail "Unable to find suitable version for Python" 
+	    leave 1
+    fi
 	pythonInterpreter=python
+    python --version &> version_test
+    pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+    rm -f version_test
 elif hash python${pythonVersion} 2>/dev/null
-then
+then    
 	pythonInterpreter=python${pythonVersion}
 else
 	log fail "Unable to find suitable version for Python ${pythonVersion}" 
