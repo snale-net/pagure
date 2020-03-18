@@ -129,9 +129,9 @@ fi
 # 3. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
-	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
-	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}	
-	log notice "compiler is set to GNU"
+	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
+	compilo=gcc${CC_VERSION}	
+	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
 
 elif [ "$compiler" == "gnu" ]
 then
@@ -139,10 +139,10 @@ then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
 		leave 1
 	fi
-	CC_VERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
-	compilo=gcc${CC_VERSION:0:1}${CC_VERSION:2:1}
+	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
+	compilo=gcc${CC_VERSION}
 	
-	log notice "compiler is set to GNU"
+	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
 
 elif [ "$compiler" == "intel" ]
 then
@@ -156,7 +156,7 @@ then
 	export CXX=icpc
 	export F77=ifort
 	export FC=ifort	
-	log notice "compiler is set to INTEL"
+	log notice "compiler is set to INTEL ${CC_VERSION:0:2}"
 else
 	log fail "Unable to decode argument '--compiler'. Accepted values : GNU|INTEL" 
 	leave 1
