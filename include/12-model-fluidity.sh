@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 6 : Model FLUIDITY
-group=6
+#Group 8 : Model FLUIDITY
+group=8
 groupname[$group]="Model FLUIDITY"
 
 # Petsc 3.4.5 (static lib)

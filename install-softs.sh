@@ -130,7 +130,12 @@ fi
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
-	compilo=gcc${CC_VERSION}	
+	compilo=gcc${CC_VERSION}
+	export CC=gcc
+	export CXX=g++
+	export F77=gfortran
+	export F90=gfortran
+	export FC=gfortran	
 	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
 
 elif [ "$compiler" == "gnu" ]
@@ -141,7 +146,11 @@ then
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
 	compilo=gcc${CC_VERSION}
-	
+	export CC=gcc
+	export CXX=g++
+	export F77=gfortran
+	export F90=gfortran
+	export FC=gfortran	
 	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
 
 elif [ "$compiler" == "intel" ]
@@ -155,6 +164,7 @@ then
 	export CC=icc
 	export CXX=icpc
 	export F77=ifort
+	export F90=ifort
 	export FC=ifort	
 	log notice "compiler is set to INTEL ${CC_VERSION:0:2}"
 else
@@ -418,9 +428,9 @@ source $basedir/include/02-mpi-libs.sh
 source $basedir/include/03-io-libs.sh
 source $basedir/include/04-processing.sh
 source $basedir/include/05-python.sh
-source $basedir/include/10-model-fluidity.sh
+source $basedir/include/10-model-telemac.sh
 source $basedir/include/11-model-terraferma-v1.0.sh
-source $basedir/include/12-model-swan.sh
+source $basedir/include/12-model-fluidity.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
 
@@ -514,18 +524,18 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "python" ]]
 			then
-                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
+                		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				if [[ "$compiler" == "intel" ]] ; then
 					LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
 				else
 					$pythonInterpreter setup.py install --user || leave 1
 				fi				
 
-            # Début Compilation spécifique #
+            		# Début Compilation spécifique #
 			elif [[ "${builder["$group$index"]}" == "swan-builder" ]]
 			then				             
 				make mpi || leave 1
-                chmod +x swanrun || leave 1
+                		chmod +x swanrun || leave 1
 
 			elif [[ "${builder["$group$index"]}" == "gmt5" ]]
 			then
@@ -536,14 +546,14 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
 				make || leave 1
-                #make docs_man || leave 1
+                		#make docs_man || leave 1
 				make install || leave 1
 			
-            elif [[ "${builder["$group$index"]}" == "pybind11" ]]
-			then
-                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
+           		elif [[ "${builder["$group$index"]}" == "pybind11" ]]
+				then
+                		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				$pythonInterpreter setup.py install --user || leave 1
-                cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
+                		cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
 
 				#nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
 				#if [[ $nb -eq 1 ]] ; then
@@ -555,16 +565,28 @@ for ((group=1;group<=$maxGroup;group++)) do
 				#	leave 1 
 				#fi
 
-            elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
+            		elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
 			then    
-                export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}            
+                		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}            
 				if [[  "$compiler" == "intel" ]] ; then					
-                    $pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1 
+                    			$pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user || leave 1 
 				else                   
 					$pythonInterpreter setup.py install --user || leave 1
 				fi
+	 		elif [[ "${builder["$group$index"]}" == "aed2" ]]
+	 		then    
+                		make
+				mkdir -p $prefix/${dirinstall["$group$index"]}
+				cp -r lib $prefix/${dirinstall["$group$index"]}
+				cp -r include $prefix/${dirinstall["$group$index"]}
+				cp mod/* $prefix/${dirinstall["$group$index"]}/include
+
+			elif [[ "${builder["$group$index"]}" == "metis" ]]
+	 		then    
+                		make config shared=1 prefix=$prefix/${dirinstall["$group$index"]}
+				make install				
 			fi
-            # Fin Compilation spécifique #	
+        		# Fin Compilation spécifique #	
            
 			if [[ ! -z "${modulefile["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${pythonVersion}" ]]
 		    then
