@@ -149,8 +149,8 @@ dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$i
 configfilename["$group$index"]="src/Makefile.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group$index"]="EXE		=
-LIB		= .a
-OBJ		= .so
+LIB		= .so
+OBJ		= .o
 
 MAKE		= make
 AR		= icc
@@ -158,8 +158,8 @@ ARFLAGS	= -shared -fPIC -o
 CAT		= cat
 CCS		= icc
 CCP		= mpiicc
-MPI_INC         = $(shell mpiicc -show | sed -e 's/.*\(\-I.*include\).*/\1/')
-CCD		= icc $(MPI_INC)
+MPI_INC         = \$(shell mpiicc -show | sed -e 's/.*\(\-I.*include\).*/\1/')
+CCD		= icc \$(MPI_INC)
 CFLAGS		= -O3 -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD -DSCOTCH_METIS_VERSION=0 -restrict -DIDXSIZE64
 CLIBFLAGS	=
 LDFLAGS		= -lz -lm -lrt -pthread
@@ -173,8 +173,8 @@ YACC		= bison -pscotchyy -y -b y
 "
 else
 configfile["$group$index"]="EXE		=
-LIB		= .a
-OBJ		= .so
+LIB		= .so
+OBJ		= .o
 
 MAKE		= make
 AR		= gcc
@@ -230,8 +230,8 @@ dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["
 configfilename["$group$index"]="src/Makefile.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group$index"]="EXE		=
-LIB		= .a
-OBJ		= .so
+LIB		= .so
+OBJ		= .o
 
 MAKE		= make
 AR		= \$(MPICC)
@@ -254,8 +254,8 @@ YACC		= bison -pscotchyy -y -b y
 "
 else
 configfile["$group$index"]="EXE		=
-LIB		= .a
-OBJ		= .so
+LIB		= .so
+OBJ		= .o
 
 MAKE		= make
 AR		= \$(MPICC)
@@ -345,7 +345,7 @@ IORDERINGSC = \$(IMETIS) \$(IPORD) \$(ISCOTCH)
 ################################################################################
 
 PLAT    =
-LIBEXT  = .a
+LIBEXT  = .so
 OUTC    = -o 
 OUTF    = -o 
 RM = /bin/rm -f
@@ -362,7 +362,7 @@ SCALAP = -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64
 LIBPAR = \$(SCALAP) \$(LAPACK)
 
 INCSEQ = -I\$(topdir)/libseq
-LIBSEQ  = \$(LAPACK) -L$(topdir)/libseq -lmpiseq
+LIBSEQ  = \$(LAPACK) -L\$(topdir)/libseq -lmpiseq
 
 LIBBLAS = -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core 
 LIBOTHERS = -lpthread
