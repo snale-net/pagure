@@ -85,7 +85,7 @@ dirname["$group$index"]=metis-5.1.0
 builder["$group$index"]="metis"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]="-DSHARED=TRUE"
+args["$group$index"]=""
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -115,14 +115,14 @@ url["$group$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-
 filename["$group$index"]=parmetis-4.0.3.tar.gz
 dirname["$group$index"]=parmetis-4.0.3
 builder["$group$index"]="parmetis"
-dependencies["$group$index"]="$mpi_dep"
+dependencies["$group$index"]="$mpi_dep metis/$compilo/5.1.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 if [[ $mpilib == intel* ]] ; then
-	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpiicc -DCMAKE_CXX_COMPILER=mpiicpc F77=mpiifort FC=mpiifort"
+	args["$group$index"]="CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
 elif [[ $mpilib == mpich* ]] ; then
-	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group$index"]="CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 elif [[ $mpilib == openmpi* ]] ; then	
-	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group$index"]="CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0

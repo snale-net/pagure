@@ -583,7 +583,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "metis" || "${builder["$group$index"]}" == "parmetis" ]]
 	 		then    
-                		make config shared=1 prefix=$prefix/${dirinstall["$group$index"]}
+                		make config shared=1 prefix=$prefix/${dirinstall["$group$index"]} ${args["$group$index"]}
 				make install
 				
 			elif [[ "${builder["$group$index"]}" == "mumps" ]]
