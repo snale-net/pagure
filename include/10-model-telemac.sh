@@ -118,11 +118,11 @@ builder["$group$index"]="parmetis"
 dependencies["$group$index"]="$mpi_dep"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 if [[ $mpilib == intel* ]] ; then
-	args["$group$index"]="-DSHARED=TRUE CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
+	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpiicc -DCMAKE_CXX_COMPILER=mpiicpc F77=mpiifort FC=mpiifort"
 elif [[ $mpilib == mpich* ]] ; then
-	args["$group$index"]="-DSHARED=TRUE CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++ F77=mpif90 FC=mpif90"	
 elif [[ $mpilib == openmpi* ]] ; then	
-	args["$group$index"]="-DSHARED=TRUE CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group$index"]="-DSHARED=TRUE -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpic++ F77=mpif90 FC=mpif90"	
 fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
