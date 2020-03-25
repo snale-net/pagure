@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 1 : Default
-group=1
+#Group 2 : Default
+group=2
 groupname[$group]="Default librairies"
 
 #Lapack & Blas 3.8.0 Dynamic lib
@@ -48,8 +48,37 @@ args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=OFF -DLAPAC
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-#Zlib 1.2.11
+if [ "$mpilib" != "none" ]; then # MPI-only
+
+#Scalapack 2.1.0
 index=3
+name["$group$index"]=scalapack
+version["$group$index"]=2.1.0
+details["$group$index"]=""
+url["$group$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
+filename["$group$index"]=scalapack-2.1.0.tar.gz
+dirname["$group$index"]=scalapack-2.1.0
+builder["$group$index"]="cmake"
+dependencies["$group$index"]="$mpi_dep lapack-blas/$compilo/3.8.0"
+dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
+args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON"
+dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
+modulefile["$group$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tScalapack ${version["$group$index"]}\"
+}
+ 
+module-whatis \"Scalapack ${version["$group$index"]}\"
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+"
+
+fi # MPI-only
+
+#Zlib 1.2.11
+index=4
 name["$group$index"]=zlib
 version["$group$index"]=1.2.11
 details["$group$index"]="(required for NetCDF)"

@@ -581,10 +581,30 @@ for ((group=1;group<=$maxGroup;group++)) do
 				cp -r include $prefix/${dirinstall["$group$index"]}
 				cp mod/* $prefix/${dirinstall["$group$index"]}/include
 
-			elif [[ "${builder["$group$index"]}" == "metis" ]]
+			elif [[ "${builder["$group$index"]}" == "metis" || "${builder["$group$index"]}" == "parmetis" ]]
 	 		then    
                 		make config shared=1 prefix=$prefix/${dirinstall["$group$index"]}
-				make install				
+				make install
+				
+			elif [[ "${builder["$group$index"]}" == "mumps" ]]
+	 		then    
+                		make all
+				mkdir -p $prefix/${dirinstall["$group$index"]}
+				cp -r lib $prefix/${dirinstall["$group$index"]}
+				cp -r include $prefix/${dirinstall["$group$index"]}	
+							
+			elif [[ "${builder["$group$index"]}" == "scotch" ]]
+	 		then   
+				cd src 
+                		make libscotch esmumps				
+				make prefix=$prefix/${dirinstall["$group$index"]} install				
+					
+			elif [[ "${builder["$group$index"]}" == "ptscotch" ]]
+	 		then   
+				cd src                 		
+				make libptscotch ptesmumps 
+				make prefix=$prefix/${dirinstall["$group$index"]} install
+					
 			fi
         		# Fin Compilation spécifique #	
            

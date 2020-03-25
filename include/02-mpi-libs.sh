@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 2 : MPI
-group=2
+#Group 1 : MPI
+group=1
 groupname[$group]="MPI librairies"
 
 if [ "$mpilib" == "openmpi110" ]; then
