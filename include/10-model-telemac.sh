@@ -5,6 +5,8 @@
 group=6
 groupname[$group]="Model TELEMAC"
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # MED-4.0.0
 index=1
 name["$group$index"]=med
@@ -14,17 +16,16 @@ url["$group$index"]=http://files.salome-platform.org/Salome/other/med-4.0.0.tar.
 filename["$group$index"]=med-4.0.0.tar.gz
 dirname["$group$index"]=med-4.0.0
 builder["$group$index"]="configure"
-if [ "$mpilib" == "none" ]; then 
-	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 python/$compilo/${pythonVersion}"
-	dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-	args["$group$index"]="--with-hdf5=$prefix/hdf5/$compilo/1.10.5"
-	dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-else
-	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 python/$compilo/${pythonVersion} python/$mpilib/$compilo/${pythonVersion}"
-	dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-	args["$group$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python"
-	dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
+dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
+if [[ $mpilib == intel* ]] ; then
+	args["$group$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
+elif [[ $mpilib == mpich* ]] ; then
+	args["$group$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
+elif [[ $mpilib == openmpi* ]] ; then	
+	args["$group$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 fi
+dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -41,6 +42,8 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include 
 "
+
+fi # MPI-only
 
 # AED2-1.3.0
 index=2
