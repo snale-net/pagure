@@ -15,6 +15,30 @@ filename["$group$index"]=lapack-3.9.0.tar.gz
 dirname["$group$index"]=lapack-3.9.0
 builder["$group$index"]="cmake"
 #dependencies["$group$index"]=""
+patch_01["$group$index"]="--- CMakeLists_original.txt	2019-11-21 08:57:43.000000000 +0100
++++ CMakeLists.txt	2020-03-26 17:09:08.519176145 +0100
+@@ -73,10 +73,10 @@
+ 
+ if(UNIX)
+   if(CMAKE_Fortran_COMPILER_ID STREQUAL Intel)
+-    list(APPEND CMAKE_Fortran_FLAGS -fp-model strict)
++    string(APPEND CMAKE_Fortran_FLAGS -fp-model strict)
+   endif()
+   if(CMAKE_Fortran_COMPILER_ID STREQUAL XL)
+-    list(APPEND CMAKE_Fortran_FLAGS -qnosave -qstrict=none)
++    string(APPEND CMAKE_Fortran_FLAGS -qnosave -qstrict=none)
+   endif()
+ # Delete libmtsk in linking sequence for Sun/Oracle Fortran Compiler.
+ # This library is not present in the Sun package SolarisStudio12.3-linux-x86-bin
+@@ -443,4 +443,4 @@
+   DESTINATION \${CMAKE_INSTALL_LIBDIR}/cmake/lapack-\${LAPACK_VERSION}
+   COMPONENT Development
+   )
+-  
+\ Pas de fin de ligne à la fin du fichier
++  
+"
+patchfile_01["$group$index"]="CMakeLists.txt"
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
@@ -42,6 +66,30 @@ url["$group$index"]="https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.t
 filename["$group$index"]=lapack-3.9.0.tar.gz
 dirname["$group$index"]=lapack-3.9.0
 builder["$group$index"]="cmake"
+patch_01["$group$index"]="--- CMakeLists_original.txt	2019-11-21 08:57:43.000000000 +0100
++++ CMakeLists.txt	2020-03-26 17:09:08.519176145 +0100
+@@ -73,10 +73,10 @@
+ 
+ if(UNIX)
+   if(CMAKE_Fortran_COMPILER_ID STREQUAL Intel)
+-    list(APPEND CMAKE_Fortran_FLAGS -fp-model strict)
++    string(APPEND CMAKE_Fortran_FLAGS -fp-model strict)
+   endif()
+   if(CMAKE_Fortran_COMPILER_ID STREQUAL XL)
+-    list(APPEND CMAKE_Fortran_FLAGS -qnosave -qstrict=none)
++    string(APPEND CMAKE_Fortran_FLAGS -qnosave -qstrict=none)
+   endif()
+ # Delete libmtsk in linking sequence for Sun/Oracle Fortran Compiler.
+ # This library is not present in the Sun package SolarisStudio12.3-linux-x86-bin
+@@ -443,4 +443,4 @@
+   DESTINATION \${CMAKE_INSTALL_LIBDIR}/cmake/lapack-\${LAPACK_VERSION}
+   COMPONENT Development
+   )
+-  
+\ Pas de fin de ligne à la fin du fichier
++  
+"
+patchfile_01["$group$index"]="CMakeLists.txt"
 #dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=OFF -DLAPACKE=ON"

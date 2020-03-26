@@ -77,7 +77,7 @@ details["$group$index"]="(required for NCO)"
 url["$group$index"]=http://www.antlr2.org/download/antlr-2.7.7.tar.gz
 filename["$group$index"]=antlr-2.7.7.tar.gz
 dirname["$group$index"]=antlr-2.7.7
-patch["$group$index"]="--- antlr-2.7.7/scripts/../lib/cpp/antlr/CharScanner.hpp	2017-11-30 10:36:20.301172303 +0100
+patch_01["$group$index"]="--- antlr-2.7.7/scripts/../lib/cpp/antlr/CharScanner.hpp	2017-11-30 10:36:20.301172303 +0100
 +++ antlr-2.7.7/CharScanner.hpp	2017-11-30 10:36:08.845135962 +0100
 @@ -9,7 +9,8 @@
   */
@@ -90,7 +90,7 @@ patch["$group$index"]="--- antlr-2.7.7/scripts/../lib/cpp/antlr/CharScanner.hpp	
  
  #ifdef HAS_NOT_CCTYPE_H
 "
-patchfile["$group$index"]="lib/cpp/antlr/CharScanner.hpp"
+patchfile_01["$group$index"]="lib/cpp/antlr/CharScanner.hpp"
 builder["$group$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.25"

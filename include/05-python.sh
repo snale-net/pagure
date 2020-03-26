@@ -44,7 +44,7 @@ details["$group$index"]="(require Lapack-Blas 3.9.0)"
 url["$group$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
 filename["$group$index"]=numpy-1.18.1.zip
 dirname["$group$index"]=numpy-1.18.1
-patch["$group$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14 11:17:16.471959103 +0100
+patch_01["$group$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14 11:17:16.471959103 +0100
 +++ numpy/distutils/intelccompiler.py	2020-02-14 11:16:30.791713000 +0100
 @@ -60,7 +60,7 @@
  
@@ -57,7 +57,7 @@ patch["$group$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14
  
 
 "
-patchfile["$group$index"]="numpy/distutils/intelccompiler.py"
+patchfile_01["$group$index"]="numpy/distutils/intelccompiler.py"
 builder["$group$index"]="numpy"
 dependencies["$group$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
@@ -284,7 +284,7 @@ HDF5_incdir = $prefix/hdf5/$compilo/1.10.5/include
 szip_libdir = $prefix/zlib/$compilo/1.2.11/lib
 "
 configfilename["$group$index"]="setup.cfg"
-patch["$group$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
+patch_01["$group$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
 +++ ../setup_fixed.py	2017-09-12 18:46:19.821782818 +0200
 @@ -271,11 +271,7 @@
      else:
@@ -308,8 +308,7 @@ patch["$group$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
      # add szip to link if desired.
      if szip_libdir is None and szip_dir is not None:
 "
-patchfile["$group$index"]="setup.py"
-
+patchfile_01["$group$index"]="setup.py"
 builder["$group$index"]="python"
 dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.4.1.1 udunits/$compilo/2.2.25 python/$compilo/${pythonVersion}"
 dirinstall["$group$index"]="python/$compilo"
