@@ -124,8 +124,7 @@ patch_01["$group$index"]="--- CMakeLists_original.txt	2013-03-30 17:24:50.000000
  
  # List of directories that cmake will look for CMakeLists.txt
 -add_subdirectory(\${METIS_PATH}/libmetis \${CMAKE_BINARY_DIR}/libmetis)
--add_subdirectory(include)
-+#add_subdirectory(include)
+ add_subdirectory(include)
  add_subdirectory(libparmetis)
  add_subdirectory(programs)
 "
