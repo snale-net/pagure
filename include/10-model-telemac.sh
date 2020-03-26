@@ -114,15 +114,44 @@ details["$group$index"]="(parallel version)"
 url["$group$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.3.tar.gz
 filename["$group$index"]=parmetis-4.0.3.tar.gz
 dirname["$group$index"]=parmetis-4.0.3
+patch_01["$group$index"]="--- CMakeLists_original.txt	2013-03-30 17:24:50.000000000 +0100
++++ CMakeLists.txt	2020-03-26 13:00:59.542544000 +0100
+@@ -31,10 +31,10 @@
+ include_directories(\${MPI_INCLUDE_PATH})
+ include_directories(\${GKLIB_PATH})
+ include_directories(\${METIS_PATH}/include)
++link_directories(\${METIS_PATH}/lib)
+ 
+ # List of directories that cmake will look for CMakeLists.txt
+-add_subdirectory(\${METIS_PATH}/libmetis \${CMAKE_BINARY_DIR}/libmetis)
+-add_subdirectory(include)
++#add_subdirectory(include)
+ add_subdirectory(libparmetis)
+ add_subdirectory(programs)
+"
+patchfile_01["$group$index"]="CMakeLists.txt"
+patch_02["$group$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.666727000 +0100
++++ CMakeLists.txt	2020-03-26 14:16:28.082736398 +0100
+@@ -5,7 +5,7 @@
+ # Create libparmetis
+ add_library(parmetis \${ParMETIS_LIBRARY_TYPE} \${parmetis_sources})
+ # Link with metis and MPI libraries.
+-target_link_libraries(parmetis metis \${MPI_LIBRARIES})
++target_link_libraries(parmetis metis \${MPI_LIBRARIES} m)
+ set_target_properties(parmetis PROPERTIES LINK_FLAGS \"\${MPI_LINK_FLAGS}\")
+ 
+ install(TARGETS parmetis
+"
+patchfile_02["$group$index"]="libparmetis/CMakeLists.txt"
 builder["$group$index"]="parmetis"
 dependencies["$group$index"]="$mpi_dep metis/$compilo/5.1.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 if [[ $mpilib == intel* ]] ; then
-	args["$group$index"]="cc=mpiicc cxx=mpiicpc"
+	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
 elif [[ $mpilib == mpich* ]] ; then
-	args["$group$index"]="cc=mpicc cxx=mpic++"	
+	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
 elif [[ $mpilib == openmpi* ]] ; then	
-	args["$group$index"]="cc=mpicc cxx=mpic++"	
+	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
 fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
@@ -250,7 +279,7 @@ CCS		= \$(MPICC)
 CCP		= \$(MPICC)
 MPI_INC         = \$(shell \$(MPICC) -show | sed -e 's/.*\(\-I.*include\).*/\1/')
 CCD		= \$(MPICC) \$(MPI_INC)
-CFLAGS		= -O3 -fPIC -std=c++11 -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD -DSCOTCH_METIS_VERSION=0 -restrict -DIDXSIZE64
+CFLAGS		= -O3 -fPIC -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD -DSCOTCH_METIS_VERSION=0 -restrict -DIDXSIZE64
 CLIBFLAGS	=
 LDFLAGS	= -lz -lm -lrt -pthread
 CP		= cp

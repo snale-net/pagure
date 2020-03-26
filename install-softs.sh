@@ -499,10 +499,15 @@ for ((group=1;group<=$maxGroup;group++)) do
 				echo $"${configfile["$group$index"]}" > ${configfilename["$group$index"]}			
 			fi
 
-			if [[ -f "${patchfile["$group$index"]}" && ! -z "${patch["$group$index"]}" ]]
+			if [[ -f "${patchfile_01["$group$index"]}" && ! -z "${patch_01["$group$index"]}" ]]
 		        then			
-				echo $"${patch["$group$index"]}" > patch_to_apply.patch
-				patch -i patch_to_apply.patch ${patchfile["$group$index"]} || leave 1
+				echo $"${patch_01["$group$index"]}" > patch_to_apply.patch
+				patch -i patch_to_apply.patch ${patchfile_01["$group$index"]} || leave 1
+			fi
+			if [[ -f "${patchfile_02["$group$index"]}" && ! -z "${patch_02["$group$index"]}" ]]
+		        then			
+				echo $"${patch_02["$group$index"]}" > patch_to_apply.patch
+				patch -i patch_to_apply.patch ${patchfile_02["$group$index"]} || leave 1
 			fi
 
 			if [[ "${builder["$group$index"]}" == "configure" ]]
