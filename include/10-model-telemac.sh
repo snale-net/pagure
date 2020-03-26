@@ -118,11 +118,11 @@ builder["$group$index"]="parmetis"
 dependencies["$group$index"]="$mpi_dep metis/$compilo/5.1.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 if [[ $mpilib == intel* ]] ; then
-	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
+	args["$group$index"]="cc=mpiicc cxx=mpiicpc"
 elif [[ $mpilib == mpich* ]] ; then
-	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group$index"]="cc=mpicc cxx=mpic++"	
 elif [[ $mpilib == openmpi* ]] ; then	
-	args["$group$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group$index"]="cc=mpicc cxx=mpic++"	
 fi
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
