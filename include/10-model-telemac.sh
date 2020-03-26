@@ -247,10 +247,10 @@ AR		= \$(MPICC)
 ARFLAGS	= -shared -fPIC -o 
 CAT		= cat
 CCS		= \$(MPICC)
-CCP		= \$(MPICXX)
-MPI_INC         = \$(shell \$(MPICXX) -show | sed -e 's/.*\(\-I.*include\).*/\1/')
+CCP		= \$(MPICC)
+MPI_INC         = \$(shell \$(MPICC) -show | sed -e 's/.*\(\-I.*include\).*/\1/')
 CCD		= \$(MPICC) \$(MPI_INC)
-CFLAGS		= -O3 -fPIC -std=c++11 -qopenmp -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD -DSCOTCH_METIS_VERSION=0 -restrict -DIDXSIZE64
+CFLAGS		= -O3 -fPIC -std=c++11 -DCOMMON_FILE_COMPRESS_GZ -DCOMMON_PTHREAD -DCOMMON_RANDOM_FIXED_SEED -DSCOTCH_RENAME -DSCOTCH_PTHREAD -DSCOTCH_METIS_VERSION=0 -restrict -DIDXSIZE64
 CLIBFLAGS	=
 LDFLAGS	= -lz -lm -lrt -pthread
 CP		= cp
