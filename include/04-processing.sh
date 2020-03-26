@@ -298,9 +298,9 @@ filename["$group$index"]=gmt-5.4.5-src.tar.gz
 dirname["$group$index"]=gmt-5.4.5
 builder["$group$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.8.0"
+	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.9.0"
 else
-	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.8.0"
+	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.25 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.9.0"
 fi
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DGSHHG_PATH=$prefix/src/gshhg-gmt-2.3.7 -DDCW_PATH=$prefix/src/dcw-gmt-1.1.4 "

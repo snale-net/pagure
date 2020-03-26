@@ -344,7 +344,7 @@ url["$group$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
 filename["$group$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group$index"]=MUMPS_5.2.1
 builder["$group$index"]="mumps"
-dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.8.0 scalapack/$mpilib/$compilo/2.1.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 scalapack/$mpilib/$compilo/2.1.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
 configfilename["$group$index"]="Makefile.inc"
 if [[ $compiler == "intel" ]]; then
