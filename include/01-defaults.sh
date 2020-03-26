@@ -61,7 +61,7 @@ dirname["$group$index"]=scalapack-2.1.0
 builder["$group$index"]="cmake"
 dependencies["$group$index"]="$mpi_dep lapack-blas/$compilo/3.8.0"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON"
+args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON LAPACKLIB=$prefix/lapack-blas/$compilo/3.8.0 BLASLIB=$prefix/lapack-blas/$compilo/3.8.0"
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
