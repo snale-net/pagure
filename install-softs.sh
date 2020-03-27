@@ -106,7 +106,36 @@ else
 fi
 log notice "system is set to $systemOS"
 
-# 2. Installation des paquets système
+# 2. Tester la version de Python
+installedPython=0
+if [ -z "$pythonVersion" ]; then
+	if ! hash python 2>/dev/null; then        
+		#log notice "Unable to find suitable version for Python" 
+		pythonInterpreter="none"	    
+	else	
+		python --version &> version_test
+		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		rm -f version_test
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+		log notice "Python interpreter is set to $pythonInterpreter"
+	fi
+
+elif hash python${pythonVersion} 2>/dev/null
+then    
+	pythonInterpreter=python${pythonVersion}
+	installedPython=1
+	log notice "Python interpreter is set to $pythonInterpreter"
+else
+	if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7
+		pythonInterpreter=python${pythonVersion}
+	else
+		log fail "Only Python 3.7 can be installed with this tool" 
+		leave 1
+	fi
+fi
+
+# 3. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
 	echo "......................"
@@ -126,7 +155,7 @@ then
 	done
 fi
 
-# 3. Récupérer la version du compilateur
+# 4. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
@@ -172,7 +201,7 @@ else
 	leave 1
 fi
 
-# 4. Tester la version du MPI
+# 5. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
@@ -279,26 +308,6 @@ else
     log notice "MPI librairy is set to $mpilib"
 fi
 
-# 5. Tester la version de Python
-if [ -z "$pythonVersion" ]; then
-    if ! hash python 2>/dev/null; then        
-	    log fail "Unable to find suitable version for Python" 
-	    leave 1
-    fi	
-    python --version &> version_test
-    pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
-    rm -f version_test
-    pythonInterpreter=python${pythonVersion}
-
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-else
-	log fail "Unable to find suitable version for Python ${pythonVersion}" 
-	leave 1
-fi
-log notice "Python interpreter is set to $pythonInterpreter"
-
 # 6. Tester le prefix
 if [ -z "$prefix" ]; then
 prefix=`pwd`
@@ -377,12 +386,14 @@ else
 fi
 log notice "Show old version is set to $showOldVersion"
 
-# 11. Python dir install
+# 11. Création du module python-modules
+# Si on a déjà un python installé
+if [ "$installedPython" == "1" ]; then # only-if-Python
  
-if [[ ! -f "$moduleDir/python/$compilo/${pythonVersion}" ]]
-then
-	if [ ! -d "$moduleDir/python/$compilo" ] ; then mkdir -p "$moduleDir/python/$compilo" || leave 1; fi
-    pymodulefile="#%Module1.0
+	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
+	then
+		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" || leave 1; fi
+    		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
@@ -391,18 +402,15 @@ puts stderr \"\tPython librairies\"
  
 module-whatis \"Python librairies\"
 
-prepend-path PATH $prefix/python/$compilo/bin
-prepend-path C_INCLUDE_PATH $prefix/python/$compilo/include/$pythonInterpreter
-prepend-path INCLUDE $prefix/python/$compilo/include/$pythonInterpreter
-prepend-path CPATH $prefix/python/$compilo/include/$pythonInterpreter
-prepend-path PYTHONPATH $prefix/python/$compilo/lib/$pythonInterpreter/site-packages
+prepend-path PATH $prefix/python-modules/$compilo/bin
+prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
 "
-    echo $"${pymodulefile}" >> $moduleDir/python/$compilo/${pythonVersion}   
-fi
-
-if [ ! -d "$prefix/python/$compilo/bin" ] ; then mkdir -p "$prefix/python/$compilo/bin" || leave 1; fi
-if [ ! -d "$prefix/python/$compilo/include/$pythonInterpreter" ] ; then mkdir -p "$prefix/python/$compilo/include/$pythonInterpreter" || leave 1; fi
-if [ ! -d "$prefix/python/$compilo/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/python/$compilo/lib/$pythonInterpreter/site-packages" || leave 1; fi
+    		echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
+	fi
+fi  # end-only-if-Python
 
 # 12. Chargement des logiciels
 declare -a groupname
@@ -428,9 +436,10 @@ source $basedir/include/02-mpi-libs.sh
 source $basedir/include/03-io-libs.sh
 source $basedir/include/04-processing.sh
 source $basedir/include/05-python.sh
-source $basedir/include/10-model-telemac.sh
-source $basedir/include/11-model-terraferma-v1.0.sh
-source $basedir/include/12-model-fluidity.sh
+source $basedir/include/06-python-modules.sh
+source $basedir/include/07-model-telemac.sh
+source $basedir/include/08-model-terraferma-v1.0.sh
+source $basedir/include/09-model-fluidity.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
 
@@ -471,6 +480,12 @@ for ((group=1;group<=$maxGroup;group++)) do
 				dependencies["$group$index"]=`echo $moduleList ${dependencies["$group$index"]}`													
 			fi
 
+			# Si on a déjà un python installé
+			# On enlève le module python
+			if [ "$installedPython" == "1" ]; then # only-if-Python				
+				dependencies["$group$index"]=${dependencies["$group$index"]/python\/"$compilo"\/${pythonVersion}/}				
+			fi  # end-only-if-Python
+
 			if [[ ! -z "${dependencies["$group$index"]}" ]] ; then  module load ${dependencies["$group$index"]} || leave 1 ; fi
 
 			cd $prefix/tgz
@@ -483,7 +498,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			if [ -d "$prefix/src/${dirname["$group$index"]}" ] ; then rm -rf $prefix/src/${dirname["$group$index"]} ; fi
 
-			if [[ ${filename["$group$index"]} == *.tar.gz ]] 
+			if [[ ${filename["$group$index"]} == *.tar.gz || ${filename["$group$index"]} == *.tgz ]] 
 			then
 				tar xvfz ${filename["$group$index"]} -C../src || leave 1
 
@@ -529,6 +544,10 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ "${builder["$group$index"]}" == "python" ]]
 			then
+				if [ ! -d "$prefix/${dirinstall["$group$index"]}/bin" ] ; then mkdir -p "$prefix/${dirinstall["$group$index"]}/bin" || leave 1; fi
+				if [ ! -d "$prefix/${dirinstall["$group$index"]}/include/$pythonInterpreter" ] ; then mkdir -p "$prefix/${dirinstall["$group$index"]}/include/$pythonInterpreter" || leave 1; fi
+				if [ ! -d "$prefix/${dirinstall["$group$index"]}/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/${dirinstall["$group$index"]}/lib/$pythonInterpreter/site-packages" || leave 1; fi
+
                 		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				if [[ "$compiler" == "intel" ]] ; then
 					LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
@@ -551,14 +570,14 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 				cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$group$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} ../
 				make || leave 1
-                		#make docs_man || leave 1
+                		make docs_man || leave 1
 				make install || leave 1
 			
            		elif [[ "${builder["$group$index"]}" == "pybind11" ]]
 				then
                 		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				$pythonInterpreter setup.py install --user || leave 1
-                		cp -r include/pybind11 $prefix/python/$compilo/include/$pythonInterpreter  || leave 1 
+                		cp -r include/pybind11 $prefix/${dirinstall["$group$index"]}/include/$pythonInterpreter  || leave 1 
 
 				#nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
 				#if [[ $nb -eq 1 ]] ; then
@@ -610,18 +629,49 @@ for ((group=1;group<=$maxGroup;group++)) do
 				make libptscotch ptesmumps 
 				make prefix=$prefix/${dirinstall["$group$index"]} install
 					
+			elif [[ "${builder["$group$index"]}" == "python-builder" ]]
+			then
+				./configure --prefix=$prefix/${dirinstall["$group$index"]} --libdir=$prefix/${dirinstall["$group$index"]}/lib ${args["$group$index"]} || leave 1
+				make || leave 1
+				make install || leave 1
+
+				pythonVersion=$(echo ${version["$group$index"]} | sed -n 's/^\([0-9]\.[0-9]*\).*/\1/p')				
+				pythonInterpreter=python${pythonVersion}
+				log notice "Python interpreter is set to $pythonInterpreter"
+
+				if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
+				then
+					if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" || leave 1; fi
+	    				pymodulefile="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tPython librairies\"
+}
+ 
+module-whatis \"Python librairies\"
+
+prepend-path PATH $prefix/python-modules/$compilo/bin
+prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
+"
+    					echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
+				fi
+
 			fi
         		# Fin Compilation spécifique #	
            
 			if [[ ! -z "${modulefile["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]}" && ! -f "$moduleDir/${dirmodule["$group$index"]}/${pythonVersion}" ]]
-		    then
+		    	then
 				mkdir -p $moduleDir/${dirmodule["$group$index"]}	
-                if [[ ${dirmodule["$group$index"]} == python* ]]
-                then	                    
+				if [[ ${dirmodule["$group$index"]} == python-modules* ]]
+				then	                    
 				    echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${pythonVersion}
-                else                                      
-                    echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} 
-                fi
+				else                                      
+				    echo $"${modulefile["$group$index"]}" >> $moduleDir/${dirmodule["$group$index"]}/${version["$group$index"]} 
+				fi
 			fi
 
 			log 0 "Install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]}"

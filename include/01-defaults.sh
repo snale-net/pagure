@@ -9,7 +9,11 @@ groupname[$group]="Default librairies"
 index=1
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.9.0
-details["$group$index"]="(dynamic lib)"
+if [[ $compiler == "intel" ]]; then
+	details["$group$index"]="(dynamic lib - require Intel MKL)"
+else
+	details["$group$index"]="(dynamic lib)"
+fi
 url["$group$index"]="https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz -O lapack-3.9.0.tar.gz"
 filename["$group$index"]=lapack-3.9.0.tar.gz
 dirname["$group$index"]=lapack-3.9.0
@@ -61,7 +65,11 @@ prepend-path BLAS $prefix/${dirinstall["$group$index"]}
 index=2
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.9.0
-details["$group$index"]="(static lib)"
+if [[ $compiler == "intel" ]]; then
+	details["$group$index"]="(static lib - require Intel MKL)"
+else
+	details["$group$index"]="(static lib)"
+fi
 url["$group$index"]="https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.tar.gz -O lapack-3.9.0.tar.gz"
 filename["$group$index"]=lapack-3.9.0.tar.gz
 dirname["$group$index"]=lapack-3.9.0
@@ -102,6 +110,9 @@ if [ "$mpilib" != "none" ]; then # MPI-only
 index=3
 name["$group$index"]=scalapack
 version["$group$index"]=2.1.0
+if [[ $compiler == "intel" ]]; then
+	details["$group$index"]="(require Intel MKL)"
+fi
 details["$group$index"]=""
 url["$group$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
 filename["$group$index"]=scalapack-2.1.0.tar.gz

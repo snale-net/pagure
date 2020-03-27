@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 6 : Model TELEMAC
-group=6
+#Group 7 : Model TELEMAC
+group=7
 groupname[$group]="Model TELEMAC"
 
 if [ "$mpilib" != "none" ]; then # MPI-only

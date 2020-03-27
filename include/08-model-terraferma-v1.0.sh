@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 7 : Model TerraFERMA v1.0
-group=7
+#Group 8 : Model TerraFERMA v1.0
+group=8
 groupname[$group]="Model TerraFERMA v1.0"
 
 # Petsc tferma-v1.0 (dynamic lib)

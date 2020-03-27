@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 9 : Model SWAN
-group=9
+#Group 10 : Model SWAN
+group=10
 groupname[$group]="Model SWAN"
 
 # SWAN
