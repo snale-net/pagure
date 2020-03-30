@@ -4,7 +4,7 @@
 # Installation des entêtes Python & librairies essentielles
 sudo apt-get install gfortran g++ git
 sudo apt-get install tcl tcl-dev tcllib
-sudo apt-get install libfreetype6-dev libpng-dev libx11-dev libxaw7-dev m4 patch make cmake autoconf bison flex libcurl4-gnutls-dev
+sudo apt-get install libfreetype6-dev libpng-dev libx11-dev libxaw7-dev m4 patch make cmake autoconf bison flex libcurl4-gnutls-dev liblzma-dev
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
