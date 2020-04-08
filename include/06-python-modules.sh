@@ -335,9 +335,24 @@ args["$group$index"]=""
 #dirmodule["$group$index"]=""
 #modulefile["$group$index"]=""
 
+# Pillow 7.1.1
+index=13
+name["$group$index"]=pillow
+version["$group$index"]=7.1.1
+details["$group$index"]=""
+url["$group$index"]="https://github.com/python-pillow/Pillow/archive/7.1.1.tar.gz -O Pillow-7.1.1.tar.gz"
+filename["$group$index"]=Pillow-7.1.1.tar.gz
+dirname["$group$index"]=Pillow-7.1.1
+builder["$group$index"]="python"
+dependencies["$group$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
-index=13
+index=14
 name["$group$index"]=matplotlib
 version["$group$index"]=3.1.1
 details["$group$index"]=
@@ -353,7 +368,7 @@ args["$group$index"]=""
 
 else
 # matplotlib 2.1.0
-index=13
+index=14
 name["$group$index"]=matplotlib
 version["$group$index"]=2.1.0
 details["$group$index"]=
@@ -370,7 +385,7 @@ args["$group$index"]=""
 fi
 
 # array_split 0.2.0
-index=14
+index=15
 name["$group$index"]=array_split
 version["$group$index"]=0.2.0
 details["$group$index"]=
@@ -385,7 +400,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # Jinja2 2.10.3
-index=15
+index=16
 name["$group$index"]=Jinja2
 version["$group$index"]=2.10.3
 details["$group$index"]=
@@ -400,7 +415,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # f90nml 1.1.2
-index=16
+index=17
 name["$group$index"]=f90nml
 version["$group$index"]=1.1.2
 details["$group$index"]=
@@ -415,7 +430,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # toolz 0.10.0
-index=17
+index=18
 name["$group$index"]=toolz
 version["$group$index"]=0.10.0
 details["$group$index"]="(required by xarray)"
@@ -430,7 +445,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # dask 2.10.1
-index=18
+index=19
 name["$group$index"]=dask
 version["$group$index"]=2.10.1
 details["$group$index"]="(required by xarray)"
@@ -445,7 +460,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # xarray 0.15.0
-index=19
+index=20
 name["$group$index"]=xarray
 version["$group$index"]=0.15.0
 details["$group$index"]=""
@@ -460,7 +475,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # cfgrib 0.9.7.7
-index=20
+index=21
 name["$group$index"]=cfgrib
 version["$group$index"]=0.9.7.7
 details["$group$index"]="(require ecCodes 2.16.0)"
@@ -475,7 +490,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # airflow 1.10.9
-index=21
+index=22
 name["$group$index"]=airflow
 version["$group$index"]=1.10.9
 details["$group$index"]=""

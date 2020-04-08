@@ -126,8 +126,11 @@ then
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
 	log notice "Python interpreter is set to $pythonInterpreter"
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+		installedPython=0
+	fi
 else
-	if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
 	else
 		log fail "Only Python 3.7 can be installed with this tool" 
