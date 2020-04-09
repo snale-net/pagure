@@ -10,7 +10,7 @@ index=1
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.9.0
 if [[ $compiler == "intel" ]]; then
-	details["$group$index"]="(dynamic lib - require Intel MKL)"
+	details["$group$index"]="(dynamic lib - requires Intel MKL)"
 else
 	details["$group$index"]="(dynamic lib)"
 fi
@@ -66,7 +66,7 @@ index=2
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.9.0
 if [[ $compiler == "intel" ]]; then
-	details["$group$index"]="(static lib - require Intel MKL)"
+	details["$group$index"]="(static lib - requires Intel MKL)"
 else
 	details["$group$index"]="(static lib)"
 fi
@@ -104,71 +104,10 @@ args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=OFF -DLAPAC
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #modulefile["$group$index"]=""
 
-if [ "$mpilib" != "none" ]; then # MPI-only
-
-#Scalapack 2.1.0
-index=3
-name["$group$index"]=scalapack
-version["$group$index"]=2.1.0
-if [[ $compiler == "intel" ]]; then
-	details["$group$index"]="(require Intel MKL)"
-fi
-details["$group$index"]=""
-url["$group$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
-filename["$group$index"]=scalapack-2.1.0.tar.gz
-dirname["$group$index"]=scalapack-2.1.0
-builder["$group$index"]="cmake"
-dependencies["$group$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
-dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so"
-dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
-modulefile["$group$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\tScalapack ${version["$group$index"]}\"
-}
- 
-module-whatis \"Scalapack ${version["$group$index"]}\"
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-"
-
-fi # MPI-only
-
-#Zlib 1.2.11
-index=4
-name["$group$index"]=zlib
-version["$group$index"]=1.2.11
-details["$group$index"]="(required for NetCDF)"
-url["$group$index"]=http://zlib.net/zlib-1.2.11.tar.gz
-filename["$group$index"]=zlib-1.2.11.tar.gz
-dirname["$group$index"]=zlib-1.2.11
-builder["$group$index"]="configure"
-#dependencies["$group$index"]=""
-dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]=""
-dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
-modulefile["$group$index"]="#%Module1.0                                                                                                                                                                                                                                 
-proc ModulesHelp { } {                                                                                                                                                                                                                      
-global dotversion
- 
-puts stderr \"\tZlib ${version["$group$index"]}\"
-}
- 
-module-whatis \"Zlib ${version["$group$index"]}\"
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
-prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
-prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
-prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
-"
-
 if [ "$showOldVersion" = "1" ]; then # old-version
 
 #Lapack & Blas 3.8.0 Dynamic lib
-index=5
+index=3
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.8.0
 details["$group$index"]="(dynamic lib)"
@@ -196,7 +135,7 @@ prepend-path BLAS $prefix/${dirinstall["$group$index"]}
 "
 
 #Lapack & Blas 3.8.0 Static lib
-index=6
+index=4
 name["$group$index"]=lapack-blas
 version["$group$index"]=3.8.0
 details["$group$index"]="(static lib)"
@@ -237,4 +176,96 @@ dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 #"
 
 fi # old-version
+
+if [ "$mpilib" != "none" ]; then # MPI-only
+
+#Scalapack 2.1.0
+index=5
+name["$group$index"]=scalapack
+version["$group$index"]=2.1.0
+if [[ $compiler == "intel" ]]; then
+	details["$group$index"]="(requires Intel MKL)"
+fi
+details["$group$index"]=""
+url["$group$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
+filename["$group$index"]=scalapack-2.1.0.tar.gz
+dirname["$group$index"]=scalapack-2.1.0
+builder["$group$index"]="cmake"
+dependencies["$group$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
+dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
+args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so"
+dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
+modulefile["$group$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tScalapack ${version["$group$index"]}\"
+}
+ 
+module-whatis \"Scalapack ${version["$group$index"]}\"
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+"
+
+fi # MPI-only
+
+#Zlib 1.2.11
+index=6
+name["$group$index"]=zlib
+version["$group$index"]=1.2.11
+details["$group$index"]="(required by NetCDF)"
+url["$group$index"]=http://zlib.net/zlib-1.2.11.tar.gz
+filename["$group$index"]=zlib-1.2.11.tar.gz
+dirname["$group$index"]=zlib-1.2.11
+builder["$group$index"]="configure"
+#dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\tZlib ${version["$group$index"]}\"
+}
+ 
+module-whatis \"Zlib ${version["$group$index"]}\"
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
+"
+
+#musl 1.2.0
+index=7
+name["$group$index"]=musl
+version["$group$index"]=1.2.0
+details["$group$index"]="(required by StaticX)"
+url["$group$index"]=https://musl.libc.org/releases/musl-1.2.0.tar.gz
+filename["$group$index"]=musl-1.2.0.tar.gz
+dirname["$group$index"]=musl-1.2.0
+builder["$group$index"]="configure"
+#dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\tMusl ${version["$group$index"]}\"
+}
+ 
+module-whatis \"Musl ${version["$group$index"]}\"
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
+setenv BOOTLOADER_CC $prefix/${dirinstall["$group$index"]}/bin/musl-gcc
+"
+
 

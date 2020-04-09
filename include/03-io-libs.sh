@@ -386,8 +386,6 @@ module-whatis \"ecCodes ${version["$group$index"]}\"
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
-prepend-path LAPACK $prefix/${dirinstall["$group$index"]}
-prepend-path BLAS $prefix/${dirinstall["$group$index"]}
 "
 
 

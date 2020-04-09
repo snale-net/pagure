@@ -504,6 +504,36 @@ args["$group$index"]=""
 #dirmodule["$group$index"]=""
 #modulefile["$group$index"]=""
 
+# PyInstaller 3.6
+index=23
+name["$group$index"]=pyinstaller
+version["$group$index"]=3.6
+details["$group$index"]=""
+url["$group$index"]="https://files.pythonhosted.org/packages/3c/c9/c3f9bc64eb11eee6a824686deba6129884c8cbdf70e750661773b9865ee0/PyInstaller-3.6.tar.gz"
+filename["$group$index"]=PyInstaller-3.6.tar.gz
+dirname["$group$index"]=PyInstaller-3.6
+builder["$group$index"]="python"
+dependencies["$group$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
+# staticx 0.9.1
+index=24
+name["$group$index"]=staticx
+version["$group$index"]=0.9.1
+details["$group$index"]="(requires musl 1.2.0)"
+url["$group$index"]="https://github.com/JonathonReinhart/staticx/archive/v0.9.1.tar.gz -O staticx-0.9.1.tar.gz"
+filename["$group$index"]=staticx-0.9.1.tar.gz
+dirname["$group$index"]=staticx-0.9.1
+builder["$group$index"]="staticx"
+dependencies["$group$index"]="musl/$compilo/1.2.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
 fi  # end-only-if-Python
 
 
