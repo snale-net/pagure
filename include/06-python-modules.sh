@@ -221,8 +221,8 @@ puts stderr \"\tPython MPI librairies\"
  
 module-whatis \"Python MPI librairies\"
 
-prepend-path PATH $prefix/python/$mpilib/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$mpilib/$compilo/lib/$pythonInterpreter/site-packages
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path PYTHONPATH $prefix/${dirinstall["$group$index"]}/lib/$pythonInterpreter/site-packages
 "
 fi # MPI-only
 
@@ -257,8 +257,8 @@ puts stderr \"\tPython MPI librairies\"
  
 module-whatis \"Python MPI librairies\"
 
-prepend-path PATH $prefix/python/$mpilib/$compilo/bin
-prepend-path PYTHONPATH $prefix/python/$mpilib/$compilo/lib/$pythonInterpreter/site-packages
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path PYTHONPATH $prefix/${dirinstall["$group$index"]}/lib/$pythonInterpreter/site-packages
 "
 fi
 args["$group$index"]=""
