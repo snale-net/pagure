@@ -383,6 +383,8 @@ puts stderr \"\tecCodes ${version["$group$index"]}\"
 }
  
 module-whatis \"ecCodes ${version["$group$index"]}\"
+
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
