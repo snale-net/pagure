@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -93,6 +93,10 @@ elif [ "$system" == "suse" ]; then
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`	
 
 elif [ "$system" == "mint" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+elif [ "$system" == "centos" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
