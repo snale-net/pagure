@@ -5,7 +5,7 @@ sudo yum install tcl tcl-devel
 #tcllib
 sudo yum install freetype-devel libpng-devel libX11-devel libXaw-devel m4 patch make cmake expat-devel autoconf bison flex libcurl-devel xz-devel
 #freetype2-devel
-sudo yum install openssl-devel libffi-devel
+sudo yum install openssl-devel libffi-devel libjpeg-turbo-devel
 
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
