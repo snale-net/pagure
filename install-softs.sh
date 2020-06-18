@@ -447,6 +447,7 @@ source $basedir/include/06-python-modules.sh
 source $basedir/include/07-model-telemac.sh
 source $basedir/include/08-model-terraferma-v1.0.sh
 source $basedir/include/09-model-fluidity.sh
+source $basedir/include/100-web.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
 
@@ -512,6 +513,9 @@ for ((group=1;group<=$maxGroup;group++)) do
 			elif [[ ${filename["$group$index"]} == *.zip ]] 
 			then
 				unzip ${filename["$group$index"]} -d../src || leave 1
+			else
+				mkdir -p ../src/${dirname["$group$index"]}
+				mv ${filename["$group$index"]} ../src/${dirname["$group$index"]}/.
 			fi
 
 			cd ../src/${dirname["$group$index"]}
@@ -635,6 +639,26 @@ for ((group=1;group<=$maxGroup;group++)) do
 				cd src                 		
 				make libptscotch ptesmumps 
 				make prefix=$prefix/${dirinstall["$group$index"]} install
+					
+			elif [[ "${builder["$group$index"]}" == "yarn" ]]
+	 		then               		
+				npm install
+				npm install --global gulp-cli
+				gulp build
+				mkdir -p $prefix/${dirinstall["$group$index"]}
+				cp -r ./* $prefix/${dirinstall["$group$index"]}				
+					
+			elif [[ "${builder["$group$index"]}" == "nodejs" ]]
+	 		then               		
+				./configure --prefix=$prefix/${dirinstall["$group$index"]} ${args["$group$index"]} || leave 1
+				make || leave 1
+				make install || leave 1
+					
+			elif [[ "${builder["$group$index"]}" == "composer" ]]
+	 		then               		
+				php composer-setup.php || leave 1
+				mkdir -p $prefix/${dirinstall["$group$index"]}/bin
+				cp composer.phar $prefix/${dirinstall["$group$index"]}/bin
 					
 			elif [[ "${builder["$group$index"]}" == "python-builder" ]]
 			then
