@@ -109,3 +109,38 @@ setenv MPI_HOME $prefix/${dirinstall["$group$index"]}/
 setenv MPI_RUN $prefix/${dirinstall["$group$index"]}/bin/mpirun
 "
 fi
+
+if [ "$mpilib" == "mpich332" ]; then
+# Mpich 3.3.2
+index=3
+name["$group$index"]=mpich
+version["$group$index"]=3.3.2
+details["$group$index"]=""
+url["$group$index"]=http://www.mpich.org/static/downloads/3.3.2/mpich-3.3.2.tar.gz
+filename["$group$index"]=mpich-3.3.2.tar.gz
+dirname["$group$index"]=mpich-3.3.2
+builder["$group$index"]="configure"
+#dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t${name["$group$index"]} ${version["$group$index"]}\"
+}
+
+module-whatis \"${name["$group$index"]} ${version["$group$index"]}\"
+
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
+setenv MPI_HOME $prefix/${dirinstall["$group$index"]}/
+setenv MPI_RUN $prefix/${dirinstall["$group$index"]}/bin/mpirun
+"
+fi

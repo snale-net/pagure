@@ -25,4 +25,7 @@ sudo zypper install sqlite3 sqlite3-devel
 sudo zypper install libjasper-devel
 # StaticX deps
 sudo zypper install scons patchelf
+# Delft3D deps
+sudo zypper install automake libtool
+
 
