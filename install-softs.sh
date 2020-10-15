@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -165,14 +165,14 @@ fi
 # 4. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
-	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
-	compilo=gcc${CC_VERSION}
+	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
 	export F77=gfortran
 	export F90=gfortran
 	export FC=gfortran	
-	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
+	log notice "compiler is set to GNU ${CC_VERSION}"
 
 elif [ "$compiler" == "gnu" ]
 then
@@ -180,14 +180,14 @@ then
 		log fail "Unable to find suitable compilers (gcc or icc)" 
 		leave 1
 	fi
-	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1\2/p')
-	compilo=gcc${CC_VERSION}
+	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
 	export F77=gfortran
 	export F90=gfortran
 	export FC=gfortran	
-	log notice "compiler is set to GNU ${CC_VERSION:0:1}.${CC_VERSION:1:2}"
+	log notice "compiler is set to GNU ${CC_VERSION}"
 
 elif [ "$compiler" == "intel" ]
 then
@@ -208,6 +208,12 @@ else
 	leave 1
 fi
 
+# Fix for GNU 10
+if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); then # only GNU>=10.2			
+	export FFLAGS="-w -fallow-argument-mismatch -O2"
+	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
+fi
+
 # 5. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
@@ -216,7 +222,7 @@ if [ -z "$mpi" ]; then
 elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
-    export MPICC=mpicc
+        export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -225,7 +231,7 @@ elif [ "$mpi" == "openmpi110" ]; then
 elif [ "$mpi" == "openmpi201" ]; then
 
 	mpilib="openmpi201"
-    export MPICC=mpicc
+        export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -284,8 +290,24 @@ elif [ "$mpi" == "mpich321" ] ; then
 	export MPIFC=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
+	
+	unset F90 
+	unset F90FLAGS	
+	
+elif [ "$mpi" == "mpich332" ] ; then
+
+	mpilib="mpich332"
+	export MPICC=mpicc
+	export MPIF77=mpif90
+	export MPIFC=mpif90
+	export MPIF90=mpif90
+	export MPICXX=mpic++
+	
+	unset F90 
+	unset F90FLAGS	
+	
 else   
-    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321" 
+        log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332" 
 	leave 1	
 fi
 
@@ -305,6 +327,8 @@ elif [ "$mpilib" == "intel2019" ]; then
 	mpi_dep="intelmpi/$compilo/2019"
 elif [ "$mpilib" == "mpich321" ]; then
 	mpi_dep="mpich/$compilo/3.2.1"
+elif [ "$mpilib" == "mpich332" ]; then
+	mpi_dep="mpich/$compilo/3.3.2"
 else
     mpi_dep=""
 fi
