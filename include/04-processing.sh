@@ -178,7 +178,7 @@ puts stderr \"\tProj ${version["$group$index"]}1\"
  
 module-whatis \"Proj ${version["$group$index"]}\"
 
-prepend-path PATH $prefix/p${dirinstall["$group$index"]}/bin
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
