@@ -25,6 +25,8 @@ fi  # end-only-if-Python
 sudo apt-get install sqlite3 libsqlite3-dev
 # ecCodes deps
 sudo apt-get install libjasper-dev
+# Delft3D deps
+sudo apt-get install automake libtool uuid-dev
 
 
 

@@ -26,6 +26,6 @@ sudo zypper install libjasper-devel
 # StaticX deps
 sudo zypper install scons patchelf
 # Delft3D deps
-sudo zypper install automake libtool
+sudo zypper install automake libtool libuuid-devel
 
 

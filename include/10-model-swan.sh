@@ -2,7 +2,7 @@
 
 #################################################################
 #Group 10 : Model SWAN
-group=10
+group="10"
 groupname[$group]="Model SWAN"
 
 # SWAN

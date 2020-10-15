@@ -471,6 +471,7 @@ source $basedir/include/06-python-modules.sh
 source $basedir/include/07-model-telemac.sh
 source $basedir/include/08-model-terraferma-v1.0.sh
 source $basedir/include/09-model-fluidity.sh
+#source $basedir/include/11-model-delft.sh
 source $basedir/include/100-web.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
