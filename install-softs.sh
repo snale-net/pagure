@@ -151,8 +151,13 @@ then
 		case $yn in
 		        [Yy]* )
 	log step "Install System packages (root acces is required)"
-
-	source $basedir/include/00-system-$systemOS.sh
+	
+	if [ -f "$basedir/include/00-system-$systemOS.sh" ] ; then
+		source $basedir/include/00-system-$systemOS.sh
+	else
+		log fail "Unable to find the specific file for $systemOS" 
+		leave 1
+	fi
 
 	log 0 "Install System packages"
 	break;;
@@ -462,18 +467,54 @@ declare -a args
 declare -a dirmodule
 declare -a modulefile
 
-source $basedir/include/01-mpi-libs.sh
-source $basedir/include/02-defaults.sh
-source $basedir/include/03-io-libs.sh
-source $basedir/include/04-processing.sh
-source $basedir/include/05-python.sh
-source $basedir/include/06-python-modules.sh
-source $basedir/include/07-model-telemac.sh
-source $basedir/include/08-model-terraferma-v1.0.sh
-source $basedir/include/09-model-fluidity.sh
-source $basedir/include/100-web.sh
-source $basedir/include/110-model-delft3d.sh
-source $basedir/include/120-model-swan.sh
+# 01-mpi-libs
+if [ -f "$basedir/include/01-mpi-libs.sh" ] ; then
+	source $basedir/include/01-mpi-libs.sh
+fi
+# 02
+if [ -f "$basedir/include/02-defaults.sh" ] ; then
+	source $basedir/include/02-defaults.sh
+fi
+# 03
+if [ -f "$basedir/include/03-io-libs.sh" ] ; then
+	source $basedir/include/03-io-libs.sh
+fi
+# 04
+if [ -f "$basedir/include/04-processing.sh" ] ; then
+	source $basedir/include/04-processing.sh
+fi
+# 04
+if [ -f "$basedir/include/05-python.sh" ] ; then
+	source $basedir/include/05-python.sh
+fi
+# 06
+if [ -f "$basedir/include/06-python-modules.sh" ] ; then
+	source $basedir/include/06-python-modules.sh
+fi
+# 07
+if [ -f "$basedir/include/07-model-telemac.sh" ] ; then
+	source $basedir/include/07-model-telemac.sh
+fi
+# 08
+if [ -f "$basedir/include/08-model-terraferma-v1.0.sh" ] ; then
+	source $basedir/include/08-model-terraferma-v1.0.sh
+fi
+# 09
+if [ -f "$basedir/include/09-model-fluidity.sh" ] ; then
+	source $basedir/include/09-model-fluidity.sh
+fi
+# 100
+if [ -f "$basedir/include/100-web.sh" ] ; then
+	source $basedir/include/100-web.sh
+fi
+# 110
+if [ -f "$basedir/include/110-model-delft3d.sh" ] ; then
+	source $basedir/include/110-model-delft3d.sh
+fi
+# 120
+if [ -f "$basedir/include/120-model-swan.sh" ] ; then
+	source $basedir/include/120-model-swan.sh
+fi
 
 for ((group=1;group<=$maxGroup;group++)) do 
 
