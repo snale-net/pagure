@@ -471,7 +471,7 @@ source $basedir/include/06-python-modules.sh
 source $basedir/include/07-model-telemac.sh
 source $basedir/include/08-model-terraferma-v1.0.sh
 source $basedir/include/09-model-fluidity.sh
-#source $basedir/include/11-model-delft.sh
+source $basedir/include/11-model-delft.sh
 source $basedir/include/100-web.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
@@ -526,7 +526,25 @@ for ((group=1;group<=$maxGroup;group++)) do
 			if [ ! -f "${filename["$group$index"]}" -o $forceDownload == "1" ]; then 
 
 				rm -f ${filename["$group$index"]}
-				wget ${url["$group$index"]} || leave 1 
+				
+				if [[ ${url["$group$index"]} == "localfile" ]] 
+				then
+					echo "......................"
+					while true; do
+						read -p "Type the absolute path of the archive file '${filename["$group$index"]}' : " filepath						
+						
+						if [ -f "$filepath/${filename["$group$index"]}" ]
+						then
+							cp $filepath/${filename["$group$index"]} . || leave 1 
+							break;
+						else
+							echo "'$filepath/${filename["$group$index"]}' doesn't exists. Please try again."
+						fi
+					done
+					
+				else
+					wget ${url["$group$index"]} || leave 1 
+				fi
 			fi
 
 			if [ -d "$prefix/src/${dirname["$group$index"]}" ] ; then rm -rf $prefix/src/${dirname["$group$index"]} ; fi
@@ -537,7 +555,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			elif [[ ${filename["$group$index"]} == *.zip ]] 
 			then
-				unzip ${filename["$group$index"]} -d../src || leave 1
+				unzip -o ${filename["$group$index"]} -d../src || leave 1
 			else
 				mkdir -p ../src/${dirname["$group$index"]}
 				mv ${filename["$group$index"]} ../src/${dirname["$group$index"]}/.
@@ -547,11 +565,11 @@ for ((group=1;group<=$maxGroup;group++)) do
 
 			if [[ ! -z "${configfile["$group$index"]}" && ! -z "${configfilename["$group$index"]}" ]]
 		        then			
-				echo $"${configfile["$group$index"]}" > ${configfilename["$group$index"]}			
-			fi
+				echo $"${configfile["$group$index"]}" > ${configfilename["$group$index"]}		
+			fi			
 
 			if [[ -f "${patchfile_01["$group$index"]}" && ! -z "${patch_01["$group$index"]}" ]]
-		        then			
+		        then		
 				echo $"${patch_01["$group$index"]}" > patch_to_apply.patch
 				patch -i patch_to_apply.patch ${patchfile_01["$group$index"]} || leave 1
 			fi
@@ -613,17 +631,7 @@ for ((group=1;group<=$maxGroup;group++)) do
 				then
                 		export PYTHONUSERBASE=$prefix/${dirinstall["$group$index"]}
 				$pythonInterpreter setup.py install --user || leave 1
-                		cp -r include/pybind11 $prefix/${dirinstall["$group$index"]}/include/$pythonInterpreter  || leave 1 
-
-				#nb=`$pythonInterpreter -m pybind11 --includes | grep /home -c`
-				#if [[ $nb -eq 1 ]] ; then
-				#	localDir=`$pythonInterpreter -m pybind11 --includes | awk -F'-I' '{for (i=1; i<=NF; i++)if (index($i,"home")!=0) printf("%s \n",$i);}'`
-				#	if [[ ! -f "$localDir"  ]] ; then mkdir -p $localDir || leave 1 ; fi
-				#	cp -r include/pybind11/ $localDir                   
-				#else
-				#	log fail "Unable to get pybind11 include directories" 
-				#	leave 1 
-				#fi
+                		cp -r include/pybind11 $prefix/${dirinstall["$group$index"]}/include/$pythonInterpreter  || leave 1 				
 
             		elif [[ "${builder["$group$index"]}" == "numpy" || "${builder["$group$index"]}" == "scipy" ]]
 			then    
@@ -731,6 +739,26 @@ prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/s
 					$pythonInterpreter setup.py build || leave 1
 					$pythonInterpreter setup.py install --user || leave 1
 				fi	
+					
+			elif [[ "${builder["$group$index"]}" == "delft3d-builder" ]]
+	 		then 
+	 			mkdir -p $prefix/${dirinstall["$group$index"]}	
+	 			mkdir -p $prefix/${dirinstall["$group$index"]}/lib 		 
+				
+				./autogen.sh || leave 1	
+				export CFLAGS="-fPIC"
+				export MPIFC=mpif90
+				export MPI_INCLUDE=="-I${C_INCLUDE_PATH//:/ -I}"
+				export MPILIBS_ADDITIONAL"-L${LD_LIBRARY_PATH//:/ -L} -lmpifort -lmpi"	
+				
+				export NETCDF_CFLAGS="-I${C_INCLUDE_PATH//:/ -I}"
+				export NETCDF_LIBS="-L${LD_LIBRARY_PATH//:/ -L} -lnetcdf -lnetcdff"	
+									
+				./configure --prefix=$prefix/${dirinstall["$group$index"]} ${args["$group$index"]} || leave 1
+				make || leave 1
+				make ds-install || leave 1
+				cp -r $prefix/${dirinstall["$group$index"]}/lib64/* $prefix/${dirinstall["$group$index"]}/lib 
+				rm -rf $prefix/${dirinstall["$group$index"]}/lib64/
 					
 			fi
         		# Fin Compilation spécifique #	

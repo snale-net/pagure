@@ -270,116 +270,71 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include 
 "
 
-# SWAN
+# Delft3D v6.03
 index=8
-name["$group$index"]=swan
-version["$group$index"]=41.31
+name["$group$index"]=delft3d
+version["$group$index"]=6.03
 details["$group$index"]=""
-url["$group$index"]=http://swanmodel.sourceforge.net/download/zip/swan4131.tar.gz
-filename["$group$index"]=swan4131.tar.gz
-dirname["$group$index"]=swan4131
-builder["$group$index"]="swan-builder"
-dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
-dirinstall["$group$index"]="src/swan4131"
-configfilename["$group$index"]="macros.inc"
-if [[ $compiler == "intel" ]]; then
-configfile["$group$index"]="##############################################################################
-# IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
-##############################################################################
-F90_SER = ifort
-F90_OMP = ifort
-F90_MPI = \$(MPIF90)
-FLAGS_OPT = -O2
-FLAGS_MSC = -W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291
-FLAGS90_MSC = \$(FLAGS_MSC)
-FLAGS_DYN = -fPIC
-FLAGS_SER = 
-FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
-ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
-else
-  INCS_SER =
-  INCS_OMP =
-  INCS_MPI =
-  LIBS_SER =
-  LIBS_OMP = -static-libgcc
-  LIBS_MPI =
-  NCF_OBJS =
-endif
-O_DIR = ../work/odir4/
-OUT = -o
-EXTO = o
-MAKE = make
-RM = rm -f
-ifneq (\$(NETCDFROOT),)
-  swch = -unix -netcdf
-else
-  swch = -unix
-endif
-"
-else
-configfile["$group$index"]="##############################################################################
-# IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
-##############################################################################
-F90_SER = gfortran
-F90_OMP = gfortran
-F90_MPI = \$(MPIF90)
-FLAGS_OPT = -O
-FLAGS_MSC = -w -fno-second-underscore
-FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
-FLAGS_DYN =
-FLAGS_SER =
-FLAGS_OMP = -fopenmp
-FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
-ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
-else
-  INCS_SER =
-  INCS_OMP =
-  INCS_MPI =
-  LIBS_SER =
-  LIBS_OMP = -static-libgcc
-  LIBS_MPI =
-  NCF_OBJS =
-endif
-O_DIR = ../work/odir4/
-OUT = -o
-EXTO = o
-MAKE = make
-RM = rm -f
-ifneq (\$(NETCDFROOT),)
-  swch = -unix -netcdf
-else
-  swch = -unix
-endif
-"
+url["$group$index"]=localfile
+filename["$group$index"]=delft3d-6.03.zip
+dirname["$group$index"]=delft3d-6.03/src
+if [ "$system" == "suse" ]; then
+configfile["$group$index"]="#include \"meminfo.h\"
+//#if HAVE_CONFIG_H
+//#include <sys/sysctl.h>
+//#endif
+
+#ifdef WIN32
+
+unsigned __int64 MemInfo::GetTotalMemSize()
+{
+  MEMORYSTATUSEX status;
+  status.dwLength = sizeof(status);
+  GlobalMemoryStatusEx(&status);
+  return unsigned __int64 (status.ullTotalPhys);
+}
+#elif defined(_SC_PHYS_PAGES)
+unsigned long long MemInfo::GetTotalMemSize()
+{
+long long pages = sysconf(_SC_PHYS_PAGES);
+long long page_size = sysconf(_SC_PAGE_SIZE);
+return (pages * page_size);
+}
+
+#else
+unsigned long long MemInfo::GetTotalMemSize()
+{
+int mib[2];
+size_t len;
+long long totalphys64;
+
+mib[0] = CTL_HW;
+mib[1] = HW_MEMSIZE; /* gives a 64 bit int */
+len = sizeof(totalphys64);
+sysctl(mib, 2, &totalphys64, &len, NULL, 0);
+return totalphys64;
+}
+#endif"
+configfilename["$group$index"]="utils_lgpl/deltares_common/packages/deltares_common_c/src/meminfo.cpp"
 fi
-args["$group$index"]=""
+builder["$group$index"]="delft3d-builder"
+dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
+dirinstall["$group$index"]=${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}
+args["$group$index"]="--with-netcdf --with-mpi"
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tSwan ${version["$group$index"]}\"
+puts stderr \"\tDelft 3D ${version["$group$index"]}\"
 }
  
-module-whatis \"Swan ${version["$group$index"]}\"
+module-whatis \"Delft 3D ${version["$group$index"]}\"
 
-prepend-path PATH $prefix/${dirinstall["$group$index"]}
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
 
 
