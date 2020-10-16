@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 11 : Model Delft3D
-group="11"
+#Group 110 : Model Delft3D
+group=110
 groupname[$group]="Model Delft3D"
 
 # Udunits 2.2.25

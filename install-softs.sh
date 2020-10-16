@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=`pwd`
-maxGroup=20
+maxGroup=200
 maxFile=50
 
 #############################
@@ -462,8 +462,8 @@ declare -a args
 declare -a dirmodule
 declare -a modulefile
 
-source $basedir/include/01-defaults.sh
-source $basedir/include/02-mpi-libs.sh
+source $basedir/include/01-mpi-libs.sh
+source $basedir/include/02-defaults.sh
 source $basedir/include/03-io-libs.sh
 source $basedir/include/04-processing.sh
 source $basedir/include/05-python.sh
@@ -471,18 +471,17 @@ source $basedir/include/06-python-modules.sh
 source $basedir/include/07-model-telemac.sh
 source $basedir/include/08-model-terraferma-v1.0.sh
 source $basedir/include/09-model-fluidity.sh
-source $basedir/include/11-model-delft.sh
 source $basedir/include/100-web.sh
+source $basedir/include/110-model-delft3d.sh
+source $basedir/include/120-model-swan.sh
 
 for ((group=1;group<=$maxGroup;group++)) do 
 
   if [[ ! -z "${groupname["$group"]}" ]]
   then	
-
 	  log step "${groupname["$group"]}"
 
-	  for ((index=1;index<=$maxFile;index++)) do 
-		   
+	  for ((index=1;index<=$maxFile;index++)) do 		   
 
 		  if [[ ! -z "${name["$group$index"]}" ]]
 		  then		
