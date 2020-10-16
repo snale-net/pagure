@@ -747,8 +747,8 @@ prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/s
 				./autogen.sh || leave 1	
 				export CFLAGS="-fPIC"
 				export MPIFC=mpif90
-				export MPI_INCLUDE=="-I${C_INCLUDE_PATH//:/ -I}"
-				export MPILIBS_ADDITIONAL"-L${LD_LIBRARY_PATH//:/ -L} -lmpifort -lmpi"	
+				export MPI_INCLUDE="-I${C_INCLUDE_PATH//:/ -I}"
+				export MPILIBS_ADDITIONAL="-L${LD_LIBRARY_PATH//:/ -L} -lmpifort -lmpi"	
 				
 				export NETCDF_CFLAGS="-I${C_INCLUDE_PATH//:/ -I}"
 				export NETCDF_LIBS="-L${LD_LIBRARY_PATH//:/ -L} -lnetcdf -lnetcdff"	
