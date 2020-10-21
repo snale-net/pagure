@@ -63,7 +63,7 @@ do
 case "$1" in
     -h* | --help)
       echo 'usage:'
-      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--show-old-version=0|1]'
+      echo '  install-soft [--prefix=PREFIX] [--force-download=0|1] [--module-dir=MODULE_DIR] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--show-old-version=0|1]'
         leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;
@@ -312,14 +312,12 @@ elif [ "$mpi" == "mpich332" ] ; then
 	unset F90FLAGS	
 	
 else   
-        log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi201|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332" 
+        log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332" 
 	leave 1	
 fi
 
 if [ "$mpilib" == "openmpi110" ]; then
 	mpi_dep="openmpi/$compilo/1.10.7"
-elif [ "$mpilib" == "openmpi201" ]; then
-	mpi_dep="openmpi/$compilo/2.0.1"
 elif [ "$mpilib" == "openmpi300" ]; then
 	mpi_dep="openmpi/$compilo/3.0.0"
 elif [ "$mpilib" == "intel2016" ]; then
