@@ -531,13 +531,16 @@ for ((group=1;group<=$maxGroup;group++)) do
 				read -p "Do you wish to install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]} ?" yn
 				case $yn in
 					[Yy]* )
-			log notice "Install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]} "
-			module purge || leave 1
+			log notice "Install ${name["$group$index"]} ${version["$group$index"]} ${details["$group$index"]} "			
 
-			if [ "$systemOS" == "cluster" ] ; then 
-				# On enlève le module mpi
-				mpi_dep_no_slash=${mpi_dep//\//\\/}							
-				dependencies["$group$index"]=${dependencies["$group$index"]/$mpi_dep_no_slash/}
+			if [ "$systemOS" == "cluster" ] ; then 			
+			
+				if hash $MPIF90 2>/dev/null
+				then					
+					# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
+					mpi_dep_no_slash=${mpi_dep//\//\\/}							
+					dependencies["$group$index"]=${dependencies["$group$index"]/$mpi_dep_no_slash/}				
+				fi
 
 				# On enlève le module gdal
 				if [[ $moduleList == *"gdal"* ]]; then 
@@ -552,6 +555,8 @@ for ((group=1;group<=$maxGroup;group++)) do
 				# On ajoute les deps du cluster				
 				dependencies["$group$index"]=`echo $moduleList ${dependencies["$group$index"]}`													
 			fi
+			
+			module purge || leave 1
 
 			# Si on a déjà un python installé
 			# On enlève le module python
