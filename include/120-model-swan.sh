@@ -30,14 +30,15 @@ FLAGS90_MSC = \$(FLAGS_MSC)
 FLAGS_DYN = -fPIC
 FLAGS_SER = 
 FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
+NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3
+NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
 ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
+  INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  INCS_MPI = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  LIBS_SER = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
+  LIBS_OMP = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
+  LIBS_MPI = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
   NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
 else
   INCS_SER =
@@ -73,14 +74,15 @@ FLAGS_DYN =
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
 FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
+NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3
+NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
 ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -lnetcdf -lnetcdff
+  INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  INCS_MPI = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
+  LIBS_SER = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
+  LIBS_OMP = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
+  LIBS_MPI = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
   NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
 else
   INCS_SER =
