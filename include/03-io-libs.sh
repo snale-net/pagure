@@ -160,7 +160,7 @@ if [[ $mpilib == openmpi* ]]; then
 elif [[ $mpilib == mpich* ]]; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group$index"]="${name["$group$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group$index"]}"
-	args["$group$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90"
+	args["$group$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90 LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
 	dirmodule["$group$index"]="${name["$group$index"]}-c/hdf5.110/$mpilib/$compilo"
 elif [[ $mpilib == intel* ]]; then
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
