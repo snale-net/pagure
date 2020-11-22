@@ -18,5 +18,8 @@ sed -i "s~/usr/bin/ruby~$prefix/ruby/$compilo/2.7.2/bin/ruby~g" scripts_lgpl/lin
 
 make || leave 1
 make ds-install || leave 1
-cp -r $prefix/${dirinstall["$index"]}/lib64/* $prefix/${dirinstall["$index"]}/lib  || leave 1
-rm -rf $prefix/${dirinstall["$index"]}/lib64/ || leave 1
+
+if [ -d "$prefix/${dirinstall["$index"]}/lib64" ] ; then
+	cp -r $prefix/${dirinstall["$index"]}/lib64/* $prefix/${dirinstall["$index"]}/lib  || leave 1
+	rm -rf $prefix/${dirinstall["$index"]}/lib64/ || leave 1
+fi
