@@ -53,7 +53,7 @@ return totalphys64;
 #endif"
 configfilename["$group$index"]="utils_lgpl/deltares_common/packages/deltares_common_c/src/meminfo.cpp"
 fi
-builder["$group$index"]="delft3d-builder"
+builder["$group$index"]="delft3d"
 dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2 ruby/$compilo/2.7.2"
 dirinstall["$group$index"]=${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}
 args["$group$index"]="--with-netcdf --with-mpi"
