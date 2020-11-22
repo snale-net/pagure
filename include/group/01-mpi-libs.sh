@@ -112,7 +112,7 @@ fi
 
 if [ "$mpilib" == "mpich332" ]; then
 # Mpich 3.3.2
-index=3
+index=4
 name["$group$index"]=mpich
 version["$group$index"]=3.3.2
 details["$group$index"]=""

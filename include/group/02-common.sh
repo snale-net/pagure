@@ -268,4 +268,34 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 setenv BOOTLOADER_CC $prefix/${dirinstall["$group$index"]}/bin/musl-gcc
 "
 
+#ruby 2.7.2
+index=8
+name["$group$index"]=ruby
+version["$group$index"]=2.7.2
+details["$group$index"]=""
+url["$group$index"]=https://cache.ruby-lang.org/pub/ruby/2.7/ruby-2.7.2.tar.gz
+filename["$group$index"]=ruby-2.7.2.tar.gz
+dirname["$group$index"]=ruby-2.7.2
+builder["$group$index"]="configure"
+#dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\tRuby ${version["$group$index"]}\"
+}
+ 
+module-whatis \"Ruby ${version["$group$index"]}\"
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
+prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
+"
+
 
