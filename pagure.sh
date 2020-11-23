@@ -7,7 +7,7 @@ maxFile=50
 #############################
 # Utility
 #############################
-LOGFILE="logs"
+LOGFILE="pagure.log"
 VERT="\\033[1;32m"
 NORMAL="\\033[0;39m"
 ROUGE="\\033[1;31m"
@@ -588,7 +588,7 @@ else
 		for element in "${libToInstall[@]}"
 		do		
 			if [ -z "${name["$element"]}" ]; then
-				log fail "Librairy with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for the filter. Maybe you need to show old version, try --show-old-version=1"
+				log fail "Librairy with index $element is not defined. Try to active old versions with option --show-old-version=1. Otherwise, maybe you choose the wrong compiler or MPI lib or Python version for the filter '$selectedFilter'."
 				leave 1
 			fi				
 			log notice "${name["$element"]} ${version["$element"]} ${details["$element"]}"
@@ -635,12 +635,18 @@ function install()
 		while true; do
 			read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
 			case $yn in
-				[Yy]* )			
-				if module show ${dirmodule["$index"]}/${version["$index"]} 2>/dev/null ; then
-					alreadyInstall=true
-				else
+				[Yy]* )	
+				
+				# On teste si le module est déjà installé
+				module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
+				libTest=$(cat lib_test | grep "ERROR" -c)
+				rm -f lib_test
+							
+				if [ "$libTest" == "1" ] ; then
 					alreadyInstall=false
-				fi
+				else
+					alreadyInstall=true
+				fi				
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
@@ -713,77 +719,14 @@ function install()
 						echo $"${patch_02["$index"]}" > patch_to_apply.patch
 						patch -i patch_to_apply.patch ${patchfile_02["$index"]} || leave 1
 					fi
-
-					if [[ "${builder["$index"]}" == "configure" ]]
-					then
-						./configure --prefix=$prefix/${dirinstall["$index"]} --libdir=$prefix/${dirinstall["$index"]}/lib ${args["$index"]} || leave 1
-						make || leave 1
-						make install || leave 1
-
-					elif [[ "${builder["$index"]}" == "cmake" ]]
-					then
-						mkdir build
-						cd build
-
-						if [[ ! -z "${configfilename["$index"]}" ]] ; then mv ../${configfilename["$index"]} . || leave 1 ; fi
-
-						cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$index"]}/lib ${args["$index"]} ../
-						make || leave 1
-						make install || leave 1
-
-					elif [[ "${builder["$index"]}" == "python" ]]
-					then
-						if [ ! -d "$prefix/${dirinstall["$index"]}/bin" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/bin" || leave 1; fi
-						if [ ! -d "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" || leave 1; fi
-						if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" || leave 1; fi
-
-						export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
-						if [[ "$compiler" == "intel" ]] ; then
-							LDSHARED="icc -shared" $pythonInterpreter setup.py install --user || leave 1
-						else
-							$pythonInterpreter setup.py install --user || leave 1
-						fi				
-
 					
-					elif [[ "${builder["$index"]}" == "python-builder" ]]
-					then
-						./configure --prefix=$prefix/${dirinstall["$index"]} --libdir=$prefix/${dirinstall["$index"]}/lib ${args["$index"]} || leave 1
-						make || leave 1
-						make install || leave 1
-
-						pythonVersion=$(echo ${version["$index"]} | sed -n 's/^\([0-9]\.[0-9]*\).*/\1/p')				
-						pythonInterpreter=python${pythonVersion}
-						log notice "Python interpreter is set to $pythonInterpreter"
-
-						if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
-						then
-							if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" || leave 1; fi
-							pymodulefile="#%Module1.0
-					proc ModulesHelp { } {
-					global dotversion
-
-					puts stderr \"\tPython librairies\"
-					}
-
-					module-whatis \"Python librairies\"
-
-					prepend-path PATH $prefix/python-modules/$compilo/bin
-					prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
-					prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
-					prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
-					prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
-					"
-							echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
-						fi
+					# Compilation #
+					if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then
+						source $basedir/include/builder/${builder["$index"]}.sh
 					else
-						# Début Compilation spécifique #
-						if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then
-							source $basedir/include/builder/${builder["$index"]}.sh
-						else
-							log fail "Unable to find the builder '${builder["$index"]}'."
-							leave 1
-						fi
-					fi	
+						log fail "Unable to find the builder '${builder["$index"]}'."
+						leave 1
+					fi					
 
 					if [[ ! -z "${modulefile["$index"]}" && ! -f "$moduleDir/${dirmodule["$index"]}/${version["$index"]}" && ! -f "$moduleDir/${dirmodule["$index"]}/${pythonVersion}" ]]
 					then
