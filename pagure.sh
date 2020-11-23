@@ -368,9 +368,9 @@ else
 fi
 
 if [ "$mpilib" == "none" ]; then
-    log notice "No MPI librairy"  
+    log notice "No MPI library"  
 else
-    log notice "MPI librairy is set to $mpilib"
+    log notice "MPI library is set to $mpilib"
 fi
 
 # 6. Tester le prefix
@@ -449,7 +449,13 @@ else
 	log fail "Unable to decode boolean for old version ${oldVersion}" 
 	leave 1
 fi
-log notice "Show old version is set to $showOldVersion"
+if [ ! -z "$selectedFilter" ]
+then	
+	showOldVersion=1
+	log notice "When using a filter, show old version is set to $showOldVersion"
+else
+	log notice "Show old version is set to $showOldVersion"
+fi
 
 # 10.2 Force download
 if [ -z "$forceDownload" ]; then
@@ -490,10 +496,10 @@ if [ "$installedPython" == "1" ]; then # only-if-Python
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tPython librairies\"
+puts stderr \"\tPython libraries\"
 }
  
-module-whatis \"Python librairies\"
+module-whatis \"Python libraries\"
 
 prepend-path PATH $prefix/python-modules/$compilo/bin
 prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
@@ -577,18 +583,18 @@ fi
 if [ -z "$selectedFilter" ]
 then
 	libToInstall="none"
-	log notice "No filter was selected. All librairies are pre-selected to be installed."
+	log notice "No filter was selected. All libraries are pre-selected to be installed."
 else
-	if [ ! -z "${filters["$selectedFilter"]}" ]; then
+	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
 		
 		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
 		
-		log notice "The following librairies are pre-selected to be installed :"
+		log notice "The following libraries are pre-selected to be installed :"
 		
 		for element in "${libToInstall[@]}"
 		do		
 			if [ -z "${name["$element"]}" ]; then
-				log fail "Librairy with index $element is not defined. Try to active old versions with option --show-old-version=1. Otherwise, maybe you choose the wrong compiler or MPI lib or Python version for the filter '$selectedFilter'."
+				log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
 				leave 1
 			fi				
 			log notice "${name["$element"]} ${version["$element"]} ${details["$element"]}"
