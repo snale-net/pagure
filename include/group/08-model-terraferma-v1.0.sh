@@ -10,14 +10,14 @@ groupname[$group]="Model TerraFERMA v1.0"
 index=1
 name["$group$index"]=petsc
 version["$group$index"]=tferma-v1.0
-details["$group$index"]="(dynamic lib - compiled with OpenMPI 1.10.7)"
+details["$group$index"]="(dynamic lib)"
 url["$group$index"]="https://bitbucket.org/tferma/petsc/get/tferma-v1.0.tar.gz -O petsc-tferma-v1.0.tar.gz"
 filename["$group$index"]=petsc-tferma-v1.0.tar.gz
 dirname["$group$index"]=tferma-petsc-111ef2698fa5
 builder["$group$index"]="configure"
 dependencies["$group$index"]="$mpi_dep"
 dirinstall["$group$index"]="${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}"
-args["$group$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --download-hypre --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis"
+args["$group$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/$compilo/3.8.0/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis"
 dirmodule["$group$index"]="${name["$group$index"]}/openmpi110/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {

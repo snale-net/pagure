@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 3 : I/O librairies
-group=3
+#Group 4 : I/O librairies
+group=4
 groupname[$group]="I/O librairies"
 
 if [ "$mpilib" != "none" ]; then # MPI-only

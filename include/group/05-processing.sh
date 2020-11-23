@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 4 : Processing
-group=4
+#Group 5 : Processing
+group=5
 groupname[$group]="Processing librairies"
 
 # Udunits 2.2.25

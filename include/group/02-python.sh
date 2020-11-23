@@ -3,8 +3,8 @@
 if [ "$installedPython" == "0"  ]; then # only-if-not-Python
 
 #################################################################
-#Group 5 : Python
-group=5
+#Group 2 : Python
+group=2
 groupname[$group]="Python"
 
 if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7

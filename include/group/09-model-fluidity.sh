@@ -10,7 +10,7 @@ groupname[$group]="Model FLUIDITY"
 index=1
 name["$group$index"]=petsc
 version["$group$index"]=3.4.5
-details["$group$index"]="(static lib - compiled with OpenMPI 1.10.7)"
+details["$group$index"]="(static lib)"
 url["$group$index"]=http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.4.5.tar.gz
 filename["$group$index"]=petsc-3.4.5.tar.gz
 dirname["$group$index"]=petsc-3.4.5
@@ -42,7 +42,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group$index"]}/
 index=2
 name["$group$index"]=petsc
 version["$group$index"]=3.4.5
-details["$group$index"]="(dynamic lib - compiled with OpenMPI 1.10.7)"
+details["$group$index"]="(dynamic lib)"
 url["$group$index"]=http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.4.5.tar.gz
 filename["$group$index"]=petsc-3.4.5.tar.gz
 dirname["$group$index"]=petsc-3.4.5
@@ -74,7 +74,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group$index"]}/
 index=3
 name["$group$index"]=petsc
 version["$group$index"]=3.11.3
-details["$group$index"]="(static lib - compiled with OpenMPI 1.10.7)"
+details["$group$index"]="(static lib)"
 url["$group$index"]=http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.11.3.tar.gz
 filename["$group$index"]=petsc-3.11.3.tar.gz
 dirname["$group$index"]=petsc-3.11.3
@@ -106,7 +106,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group$index"]}/
 index=4
 name["$group$index"]=petsc
 version["$group$index"]=3.11.3
-details["$group$index"]="(dynamic lib - compiled with OpenMPI 1.10.7)"
+details["$group$index"]="(dynamic lib)"
 url["$group$index"]=http://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.11.3.tar.gz
 filename["$group$index"]=petsc-3.11.3.tar.gz
 dirname["$group$index"]=petsc-3.11.3

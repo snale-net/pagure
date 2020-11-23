@@ -529,20 +529,20 @@ if [ -f "$basedir/include/group/01-mpi-libs.sh" ] ; then
 	source $basedir/include/group/01-mpi-libs.sh
 fi
 # 02
-if [ -f "$basedir/include/group/02-common.sh" ] ; then
-	source $basedir/include/group/02-common.sh
+if [ -f "$basedir/include/group/02-python.sh" ] ; then
+	source $basedir/include/group/02-python.sh
 fi
 # 03
-if [ -f "$basedir/include/group/03-io.sh" ] ; then
-	source $basedir/include/group/03-io.sh
+if [ -f "$basedir/include/group/03-common.sh" ] ; then
+	source $basedir/include/group/03-common.sh
 fi
 # 04
-if [ -f "$basedir/include/group/04-processing.sh" ] ; then
-	source $basedir/include/group/04-processing.sh
+if [ -f "$basedir/include/group/04-io.sh" ] ; then
+	source $basedir/include/group/04-io.sh
 fi
 # 04
-if [ -f "$basedir/include/group/05-python.sh" ] ; then
-	source $basedir/include/group/05-python.sh
+if [ -f "$basedir/include/group/05-processing.sh" ] ; then
+	source $basedir/include/group/05-processing.sh
 fi
 # 06
 if [ -f "$basedir/include/group/06-python-modules.sh" ] ; then
@@ -728,14 +728,17 @@ function install()
 						leave 1
 					fi					
 
-					if [[ ! -z "${modulefile["$index"]}" && ! -f "$moduleDir/${dirmodule["$index"]}/${version["$index"]}" && ! -f "$moduleDir/${dirmodule["$index"]}/${pythonVersion}" ]]
+					if [[ ! -z "${modulefile["$index"]}" ]]
 					then
-						mkdir -p $moduleDir/${dirmodule["$index"]}	
+						if [[ ! -d "$moduleDir/${dirmodule["$index"]}" ]] ; then
+							mkdir -p $moduleDir/${dirmodule["$index"]}	
+						fi 
+						
 						if [[ ${dirmodule["$index"]} == python-modules* ]]
 						then	                    
-						    echo $"${modulefile["$index"]}" >> $moduleDir/${dirmodule["$index"]}/${pythonVersion}
+						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
-						    echo $"${modulefile["$index"]}" >> $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
+						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
 						fi
 					fi
 
