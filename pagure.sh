@@ -210,7 +210,7 @@ then
 else
 	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
-		log info "Python interpreter $pythonInterpreter will be installed"
+		log info "Python interpreter ${pythonVersion} will be installed"
 	else
 		log fail "Only Python 3.7 can be installed with PAGURE" 
 		leave 1
@@ -695,8 +695,7 @@ function install()
 			case $yn in
 				[Yy]* )	
 				
-				# On teste si le module est déjà installé
-				exec_module "show ${dirmodule["$index"]}/${version["$index"]}"
+				# On teste si le module est déjà installé				
 				module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
 				libTest=$(cat lib_test | grep "ERROR" -c)
 				rm -f lib_test
