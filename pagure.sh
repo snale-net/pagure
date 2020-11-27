@@ -4,10 +4,12 @@ basedir=`pwd`
 maxGroup=200
 maxFile=50
 
+exec 3>&1 
+
 #############################
 # Utility
 #############################
-LOGFILE="pagure.log"
+LOGFILE="${basedir}/pagure.log"
 VERT="\\033[1;32m"
 NORMAL="\\033[0;39m"
 ROUGE="\\033[1;31m"
@@ -24,11 +26,11 @@ function log(){
     then
       echo -e "[ $VERT OK $NORMAL ] " $2
       echo "[ OK ] " $2 >> $LOGFILE
-    elif [ $1 == "warning" ]
+    elif [ $1 == "warn" ]
     then
       echo -e "[ $ORANGE WARNING $NORMAL ] " $2
       echo "[ WARNING ] " $2 >> $LOGFILE
-    elif [ $1 == "notice" ]
+    elif [ $1 == "info" ]
     then
       echo -e "[ $BLEU INFO $NORMAL ] " $2
       echo "[ INFO ] " $2 >> $LOGFILE
@@ -36,6 +38,14 @@ function log(){
     then
       echo -e "[ $CYAN STEP $NORMAL ] " $2
       echo "[ STEP ] " $2 >> $LOGFILE
+    elif [ $1 == "skip" ]
+    then
+      echo -e "[ $ROSE SKIP $NORMAL ] " $2
+      echo "[ SKIP ] " $2 >> $LOGFILE
+    elif [ $1 == "abort" ]
+    then
+      echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with the error code " $2
+      echo "[ ABORT ] Abort with the error code " $2 >> $LOGFILE
     elif [ $1 == "raw" ]
     then
       echo -e $2
@@ -50,10 +60,11 @@ function log(){
 # Quitter le script
 leave()
 {
-  if test "$*" != "0"; then
-    echo "** $0 aborting."
-  fi 
-  exit $1
+  ret="${PIPESTATUS[0]}"
+  if [[ "$ret" -ne "0" ]]; then
+     log abort $ret
+     exit $ret
+  fi   
 }
 
 # Usage
@@ -65,7 +76,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh [--prefix=PREFIX] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1]'	
+	echo '  pagure.sh [--prefix=PREFIX] [--system=CLUSTER|SUSE|MINT|CENTOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1]'	
 	echo ' '
 }
 
@@ -86,6 +97,7 @@ fi
 # Traiter les arguments
 forceDownload=0
 forceReinstall=0
+autoRemove=1
 
 if test $# -eq 0
 then
@@ -111,6 +123,7 @@ case "$1" in
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;     
     -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $1 | sed 's/.*=//'`; shift ;;     
     -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -146,13 +159,13 @@ else
 	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|CENTOS" 
 	leave 1
 fi
-log notice "system is set to $systemOS"
+log info "system is set to $systemOS"
 
 # 2. Tester la version de Python
 installedPython=0
 if [ -z "$pythonVersion" ]; then
 	if ! hash python 2>/dev/null; then        
-		#log notice "Unable to find suitable version for Python" 
+		#log info "Unable to find suitable version for Python" 
 		pythonInterpreter="none"	    
 	else	
 		python --version &> version_test
@@ -160,14 +173,14 @@ if [ -z "$pythonVersion" ]; then
 		rm -f version_test
 		pythonInterpreter=python${pythonVersion}
 		installedPython=1
-		log notice "Python interpreter is set to $pythonInterpreter"
+		log info "Python interpreter is set to $pythonInterpreter"
 	fi
 
 elif hash python${pythonVersion} 2>/dev/null
 then    
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
-	log notice "Python interpreter is set to $pythonInterpreter"
+	log info "Python interpreter is set to $pythonInterpreter"
 	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
 		installedPython=0
 	fi
@@ -183,15 +196,15 @@ fi
 # 3. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
-	echo "......................"
+	log raw "......................"
 	while true; do
 		read -p "Do you wish to install system packages (root acces is required) ?" yn
 		case $yn in
 		        [Yy]* )
 	log step "Install System packages (root acces is required)"
 	
-	if [ -f "$basedir/include/00-system-$systemOS.sh" ] ; then
-		source $basedir/include/00-system-$systemOS.sh
+	if [ -f "$basedir/include/group/00-system-$systemOS.sh" ] ; then
+		source $basedir/include/group/00-system-$systemOS.sh
 	else
 		log fail "Unable to find the specific file for $systemOS" 
 		leave 1
@@ -199,12 +212,14 @@ then
 
 	log 0 "Install System packages"
 	break;;
-		        [Nn]* ) break ;;
+		        [Nn]* )
+		        log skip "We skip the system packages installation"
+		        break ;;
 		        *) echo "Please answer yes or no." ;;
 		esac
 	done
 	
-	echo "......................"
+	log raw "......................"
 fi
 
 # 4. Récupérer la version du compilateur
@@ -217,7 +232,7 @@ then
 	export F77=gfortran
 	export F90=gfortran
 	export FC=gfortran	
-	log notice "compiler is set to GNU ${CC_VERSION}"
+	log info "compiler is set to GNU ${CC_VERSION}"
 
 elif [ "$compiler" == "gnu" ]
 then
@@ -232,7 +247,7 @@ then
 	export F77=gfortran
 	export F90=gfortran
 	export FC=gfortran	
-	log notice "compiler is set to GNU ${CC_VERSION}"
+	log info "compiler is set to GNU ${CC_VERSION}"
 
 elif [ "$compiler" == "intel" ]
 then
@@ -247,7 +262,7 @@ then
 	export F77=ifort
 	export F90=ifort
 	export FC=ifort	
-	log notice "compiler is set to INTEL ${CC_VERSION:0:2}"
+	log info "compiler is set to INTEL ${CC_VERSION:0:2}"
 else
 	log fail "Unable to decode argument '--compiler'. Accepted values : GNU|INTEL" 
 	leave 1
@@ -368,9 +383,9 @@ else
 fi
 
 if [ "$mpilib" == "none" ]; then
-    log notice "No MPI library"  
+    log info "No MPI library"  
 else
-    log notice "MPI library is set to $mpilib"
+    log info "MPI library is set to $mpilib"
 fi
 
 # 6. Tester le prefix
@@ -387,7 +402,7 @@ while true; do
 	esac
 done
 fi
-log notice "prefix is set to $prefix"
+log info "prefix is set to $prefix"
 
 # 7. Créer le répertoire dédié aux logiciels & librairies
 if [ ! -d "$prefix" ] ; then mkdir $prefix ; fi
@@ -402,7 +417,7 @@ then
 	then
 		if [ ! -d "$prefix/Modules" ]
 		then
-			log notice "Install Modules -- Software Environment Management"
+			log info "Install Modules -- Software Environment Management"
 			cd $prefix/tgz
 			if [ ! -f "modules-4.0.0.tar.gz" -o $forceDownload == "1" ]; then
 			wget https://sourceforge.net/projects/modules/files/Modules/modules-4.0.0/modules-4.0.0.tar.gz
@@ -410,8 +425,8 @@ then
 			tar xvfz modules-4.0.0.tar.gz -C../src
 			cd ../src/modules-4.0.0
 			./configure --prefix=$prefix/Modules
-			make || leave 1
-			make install || leave 1
+			make 2>&1 >&3 | tee -a $LOGFILE && leave 1
+			make install 2>&1 >&3 | tee -a $LOGFILE && leave 1
 			mkdir $prefix/Modules/local
 			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/init/modulerc
 			echo "source $prefix/Modules/init/bash" >> ~/.bashrc
@@ -420,22 +435,22 @@ then
 		source $prefix/Modules/init/bash
 		log 0 "Install Modules -- Software Environment Management"
 	else	
-		log notice "Modules -- Software Environment Management is already installed"
+		log info "Modules -- Software Environment Management is already installed"
 	fi
 else
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences
-	module load use.own || leave 1 
-	module list -t 2> module_list  || leave 1 	
-	sed -i -e 's/(default)//' module_list  || leave 1 
-	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`  || leave 1 
-	rm module_list  || leave 1 
+	module load use.own 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+	module list -t 2> module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 	
+	sed -i -e 's/(default)//' module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list` 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+	rm module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 
 fi
 
 # 9. Tester le module-dir
 if [ -z "$moduleDir" ]; then
 	moduleDir="$prefix/Modules/local"
 else
-	log notice "module dir is set to $moduleDir"
+	log info "module dir is set to $moduleDir"
 fi
 
 # 10.1 Ancienne version
@@ -452,9 +467,9 @@ fi
 if [ ! -z "$selectedFilter" ]
 then	
 	showOldVersion=1
-	log notice "When using a filter, show old version is set to $showOldVersion"
+	log info "When using a filter, show old version is set to $showOldVersion"
 else
-	log notice "Show old version is set to $showOldVersion"
+	log info "Show old version is set to $showOldVersion"
 fi
 
 # 10.2 Force download
@@ -468,7 +483,7 @@ else
 	log fail "Unable to decode boolean for argument force-download : '${forceDownload}'" 
 	leave 1
 fi
-log notice "Force to download is set to $forceDownload"
+log info "Force to download is set to $forceDownload"
 
 # 10.3 Force reinstall
 if [ -z "$forceReinstall" ]; then
@@ -481,9 +496,22 @@ else
 	log fail "Unable to decode boolean for argument force-reinstall : '${forceReinstall}'" 
 	leave 1
 fi
-log notice "Force to reinstall is set to $forceReinstall"
+log info "Force to reinstall is set to $forceReinstall"
 
-echo "......................"
+# 10.4 Auto remove
+if [ -z "$autoRemove" ]; then
+	autoRemove=0
+elif [ "${autoRemove}" == "0" ]; then
+	autoRemove=0
+elif  [ "${autoRemove}" == "1" ]; then
+	autoRemove=1
+else
+	log fail "Unable to decode boolean for argument auto-remove : '${autoRemove}'" 
+	leave 1
+fi
+log info "Auto-remove is set to $autoRemove"
+
+log raw "......................"
 
 # 11. Création du module python-modules
 # Si on a déjà un python installé
@@ -491,7 +519,7 @@ if [ "$installedPython" == "1" ]; then # only-if-Python
  
 	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
 	then
-		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" || leave 1; fi
+		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave 1; fi
     		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -583,13 +611,13 @@ fi
 if [ -z "$selectedFilter" ]
 then
 	libToInstall="none"
-	log notice "No filter was selected. All libraries are pre-selected to be installed."
+	log info "No filter was selected. All libraries are pre-selected to be installed."
 else
 	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
 		
 		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
 		
-		log notice "The following libraries are pre-selected to be installed :"
+		log info "The following libraries are pre-selected to be installed :"
 		
 		for element in "${libToInstall[@]}"
 		do		
@@ -597,7 +625,7 @@ else
 				log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
 				leave 1
 			fi				
-			log notice "${name["$element"]} ${version["$element"]} ${details["$element"]}"
+			log info "${name["$element"]} ${version["$element"]} ${details["$element"]}"
 		done
 	else
 		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
@@ -614,7 +642,7 @@ function install()
 	
 		if [ "$systemOS" == "cluster" ] ; then 	
 		
-			module load use.own || leave 1	
+			module load use.own 2>&1 >&3 | tee -a $LOGFILE && leave 1	
 
 			if hash $MPIF90 2>/dev/null
 			then					
@@ -637,7 +665,7 @@ function install()
 			dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`													
 		fi
 				
-		echo "......................"
+		log raw "......................"
 		while true; do
 			read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
 			case $yn in
@@ -656,9 +684,9 @@ function install()
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
-					log notice "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
+					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
 
-					module purge || leave 1
+					module purge 2>&1 >&3 | tee -a $LOGFILE && leave 1
 
 					# Si on a déjà un python installé
 					# On enlève le module python
@@ -666,7 +694,7 @@ function install()
 						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
 					fi  # end-only-if-Python
 
-					if [[ ! -z "${dependencies["$index"]}" ]] ; then  module load ${dependencies["$index"]} || leave 1 ; fi
+					if [[ ! -z "${dependencies["$index"]}" ]] ; then  module load ${dependencies["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1 ; fi
 
 					cd $prefix/tgz
 
@@ -676,13 +704,13 @@ function install()
 						
 						if [[ ${url["$index"]} == "localfile" ]] 
 						then
-							echo "......................"
+							log raw "......................"
 							while true; do
 								read -p "Type the absolute path of the archive file '${filename["$index"]}' : " filepath						
 								
 								if [ -f "$filepath/${filename["$index"]}" ]
 								then
-									cp $filepath/${filename["$index"]} . || leave 1 
+									cp $filepath/${filename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave 1 
 									break;
 								else
 									echo "'$filepath/${filename["$index"]}' doesn't exists. Please try again."
@@ -690,7 +718,7 @@ function install()
 							done
 							
 						else
-							wget ${url["$index"]} || leave 1 
+							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1 
 						fi
 					fi
 
@@ -698,11 +726,11 @@ function install()
 
 					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
 					then
-						tar xvfz ${filename["$index"]} -C../src || leave 1
+						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave 1
 
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
-						unzip -o ${filename["$index"]} -d../src || leave 1
+						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave 1
 					else
 						mkdir -p ../src/${dirname["$index"]}
 						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
@@ -718,12 +746,12 @@ function install()
 					if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
 					then		
 						echo $"${patch_01["$index"]}" > patch_to_apply.patch
-						patch -i patch_to_apply.patch ${patchfile_01["$index"]} || leave 1
+						patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1
 					fi
 					if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
 					then			
 						echo $"${patch_02["$index"]}" > patch_to_apply.patch
-						patch -i patch_to_apply.patch ${patchfile_02["$index"]} || leave 1
+						patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1
 					fi
 					
 					# Compilation #
@@ -732,7 +760,9 @@ function install()
 					else
 						log fail "Unable to find the builder '${builder["$index"]}'."
 						leave 1
-					fi					
+					fi
+					
+					cd $prefix					
 
 					if [[ ! -z "${modulefile["$index"]}" ]]
 					then
@@ -747,16 +777,25 @@ function install()
 						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
 						fi
 					fi
+					
+					if [ $autoRemove == "1" ]
+					then
+						log info "Removing archive file and source files"						
+						if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
+						if [ -f "$prefix/tgz/${filename["$index"]}" ] ; then rm -f $prefix/tgz/${filename["$index"]} ; fi					
+					fi
 
 					log 0 "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
 							
 				
 				else
 
-					log warning "${name["$index"]} ${version["$index"]} is already installed. Use --force-reinstall=1 if you want to reinstall."
+					log warn "${name["$index"]} ${version["$index"]} is already installed. Use --force-reinstall=1 if you want to reinstall."
 				fi
 			break;;
-			[Nn]* ) break ;;
+			[Nn]* )
+			log skip "We skip the installation of ${name["$index"]} ${version["$index"]}"
+			break ;;
 			*) echo "Please answer yes or y or no or n." ;;
 		esac
 		done
