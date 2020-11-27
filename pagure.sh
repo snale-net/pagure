@@ -44,8 +44,8 @@ function log(){
       echo "[ SKIP ] " $2 >> $LOGFILE
     elif [ $1 == "abort" ]
     then
-      echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with the error code " $2
-      echo "[ ABORT ] Abort with the error code " $2 >> $LOGFILE
+      echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with status error" $2
+      echo "[ ABORT ] Abort with status error" $2 >> $LOGFILE
      elif [ $1 == "fail" ]
     then
       echo -e "[ $ROUGE FAIL $NORMAL ] " $2
@@ -67,8 +67,7 @@ exec_module()
   
    isFailed=$(cat module_exec | grep 'ERROR' -c)
    if [ "$isFailed" == "1" ] 
-   then   	
-   
+   then  
         log fail "$(cat module_exec)"
    	leave 1
    fi  
@@ -79,6 +78,11 @@ exec_module()
 # Quitter le script
 leave()
 {
+  if [ -z "$1" ]; then
+  	log abort $ret
+     	exit $ret
+  fi
+  
   ret="${PIPESTATUS[0]}"
   if [[ "$ret" -ne "0" ]]; then
      log abort $ret
