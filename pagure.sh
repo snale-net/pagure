@@ -46,6 +46,10 @@ function log(){
     then
       echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with the error code " $2
       echo "[ ABORT ] Abort with the error code " $2 >> $LOGFILE
+     elif [ $1 == "fail" ]
+    then
+      echo -e "[ $ROUGE FAIL $NORMAL ] " $2
+      echo "[ FAIL ] " $2 >> $LOGFILE
     elif [ $1 == "raw" ]
     then
       echo -e $2
@@ -54,6 +58,21 @@ function log(){
       echo -e "[ $ROUGE FAIL $NORMAL ]" $2
       echo "[ FAIL ]" $2 " - Return code " $1 >> $LOGFILE
     fi
+}
+
+# Execute module
+exec_module()
+{
+   module $1 &> module_exec  
+  
+   isFailed=$(cat module_exec | grep 'ERROR' -c)
+   if [ "$isFailed" == "1" ] 
+   then   	
+   
+        log fail "$(cat module_exec)"
+   	leave 1
+   fi  
+   rm -f module_exec
 }
 
 
@@ -439,11 +458,11 @@ then
 	fi
 else
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences
-	module load use.own 2>&1 >&3 | tee -a $LOGFILE && leave 1 
-	module list -t 2> module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 	
-	sed -i -e 's/(default)//' module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 
-	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list` 2>&1 >&3 | tee -a $LOGFILE && leave 1 
-	rm module_list 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+	exec_module "load use.own"
+	module list -t 2> module_list 	
+	sed -i -e 's/(default)//' module_list 
+	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+	rm module_list
 fi
 
 # 9. Tester le module-dir
@@ -642,7 +661,7 @@ function install()
 	
 		if [ "$systemOS" == "cluster" ] ; then 	
 		
-			module load use.own 2>&1 >&3 | tee -a $LOGFILE && leave 1	
+			module "load use.own"
 
 			if hash $MPIF90 2>/dev/null
 			then					
@@ -672,6 +691,7 @@ function install()
 				[Yy]* )	
 				
 				# On teste si le module est déjà installé
+				exec_module "show ${dirmodule["$index"]}/${version["$index"]}"
 				module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
 				libTest=$(cat lib_test | grep "ERROR" -c)
 				rm -f lib_test
@@ -686,7 +706,7 @@ function install()
 				then		
 					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
 
-					module purge 2>&1 >&3 | tee -a $LOGFILE && leave 1
+					exec_module "purge"
 
 					# Si on a déjà un python installé
 					# On enlève le module python
@@ -694,7 +714,9 @@ function install()
 						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
 					fi  # end-only-if-Python
 
-					if [[ ! -z "${dependencies["$index"]}" ]] ; then  module load ${dependencies["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1 ; fi
+					if [[ ! -z "${dependencies["$index"]}" ]] ; then  												
+						exec_module "load ${dependencies["$index"]}"						
+					fi
 
 					cd $prefix/tgz
 

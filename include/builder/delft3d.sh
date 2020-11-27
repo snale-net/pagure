@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p $prefix/${dirinstall["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1	
-mkdir -p $prefix/${dirinstall["$index"]}/lib 2>&1 >&3 | tee -a $LOGFILE && leave 1 	 	 
+mkdir -p $prefix/${dirinstall["$index"]}/lib 2>&1 >&3 | tee -a $LOGFILE && leave 1 	
 
 ./autogen.sh 2>&1 >&3 | tee -a $LOGFILE && leave 1
 export CFLAGS="-fPIC" 
