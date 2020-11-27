@@ -188,7 +188,7 @@ log info "system is set to $systemOS"
 installedPython=0
 if [ -z "$pythonVersion" ]; then
 	if ! hash python 2>/dev/null; then        
-		#log info "Unable to find suitable version for Python" 
+		log info "Unable to find suitable interpreter for Python" 
 		pythonInterpreter="none"	    
 	else	
 		python --version &> version_test
@@ -210,8 +210,9 @@ then
 else
 	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter $pythonInterpreter will be installed"
 	else
-		log fail "Only Python 3.7 can be installed with this tool" 
+		log fail "Only Python 3.7 can be installed with PAGURE" 
 		leave 1
 	fi
 fi
