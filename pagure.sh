@@ -78,15 +78,13 @@ exec_module()
 # Quitter le script
 leave()
 {
-  if [ -z "$1" ]; then
-  	log abort $ret
-     	exit $ret
-  fi
-  
-  ret="${PIPESTATUS[0]}"
+  ret="${PIPESTATUS[0]}"  
   if [[ "$ret" -ne "0" ]]; then
      log abort $ret
      exit $ret
+  elif [ ! -z "$1" ]; then
+  	log abort $1
+     	exit $1
   fi   
 }
 
@@ -449,8 +447,8 @@ then
 			tar xvfz modules-4.0.0.tar.gz -C../src
 			cd ../src/modules-4.0.0
 			./configure --prefix=$prefix/Modules
-			make 2>&1 >&3 | tee -a $LOGFILE && leave 1
-			make install 2>&1 >&3 | tee -a $LOGFILE && leave 1
+			make 2>&1 >&3 | tee -a $LOGFILE && leave
+			make install 2>&1 >&3 | tee -a $LOGFILE && leave
 			mkdir $prefix/Modules/local
 			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/init/modulerc
 			echo "source $prefix/Modules/init/bash" >> ~/.bashrc
@@ -543,7 +541,7 @@ if [ "$installedPython" == "1" ]; then # only-if-Python
  
 	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
 	then
-		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave 1; fi
+		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
     		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -736,7 +734,7 @@ function install()
 								
 								if [ -f "$filepath/${filename["$index"]}" ]
 								then
-									cp $filepath/${filename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+									cp $filepath/${filename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave
 									break;
 								else
 									echo "'$filepath/${filename["$index"]}' doesn't exists. Please try again."
@@ -744,7 +742,7 @@ function install()
 							done
 							
 						else
-							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1 
+							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 						fi
 					fi
 
@@ -752,11 +750,11 @@ function install()
 
 					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
 					then
-						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave 1
+						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
 
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
-						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave 1
+						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
 					else
 						mkdir -p ../src/${dirname["$index"]}
 						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
@@ -772,12 +770,12 @@ function install()
 					if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
 					then		
 						echo $"${patch_01["$index"]}" > patch_to_apply.patch
-						patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1
+						patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
 					if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
 					then			
 						echo $"${patch_02["$index"]}" > patch_to_apply.patch
-						patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave 1
+						patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
 					
 					# Compilation #
