@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir build 2>&1 >&3 | tee -a $LOGFILE && leave
-cd build 2>&1 >&3 | tee -a $LOGFILE && leave
+cd build
 
 if [[ ! -z "${configfilename["$index"]}" ]] ; then
 	mv ../${configfilename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave
