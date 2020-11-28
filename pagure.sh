@@ -83,6 +83,10 @@ leave()
      log abort $ret
      exit $ret
   elif [ ! -z "$1" ]; then
+  	if [ "$1" == "0" ] ; then
+     		exit $1
+  	fi
+  	
   	log abort $1
      	exit $1
   fi   
@@ -97,13 +101,15 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh [--prefix=PREFIX] [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1]'	
 	echo ' '
 }
 
 # Liste des filtres
 list()
 {
+	echo 'Filters list : '
+	echo ' '
 	for key in ${!filters[@]}; do
 		echo ${key}
 	done
@@ -665,13 +671,16 @@ function install()
 		if [ "$systemOS" == "cluster" ] ; then 	
 		
 			module "load use.own"
+			
+			if [ "$mpilib" != "none" ] ; then			
 
-			if hash $MPIF90 2>/dev/null
-			then					
-				# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
-				mpi_dep_no_slash=${mpi_dep//\//\\/}							
-				dependencies["$index"]=${dependencies["$index"]/$mpi_dep_no_slash/}				
-			fi
+				if hash $MPIF90 2>/dev/null
+				then					
+					# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
+					mpi_dep_no_slash=${mpi_dep//\//\\/}							
+					dependencies["$index"]=${dependencies["$index"]/$mpi_dep_no_slash/}				
+				fi	
+			fi		
 
 			# On enlève le module gdal
 			if [[ $moduleList == *"gdal"* ]]; then 
