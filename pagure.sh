@@ -433,9 +433,9 @@ fi
 log info "prefix is set to $prefix"
 
 # 7. Créer le répertoire dédié aux logiciels & librairies
-if [ ! -d "$prefix" ] ; then mkdir $prefix ; fi
-if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src ; fi
-if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz ; fi
+if [ ! -d "$prefix" ] ; then mkdir $prefix 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
+if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
+if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 log 0 "Make dir prefix"
 
 # 8. Installation du gestionnaire d'environnement Modules
