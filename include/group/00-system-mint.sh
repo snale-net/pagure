@@ -26,6 +26,8 @@ sudo apt-get install sqlite3 libsqlite3-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # ecCodes deps
 # TODO install jasper by hand
 #sudo apt-get install libjasper-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+#Ruby deps
+sudo apt-get install libssl-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo apt-get install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 
