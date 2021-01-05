@@ -24,7 +24,8 @@ fi  # end-only-if-Python
 # GDAL deps
 sudo apt-get install sqlite3 libsqlite3-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # ecCodes deps
-sudo apt-get install libjasper-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+# TODO install jasper by hand
+#sudo apt-get install libjasper-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo apt-get install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 
