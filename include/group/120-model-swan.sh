@@ -15,7 +15,7 @@ filename["$group$index"]=swan4131.tar.gz
 dirname["$group$index"]=swan4131
 builder["$group$index"]="swan"
 dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
-dirinstall["$group$index"]="src/swan4131"
+dirinstall["$group$index"]=${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}
 configfilename["$group$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group$index"]="##############################################################################
