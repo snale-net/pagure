@@ -266,7 +266,7 @@ details["$group$index"]="(required for GMT)"
 url["$group$index"]="ftp://ftp.soest.hawaii.edu/gmt/gshhg-gmt-2.3.7.tar.gz"
 filename["$group$index"]=gshhg-gmt-2.3.7.tar.gz
 dirname["$group$index"]=gshhg-gmt-2.3.7
-builder["$group$index"]=""
+builder["$group$index"]="gmt5-data"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
@@ -281,7 +281,7 @@ details["$group$index"]="(required for GMT)"
 url["$group$index"]="ftp://ftp.soest.hawaii.edu/gmt/dcw-gmt-1.1.4.tar.gz"
 filename["$group$index"]=dcw-gmt-1.1.4.tar.gz
 dirname["$group$index"]=dcw-gmt-1.1.4
-builder["$group$index"]=""
+builder["$group$index"]="gmt5-data"
 dependencies["$group$index"]=""
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]=""
@@ -303,7 +303,7 @@ else
 	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.28 proj/$compilo/6.1.1 gdal/$compilo/3.0.1 lapack-blas/$compilo/3.9.0"
 fi
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
-args["$group$index"]="-DGSHHG_PATH=$prefix/src/gshhg-gmt-2.3.7 -DDCW_PATH=$prefix/src/dcw-gmt-1.1.4 "
+args["$group$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt-2.3.7 -DDCW_PATH=$prefix/dcw-gmt-1.1.4"
 dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
