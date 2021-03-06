@@ -188,7 +188,56 @@ else
 fi
 log info "system is set to $systemOS"
 
-# 2. Tester la version de Python
+# 2. Tester le filtre
+if [ -z "$selectedFilter" ]
+then
+	libToInstall="none"	
+else
+
+	if [ ! -z "$mpi" ]; then
+		log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically selected by the filter. Please remove --mpi."
+		leave 1	 	
+	fi
+
+	if [ ! -z "$pythonVersion" ]; then
+		log fail "You can't specify a Python version (--python-version) when using a filter (--filter). The Python version is automatically selected by the filter. Please remove --python-version."
+		leave 1	 	
+	fi
+	
+	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
+		
+		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
+		
+		# MPI
+		if  [[ "${libToInstall[@]}" =~ "11" ]]; then
+			mpi="openmpi110"
+		fi
+				
+		if  [[ "${libToInstall[@]}" =~ "12" ]]; then
+			mpi="openmpi300"
+		fi
+		
+		if  [[ "${libToInstall[@]}" =~ "13" ]]; then
+			mpi="mpich321"
+		fi
+		
+		if  [[ "${libToInstall[@]}" =~ "14" ]]; then
+			mpi="mpich332"
+		fi
+		
+		# Python
+		if  [[ "${libToInstall[@]}" =~ "21" ]]; then
+			pythonVersion="3.7"
+		fi
+		
+	else
+		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
+		leave 1	
+	fi
+	
+fi
+
+# 3. Tester la version de Python
 installedPython=0
 if [ -z "$pythonVersion" ]; then
 	if ! hash python 2>/dev/null; then        
@@ -221,7 +270,7 @@ else
 	fi
 fi
 
-# 3. Installation des paquets système
+# 4. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
 	log raw "......................"
@@ -250,7 +299,7 @@ then
 	log raw "......................"
 fi
 
-# 4. Récupérer la version du compilateur
+# 5. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
@@ -302,7 +351,7 @@ if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); the
 	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
 fi
 
-# 5. Tester la version du MPI
+# 6. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
@@ -416,7 +465,7 @@ else
     log info "MPI library is set to $mpilib"
 fi
 
-# 6. Tester le prefix
+# 7. Tester le prefix
 if [ -z "$prefix" ]; then
 prefix=`pwd`
 while true; do 
@@ -432,13 +481,13 @@ done
 fi
 log info "prefix is set to $prefix"
 
-# 7. Créer le répertoire dédié aux logiciels & librairies
+# 8. Créer le répertoire dédié aux logiciels & librairies
 if [ ! -d "$prefix" ] ; then mkdir $prefix 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 log 0 "Make dir prefix"
 
-# 8. Installation du gestionnaire d'environnement Modules
+# 9. Installation du gestionnaire d'environnement Modules
 if [ ! "$systemOS" == "cluster" ]
 then
 	if ! hash module 2>/dev/null
@@ -474,14 +523,14 @@ else
 	rm module_list
 fi
 
-# 9. Tester le module-dir
+# 10. Tester le module-dir
 if [ -z "$moduleDir" ]; then
 	moduleDir="$prefix/Modules/local"
 else
 	log info "module dir is set to $moduleDir"
 fi
 
-# 10.1 Ancienne version
+# 11.1 Ancienne version
 if [ -z "$oldVersion" ]; then
 	showOldVersion=0
 elif [ "${oldVersion}" == "0" ]; then
@@ -500,7 +549,7 @@ else
 	log info "Show old version is set to $showOldVersion"
 fi
 
-# 10.2 Force download
+# 11.2 Force download
 if [ -z "$forceDownload" ]; then
 	forceDownload=0
 elif [ "${forceDownload}" == "0" ]; then
@@ -513,7 +562,7 @@ else
 fi
 log info "Force to download is set to $forceDownload"
 
-# 10.3 Force reinstall
+# 11.3 Force reinstall
 if [ -z "$forceReinstall" ]; then
 	forceReinstall=0
 elif [ "${forceReinstall}" == "0" ]; then
@@ -526,7 +575,7 @@ else
 fi
 log info "Force to reinstall is set to $forceReinstall"
 
-# 10.4 Auto remove
+# 11.4 Auto remove
 if [ -z "$autoRemove" ]; then
 	autoRemove=0
 elif [ "${autoRemove}" == "0" ]; then
@@ -541,7 +590,7 @@ log info "Auto-remove is set to $autoRemove"
 
 log raw "......................"
 
-# 11. Création du module python-modules
+# 12. Création du module python-modules
 # Si on a déjà un python installé
 if [ "$installedPython" == "1" ]; then # only-if-Python
  
@@ -567,7 +616,7 @@ prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/s
 	fi
 fi  # end-only-if-Python
 
-# 12. Chargement des logiciels
+# 13. Chargement des logiciels
 declare -a groupname
 declare -a name
 declare -a version
@@ -635,30 +684,21 @@ if [ -f "$basedir/include/group/120-model-swan.sh" ] ; then
 	source $basedir/include/group/120-model-swan.sh
 fi
 
-# 13. Tester le filtre
-if [ -z "$selectedFilter" ]
-then
-	libToInstall="none"
-	log info "No filter was selected. All libraries are pre-selected to be installed."
+# 14. Afficher les librairies à installer
+if [ "${libToInstall}" != "none" ]
+then		
+	log info "The following libraries are pre-selected to be installed :"
+
+	for element in "${libToInstall[@]}"
+	do		
+		if [ -z "${name["$element"]}" ]; then
+			log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
+			leave 1
+		fi				
+		log info "${name["$element"]} ${version["$element"]} ${details["$element"]}"
+	done	
 else
-	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
-		
-		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
-		
-		log info "The following libraries are pre-selected to be installed :"
-		
-		for element in "${libToInstall[@]}"
-		do		
-			if [ -z "${name["$element"]}" ]; then
-				log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
-				leave 1
-			fi				
-			log info "${name["$element"]} ${version["$element"]} ${details["$element"]}"
-		done
-	else
-		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
-		leave 1	
-	fi
+	log info "No filter was selected. All libraries are pre-selected to be installed."
 fi
 
 function install()
