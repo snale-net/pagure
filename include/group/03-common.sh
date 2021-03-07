@@ -212,4 +212,34 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
 
+#jasper 2.0.26
+index=7
+name["$group$index"]=jasper
+version["$group$index"]=2.0.26
+details["$group$index"]=""
+url["$group$index"]="https://github.com/jasper-software/jasper/archive/version-2.0.26.tar.gz -O jasper-2.0.26.tar.gz"
+filename["$group$index"]=jasper-2.0.26.tar.gz
+dirname["$group$index"]=jasper-version-2.0.26
+builder["$group$index"]="cmake"
+#dependencies["$group$index"]=""
+dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
+args["$group$index"]=""
+dirmodule["$group$index"]="${name["$group$index"]}/$compilo"
+modulefile["$group$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
+prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
+"
+
 
