@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 100 : Web
-group=15
+#Group 9 : Web
+group=9
 groupname[$group]="Web librairies"
 
 # nodejs 10.21.0

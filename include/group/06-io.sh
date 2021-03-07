@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 4 : I/O librairies
-group=4
+#Group 6 : I/O librairies
+group=6
 groupname[$group]="I/O librairies"
 
 if [ "$mpilib" != "none" ]; then # MPI-only
@@ -29,11 +29,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tParallel NetCDF ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Parallel NetCDF ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -65,11 +69,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tParallel NetCDF ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Parallel NetCDF ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -121,11 +129,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tHDF5 ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"HDF5 ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -177,12 +189,17 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNetCDF C ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"NetCDF C - ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
 # Version C ${version["$group$index"]}
+
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -232,11 +249,17 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNetCDF Fortran ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"NetCDF Fortran - ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Version Fortran ${version["$group$index"]}
+
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -288,12 +311,17 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNetCDF C ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"NetCDF C - ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
 # Version C ${version["$group$index"]}
+
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -343,11 +371,17 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNetCDF Fortran ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"NetCDF Fortran - ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Version Fortran ${version["$group$index"]}
+
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -358,8 +392,107 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include"
 
 fi # old-version
 
-# eccodes 2.16.0
+#--------------------------------------------------------------
+# NetCDF Python
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# netcdf4-python 1.5.3
 index=8
+name["$group$index"]=netcdf4-python
+version["$group$index"]=1.5.3
+if [ "$mpilib" == "none" ]; then 
+	details["$group$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.4.3 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
+else
+	details["$group$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.4.3 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
+fi
+url["$group$index"]="https://github.com/Unidata/netcdf4-python/archive/v1.5.3rel.tar.gz -O netcdf4-python-1.5.3.tar.gz"
+filename["$group$index"]=netcdf4-python-1.5.3.tar.gz
+dirname["$group$index"]=netcdf4-python-1.5.3rel
+builder["$group$index"]="python"
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+	dirinstall["$group$index"]="python-modules/$compilo"
+	#dirmodule["$group$index"]=""
+	#modulefile["$group$index"]=""
+else
+	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} python-modules/$mpilib/$compilo/${pythonVersion}"
+	dirinstall["$group$index"]="python-modules/$mpilib/$compilo"
+	dirmodule["$group$index"]="python-modules/$mpilib/$compilo"
+modulefile["$group$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tPython MPI librairies\"
+}
+ 
+module-whatis \"Python MPI librairies\"
+
+prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
+prepend-path PYTHONPATH $prefix/${dirinstall["$group$index"]}/lib/$pythonInterpreter/site-packages
+"
+fi
+args["$group$index"]=""
+
+if [ "$showOldVersion" = "1" ] && [ "$mpilib" == "none" ]; then
+
+# netCDF4 1.2.9
+index=9
+name["$group$index"]=netCDF4
+version["$group$index"]=1.2.9
+details["$group$index"]="(version Python - require NetCDF C 4.4.1.1)"
+url["$group$index"]=https://pypi.python.org/packages/6a/37/49fd7cc21af0fb173e40de5e15f7fdd48d521429922a90347219c77b0c36/netCDF4-1.2.9.tar.gz#md5=e320491d52c42e937e6df47b56a2579c
+filename["$group$index"]=netCDF4-1.2.9.tar.gz
+dirname["$group$index"]=netCDF4-1.2.9
+configfile["$group$index"]="# Rename this file to setup.cfg to set build options.
+# Follow instructions below for editing.
+[options]
+use_ncconfig=True
+use_cython=True
+[directories]
+netCDF4_dir = $prefix/netcdf/hdf5.110/$compilo/c/4.4.1.1/
+HDF5_dir = $prefix/hdf5/$compilo/1.10.5/
+HDF5_libdir = $prefix/hdf5/$compilo/1.10.5/lib
+HDF5_incdir = $prefix/hdf5/$compilo/1.10.5/include
+szip_libdir = $prefix/zlib/$compilo/1.2.11/lib
+"
+configfilename["$group$index"]="setup.cfg"
+patch_01["$group$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
++++ ../setup_fixed.py	2017-09-12 18:46:19.821782818 +0200
+@@ -271,11 +271,7 @@
+     else:
+         if HDF5_incdir is None:
+             HDF5_incdir = os.path.join(HDF5_dir, 'include')
+-        hdf5_version = check_hdf5version(HDF5_incdir)
+-        if hdf5_version is None:
+-            raise ValueError('did not find HDF5 headers in %s' % HDF5_incdir)
+-        elif hdf5_version[1:6] < '1.8.0':
+-            raise ValueError('HDF5 version >= 1.8.0 is required')
++        hdf5_version = check_hdf5version(HDF5_incdir)       
+ 
+     if netCDF4_incdir is None and netCDF4_dir is None:
+         sys.stdout.write( \"\"\"
+@@ -314,6 +310,7 @@
+     if HDF5_libdir is not None: lib_dirs.append(HDF5_libdir)
+     if netCDF4_incdir is not None: inc_dirs = [netCDF4_incdir]
+     if HDF5_incdir is not None: inc_dirs.append(HDF5_incdir)
++    lib_dirs.append(szip_libdir)
+ 
+     # add szip to link if desired.
+     if szip_libdir is None and szip_dir is not None:
+"
+patchfile_01["$group$index"]="setup.py"
+builder["$group$index"]="python"
+dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.4.1.1 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
+fi # end-old-version && no MPI
+fi  # end-only-if-Python
+
+# eccodes 2.16.0
+index=10
 name["$group$index"]=eccodes
 version["$group$index"]=2.16.0
 details["$group$index"]="(Grib file)"
@@ -379,16 +512,41 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tecCodes ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"ecCodes ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 "
+
+#--------------------------------------------------------------
+# GRIB Python
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# cfgrib 0.9.7.7
+index=11
+name["$group$index"]=cfgrib
+version["$group$index"]=0.9.7.7
+details["$group$index"]="(version Python - require ecCodes 2.16.0)"
+url["$group$index"]="https://github.com/ecmwf/cfgrib/archive/0.9.7.7.tar.gz -O cfgrib-0.9.7.7.tar.gz"
+filename["$group$index"]=cfgrib-0.9.7.7.tar.gz
+dirname["$group$index"]=cfgrib-0.9.7.7
+builder["$group$index"]="python"
+dependencies["$group$index"]="eccodes/$compilo/2.16.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
+fi  # end-only-if-Python
 
 
 

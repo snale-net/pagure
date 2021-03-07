@@ -68,8 +68,8 @@ exec_module()
    isFailed=$(cat module_exec | grep 'ERROR' -c)
    if [ "$isFailed" == "1" ] 
    then  
-        log fail "$(cat module_exec)"
-   	leave 1
+        log fail "Missing required dependency : $(cat module_exec). Please install it before"
+   	leave 100
    fi  
    rm -f module_exec
 }
@@ -101,7 +101,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1]'	
 	echo ' '
 }
 
@@ -151,6 +151,7 @@ case "$1" in
     -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $1 | sed 's/.*=//'`; shift ;;     
     -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -auto-install-mandatory=* | ---auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -209,24 +210,24 @@ else
 		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
 		
 		# MPI
-		if  [[ "${libToInstall[@]}" =~ "11" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "41" ]]; then
 			mpi="openmpi110"
 		fi
 				
-		if  [[ "${libToInstall[@]}" =~ "12" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "42" ]]; then
 			mpi="openmpi300"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "13" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "43" ]]; then
 			mpi="mpich321"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "14" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "44" ]]; then
 			mpi="mpich332"
 		fi
 		
 		# Python
-		if  [[ "${libToInstall[@]}" =~ "21" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "11" ]]; then
 			pythonVersion="3.7"
 		fi
 		
@@ -588,6 +589,19 @@ else
 fi
 log info "Auto-remove is set to $autoRemove"
 
+# 11.5 Automatic installation of mandatory libraires
+if [ -z "$autoInstallMandatory" ]; then
+	autoInstallMandatory=1
+elif [ "${autoInstallMandatory}" == "0" ]; then
+	autoInstallMandatory=0
+elif  [ "${autoInstallMandatory}" == "1" ]; then
+	autoInstallMandatory=1
+else
+	log fail "Unable to decode boolean for argument auto-install-mandatory or mandatory : '${autoInstallMandatory}'" 
+	leave 1
+fi
+log info "Automatic installation of mandatory libraires is set to $autoInstallMandatory"
+
 log raw "......................"
 
 # 12. Création du module python-modules
@@ -620,6 +634,7 @@ fi  # end-only-if-Python
 declare -a groupname
 declare -a name
 declare -a version
+declare -a mandatory
 declare -a details
 declare -a url
 declare -a filename
@@ -635,54 +650,7 @@ declare -a args
 declare -a dirmodule
 declare -a modulefile
 
-# 01-mpi-libs
-if [ -f "$basedir/include/group/01-mpi-libs.sh" ] ; then
-	source $basedir/include/group/01-mpi-libs.sh
-fi
-# 02
-if [ -f "$basedir/include/group/02-python.sh" ] ; then
-	source $basedir/include/group/02-python.sh
-fi
-# 03
-if [ -f "$basedir/include/group/03-common.sh" ] ; then
-	source $basedir/include/group/03-common.sh
-fi
-# 04
-if [ -f "$basedir/include/group/04-io.sh" ] ; then
-	source $basedir/include/group/04-io.sh
-fi
-# 04
-if [ -f "$basedir/include/group/05-processing.sh" ] ; then
-	source $basedir/include/group/05-processing.sh
-fi
-# 06
-if [ -f "$basedir/include/group/06-python-modules.sh" ] ; then
-	source $basedir/include/group/06-python-modules.sh
-fi
-# 07
-if [ -f "$basedir/include/group/07-model-telemac.sh" ] ; then
-	source $basedir/include/group/07-model-telemac.sh
-fi
-# 08
-if [ -f "$basedir/include/group/08-model-terraferma-v1.0.sh" ] ; then
-	source $basedir/include/group/08-model-terraferma-v1.0.sh
-fi
-# 09
-if [ -f "$basedir/include/group/09-model-fluidity.sh" ] ; then
-	source $basedir/include/group/09-model-fluidity.sh
-fi
-# 100
-if [ -f "$basedir/include/group/100-web.sh" ] ; then
-	source $basedir/include/group/100-web.sh
-fi
-# 110
-if [ -f "$basedir/include/group/110-model-delft3d.sh" ] ; then
-	source $basedir/include/group/110-model-delft3d.sh
-fi
-# 120
-if [ -f "$basedir/include/group/120-model-swan.sh" ] ; then
-	source $basedir/include/group/120-model-swan.sh
-fi
+for f in $basedir/include/group/*{1..9}*.sh; do source $f; done
 
 # 14. Afficher les librairies à installer
 if [ "${libToInstall}" != "none" ]
@@ -737,37 +705,59 @@ function install()
 		fi
 				
 		log raw "......................"
-		while true; do
-			read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
+		while true; do		
+			
+			if [[ $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
+				yn="y"
+			else
+				read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
+			fi
+			
 			case $yn in
 				[Yy]* )	
 				
-				# On teste si le module est déjà installé				
-				module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
-				libTest=$(cat lib_test | grep "ERROR" -c)
-				rm -f lib_test
-							
-				if [ "$libTest" == "1" ] ; then
-					alreadyInstall=false
-				else
-					alreadyInstall=true
-				fi				
+				# On vide les dépendances
+				exec_module "purge"
+
+				# Si on a déjà un python installé
+				# On enlève le module python
+				if [ "$installedPython" == "1" ]; then # only-if-Python				
+					dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
+				fi  # end-only-if-Python
+
+				# On charge les dépendances
+				if [[ ! -z "${dependencies["$index"]}" ]] ; then  												
+					exec_module "load ${dependencies["$index"]}"						
+				fi
+					
+				# On teste si la librairie est déjà installée
+				if [[ "$index" =~ 3[0-9] ]]; then				
+					# module Python							
+					$pythonInterpreter -c "import ${name["$index"]}" &> lib_test									
+					libTest=$(cat lib_test | grep "Error" -c)					
+					rm -f lib_test
+								
+					if [ "$libTest" == "1" ] ; then
+						alreadyInstall=false
+					else
+						alreadyInstall=true
+					fi
+				else				
+					# module normal				
+					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
+					libTest=$(cat lib_test | grep "ERROR" -c)
+					rm -f lib_test
+								
+					if [ "$libTest" == "1" ] ; then
+						alreadyInstall=false
+					else
+						alreadyInstall=true
+					fi
+				fi								
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
-					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
-
-					exec_module "purge"
-
-					# Si on a déjà un python installé
-					# On enlève le module python
-					if [ "$installedPython" == "1" ]; then # only-if-Python				
-						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
-					fi  # end-only-if-Python
-
-					if [[ ! -z "${dependencies["$index"]}" ]] ; then  												
-						exec_module "load ${dependencies["$index"]}"						
-					fi
+					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"					
 
 					cd $prefix/tgz
 
@@ -798,7 +788,7 @@ function install()
 					if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
 
 					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
-					then
+					then						
 						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
 
 					elif [[ ${filename["$index"]} == *.zip ]] 
@@ -901,7 +891,5 @@ else
 	done
 fi
 
-leave 0
-
-
+log 0 "Congratulation, you did it"
 
