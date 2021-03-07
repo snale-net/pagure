@@ -368,9 +368,9 @@ filename["$group$index"]=eccodes-2.16.0-Source.tar.gz
 dirname["$group$index"]=eccodes-2.16.0-Source
 builder["$group$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 netcdf-fortran/hdf5.110/$compilo/4.5.2"
+	dependencies["$group$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 netcdf-fortran/hdf5.110/$compilo/4.5.2 jasper/$compilo/2.0.26"
 else
-	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
+	dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2 jasper/$compilo/2.0.26"
 fi
 dirinstall["$group$index"]="${name["$group$index"]}/$compilo/${version["$group$index"]}"
 args["$group$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3"
