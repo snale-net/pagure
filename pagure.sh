@@ -101,7 +101,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--show-old-version=0|1] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1]'	
 	echo ' '
 }
 
@@ -147,11 +147,12 @@ case "$1" in
     -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
     -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;; 
     -filter=* | --filter=*) selectedFilter=`echo $1 | sed 's/.*=//'`; shift ;; 
+    -mode=* | --mode=*) mode=`echo $1 | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;     
     -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $1 | sed 's/.*=//'`; shift ;;     
     -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -auto-install-mandatory=* | ---auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -189,7 +190,128 @@ else
 fi
 log info "system is set to $systemOS"
 
-# 2. Tester le filtre
+# 2. Tester le prefix
+if [ -z "$prefix" ]; then
+prefix=`pwd`
+while true; do 
+	log raw "......................"
+        log warn "You didn't specify a prefix argument. Default prefix is set to $prefix" 
+	read -p "Do you wish to install softwares in this directory ? (y/n)" yn
+        case $yn in
+		[Yy]* ) break;;
+		[Nn]* ) log info "Please use the --prefix argument" ; leave 0 ;;
+		*) echo "Please answer yes or no." ;;
+	esac
+done
+fi
+log info "prefix is set to $prefix"
+
+# 3. Tester le module-dir
+if [ -z "$moduleDir" ]; then
+	moduleDir="$prefix/Modules/local"
+else
+	if [ -d "$moduleDir" ]; then
+		log info "module dir is set to $moduleDir"
+	else
+		log fail "module dir path $moduleDir doesn't exists"
+		leave 10
+	fi
+fi
+
+# 4.1 Mode
+if [ -z "$mode" ]; then
+	mode="manual"
+elif [ "${mode}" == "manual" ]; then
+	mode="manual"
+elif  [ "${mode}" == "auto" ]; then
+	mode="auto"
+else
+	log fail "Unable to decode argument '--mode'. Accepted values : manual|auto"
+	leave 1
+fi
+log info "Installation mode is set to $mode"
+
+# 4.2 Force download
+if [ -z "$forceDownload" ]; then
+	forceDownload=0
+elif [ "${forceDownload}" == "0" ]; then
+	forceDownload=0
+elif  [ "${forceDownload}" == "1" ]; then
+	forceDownload=1
+else
+	log fail "Unable to decode boolean for argument force-download : '${forceDownload}'" 
+	leave 1
+fi
+log info "Force to download is set to $forceDownload"
+
+# 4.3 Force reinstall
+if [ -z "$forceReinstall" ]; then
+	forceReinstall=0
+elif [ "${forceReinstall}" == "0" ]; then
+	forceReinstall=0
+elif  [ "${forceReinstall}" == "1" ]; then
+	if  [ "${mode}" == "auto" ]; then
+		log fail "When using --mode=auto, you can't use --force-reinstall=1. Please switch to manual mode"
+		leave 10		
+	else
+		forceReinstall=1
+	fi
+else
+	log fail "Unable to decode boolean for argument force-reinstall : '${forceReinstall}'" 
+	leave 1
+fi
+log info "Force to reinstall is set to $forceReinstall"
+
+# 4.4 Auto remove
+if [ -z "$autoRemove" ]; then
+	autoRemove=0
+elif [ "${autoRemove}" == "0" ]; then
+	autoRemove=0
+elif  [ "${autoRemove}" == "1" ]; then
+	autoRemove=1
+else
+	log fail "Unable to decode boolean for argument auto-remove : '${autoRemove}'" 
+	leave 1
+fi
+log info "Auto-remove is set to $autoRemove"
+
+# 4.5 Automatic installation of mandatory libraires
+if  [ "${forceReinstall}" == "1" ]; then
+	log warn "When using --force-reinstall=1, --auto-instal-mandatory is set to 0"
+	autoInstallMandatory=0	
+elif [ -z "$autoInstallMandatory" ]; then
+	autoInstallMandatory=1
+elif [ "${autoInstallMandatory}" == "0" ]; then
+	autoInstallMandatory=0
+elif  [ "${autoInstallMandatory}" == "1" ]; then
+	autoInstallMandatory=1
+else
+	log fail "Unable to decode boolean for argument auto-install-mandatory or mandatory : '${autoInstallMandatory}'" 
+	leave 1
+fi
+log info "Automatic installation of mandatory libraries is set to $autoInstallMandatory"
+
+# 4.6 Ancienne version
+if [ -z "$oldVersion" ]; then
+	showOldVersion=0
+elif [ "${oldVersion}" == "0" ]; then
+	showOldVersion=0
+elif  [ "${oldVersion}" == "1" ]; then
+	showOldVersion=1
+else
+	log fail "Unable to decode boolean for old version ${oldVersion}" 
+	leave 1
+fi
+# Si un filtre est selectionné
+if [ ! -z "$selectedFilter" ]
+then	
+	showOldVersion=1
+	log info "When using a filter, show old version is set to $showOldVersion"
+else
+	log info "Show old version is set to $showOldVersion"
+fi
+
+# 5. Tester le filtre
 if [ -z "$selectedFilter" ]
 then
 	libToInstall="none"	
@@ -238,45 +360,12 @@ else
 	
 fi
 
-# 3. Tester la version de Python
-installedPython=0
-if [ -z "$pythonVersion" ]; then
-	if ! hash python 2>/dev/null; then        
-		log info "Unable to find suitable interpreter for Python" 
-		pythonInterpreter="none"	    
-	else	
-		python --version &> version_test
-		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
-		rm -f version_test
-		pythonInterpreter=python${pythonVersion}
-		installedPython=1
-		log info "Python interpreter is set to $pythonInterpreter"
-	fi
-
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-	installedPython=1
-	log info "Python interpreter is set to $pythonInterpreter"
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		installedPython=0
-	fi
-else
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		pythonInterpreter=python${pythonVersion}
-		log info "Python interpreter ${pythonVersion} will be installed"
-	else
-		log fail "Only Python 3.7 can be installed with PAGURE" 
-		leave 1
-	fi
-fi
-
-# 4. Installation des paquets système
+# 6. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
 	log raw "......................"
 	while true; do
-		read -p "Do you wish to install system packages (root acces is required) ?" yn
+		read -p "Do you wish to install system packages (root acces is required) ? (y/n)" yn
 		case $yn in
 		        [Yy]* )
 	log step "Install System packages (root acces is required)"
@@ -295,12 +384,11 @@ then
 		        break ;;
 		        *) echo "Please answer yes or no." ;;
 		esac
-	done
-	
-	log raw "......................"
+	done	
 fi
 
-# 5. Récupérer la version du compilateur
+log raw "......................"
+# 7. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
@@ -352,7 +440,7 @@ if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); the
 	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
 fi
 
-# 6. Tester la version du MPI
+# 8. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
@@ -466,29 +554,48 @@ else
     log info "MPI library is set to $mpilib"
 fi
 
-# 7. Tester le prefix
-if [ -z "$prefix" ]; then
-prefix=`pwd`
-while true; do 
-        echo "You didn't specify a prefix argument."
-	echo "Default prefix is set to $prefix" 
-	read -p "Do you wish to install softwares in this directory ?" yn
-        case $yn in
-		[Yy]* ) break;;
-		[Nn]* ) leave 1 ;;
-		*) echo "Please answer yes or no." ;;
-	esac
-done
-fi
-log info "prefix is set to $prefix"
+# 9. Tester la version de Python
+installedPython=0
+if [ -z "$pythonVersion" ]; then
+	if ! hash python 2>/dev/null; then        
+		log info "Unable to find suitable interpreter for Python" 
+		pythonInterpreter="none"	    
+	else	
+		python --version &> version_test
+		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		rm -f version_test
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+		log info "Python interpreter is set to $pythonInterpreter"
+	fi
 
-# 8. Créer le répertoire dédié aux logiciels & librairies
+elif hash python${pythonVersion} 2>/dev/null
+then    
+	pythonInterpreter=python${pythonVersion}
+	installedPython=1
+	log info "Python interpreter is set to $pythonInterpreter"
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+		installedPython=0
+	fi
+else
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	else
+		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 can be installed with PAGURE" 
+		leave 1
+	fi
+fi
+
+log raw "......................"
+
+# 10. Créer le répertoire dédié aux logiciels & librairies
 if [ ! -d "$prefix" ] ; then mkdir $prefix 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 if [ ! -d "$prefix/src" ] ; then mkdir $prefix/src 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 if [ ! -d "$prefix/tgz" ] ; then mkdir $prefix/tgz 2>&1 >&3 | tee -a $LOGFILE && leave ; fi
 log 0 "Make dir prefix"
 
-# 9. Installation du gestionnaire d'environnement Modules
+# 11. Installation du gestionnaire d'environnement Modules
 if [ ! "$systemOS" == "cluster" ]
 then
 	if ! hash module 2>/dev/null
@@ -523,86 +630,6 @@ else
 	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
 	rm module_list
 fi
-
-# 10. Tester le module-dir
-if [ -z "$moduleDir" ]; then
-	moduleDir="$prefix/Modules/local"
-else
-	log info "module dir is set to $moduleDir"
-fi
-
-# 11.1 Ancienne version
-if [ -z "$oldVersion" ]; then
-	showOldVersion=0
-elif [ "${oldVersion}" == "0" ]; then
-	showOldVersion=0
-elif  [ "${oldVersion}" == "1" ]; then
-	showOldVersion=1
-else
-	log fail "Unable to decode boolean for old version ${oldVersion}" 
-	leave 1
-fi
-if [ ! -z "$selectedFilter" ]
-then	
-	showOldVersion=1
-	log info "When using a filter, show old version is set to $showOldVersion"
-else
-	log info "Show old version is set to $showOldVersion"
-fi
-
-# 11.2 Force download
-if [ -z "$forceDownload" ]; then
-	forceDownload=0
-elif [ "${forceDownload}" == "0" ]; then
-	forceDownload=0
-elif  [ "${forceDownload}" == "1" ]; then
-	forceDownload=1
-else
-	log fail "Unable to decode boolean for argument force-download : '${forceDownload}'" 
-	leave 1
-fi
-log info "Force to download is set to $forceDownload"
-
-# 11.3 Force reinstall
-if [ -z "$forceReinstall" ]; then
-	forceReinstall=0
-elif [ "${forceReinstall}" == "0" ]; then
-	forceReinstall=0
-elif  [ "${forceReinstall}" == "1" ]; then
-	forceReinstall=1
-else
-	log fail "Unable to decode boolean for argument force-reinstall : '${forceReinstall}'" 
-	leave 1
-fi
-log info "Force to reinstall is set to $forceReinstall"
-
-# 11.4 Auto remove
-if [ -z "$autoRemove" ]; then
-	autoRemove=0
-elif [ "${autoRemove}" == "0" ]; then
-	autoRemove=0
-elif  [ "${autoRemove}" == "1" ]; then
-	autoRemove=1
-else
-	log fail "Unable to decode boolean for argument auto-remove : '${autoRemove}'" 
-	leave 1
-fi
-log info "Auto-remove is set to $autoRemove"
-
-# 11.5 Automatic installation of mandatory libraires
-if [ -z "$autoInstallMandatory" ]; then
-	autoInstallMandatory=1
-elif [ "${autoInstallMandatory}" == "0" ]; then
-	autoInstallMandatory=0
-elif  [ "${autoInstallMandatory}" == "1" ]; then
-	autoInstallMandatory=1
-else
-	log fail "Unable to decode boolean for argument auto-install-mandatory or mandatory : '${autoInstallMandatory}'" 
-	leave 1
-fi
-log info "Automatic installation of mandatory libraires is set to $autoInstallMandatory"
-
-log raw "......................"
 
 # 12. Création du module python-modules
 # Si on a déjà un python installé
@@ -652,6 +679,7 @@ declare -a modulefile
 
 for f in $basedir/include/group/*{1..9}*.sh; do source $f; done
 
+log raw "......................"
 # 14. Afficher les librairies à installer
 if [ "${libToInstall}" != "none" ]
 then		
@@ -707,7 +735,7 @@ function install()
 		log raw "......................"
 		while true; do		
 			
-			if [[ $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
+			if [[ $mode == "auto" || $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
 				yn="y"
 			else
 				read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
@@ -731,14 +759,14 @@ function install()
 				fi
 					
 				# On teste si la librairie est déjà installée
-				if [[ "$index" =~ 3[0-9] ]]; then				
+				if [[ "${dirinstall["$index"]}" =~ .*(python-modules).* ]]; then				
 					# module Python							
 					$pythonInterpreter -c "import ${name["$index"]}" &> lib_test									
 					libTest=$(cat lib_test | grep "Error" -c)					
 					rm -f lib_test
 								
-					if [ "$libTest" == "1" ] ; then
-						alreadyInstall=false
+					if [ "$libTest" == "1" ] ; then						
+						alreadyInstall=false						
 					else
 						alreadyInstall=true
 					fi
@@ -853,7 +881,7 @@ function install()
 				
 				else
 
-					log warn "${name["$index"]} ${version["$index"]} is already installed. Use --force-reinstall=1 if you want to reinstall."
+					log warn "${name["$index"]} ${version["$index"]} is already installed. Use --force-reinstall=1 --mode=manual if you want to reinstall."
 				fi
 			break;;
 			[Nn]* )
@@ -865,6 +893,17 @@ function install()
 
 	fi
 }
+
+log raw "......................"
+while true; do 
+        log 0 "We are now ready to install. Please check the information above"
+        log raw "......................"	
+	read -p "Everything is OK ? Press Enter to continue or press q to quit " yn
+        case $yn in
+        	[Qq]*) leave 0 ;;		
+		*)  break;;
+	esac
+done
 
 if [ "$libToInstall" == "none" ] ; then 
 
