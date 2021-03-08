@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 100 : Web
-group=15
+#Group 9 : Web
+group=9
 groupname[$group]="Web librairies"
 
 # nodejs 10.21.0
@@ -27,6 +27,10 @@ puts stderr \"\tNodeJS ${version["$group$index"]}\"
  
 module-whatis \"NodeJS ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -58,6 +62,10 @@ puts stderr \"\t${name["$group$index"]} ${version["$group$index"]}\"
  
 module-whatis \"${name["$group$index"]} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 "
 

@@ -3,8 +3,8 @@
 if [ "$installedPython" == "0"  ]; then # only-if-not-Python
 
 #################################################################
-#Group 2 : Python
-group=2
+#Group 1 : Python
+group=1
 groupname[$group]="Python"
 
 if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7
@@ -30,10 +30,10 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
  
-puts stderr \"\tPython ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Python ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib

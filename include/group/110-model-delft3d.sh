@@ -5,7 +5,6 @@
 group=110
 groupname[$group]="Model Delft3D"
 
-
 # Delft3D v6.03
 index=1
 name["$group$index"]=delft3d
@@ -67,6 +66,10 @@ puts stderr \"\tDelft 3D ${version["$group$index"]}\"
  
 module-whatis \"Delft 3D ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib

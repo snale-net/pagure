@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #################################################################
-#Group 5 : Processing
-group=5
+#Group 7 : Processing
+group=7
 groupname[$group]="Processing librairies"
 
 # Udunits 2.2.28
@@ -26,11 +26,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tUdunits ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Udunits ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -61,11 +65,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNcview ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Ncview ${version["$group$index"]}\"
-module load udunits/$compilo/2.2.28
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
+
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 "
 
@@ -104,11 +112,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tAntlr ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Antlr ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -138,11 +150,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tNco ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Nco ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -173,11 +189,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tProj ${version["$group$index"]}1\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Proj ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -207,11 +227,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tGdal ${version["$group$index"]}1\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Gdal ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -220,10 +244,31 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include  
 "
 
+#--------------------------------------------------------------
+# GDAL Python
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# pygdal 3.0.1.5
+index=7
+name["$group$index"]=pygdal
+version["$group$index"]=3.0.1.5
+details["$group$index"]="(version Python - require GDAL 3.0.1)"
+url["$group$index"]=https://files.pythonhosted.org/packages/c4/39/480a0e18ba65b070a8dd1a9124a891ea7fea8f58a07b39462d9c94f13ccf/pygdal-3.0.1.5.tar.gz
+filename["$group$index"]=pygdal-3.0.1.5.tar.gz
+dirname["$group$index"]=pygdal-3.0.1.5
+builder["$group$index"]="python"
+dependencies["$group$index"]="gdal/$compilo/3.0.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
+fi  # end-only-if-Python
+
 if [ "$showOldVersion" = "1" ]; then
 
 # GDAL 2.4.2
-index=7
+index=8
 name["$group$index"]=gdal
 version["$group$index"]=2.4.2
 details["$group$index"]="required Netcdf-C 4.4.1.1"
@@ -243,11 +288,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tGdal ${version["$group$index"]}1\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Gdal ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -259,7 +308,7 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 fi # end-old-version
 
 # gshhg-gmt 2.3.7
-index=8
+index=9
 name["$group$index"]=gshhg-gmt
 version["$group$index"]=2.3.7
 details["$group$index"]="(required for GMT)"
@@ -274,7 +323,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # dcw-gmt 1.1.4
-index=9
+index=10
 name["$group$index"]=dcw-gmt
 version["$group$index"]=1.1.4
 details["$group$index"]="(required for GMT)"
@@ -289,7 +338,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # GMT 5.4.5
-index=10
+index=11
 name["$group$index"]=gmt
 version["$group$index"]=5.4.5
 details["$group$index"]=""
@@ -309,13 +358,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tGMT ${version["$group$index"]}1\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"GMT ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
-module load gdal/$compilo/3.0.1
+# Dependencies
+module load ${dependencies["$group$index"]}
 
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -326,7 +377,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
 
 # CDO 1.9.7.1
-index=11
+index=12
 name["$group$index"]=cdo
 version["$group$index"]=1.9.7.1
 details["$group$index"]=""
@@ -347,11 +398,15 @@ modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tCdo ${version["$group$index"]}\"
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 }
  
-module-whatis \"Cdo ${version["$group$index"]}\"
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group$index"]:0:1})${name["$group$index"]:1} ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
