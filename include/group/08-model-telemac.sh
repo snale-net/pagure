@@ -35,6 +35,10 @@ puts stderr \"\tMED ${version["$group$index"]}\"
  
 module-whatis \"MED ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -67,6 +71,7 @@ puts stderr \"\tAED2 ${version["$group$index"]}\"
  
 module-whatis \"AED2 ${version["$group$index"]}\"
 
+# Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
@@ -96,6 +101,7 @@ puts stderr \"\tMetis ${version["$group$index"]}\"
  
 module-whatis \"Metis ${version["$group$index"]}\"
 
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -162,6 +168,10 @@ puts stderr \"\tParMetis ${version["$group$index"]}\"
  
 module-whatis \"ParMetis ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -243,6 +253,10 @@ puts stderr \"\tSctoch ${version["$group$index"]}\"
  
 module-whatis \"Sctoch ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -324,6 +338,10 @@ puts stderr \"\tPtSctoch ${version["$group$index"]}\"
  
 module-whatis \"PtSctoch ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
@@ -497,6 +515,10 @@ puts stderr \"\tMUMPS ${version["$group$index"]}\"
  
 module-whatis \"MUMPS ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include

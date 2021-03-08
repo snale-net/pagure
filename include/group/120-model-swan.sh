@@ -116,6 +116,10 @@ puts stderr \"\tSwan ${version["$group$index"]}\"
  
 module-whatis \"Swan ${version["$group$index"]}\"
 
+# Dependencies
+module load ${dependencies["$group$index"]}
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}
 "
 
