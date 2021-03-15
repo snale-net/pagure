@@ -491,6 +491,8 @@ args["$group$index"]=""
 fi # end-old-version && no MPI
 fi  # end-only-if-Python
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (Jasper need)
+
 # eccodes 2.16.0
 index=10
 name["$group$index"]=eccodes
@@ -526,6 +528,7 @@ prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 "
+fi  # end-only-if-Python
 
 #--------------------------------------------------------------
 # GRIB Python

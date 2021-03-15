@@ -206,8 +206,27 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/p${dirinstall["$group$index"]}/include 
 "
 
-# GDAL 3.0.1
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# pyproj 2.2.0
 index=6
+name["$group$index"]=pyproj
+version["$group$index"]=2.2.0
+details["$group$index"]="(version Python)"
+url["$group$index"]="https://files.pythonhosted.org/packages/73/ef/53a7e9e98595baf4d7212aa731fcec256b432a3db60a55b58a027a4d9d47/pyproj-2.2.0.tar.gz"
+filename["$group$index"]=pyproj-2.2.0.tar.gz
+dirname["$group$index"]=pyproj-2.2.0
+builder["$group$index"]="python"
+dependencies["$group$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} proj/$compilo/6.1.1"
+dirinstall["$group$index"]="python-modules/$compilo"
+args["$group$index"]=""
+#dirmodule["$group$index"]=""
+#modulefile["$group$index"]=""
+
+fi  # end-only-if-Python
+
+# GDAL 3.0.1
+index=7
 name["$group$index"]=gdal
 version["$group$index"]=3.0.1
 details["$group$index"]="(required for GMT)"
@@ -249,7 +268,7 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # pygdal 3.0.1.5
-index=7
+index=8
 name["$group$index"]=pygdal
 version["$group$index"]=3.0.1.5
 details["$group$index"]="(version Python - require GDAL 3.0.1)"
@@ -268,7 +287,7 @@ fi  # end-only-if-Python
 if [ "$showOldVersion" = "1" ]; then
 
 # GDAL 2.4.2
-index=8
+index=9
 name["$group$index"]=gdal
 version["$group$index"]=2.4.2
 details["$group$index"]="required Netcdf-C 4.4.1.1"
@@ -308,7 +327,7 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 fi # end-old-version
 
 # gshhg-gmt 2.3.7
-index=9
+index=10
 name["$group$index"]=gshhg-gmt
 version["$group$index"]=2.3.7
 details["$group$index"]="(required for GMT)"
@@ -323,7 +342,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # dcw-gmt 1.1.4
-index=10
+index=11
 name["$group$index"]=dcw-gmt
 version["$group$index"]=1.1.4
 details["$group$index"]="(required for GMT)"
@@ -338,7 +357,7 @@ args["$group$index"]=""
 #modulefile["$group$index"]=""
 
 # GMT 5.4.5
-index=11
+index=12
 name["$group$index"]=gmt
 version["$group$index"]=5.4.5
 details["$group$index"]=""
@@ -377,7 +396,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
 
 # CDO 1.9.7.1
-index=12
+index=13
 name["$group$index"]=cdo
 version["$group$index"]=1.9.7.1
 details["$group$index"]=""
@@ -415,4 +434,6 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include 
 "
+
+
 
