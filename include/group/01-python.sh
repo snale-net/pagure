@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$installedPython" == "0"  ]; then # only-if-not-Python
+if [ "$pythonInterpreter" != "none" ] && [ "$installedPython" == "0"  ]; then # only-if-we-want-Python-and-is-not-installed 
 
 #################################################################
 #Group 1 : Python
@@ -9,7 +9,7 @@ groupname[$group]="Python"
 
 if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7
 
-#Python-3.7.7.tgz
+#Python-3.7.7
 index=1
 name["$group$index"]=python
 version["$group$index"]=3.7
@@ -45,5 +45,5 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 
 fi # end-only Python==3.7
 
-fi  # end-only-if-not-Python
+fi  # only-if-we-want-Python-and-is-not-installed 
 

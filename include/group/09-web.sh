@@ -5,6 +5,8 @@
 group=9
 groupname[$group]="Web librairies"
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
 # nodejs 10.21.0
 index=1
 name["$group$index"]=nodejs
@@ -39,6 +41,9 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include 
 "
+fi  # end-only-if-Python
+
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (NodeJS need)
 
 # yarn 1.22.4
 index=2
@@ -68,6 +73,8 @@ module load ${dependencies["$group$index"]}
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group$index"]}/bin
 "
+
+fi  # end-only-if-Python
 
 # composer 1.10.7
 index=3

@@ -38,7 +38,7 @@ patch_01["$group$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000
  # Organize output files.  On Windows this also keeps .dll files next
 "
 patchfile_01["$group$index"]="CMakeLists.txt"
-args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so"
+args["$group$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/libblas.so"
 dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
 modulefile["$group$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -154,6 +154,8 @@ prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
 #jasper 2.0.26
 index=7
 name["$group$index"]=jasper
@@ -188,5 +190,7 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group$index"]}/include
 prepend-path MANPATH $prefix/${dirinstall["$group$index"]}/share/man
 "
+
+fi  # end-only-if-Python
 
 

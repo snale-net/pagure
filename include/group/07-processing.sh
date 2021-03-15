@@ -206,6 +206,8 @@ prepend-path INCLUDE $prefix/${dirinstall["$group$index"]}/include
 prepend-path CPATH $prefix/p${dirinstall["$group$index"]}/include 
 "
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
 # pyproj 2.2.0
 index=6
 name["$group$index"]=pyproj
@@ -220,6 +222,8 @@ dirinstall["$group$index"]="python-modules/$compilo"
 args["$group$index"]=""
 #dirmodule["$group$index"]=""
 #modulefile["$group$index"]=""
+
+fi  # end-only-if-Python
 
 # GDAL 3.0.1
 index=7

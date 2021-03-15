@@ -549,7 +549,7 @@ else
 fi
 
 if [ "$mpilib" == "none" ]; then
-    log info "No MPI library"  
+    log warn "No MPI library"  
 else
     log info "MPI library is set to $mpilib"
 fi
@@ -558,7 +558,7 @@ fi
 installedPython=0
 if [ -z "$pythonVersion" ]; then
 	if ! hash python 2>/dev/null; then        
-		log info "Unable to find suitable interpreter for Python" 
+		log warn "No Python interpreter" 
 		pythonInterpreter="none"	    
 	else	
 		python --version &> version_test
