@@ -429,8 +429,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    CXX_VERSION=$(icpc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    FC_VERSION=$(ifort --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
 	export CC=icc
 	export CXX=icpc
