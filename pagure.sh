@@ -1,7 +1,7 @@
 #!/bin/bash
 
 basedir=`pwd`
-maxGroup=200
+maxGroup=0
 maxFile=50
 
 exec 3>&1 
@@ -220,7 +220,7 @@ fi
 
 # 4.1 Mode
 if [ -z "$mode" ]; then
-	mode="manual"
+	mode="auto"
 elif [ "${mode}" == "manual" ]; then
 	mode="manual"
 elif  [ "${mode}" == "auto" ]; then
@@ -277,8 +277,11 @@ log info "Auto-remove is set to $autoRemove"
 
 # 4.5 Automatic installation of mandatory libraires
 if  [ "${forceReinstall}" == "1" ]; then
-	log warn "When using --force-reinstall=1, --auto-instal-mandatory is set to 0"
+	log warn "When using --force-reinstall=1, --auto-install-mandatory is set to 0"
 	autoInstallMandatory=0	
+elif [ "${mode}" == "manual" ]; then
+	log warn "When using --mode=manual,  --auto-instal-mandatory is set to 0"
+	autoInstallMandatory=0
 elif [ -z "$autoInstallMandatory" ]; then
 	autoInstallMandatory=1
 elif [ "${autoInstallMandatory}" == "0" ]; then
@@ -332,24 +335,24 @@ else
 		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
 		
 		# MPI
-		if  [[ "${libToInstall[@]}" =~ "41" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "4-1" ]]; then
 			mpi="openmpi110"
 		fi
 				
-		if  [[ "${libToInstall[@]}" =~ "42" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "4-2" ]]; then
 			mpi="openmpi300"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "43" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "4-3" ]]; then
 			mpi="mpich321"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "44" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
 			mpi="mpich332"
 		fi
 		
 		# Python
-		if  [[ "${libToInstall[@]}" =~ "11" ]]; then
+		if  [[ "${libToInstall[@]}" =~ "1-1" ]]; then
 			pythonVersion="3.7"
 		fi
 		
@@ -392,6 +395,8 @@ log raw "......................"
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -407,6 +412,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -422,6 +429,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    CXX_VERSION=$(icpc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    FC_VERSION=$(ifort --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
 	export CC=icc
 	export CXX=icpc
@@ -431,6 +440,11 @@ then
 	log info "compiler is set to INTEL ${CC_VERSION:0:2}"
 else
 	log fail "Unable to decode argument '--compiler'. Accepted values : GNU|INTEL" 
+	leave 1
+fi
+
+if [[ "${CC_VERSION}" != "${CXX_VERSION}" || "${CC_VERSION}" != "${FC_VERSION}" ]]; then
+    log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
 	leave 1
 fi
 
@@ -448,7 +462,7 @@ if [ -z "$mpi" ]; then
 elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
-        export MPICC=mpicc
+    export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -658,26 +672,31 @@ prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/s
 fi  # end-only-if-Python
 
 # 13. Chargement des logiciels
-declare -a groupname
-declare -a name
-declare -a version
-declare -a mandatory
-declare -a details
-declare -a url
-declare -a filename
-declare -a dirname
-declare -a configfile
-declare -a configfilename
-declare -a patch
-declare -a patchfile
-declare -a builder
-declare -a dependencies
-declare -a dirinstall
-declare -a args
-declare -a dirmodule
-declare -a modulefile
+declare -A groupname
+declare -A name
+declare -A version
+declare -A mandatory
+declare -A details
+declare -A url
+declare -A filename
+declare -A dirname
+declare -A configfile
+declare -A configfilename
+declare -A patch_01
+declare -A patchfile_01
+declare -A patch_02
+declare -A patchfile_02
+declare -A builder
+declare -A dependencies
+declare -A dirinstall
+declare -A args
+declare -A dirmodule
+declare -A modulefile
 
-for f in $basedir/include/group/*{1..9}*.sh; do source $f; done
+for f in `find $basedir/include/group/ -regextype egrep -regex '.*/([1-9]|[0-9]{3}).*.sh'`; do   
+    maxGroup=$((maxGroup+1))  
+    source $f   
+done
 
 log raw "......................"
 # 14. Afficher les librairies à installer
@@ -686,7 +705,7 @@ then
 	log info "The following libraries are pre-selected to be installed :"
 
 	for element in "${libToInstall[@]}"
-	do		
+	do	
 		if [ -z "${name["$element"]}" ]; then
 			log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
 			leave 1
@@ -699,7 +718,7 @@ fi
 
 function install()
 {
-	index=$1
+	index=$1    
 	
 	if [[ ! -z "${name["$index"]}" ]]
 	then
@@ -913,19 +932,18 @@ if [ "$libToInstall" == "none" ] ; then
 		then	
 			log step "${groupname["$group"]}"
 
-	  		for ((lib=1;lib<=$maxFile;lib++)) do 	
-	  
-	  			install  "$group$lib"
- 
-			done  
-  
+	  		for ((lib=1;lib<=$maxFile;lib++)) do 
+
+                install  "$group-$lib" 
+
+			done    
   		fi  
 	done
 	
 else
 	for lib in "${libToInstall[@]}"
 	do
-		install  "$lib"
+		install "$lib"
 	   
 	done
 fi

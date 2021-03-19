@@ -1,24 +1,24 @@
 #!/bin/bash
 
 #################################################################
-#Group 112 : Model SWAN
-group="112"
+#Group 12 : Model SWAN
+group="12"
 groupname[$group]="Model SWAN"
 
 # SWAN
 index=1
-name["$group$index"]=swan
-version["$group$index"]=41.31
-details["$group$index"]=""
-url["$group$index"]=http://swanmodel.sourceforge.net/download/zip/swan4131.tar.gz
-filename["$group$index"]=swan4131.tar.gz
-dirname["$group$index"]=swan4131
-builder["$group$index"]="swan"
-dependencies["$group$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
-dirinstall["$group$index"]=${name["$group$index"]}/$mpilib/$compilo/${version["$group$index"]}
-configfilename["$group$index"]="macros.inc"
+name["$group-$index"]=swan
+version["$group-$index"]=41.31
+details["$group-$index"]=""
+url["$group-$index"]=http://swanmodel.sourceforge.net/download/zip/swan4131.tar.gz
+filename["$group-$index"]=swan4131.tar.gz
+dirname["$group-$index"]=swan4131
+builder["$group-$index"]="swan"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
+dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
+configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
-configfile["$group$index"]="##############################################################################
+configfile["$group-$index"]="##############################################################################
 # IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
 ##############################################################################
 F90_SER = ifort
@@ -61,7 +61,7 @@ else
 endif
 "
 else
-configfile["$group$index"]="##############################################################################
+configfile["$group-$index"]="##############################################################################
 # IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
 ##############################################################################
 F90_SER = gfortran
@@ -105,22 +105,22 @@ else
 endif
 "
 fi
-args["$group$index"]=""
-dirmodule["$group$index"]="${name["$group$index"]}/$mpilib/$compilo"
-modulefile["$group$index"]="#%Module1.0
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
  
-puts stderr \"\tSwan ${version["$group$index"]}\"
+puts stderr \"\tSwan ${version["$group-$index"]}\"
 }
  
-module-whatis \"Swan ${version["$group$index"]}\"
+module-whatis \"Swan ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group$index"]}
+module load ${dependencies["$group-$index"]}
 
 # Variables
-prepend-path PATH $prefix/${dirinstall["$group$index"]}
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}
 "
 
 
