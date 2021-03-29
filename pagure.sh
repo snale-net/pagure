@@ -373,8 +373,8 @@ then
 		        [Yy]* )
 	log step "Install System packages (root acces is required)"
 	
-	if [ -f "$basedir/include/group/00-system-$systemOS.sh" ] ; then
-		source $basedir/include/group/00-system-$systemOS.sh
+	if [ -f "$basedir/include/group/0-system-$systemOS.sh" ] ; then
+		source $basedir/include/group/0-system-$systemOS.sh
 	else
 		log fail "Unable to find the specific file for $systemOS" 
 		leave 1
@@ -395,8 +395,8 @@ log raw "......................"
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
+    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -412,8 +412,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -429,8 +429,8 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    	CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    	FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
 	export CC=icc
 	export CXX=icpc
