@@ -30,7 +30,7 @@ puts stderr \"\tNodeJS ${version["$group-$index"]}\"
 module-whatis \"NodeJS ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -68,7 +68,7 @@ puts stderr \"\t${name["$group-$index"]} ${version["$group-$index"]}\"
 module-whatis \"${name["$group-$index"]} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin

@@ -36,7 +36,7 @@ puts stderr \"\tMED ${version["$group-$index"]}\"
 module-whatis \"MED ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -169,7 +169,7 @@ puts stderr \"\tParMetis ${version["$group-$index"]}\"
 module-whatis \"ParMetis ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -254,7 +254,7 @@ puts stderr \"\tSctoch ${version["$group-$index"]}\"
 module-whatis \"Sctoch ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -339,7 +339,7 @@ puts stderr \"\tPtSctoch ${version["$group-$index"]}\"
 module-whatis \"PtSctoch ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -516,7 +516,7 @@ puts stderr \"\tMUMPS ${version["$group-$index"]}\"
 module-whatis \"MUMPS ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib

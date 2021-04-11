@@ -50,7 +50,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -179,7 +179,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin

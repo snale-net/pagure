@@ -885,10 +885,11 @@ function install()
 						fi 
 						
 						if [[ ${dirmodule["$index"]} == python-modules* ]]
-						then	                    
-						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
+						then	
+						${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}	                    
+						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
-						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
+						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
 						fi
 					fi
 					
