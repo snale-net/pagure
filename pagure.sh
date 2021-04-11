@@ -101,7 +101,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1]'	
 	echo ' '
 }
 
@@ -184,8 +184,12 @@ elif [ "$system" == "macos" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
+elif [ "$system" == "ubuntu" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
 else
-	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|CENTOS|MACOS" 
+	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|UBUNTU|CENTOS|MACOS" 
 	leave 1
 fi
 log info "system is set to $systemOS"
@@ -881,10 +885,11 @@ function install()
 						fi 
 						
 						if [[ ${dirmodule["$index"]} == python-modules* ]]
-						then	                    
-						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
+						then	
+						${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}	                    
+						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
-						    echo $"${modulefile["$index"]}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
+						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
 						fi
 					fi
 					

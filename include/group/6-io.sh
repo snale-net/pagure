@@ -35,7 +35,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -75,7 +75,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -135,7 +135,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -197,7 +197,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Version C ${version["$group-$index"]}
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -257,7 +257,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Version Fortran ${version["$group-$index"]}
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -319,7 +319,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Version C ${version["$group-$index"]}
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -379,7 +379,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Version Fortran ${version["$group-$index"]}
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -392,12 +392,51 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 
 fi # old-version
 
+# Udunits 2.2.28
+index=8
+name["$group-$index"]=udunits
+version["$group-$index"]=2.2.28
+details["$group-$index"]="(required for netcdf4-python / Ncview)"
+url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.28.tar.gz
+filename["$group-$index"]=udunits-2.2.28.tar.gz
+dirname["$group-$index"]=udunits-2.2.28
+builder["$group-$index"]="configure"
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3"
+else
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3"
+fi
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
 #--------------------------------------------------------------
 # NetCDF Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # netcdf4-python 1.5.3
-index=8
+index=9
 name["$group-$index"]=netcdf4-python
 version["$group-$index"]=1.5.3
 if [ "$mpilib" == "none" ]; then 
@@ -436,7 +475,7 @@ args["$group-$index"]=""
 if [ "$showOldVersion" = "1" ] && [ "$mpilib" == "none" ]; then
 
 # netCDF4 1.2.9
-index=9
+index=10
 name["$group-$index"]=netCDF4
 version["$group-$index"]=1.2.9
 details["$group-$index"]="(version Python - require NetCDF C 4.4.1.1)"
@@ -494,7 +533,7 @@ fi  # end-only-if-Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (Jasper need)
 
 # eccodes 2.16.0
-index=10
+index=11
 name["$group-$index"]=eccodes
 version["$group-$index"]=2.16.0
 details["$group-$index"]="(Grib file)"
@@ -520,7 +559,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -535,7 +574,7 @@ fi  # end-only-if-Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # cfgrib 0.9.7.7
-index=11
+index=12
 name["$group-$index"]=cfgrib
 version["$group-$index"]=0.9.7.7
 details["$group-$index"]="(version Python - require ecCodes 2.16.0)"

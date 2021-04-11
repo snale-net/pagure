@@ -36,7 +36,7 @@ puts stderr \"\tMED ${version["$group-$index"]}\"
 module-whatis \"MED ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -169,7 +169,7 @@ puts stderr \"\tParMetis ${version["$group-$index"]}\"
 module-whatis \"ParMetis ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -181,6 +181,8 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 fi # MPI-only
+
+if [ "$mpilib" != "none" ]; then # MPI-only
 
 # Scotch 6.0.9
 index=5
@@ -254,7 +256,7 @@ puts stderr \"\tSctoch ${version["$group-$index"]}\"
 module-whatis \"Sctoch ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -264,8 +266,6 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
-
-if [ "$mpilib" != "none" ]; then # MPI-only
 
 # PtScotch 6.0.9
 index=6
@@ -339,7 +339,7 @@ puts stderr \"\tPtSctoch ${version["$group-$index"]}\"
 module-whatis \"PtSctoch ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -349,10 +349,6 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
-
-fi # MPI-only
-
-if [ "$mpilib" != "none" ]; then # MPI-only
 
 # MUMPS 5.2.1
 index=7
@@ -516,7 +512,7 @@ puts stderr \"\tMUMPS ${version["$group-$index"]}\"
 module-whatis \"MUMPS ${version["$group-$index"]}\"
 
 # Dependencies
-module load ${dependencies["$group-$index"]}
+module load dependencies_modules
 
 # Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
