@@ -182,6 +182,8 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 fi # MPI-only
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # Scotch 6.0.9
 index=5
 name["$group-$index"]=scotch
@@ -265,8 +267,6 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
 
-if [ "$mpilib" != "none" ]; then # MPI-only
-
 # PtScotch 6.0.9
 index=6
 name["$group-$index"]=ptscotch
@@ -349,10 +349,6 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
-
-fi # MPI-only
-
-if [ "$mpilib" != "none" ]; then # MPI-only
 
 # MUMPS 5.2.1
 index=7
