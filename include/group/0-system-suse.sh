@@ -40,6 +40,6 @@ sudo $zypperCmd scons patchelf 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo $zypperCmd automake libtool libuuid-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Web deps
-sudo $zypperCmd bsdtar nfs-kernel-server ansible 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd bsdtar nfs-kernel-server ansible php 2>&1 >&3 | tee -a $LOGFILE && leave
 
 

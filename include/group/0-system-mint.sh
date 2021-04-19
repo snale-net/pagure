@@ -33,6 +33,8 @@ sudo apt-get $aptArgs install sqlite3 libsqlite3-dev 2>&1 >&3 | tee -a $LOGFILE 
 sudo apt-get $aptArgs install libssl-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo apt-get $aptArgs install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+# Web deps
+sudo apt-get $aptArgs install php 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
 
