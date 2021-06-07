@@ -212,8 +212,14 @@ log info "prefix is set to $prefix"
 
 # 3. Tester le module-dir
 if [ -z "$moduleDir" ]; then
+	# On s'assure que le module dir est renseigné poru le mode cluster
+	if [ "$systemOS" == "cluster" ]; then
+		log fail "For cluster system, you have to specify the module dir path with --module-dir= (ex: /home/XXXX/privatemodules)"
+		leave 8
+	fi
+	
 	moduleDir="$prefix/Modules/local"
-else
+else	
 	if [ -d "$moduleDir" ]; then
 		log info "module dir is set to $moduleDir"
 	else
@@ -731,28 +737,32 @@ function install()
 		
 			module "load use.own"
 			
-			if [ "$mpilib" != "none" ] ; then			
-
-				if hash $MPIF90 2>/dev/null
-				then					
-					# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
-					mpi_dep_no_slash=${mpi_dep//\//\\/}							
-					dependencies["$index"]=${dependencies["$index"]/$mpi_dep_no_slash/}				
-				fi	
-			fi		
-
-			# On enlève le module gdal
-			if [[ $moduleList == *"gdal"* ]]; then 
-				dependencies["$index"]=${dependencies["$index"]/gdal\/"$compilo"\/3.0.1/}
-			fi
+			if [ -z "${filters["$selectedFilter"]}" ]; then
+				# Uniquement si on n'utilise pas de filtre, on essait d'utiliser les dépendences du cluster
 			
-			# On enlève le module proj
-			if [[ $moduleList == *"proj"* ]]; then 
-				dependencies["$index"]=${dependencies["$index"]/proj\/"$compilo"\/6.1.1/}
-			fi
+				if [ "$mpilib" != "none" ] ; then			
+
+					if hash $MPIF90 2>/dev/null
+					then					
+						# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
+						mpi_dep_no_slash=${mpi_dep//\//\\/}							
+						dependencies["$index"]=${dependencies["$index"]/$mpi_dep_no_slash/}				
+					fi	
+				fi		
+
+				# On enlève le module gdal
+				if [[ $moduleList == *"gdal"* ]]; then 
+					dependencies["$index"]=${dependencies["$index"]/gdal\/"$compilo"\/3.0.1/}
+				fi
 				
-			# On ajoute les deps du cluster				
-			dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`													
+				# On enlève le module proj
+				if [[ $moduleList == *"proj"* ]]; then 
+					dependencies["$index"]=${dependencies["$index"]/proj\/"$compilo"\/6.1.1/}
+				fi
+					
+				# On ajoute les deps du cluster				
+				dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`	
+			fi												
 		fi
 				
 		log raw "......................"
