@@ -19,11 +19,11 @@ sed -i "s~/usr/bin/ruby~$prefix/ruby/$compilo/2.7.2/bin/ruby~g" scripts_lgpl/lin
 make ds-install 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # On supprime les executables pré-compilés
-rm -f $prefix/${dirinstall["$index"]}/bin/swan_4072ABCDE_del_l64_i11_mpi.exe $prefix/${dirinstall["$index"]}/bin/swan_4072ABCDE_del_l64_i11_omp.exe $prefix/${dirinstall["$index"]}/bin/swan_mpi.exe $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
+rm -f $prefix/${dirinstall["$index"]}/bin/swan_4072ABCDE_del_l64_i11_mpi.exe $prefix/${dirinstall["$index"]}/bin/swan_4072ABCDE_del_l64_i11_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # On remplace par les executables compilés
-mv $prefix/${dirinstall["$index"]}/bin/swan_mpi $prefix/${dirinstall["$index"]}/bin/swan_mpi.exe 2>&1 >&3 | tee -a $LOGFILE && leave
-mv $prefix/${dirinstall["$index"]}/bin/swan_omp $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
+#mv $prefix/${dirinstall["$index"]}/bin/swan_mpi $prefix/${dirinstall["$index"]}/bin/swan_mpi.exe 2>&1 >&3 | tee -a $LOGFILE && leave
+#mv $prefix/${dirinstall["$index"]}/bin/swan_omp $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # On déplace les librairies 64bits dans le dossier lib
 if [ -d "$prefix/${dirinstall["$index"]}/lib64" ] ; then
