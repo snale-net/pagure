@@ -42,5 +42,7 @@ sudo $zypperCmd automake libtool libuuid-devel 2>&1 >&3 | tee -a $LOGFILE && lea
 # Web deps
 sudo $zypperCmd bsdtar nfs-kernel-server ansible php 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
+# SuiteSparse deps
+sudo $zypperCmd gmp-devel mpfr-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 
 

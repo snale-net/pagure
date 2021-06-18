@@ -696,6 +696,8 @@ declare -A patch_01
 declare -A patchfile_01
 declare -A patch_02
 declare -A patchfile_02
+declare -A patch_03
+declare -A patchfile_03
 declare -A builder
 declare -A dependencies
 declare -A dirinstall

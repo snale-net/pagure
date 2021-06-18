@@ -30,10 +30,13 @@ fi  # end-only-if-Python
 
 # GDAL deps
 sudo apt-get $aptArgs install sqlite3 libsqlite3-dev 2>&1 >&3 | tee -a $LOGFILE && leave
-#Ruby deps
+# StaticX deps
+# Ruby deps
 sudo apt-get $aptArgs install libssl-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo apt-get $aptArgs install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+# SuiteSparse deps
+sudo apt-get $aptArgs libgmp3-dev libmpfr-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
 
