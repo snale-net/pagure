@@ -6,15 +6,6 @@ group=11
 groupname[$group]="Model Delft3D"
 
 # Delft3D v6.03 (rev68819)
-if [ "$compiler" == "gnu" ] && (( $(echo "$CC_VERSION > 7.5" | bc -l) )); then # only GNU<=7.5	 
-
-    if [ ! -z "$selectedFilter" ] &&  [ "$selectedFilter" == "DELFT3D" ]; then
-        log fail "Delft3D supports only GCC version '7.5'. Actual version is '$CC_VERSION'" 
-	    leave 1
-    fi
-
-    log warn "Delft3D supports only GCC version '7.5'. Actual version is '$CC_VERSION'" 
-else 
 index=1
 name["$group-$index"]=delft3d
 version["$group-$index"]=6.03
@@ -421,7 +412,6 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-"
-fi # only GNU<=7.5	
+"	
 
 
