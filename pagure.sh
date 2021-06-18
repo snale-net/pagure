@@ -868,12 +868,20 @@ function install()
 					if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
 					then		
 						echo $"${patch_01["$index"]}" > patch_to_apply.patch
+						dos2unix ${patchfile_01["$index"]}
 						patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
 					if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
 					then			
 						echo $"${patch_02["$index"]}" > patch_to_apply.patch
+						dos2unix ${patchfile_02["$index"]}
 						patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					fi
+					if [[ -f "${patchfile_03["$index"]}" && ! -z "${patch_03["$index"]}" ]]
+					then			
+						echo $"${patch_03["$index"]}" > patch_to_apply.patch
+						dos2unix ${patchfile_03["$index"]}
+						patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
 					
 					# Compilation #

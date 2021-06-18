@@ -120,7 +120,7 @@ module-whatis \"Swan ${version["$group-$index"]}\"
 module load dependencies_modules
 
 # Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
 
