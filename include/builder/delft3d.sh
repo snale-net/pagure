@@ -31,7 +31,7 @@ cp -f $prefix/src/${dirname["$index"]}/third_party_open/swan/swan_mpi/swan_mpi.e
 cd $prefix/src/${dirname["$index"]}/third_party_open/swan/swan_omp 2>&1 >&3 | tee -a $LOGFILE && leave
 make clean 2>&1 >&3 | tee -a $LOGFILE && leave
 make 2>&1 >&3 | tee -a $LOGFILE && leave
-cp -f $prefix/src/${dirname["$index"]}/third_party_open/swan/swan_mpi/swan_omp.exe $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
+cp -f $prefix/src/${dirname["$index"]}/third_party_open/swan/swan_omp/swan_omp.exe $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # On déplace les librairies 64bits dans le dossier lib
 if [ -d "$prefix/${dirinstall["$index"]}/lib64" ] ; then
