@@ -35,5 +35,5 @@ sudo yum install $yumArgs sqlite sqlite-devel 2>&1 >&3 | tee -a $LOGFILE && leav
 # Delft3D deps
 # Web deps
 # SuiteSparse deps
-sudo yum install  $yumArgs libgmp3-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo yum install $yumArgs libgmp3-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 
