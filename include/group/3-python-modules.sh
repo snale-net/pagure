@@ -310,15 +310,15 @@ args["$group-$index"]=""
 
 fi
 
-# array_split 0.2.0
+# array_split 0.5.2
 index=18
 name["$group-$index"]=array_split
-version["$group-$index"]=0.2.0
+version["$group-$index"]=0.5.2
 mandatory["$group-$index"]=1
 details["$group-$index"]=
-url["$group-$index"]="https://files.pythonhosted.org/packages/8c/34/ab1bb66a6c7f8b27b7cd8bfb5eb87deeac705587194127529d0449243098/array_split-0.2.0.tar.gz"
-filename["$group-$index"]=array_split-0.2.0.tar.gz
-dirname["$group-$index"]=array_split-0.2.0
+url["$group-$index"]="https://files.pythonhosted.org/packages/c0/93/4d386a2f0d3a024d8876e8728a7112610255299a819ddf411e0691de1186/array_split-0.5.2.tar.gz"
+filename["$group-$index"]=array_split-0.5.2.tar.gz
+dirname["$group-$index"]=array_split-0.5.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
