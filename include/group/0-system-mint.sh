@@ -24,7 +24,7 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 		# Python v2.x
 		sudo apt-get $aptArgs install python-dev libffi-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 		# GDAL deps
-		sudo apt-get $aptArgs install python-sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
+		sudo apt-get $aptArgs install sphinx-doc sphinx-common 2>&1 >&3 | tee -a $LOGFILE && leave
 	fi
 fi  # end-only-if-Python
 
