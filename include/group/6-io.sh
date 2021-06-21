@@ -437,7 +437,7 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # netcdf4-python 1.5.3
 index=9
-name["$group-$index"]=netcdf4-python
+name["$group-$index"]=netCDF4
 version["$group-$index"]=1.5.3
 if [ "$mpilib" == "none" ]; then 
 	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.4.3 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
