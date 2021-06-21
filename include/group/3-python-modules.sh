@@ -26,7 +26,7 @@ args["$group-$index"]=""
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # setuptools-scm 6.0.1
 index=2
-name["$group-$index"]=setuptools-scm
+name["$group-$index"]=setuptools_scm
 version["$group-$index"]=6.0.1
 mandatory["$group-$index"]=1
 details["$group-$index"]=""
@@ -42,7 +42,7 @@ args["$group-$index"]=""
 else 
 # setuptools-scm 5.0.2
 index=3
-name["$group-$index"]=setuptools-scm
+name["$group-$index"]=setuptools_scm
 version["$group-$index"]=5.0.2
 mandatory["$group-$index"]=1
 details["$group-$index"]=""
@@ -262,9 +262,9 @@ args["$group-$index"]=""
 
 # pyparsing 2.4.7
 index=15
-name["$group-$index"]=pyparsing-2.4.7
+name["$group-$index"]=pyparsing
 version["$group-$index"]=2.4.7
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz"
 filename["$group-$index"]=pyparsing-2.4.7.tar.gz
@@ -314,7 +314,7 @@ fi
 index=18
 name["$group-$index"]=array_split
 version["$group-$index"]=0.5.2
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/c0/93/4d386a2f0d3a024d8876e8728a7112610255299a819ddf411e0691de1186/array_split-0.5.2.tar.gz"
 filename["$group-$index"]=array_split-0.5.2.tar.gz
@@ -330,9 +330,9 @@ if (( $(echo "$pythonVersion < 3.0" | bc -l) )); then # only Python < 3.0
 
 # MarkupSafe 1.1.1
 index=19
-name["$group-$index"]=MarkupSafe
+name["$group-$index"]=markupsafe
 version["$group-$index"]=1.1.1
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz"
 filename["$group-$index"]=MarkupSafe-1.1.1.tar.gz
@@ -350,7 +350,7 @@ fi
 index=20
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.11.3
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/4f/e7/65300e6b32e69768ded990494809106f87da1d436418d5f1367ed3966fd7/Jinja2-2.11.3.tar.gz"
 filename["$group-$index"]=Jinja2-2.11.3.tar.gz
@@ -366,7 +366,7 @@ args["$group-$index"]=""
 index=21
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/39/7e/578388fad751a75dd087598c3e28a8e045b95ee219eb768ee3c80c5c1d88/f90nml-1.1.2.tar.gz"
 filename["$group-$index"]=f90nml-1.1.2.tar.gz
