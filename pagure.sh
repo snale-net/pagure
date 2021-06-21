@@ -588,15 +588,9 @@ if [ -z "$pythonVersion" ]; then
 		python --version &> version_test
 		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
 		rm -f version_test
-		
-		if (( $(echo "${pythonVersion} >= 3.0" | bc -l) )); then # only Python >= 3.0			
-			pythonInterpreter=python${pythonVersion}
-			installedPython=1
-			log info "Python interpreter is set to $pythonInterpreter"	
-		else 
-			log warn "Python ${pythonVersion} found but is too old. We won't use it" 
-			pythonInterpreter="none"
-		fi		
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+		log info "Python interpreter is set to $pythonInterpreter"
 	fi
 
 elif hash python${pythonVersion} 2>/dev/null

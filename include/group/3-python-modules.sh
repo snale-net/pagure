@@ -89,6 +89,7 @@ args["$group-$index"]=""
 
 fi
 
+if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # dateutil 2.8.1
 index=4
 name["$group-$index"]=dateutil
@@ -104,9 +105,26 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
+else 
+# dateutil 2.7.0
+index=5
+name["$group-$index"]=dateutil
+version["$group-$index"]=2.7.0
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]=https://files.pythonhosted.org/packages/e5/1d/64a3b1c30842ecf0518af93ed123e5064559e588aebdcae0a59831dee642/python-dateutil-2.7.0.tar.gz
+filename["$group-$index"]=python-dateutil-2.7.0.tar.gz
+dirname["$group-$index"]=python-dateutil-2.7.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+fi
 
 # pybind11 2.4.3
-index=5
+index=6
 name["$group-$index"]=pybind11
 version["$group-$index"]=2.4.3
 mandatory["$group-$index"]=1
@@ -122,7 +140,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # pytz 2021.1
-index=6
+index=7
 name["$group-$index"]=pytz
 version["$group-$index"]=2021.1
 mandatory["$group-$index"]=1
@@ -139,7 +157,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.0" |bc -l) )); then # only Python>=3.0
 # pandas 0.25.3
-index=7
+index=8
 name["$group-$index"]=pandas
 version["$group-$index"]=0.25.3
 mandatory["$group-$index"]=1
@@ -156,7 +174,7 @@ args["$group-$index"]=""
 
 else
 # pandas 0.23.4
-index=8
+index=9
 name["$group-$index"]=pandas
 version["$group-$index"]=0.23.4
 mandatory["$group-$index"]=1
@@ -175,7 +193,7 @@ fi
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # scipy 1.4.1
-index=9
+index=10
 name["$group-$index"]=scipy
 version["$group-$index"]=1.4.1
 mandatory["$group-$index"]=1
@@ -192,7 +210,7 @@ args["$group-$index"]=""
 
 else
 # scipy 1.2.3
-index=10
+index=11
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
 mandatory["$group-$index"]=1
@@ -210,7 +228,7 @@ args["$group-$index"]=""
 fi
 
 # cftime 1.0.4.2
-index=11
+index=12
 name["$group-$index"]=cftime
 version["$group-$index"]=1.0.4.2
 mandatory["$group-$index"]=1
@@ -227,7 +245,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
-index=12
+index=13
 name["$group-$index"]=matplotlib
 version["$group-$index"]=3.1.1
 details["$group-$index"]=
@@ -243,7 +261,7 @@ args["$group-$index"]=""
 
 else
 # matplotlib 2.1.0
-index=13
+index=14
 name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
 details["$group-$index"]=
@@ -260,7 +278,7 @@ args["$group-$index"]=""
 fi
 
 # array_split 0.2.0
-index=14
+index=15
 name["$group-$index"]=array_split
 version["$group-$index"]=0.2.0
 mandatory["$group-$index"]=1
@@ -276,7 +294,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # Jinja2 2.10.3
-index=15
+index=16
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.10.3
 mandatory["$group-$index"]=1
@@ -292,7 +310,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # f90nml 1.1.2
-index=16
+index=17
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 mandatory["$group-$index"]=1
