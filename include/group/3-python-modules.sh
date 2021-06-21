@@ -7,15 +7,15 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 group=3
 groupname[$group]="Python modules"
 
-# setuptools 42.0.2
+# setuptools 57.0.0
 index=1
 name["$group-$index"]=setuptools
-version["$group-$index"]=42.0.2
+version["$group-$index"]=57.0.0
 mandatory["$group-$index"]=1
 details["$group-$index"]="(required by all Python libraries)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/f7/b6/5b98441b6749ea1db1e41e5e6e7a93cbdd7ffd45e11fe1b22d45884bc777/setuptools-42.0.2.zip
-filename["$group-$index"]=setuptools-42.0.2.zip
-dirname["$group-$index"]=setuptools-42.0.2
+url["$group-$index"]=https://files.pythonhosted.org/packages/88/fc/d17731c0cc67a5a8e385e4f47c3b0b186720e198b70f076ccb4676804a8f/setuptools-57.0.0.tar.gz
+filename["$group-$index"]=setuptools-57.0.0.tar.gz
+dirname["$group-$index"]=setuptools-57.0.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -23,8 +23,42 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# Cython 0.29.14
+if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
+# setuptools-scm 6.0.1
 index=2
+name["$group-$index"]=setuptools-scm
+version["$group-$index"]=6.0.1
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]=https://files.pythonhosted.org/packages/57/38/930b1241372a9f266a7df2b184fb9d4f497c2cef2e016b014f82f541fe7c/setuptools_scm-6.0.1.tar.gz
+filename["$group-$index"]=setuptools_scm-6.0.1.tar.gz
+dirname["$group-$index"]=setuptools_scm-6.0.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+else 
+# setuptools-scm 5.0.2
+index=3
+name["$group-$index"]=setuptools-scm
+version["$group-$index"]=5.0.2
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]=https://files.pythonhosted.org/packages/56/c9/09f4a531720b1bf54f316fdff926fbb937c59a9c4a34e3a533b26e501898/setuptools_scm-5.0.2.tar.gz
+filename["$group-$index"]=setuptools_scm-5.0.2.tar.gz
+dirname["$group-$index"]=setuptools_scm-5.0.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+fi
+
+# Cython 0.29.14
+index=4
 name["$group-$index"]=cython
 version["$group-$index"]=0.29.14
 mandatory["$group-$index"]=1
@@ -41,7 +75,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # numpy 1.18.1
-index=3
+index=5
 name["$group-$index"]=numpy
 version["$group-$index"]=1.18.1
 mandatory["$group-$index"]=1
@@ -72,7 +106,7 @@ args["$group-$index"]=""
 
 else
 # numpy 1.16.6
-index=3
+index=6
 name["$group-$index"]=numpy
 version["$group-$index"]=1.16.6
 mandatory["$group-$index"]=1
@@ -89,9 +123,8 @@ args["$group-$index"]=""
 
 fi
 
-if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # dateutil 2.8.1
-index=4
+index=7
 name["$group-$index"]=dateutil
 version["$group-$index"]=2.8.1
 mandatory["$group-$index"]=1
@@ -105,26 +138,10 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
-else 
-# dateutil 2.7.0
-index=5
-name["$group-$index"]=dateutil
-version["$group-$index"]=2.7.0
-mandatory["$group-$index"]=1
-details["$group-$index"]=""
-url["$group-$index"]=https://files.pythonhosted.org/packages/e5/1d/64a3b1c30842ecf0518af93ed123e5064559e588aebdcae0a59831dee642/python-dateutil-2.7.0.tar.gz
-filename["$group-$index"]=python-dateutil-2.7.0.tar.gz
-dirname["$group-$index"]=python-dateutil-2.7.0
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-fi
+
 
 # pybind11 2.4.3
-index=6
+index=8
 name["$group-$index"]=pybind11
 version["$group-$index"]=2.4.3
 mandatory["$group-$index"]=1
@@ -140,7 +157,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # pytz 2021.1
-index=7
+index=9
 name["$group-$index"]=pytz
 version["$group-$index"]=2021.1
 mandatory["$group-$index"]=1
@@ -157,7 +174,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.0" |bc -l) )); then # only Python>=3.0
 # pandas 0.25.3
-index=8
+index=10
 name["$group-$index"]=pandas
 version["$group-$index"]=0.25.3
 mandatory["$group-$index"]=1
@@ -174,7 +191,7 @@ args["$group-$index"]=""
 
 else
 # pandas 0.23.4
-index=9
+index=11
 name["$group-$index"]=pandas
 version["$group-$index"]=0.23.4
 mandatory["$group-$index"]=1
@@ -193,7 +210,7 @@ fi
 
 if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
 # scipy 1.4.1
-index=10
+index=12
 name["$group-$index"]=scipy
 version["$group-$index"]=1.4.1
 mandatory["$group-$index"]=1
@@ -210,7 +227,7 @@ args["$group-$index"]=""
 
 else
 # scipy 1.2.3
-index=11
+index=13
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
 mandatory["$group-$index"]=1
@@ -228,7 +245,7 @@ args["$group-$index"]=""
 fi
 
 # cftime 1.0.4.2
-index=12
+index=14
 name["$group-$index"]=cftime
 version["$group-$index"]=1.0.4.2
 mandatory["$group-$index"]=1
@@ -245,7 +262,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
-index=13
+index=15
 name["$group-$index"]=matplotlib
 version["$group-$index"]=3.1.1
 details["$group-$index"]=
@@ -261,7 +278,7 @@ args["$group-$index"]=""
 
 else
 # matplotlib 2.1.0
-index=14
+index=16
 name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
 details["$group-$index"]=
@@ -278,7 +295,7 @@ args["$group-$index"]=""
 fi
 
 # array_split 0.2.0
-index=15
+index=17
 name["$group-$index"]=array_split
 version["$group-$index"]=0.2.0
 mandatory["$group-$index"]=1
@@ -294,7 +311,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # Jinja2 2.10.3
-index=16
+index=18
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.10.3
 mandatory["$group-$index"]=1
@@ -310,7 +327,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # f90nml 1.1.2
-index=17
+index=19
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 mandatory["$group-$index"]=1
