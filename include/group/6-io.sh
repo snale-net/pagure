@@ -571,7 +571,7 @@ fi  # end-only-if-Python
 
 #--------------------------------------------------------------
 # GRIB Python
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+if [ "$pythonInterpreter" != "none" ] && (( $(echo "$pythonVersion >= 3.3" | bc -l) )); then # only-if-Python && only Python >= 3.3
 
 # cfgrib 0.9.7.7
 index=12
