@@ -260,9 +260,25 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# pyparsing 2.4.7
+index=15
+name["$group-$index"]=pyparsing-2.4.7
+version["$group-$index"]=2.4.7
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz"
+filename["$group-$index"]=pyparsing-2.4.7.tar.gz
+dirname["$group-$index"]=pyparsing-2.4.7
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
-index=15
+index=16
 name["$group-$index"]=matplotlib
 version["$group-$index"]=3.1.1
 details["$group-$index"]=
@@ -278,7 +294,7 @@ args["$group-$index"]=""
 
 else
 # matplotlib 2.1.0
-index=16
+index=17
 name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
 details["$group-$index"]=
@@ -295,7 +311,7 @@ args["$group-$index"]=""
 fi
 
 # array_split 0.2.0
-index=17
+index=18
 name["$group-$index"]=array_split
 version["$group-$index"]=0.2.0
 mandatory["$group-$index"]=1
@@ -311,7 +327,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # Jinja2 2.10.3
-index=18
+index=19
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.10.3
 mandatory["$group-$index"]=1
@@ -327,7 +343,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # f90nml 1.1.2
-index=19
+index=20
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 mandatory["$group-$index"]=1
