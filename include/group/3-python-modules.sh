@@ -23,7 +23,7 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
+if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # setuptools-scm 6.0.1
 index=2
 name["$group-$index"]=setuptools-scm
@@ -73,7 +73,7 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
+if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # numpy 1.18.1
 index=5
 name["$group-$index"]=numpy
@@ -172,7 +172,7 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.0" |bc -l) )); then # only Python>=3.0
+if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 # pandas 0.25.3
 index=10
 name["$group-$index"]=pandas
@@ -208,7 +208,7 @@ args["$group-$index"]=""
 
 fi
 
-if (( $(echo "$pythonVersion >= 3.5" |bc -l) )); then # only Python>=3.5
+if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # scipy 1.4.1
 index=12
 name["$group-$index"]=scipy
@@ -326,15 +326,35 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# Jinja2 2.10.3
+if (( $(echo "$pythonVersion < 3.0" | bc -l) )); then # only Python < 3.0
+
+# MarkupSafe 1.1.1
 index=19
-name["$group-$index"]=jinja2
-version["$group-$index"]=2.10.3
+name["$group-$index"]=MarkupSafe
+version["$group-$index"]=1.1.1
 mandatory["$group-$index"]=1
 details["$group-$index"]=
-url["$group-$index"]="https://files.pythonhosted.org/packages/7b/db/1d037ccd626d05a7a47a1b81ea73775614af83c2b3e53d86a0bb41d8d799/Jinja2-2.10.3.tar.gz"
-filename["$group-$index"]=Jinja2-2.10.3.tar.gz
-dirname["$group-$index"]=Jinja2-2.10.3
+url["$group-$index"]="https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz"
+filename["$group-$index"]=MarkupSafe-1.1.1.tar.gz
+dirname["$group-$index"]=MarkupSafe-1.1.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+fi
+
+# Jinja2 2.11.3
+index=20
+name["$group-$index"]=jinja2
+version["$group-$index"]=2.11.3
+mandatory["$group-$index"]=1
+details["$group-$index"]=
+url["$group-$index"]="https://files.pythonhosted.org/packages/4f/e7/65300e6b32e69768ded990494809106f87da1d436418d5f1367ed3966fd7/Jinja2-2.11.3.tar.gz"
+filename["$group-$index"]=Jinja2-2.11.3.tar.gz
+dirname["$group-$index"]=Jinja2-2.11.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -343,7 +363,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # f90nml 1.1.2
-index=20
+index=21
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 mandatory["$group-$index"]=1
