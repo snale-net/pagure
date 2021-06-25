@@ -227,15 +227,15 @@ args["$group-$index"]=""
 fi
 
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
-# scipy 1.4.1
+# scipy 1.6.3
 index=13
 name["$group-$index"]=scipy
-version["$group-$index"]=1.4.1
+version["$group-$index"]=1.6.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(require Lapack-Blas 3.9.0)"
-url["$group-$index"]="https://github.com/scipy/scipy/archive/v1.4.1.tar.gz -O scipy-1.4.1.tar.gz"
-filename["$group-$index"]=scipy-1.4.1.tar.gz
-dirname["$group-$index"]=scipy-1.4.1
+url["$group-$index"]="https://github.com/scipy/scipy/releases/download/v1.6.3/scipy-1.6.3.tar.gz"
+filename["$group-$index"]=scipy-1.6.3.tar.gz
+dirname["$group-$index"]=scipy-1.6.3
 builder["$group-$index"]="scipy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
