@@ -20,19 +20,21 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 		# GDAL deps		
 	else
 		# Python v2.x		
-		sudo dnf install $dnfArgs python-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+		sudo dnf install $dnfArgs python-devel libffi-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 		# GDAL deps		
 	fi
 fi  # end-only-if-Python
 
-# Python v3.x
 # GDAL deps
 sudo dnf install $dnfArgs libsqlite3x-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # StaticX deps
 # Ruby deps
+sudo dnf install $dnfArgs openssl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
+sudo dnf install $dnfArgs automake libtool uuid-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Web deps
 # SuiteSparse deps
+sudo dnf install $dnfArgs gmp-devel mpfr-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
 
