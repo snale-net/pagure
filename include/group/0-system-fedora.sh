@@ -15,7 +15,8 @@ sudo dnf install $dnfArgs dos2unix 2>&1 >&3 | tee -a $LOGFILE && leave
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
-		# Python v3.x		
+		# Python v3.x	
+        sudo dnf install $dnfArgs python3-devel libffi-devel python3-distutils-extra 2>&1 >&3 | tee -a $LOGFILE && leave	
 		# GDAL deps		
 	else
 		# Python v2.x		
