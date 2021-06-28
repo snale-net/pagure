@@ -476,7 +476,7 @@ if [ -z "$mpi" ]; then
 elif [ "$mpi" == "openmpi110" ]; then
 
 	mpilib="openmpi110"
-    export MPICC=mpicc
+    	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90

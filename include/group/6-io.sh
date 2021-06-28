@@ -149,20 +149,20 @@ prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
 "
 
 #------------------------------------------------------------------
-# NetCDF C 4.7.3
+# NetCDF C 4.8.0
 # 
 # compiled with HDF 1.10.5
 index=4
 name["$group-$index"]=netcdf
-version["$group-$index"]=4.7.3
+version["$group-$index"]=4.8.0
 if [ "$mpilib" == "none" ]; then
 	details["$group-$index"]="(version C - required HDF 1.10.5)"
 else
 	details["$group-$index"]="(version C - required HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
 fi
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.7.3.tar.gz
-filename["$group-$index"]=netcdf-c-4.7.3.tar.gz
-dirname["$group-$index"]=netcdf-c-4.7.3
+url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.8.0.tar.gz
+filename["$group-$index"]=netcdf-c-4.8.0.tar.gz
+dirname["$group-$index"]=netcdf-c-4.8.0
 builder["$group-$index"]="configure"
 if [[ $mpilib == openmpi* ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
@@ -209,38 +209,38 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 
 #--------------------------------------------------------------
-# NetCDF Fortran 4.5.2
+# NetCDF Fortran 4.5.3
 #
 # compiled with HDF 1.10.5
 index=5
 name["$group-$index"]=netcdf
-version["$group-$index"]=4.5.2
+version["$group-$index"]=4.5.3
 if [ "$mpilib" == "none" ]; then
 	details["$group-$index"]="(version Fortran - required Netcdf-C 4.7.3 and HDF 1.10.5)"
 else
 	details["$group-$index"]="(version Fortran - required Netcdf-C 4.7.3, HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
 fi
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.5.2.tar.gz
-filename["$group-$index"]=netcdf-fortran-4.5.2.tar.gz
-dirname["$group-$index"]=netcdf-fortran-4.5.2
+url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.5.3.tar.gz
+filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
+dirname["$group-$index"]=netcdf-fortran-4.5.3
 builder["$group-$index"]="configure"
 if [[ $mpilib == openmpi* ]]; then
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 elif [[ $mpilib == mpich* ]]; then
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 elif [[ $mpilib == intel* ]]; then
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpiifort FC=mpiifort"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 else
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$compilo/fortran/${version["$group-$index"]}"	
 	args["$group-$index"]=""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$compilo"
