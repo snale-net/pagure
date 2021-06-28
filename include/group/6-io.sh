@@ -402,9 +402,9 @@ filename["$group-$index"]=udunits-2.2.28.tar.gz
 dirname["$group-$index"]=udunits-2.2.28
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -440,21 +440,21 @@ index=9
 name["$group-$index"]=netCDF4
 version["$group-$index"]=1.5.3
 if [ "$mpilib" == "none" ]; then 
-	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.4.3 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
+	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.8.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
 else
-	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.4.3 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
+	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.8.0 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
 fi
 url["$group-$index"]="https://github.com/Unidata/netcdf4-python/archive/v1.5.3rel.tar.gz -O netcdf4-python-1.5.3.tar.gz"
 filename["$group-$index"]=netcdf4-python-1.5.3.tar.gz
 dirname["$group-$index"]=netcdf4-python-1.5.3rel
 builder["$group-$index"]="python"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 	dirinstall["$group-$index"]="python-modules/$compilo"
 	#dirmodule["$group-$index"]=""
 	#modulefile["$group-$index"]=""
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} python-modules/$mpilib/$compilo/${pythonVersion}"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} python-modules/$mpilib/$compilo/${pythonVersion}"
 	dirinstall["$group-$index"]="python-modules/$mpilib/$compilo"
 	dirmodule["$group-$index"]="python-modules/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -542,9 +542,9 @@ filename["$group-$index"]=eccodes-2.16.0-Source.tar.gz
 dirname["$group-$index"]=eccodes-2.16.0-Source
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.7.3 netcdf-fortran/hdf5.110/$compilo/4.5.2 jasper/$compilo/2.0.26"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 jasper/$compilo/2.0.26"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2 jasper/$compilo/2.0.26"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3"

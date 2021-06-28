@@ -391,7 +391,7 @@ patch_03["$group-$index"]="--- Makefile_original.am	2021-06-10 17:36:34.39808068
 "
 patchfile_03["$group-$index"]="third_party_open/swan/swan_omp/Makefile.am"
 builder["$group-$index"]="delft3d"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2 ruby/$compilo/2.7.2"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 ruby/$compilo/2.7.2"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
