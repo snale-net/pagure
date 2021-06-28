@@ -357,14 +357,14 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
 
-# CDO 1.9.7.1
+# CDO 1.9.10
 index=12
 name["$group-$index"]=cdo
-version["$group-$index"]=1.9.7.1
+version["$group-$index"]=1.9.10
 details["$group-$index"]=""
-url["$group-$index"]="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
-filename["$group-$index"]=cdo-1.9.7.1.tar.gz
-dirname["$group-$index"]=cdo-1.9.7.1
+url["$group-$index"]="https://code.mpimet.mpg.de/attachments/download/24638/cdo-1.9.10.tar.gz"
+filename["$group-$index"]=cdo-1.9.10.tar.gz
+dirname["$group-$index"]=cdo-1.9.10
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
