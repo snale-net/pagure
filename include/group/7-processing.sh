@@ -231,7 +231,7 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # pygdal 3.3.0.7
 index=7
-name["$group-$index"]=pygdal
+name["$group-$index"]=gdal
 version["$group-$index"]=3.3.0.7
 details["$group-$index"]="(version Python - require GDAL 3.3.0)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/50/7b/e1cc8fd0820fbd10857855529143976441c8ec874b51d626ae397ffd6876/pygdal-3.3.0.7.tar.gz
