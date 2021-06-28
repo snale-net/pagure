@@ -296,7 +296,7 @@ details["$group-$index"]="(required for GMT)"
 url["$group-$index"]="ftp://ftp.soest.hawaii.edu/gmt/gshhg-gmt-2.3.7.tar.gz"
 filename["$group-$index"]=gshhg-gmt-2.3.7.tar.gz
 dirname["$group-$index"]=gshhg-gmt-2.3.7
-builder["$group-$index"]="gmt5-data"
+builder["$group-$index"]="no_build"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -311,21 +311,21 @@ details["$group-$index"]="(required for GMT)"
 url["$group-$index"]="ftp://ftp.soest.hawaii.edu/gmt/dcw-gmt-1.1.4.tar.gz"
 filename["$group-$index"]=dcw-gmt-1.1.4.tar.gz
 dirname["$group-$index"]=dcw-gmt-1.1.4
-builder["$group-$index"]="gmt5-data"
+builder["$group-$index"]="no_build"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 #modulefile["$group-$index"]=""
 
-# GMT 5.4.5
+# GMT 6.2.0
 index=11
 name["$group-$index"]=gmt
-version["$group-$index"]=5.4.5
+version["$group-$index"]=6.2.0
 details["$group-$index"]=""
-url["$group-$index"]="ftp://ftp.soest.hawaii.edu/gmt/gmt-5.4.5-src.tar.gz"
-filename["$group-$index"]=gmt-5.4.5-src.tar.gz
-dirname["$group-$index"]=gmt-5.4.5
+url["$group-$index"]="https://github.com/GenericMappingTools/gmt/archive/refs/tags/6.2.0.tar.gz -O gmt-6.2.0.tar.gz"
+filename["$group-$index"]=gmt-6.2.0.tar.gz
+dirname["$group-$index"]=gmt-6.2.0
 builder["$group-$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
@@ -333,7 +333,7 @@ else
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt-2.3.7 -DDCW_PATH=$prefix/dcw-gmt-1.1.4"
+args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/1.1.4"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -944,6 +944,85 @@ module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# Boost 1.76.0
+index=21
+name["$group-$index"]=boost
+version["$group-$index"]=1.76.0
+details["$group-$index"]=""
+url["$group-$index"]="https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz"
+filename["$group-$index"]=boost_1_76_0.tar.gz
+dirname["$group-$index"]=boost_1_76_0
+builder["$group-$index"]="boost"
+if [[ "$compiler" == "intel" ]] ; then
+    args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
+else
+    args["$group-$index"]="--with-python=${pythonInterpreter}"
+fi
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"   
+    dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+else
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"	
+	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+fi
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
+prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+# Cgal 5.2.2
+index=22
+name["$group-$index"]=cgal
+version["$group-$index"]=5.2.2
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v5.2.2.tar.gz -O cgal-5.2.2.tar.gz"
+filename["$group-$index"]=cgal-5.2.2.tar.gz
+dirname["$group-$index"]=cgal-5.2.2
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="boost/$compilo/1.76.0"
+args["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
