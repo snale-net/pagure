@@ -530,24 +530,56 @@ args["$group-$index"]=""
 fi # end-old-version && no MPI
 fi  # end-only-if-Python
 
+# ecbuild 2021.05.0
+index=11
+name["$group-$index"]=ecbuild
+version["$group-$index"]=2021.05.0
+details["$group-$index"]="(Required by Eccodes)"
+url["$group-$index"]="https://github.com/ecmwf/ecbuild/archive/refs/tags/2021.05.0.tar.gz -O ecbuild-2021.05.0.tar.gz"
+filename["$group-$index"]=ecbuild-2021.05.0.tar.gz
+dirname["$group-$index"]=ecbuild-2021.05.0
+builder["$group-$index"]="ecbuild"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path ecbuild_DIR $prefix/${dirinstall["$group-$index"]}/cmake
+"
+
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (Jasper need)
 
-# eccodes 2.16.0
-index=11
+# eccodes 2.22.1
+index=12
 name["$group-$index"]=eccodes
-version["$group-$index"]=2.16.0
+version["$group-$index"]=2.22.1
 details["$group-$index"]="(Grib file)"
-url["$group-$index"]=https://confluence.ecmwf.int/download/attachments/45757960/eccodes-2.16.0-Source.tar.gz
-filename["$group-$index"]=eccodes-2.16.0-Source.tar.gz
-dirname["$group-$index"]=eccodes-2.16.0-Source
+url["$group-$index"]="https://github.com/ecmwf/eccodes/archive/refs/tags/2.22.1.tar.gz -O eccodes-2.22.1.tar.gz"
+filename["$group-$index"]=eccodes-2.22.1.tar.gz
+dirname["$group-$index"]=eccodes-2.22.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 jasper/$compilo/2.0.26"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3"
+args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -574,15 +606,15 @@ fi  # end-only-if-Python
 if [ "$pythonInterpreter" != "none" ] && (( $(echo "$pythonVersion >= 3.3" | bc -l) )); then # only-if-Python && only Python >= 3.3
 
 # cfgrib 0.9.7.7
-index=12
+index=13
 name["$group-$index"]=cfgrib
 version["$group-$index"]=0.9.7.7
-details["$group-$index"]="(version Python - require ecCodes 2.16.0)"
+details["$group-$index"]="(version Python - require ecCodes 2.22.1)"
 url["$group-$index"]="https://github.com/ecmwf/cfgrib/archive/0.9.7.7.tar.gz -O cfgrib-0.9.7.7.tar.gz"
 filename["$group-$index"]=cfgrib-0.9.7.7.tar.gz
 dirname["$group-$index"]=cfgrib-0.9.7.7
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="eccodes/$compilo/2.16.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="eccodes/$compilo/2.22.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""

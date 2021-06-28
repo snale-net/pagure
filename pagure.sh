@@ -19,6 +19,7 @@ BLANC="\\033[0;02m"
 BLANCLAIR="\\033[1;08m"
 ORANGE="\\033[1;33m"
 CYAN="\\033[1;36m"
+GRIS="\\033[1;90m"
 clear
 rm -f $LOGFILE
 function log(){
@@ -34,6 +35,10 @@ function log(){
     then
       echo -e "[ $BLEU INFO $NORMAL ] " $2
       echo "[ INFO ] " $2 >> $LOGFILE
+    elif [ $1 == "debug" ]
+    then
+      echo -e "[ $GRIS DEBUG $NORMAL ] " $2
+      echo "[ DEBUG ] " $2 >> $LOGFILE
     elif [ $1 == "step" ]
     then
       echo -e "[ $CYAN STEP $NORMAL ] " $2
@@ -44,7 +49,7 @@ function log(){
       echo "[ SKIP ] " $2 >> $LOGFILE
     elif [ $1 == "abort" ]
     then
-      echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with status error" $2
+      echo -e "[ $GRIS ABORT $NORMAL ] PAGURE aborted with status error" $2
       echo "[ ABORT ] Abort with status error" $2 >> $LOGFILE
      elif [ $1 == "fail" ]
     then
@@ -64,9 +69,13 @@ function log(){
 exec_module()
 {
    module $1 &> module_exec  
+   
+   if [ $debug == "1" ]; then   	
+   	log debug "Execution of 'module $1' returns '$(cat module_exec)'"
+   fi
   
    isFailed=$(cat module_exec | grep 'ERROR' -c)
-   if [ "$isFailed" == "1" ] 
+   if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
    then  
         log fail "Missing required dependency : $(cat module_exec). Please install it before"
    	leave 100
@@ -101,7 +110,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
 	echo ' '
 }
 
@@ -125,6 +134,7 @@ fi
 forceDownload=0
 forceReinstall=0
 autoRemove=1
+debug=0
 
 if test $# -eq 0
 then
@@ -153,6 +163,7 @@ case "$1" in
     -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -791,7 +802,7 @@ function install()
 				fi  # end-only-if-Python
 
 				# On charge les dépendances
-				if [[ ! -z "${dependencies["$index"]}" ]] ; then  												
+				if [[ ! -z "${dependencies["$index"]}" ]] ; then 						
 					exec_module "load ${dependencies["$index"]}"						
 				fi
 					
@@ -822,7 +833,12 @@ function install()
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
-					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"					
+					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
+					
+					if [ $debug == "1" ]; then
+						log debug "Loaded dependencies : ${dependencies["$index"]}"
+						module list
+					fi				
 
 					cd $prefix/tgz
 
