@@ -388,7 +388,40 @@ else
 	
 fi
 
-# 6. Installation des paquets système
+# 6. Tester la version de Python
+installedPython=0
+if [ -z "$pythonVersion" ]; then
+	if ! hash python 2>/dev/null; then        
+		log warn "No Python interpreter" 
+		pythonInterpreter="none"	    
+	else	
+		python --version &> version_test
+		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		rm -f version_test
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+		log info "Python interpreter is set to $pythonInterpreter"
+	fi
+
+elif hash python${pythonVersion} 2>/dev/null
+then    
+	pythonInterpreter=python${pythonVersion}
+	installedPython=1
+	log info "Python interpreter is set to $pythonInterpreter"
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+		installedPython=0
+	fi
+else
+	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	else
+		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 can be installed with PAGURE" 
+		leave 1
+	fi
+fi
+
+# 7. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
 	log raw "......................"
@@ -416,7 +449,7 @@ then
 fi
 
 log raw "......................"
-# 7. Récupérer la version du compilateur
+# 8. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
@@ -479,7 +512,7 @@ if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); the
 	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
 fi
 
-# 8. Tester la version du MPI
+# 9. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
@@ -591,39 +624,6 @@ if [ "$mpilib" == "none" ]; then
     log warn "No MPI library"  
 else
     log info "MPI library is set to $mpilib"
-fi
-
-# 9. Tester la version de Python
-installedPython=0
-if [ -z "$pythonVersion" ]; then
-	if ! hash python 2>/dev/null; then        
-		log warn "No Python interpreter" 
-		pythonInterpreter="none"	    
-	else	
-		python --version &> version_test
-		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
-		rm -f version_test
-		pythonInterpreter=python${pythonVersion}
-		installedPython=1
-		log info "Python interpreter is set to $pythonInterpreter"
-	fi
-
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-	installedPython=1
-	log info "Python interpreter is set to $pythonInterpreter"
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		installedPython=0
-	fi
-else
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		pythonInterpreter=python${pythonVersion}
-		log info "Python interpreter ${pythonVersion} will be installed"
-	else
-		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 can be installed with PAGURE" 
-		leave 1
-	fi
 fi
 
 log raw "......................"
