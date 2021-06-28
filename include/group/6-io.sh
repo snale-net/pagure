@@ -216,9 +216,9 @@ index=5
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.5.3
 if [ "$mpilib" == "none" ]; then
-	details["$group-$index"]="(version Fortran - required Netcdf-C 4.7.3 and HDF 1.10.5)"
+	details["$group-$index"]="(version Fortran - required Netcdf-C 4.8.0 and HDF 1.10.5)"
 else
-	details["$group-$index"]="(version Fortran - required Netcdf-C 4.7.3, HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
+	details["$group-$index"]="(version Fortran - required Netcdf-C 4.8.0, HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
 fi
 url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.5.3.tar.gz
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
@@ -440,9 +440,9 @@ index=9
 name["$group-$index"]=netCDF4
 version["$group-$index"]=1.5.3
 if [ "$mpilib" == "none" ]; then 
-	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.8.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
+	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 4.8.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
 else
-	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 7.8.0 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
+	details["$group-$index"]="(version Python - require HDF5 1.10.5 / NetCDF C 4.8.0 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
 fi
 url["$group-$index"]="https://github.com/Unidata/netcdf4-python/archive/v1.5.3rel.tar.gz -O netcdf4-python-1.5.3.tar.gz"
 filename["$group-$index"]=netcdf4-python-1.5.3.tar.gz

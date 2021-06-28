@@ -833,12 +833,7 @@ function install()
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
-					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
-					
-					if [ $debug == "1" ]; then
-						log debug "Loaded dependencies : ${dependencies["$index"]}"
-						module list
-					fi				
+					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"										
 
 					cd $prefix/tgz
 

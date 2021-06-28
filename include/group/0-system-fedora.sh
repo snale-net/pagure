@@ -10,7 +10,7 @@ fi
 # Installation des entêtes Python & librairies essentielles
 sudo dnf install $dnfArgs gcc gcc-c++ gcc-fortran 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo dnf install $dnfArgs tcl tcl-devel tcllib 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo dnf install $dnfArgs freetype-devel libpng-devel libX11-devel libXaw-devel m4 patch make cmake expat-devel autoconf bison flex libcurl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo dnf install $dnfArgs freetype-devel libpng-devel libtiff-devel libX11-devel libXaw-devel m4 patch make cmake expat-devel autoconf bison flex libcurl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo dnf install $dnfArgs dos2unix 2>&1 >&3 | tee -a $LOGFILE && leave
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
