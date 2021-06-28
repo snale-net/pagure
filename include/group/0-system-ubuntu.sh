@@ -18,12 +18,12 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 		# Python v3.x
 		sudo apt-get $aptArgs install python3-dev libffi-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 		sudo apt-get $aptArgs install python3-distutils 2>&1 >&3 | tee -a $LOGFILE && leave
-		# GDAL deps
+		# GMT deps
 		sudo apt-get $aptArgs install python3-sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
 	else
 		# Python v2.x
 		sudo apt-get $aptArgs install python-dev libffi-dev 2>&1 >&3 | tee -a $LOGFILE && leave
-		# GDAL deps
+		# GMT deps
 		sudo apt-get $aptArgs install sphinx-doc sphinx-common 2>&1 >&3 | tee -a $LOGFILE && leave
 	fi
 fi  # end-only-if-Python

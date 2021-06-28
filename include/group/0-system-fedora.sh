@@ -17,11 +17,13 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 		# Python v3.x	
         sudo dnf install $dnfArgs python3-devel libffi-devel python3-distutils-extra 2>&1 >&3 | tee -a $LOGFILE && leave	
-		# GDAL deps		
+		# GMT deps	
+        sudo dnf install $dnfArgs python3-sphinx 2>&1 >&3 | tee -a $LOGFILE && leave		
 	else
 		# Python v2.x		
 		sudo dnf install $dnfArgs python-devel libffi-devel 2>&1 >&3 | tee -a $LOGFILE && leave
-		# GDAL deps		
+		# GMT deps 08-03-2021 plus de support
+        #sudo dnf install $dnfArgs python-sphinx 2>&1 >&3 | tee -a $LOGFILE && leave		
 	fi
 fi  # end-only-if-Python
 
