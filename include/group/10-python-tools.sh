@@ -67,14 +67,14 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# airflow 1.10.9
+# airflow 2.1.1
 index=5
 name["$group-$index"]=airflow
-version["$group-$index"]=1.10.9
+version["$group-$index"]=2.1.1
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/apache/airflow/archive/1.10.9.tar.gz -O airflow-1.10.9.tar.gz"
-filename["$group-$index"]=airflow-1.10.9.tar.gz
-dirname["$group-$index"]=airflow-1.10.9
+url["$group-$index"]="https://github.com/apache/airflow/archive/refs/tags/2.1.1rc1.tar.gz -O airflow-2.1.1.tar.gz"
+filename["$group-$index"]=airflow-2.1.1.tar.gz
+dirname["$group-$index"]=airflow-2.1.1rc1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
