@@ -1073,7 +1073,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
-setenv PETSC_DIR $prefix/${dirinstall["$group$index"]}/
+setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 
