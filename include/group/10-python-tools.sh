@@ -97,14 +97,44 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# staticx 0.9.1
-index=24
+# wheel-0.36.2
+index=7
+name["$group-$index"]=wheel
+version["$group-$index"]=0.36.2
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
+filename["$group-$index"]=wheel-0.36.2.tar.gz
+dirname["$group-$index"]=wheel-0.36.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# scons-4.1.0
+index=8
+name["$group-$index"]=scons
+version["$group-$index"]=4.1.0
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/be/d0/bf4e7003369c6d8a6e490741c54791c7918d9ef10b56aec201e76706f1d7/SCons-4.1.0.post1.tar.gz"
+filename["$group-$index"]=SCons-4.1.0.post1.tar.gz
+dirname["$group-$index"]=SCons-4.1.0.post1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# staticx 0.12.2
+index=9
 name["$group-$index"]=staticx
-version["$group-$index"]=0.9.1
+version["$group-$index"]=0.12.2
 details["$group-$index"]="(requires musl 1.2.0)"
-url["$group-$index"]="https://github.com/JonathonReinhart/staticx/archive/v0.9.1.tar.gz -O staticx-0.9.1.tar.gz"
-filename["$group-$index"]=staticx-0.9.1.tar.gz
-dirname["$group-$index"]=staticx-0.9.1
+url["$group-$index"]="https://github.com/JonathonReinhart/staticx/archive/refs/tags/v0.12.2.tar.gz -O staticx-0.12.2.tar.gz"
+filename["$group-$index"]=staticx-0.12.2.tar.gz
+dirname["$group-$index"]=staticx-0.12.2
 builder["$group-$index"]="staticx"
 dependencies["$group-$index"]="musl/$compilo/1.2.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
