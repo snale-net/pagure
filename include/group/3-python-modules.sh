@@ -396,15 +396,15 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# pendulum 2.1.2
+# pytzdata 2020.1
 index=23
-name["$group-$index"]=pendulum
-version["$group-$index"]=2.1.2
+name["$group-$index"]=pytzdata
+version["$group-$index"]=2020.1
 mandatory["$group-$index"]=1
-details["$group-$index"]=""
-url["$group-$index"]="https://files.pythonhosted.org/packages/db/15/6e89ae7cde7907118769ed3d2481566d05b5fd362724025198bb95faf599/pendulum-2.1.2.tar.gz"
-filename["$group-$index"]=pendulum-2.1.2.tar.gz
-dirname["$group-$index"]=pendulum-2.1.2
+details["$group-$index"]=
+url["$group-$index"]="https://files.pythonhosted.org/packages/67/62/4c25435a7c2f9c7aef6800862d6c227fc4cd81e9f0beebc5549a49c8ed53/pytzdata-2020.1.tar.gz"
+filename["$group-$index"]=pytzdata-2020.1.tar.gz
+dirname["$group-$index"]=pytzdata-2020.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -412,8 +412,24 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# toolz 0.10.0
+# pendulum 2.1.2
 index=24
+name["$group-$index"]=pendulum
+version["$group-$index"]=2.1.2
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/db/15/6e89ae7cde7907118769ed3d2481566d05b5fd362724025198bb95faf599/pendulum-2.1.2.tar.gz"
+filename["$group-$index"]=pendulum-2.1.2.tar.gz
+dirname["$group-$index"]=pendulum-2.1.2
+builder["$group-$index"]="pendulum"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# toolz 0.10.0
+index=25
 name["$group-$index"]=toolz
 version["$group-$index"]=0.10.0
 details["$group-$index"]="(required by xarray)"
@@ -428,7 +444,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # wheel-0.36.2
-index=25
+index=26
 name["$group-$index"]=wheel
 version["$group-$index"]=0.36.2
 details["$group-$index"]=""
@@ -443,7 +459,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # scons-4.1.0
-index=26
+index=27
 name["$group-$index"]=scons
 version["$group-$index"]=4.1.0
 details["$group-$index"]=""
