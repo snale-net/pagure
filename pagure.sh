@@ -491,6 +491,7 @@ log raw "......................"
 # 8. Récupérer la version du compilateur
 if [ -z "$compiler" ]
 then
+	compiler="gnu"
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
     	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
     	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
@@ -548,10 +549,7 @@ fi
 # Fix for GNU 10
 if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # only GNU>=10.0			
 	export FFLAGS="-w -fallow-argument-mismatch -O2"
-	export FCFLAGS="-w -fallow-argument-mismatch -O2"
-	echo "icic	"
-	echo $(vercomp ${CC_VERSION} 10.0)
-	
+	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
 fi
 
 # 9. Tester la version du MPI
