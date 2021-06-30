@@ -40,8 +40,4 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv SPUD_DIR $prefix/${dirinstall["$group$index"]}
 "
 
-if [ "$mpilib" != "none" ]; then # MPI-only
-    echo "hi"
-fi # end-MPI-only
-
 
