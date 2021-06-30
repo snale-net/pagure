@@ -102,13 +102,14 @@ function leave()
 }
 
 # Comparer une version
-# Returns 0 if =
-# Returns 1 if >
-# Returns 2 if <     
-function vercomp () {
+# Returns 0 if $1 = $2
+# Returns 1 if $1 > $2
+# Returns 2 if $1 < $2     
+function vercomp () {	
     if [[ $1 == $2 ]]
     then
-        return 0
+        echo "0"
+        return
     fi
     local IFS=.
     local i ver1=($1) ver2=($2)
@@ -126,14 +127,17 @@ function vercomp () {
         fi
         if ((10#${ver1[i]} > 10#${ver2[i]}))
         then
-            return 1
+            echo "1"
+            return
         fi
         if ((10#${ver1[i]} < 10#${ver2[i]}))
         then
-            return 2
+            echo "2"
+            return
         fi
     done
-    return 0
+    echo "0"
+    return
 }
 
 # Usage
@@ -443,11 +447,11 @@ then
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
 	log info "Python interpreter is set to $pythonInterpreter"
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+	if [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		installedPython=0
 	fi
 else
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
+	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
@@ -536,15 +540,18 @@ else
 	leave 1
 fi
 
-if [[ "${CC_VERSION}" != "${CXX_VERSION}" || "${CC_VERSION}" != "${FC_VERSION}" ]]; then
+if [[ $(vercomp ${CC_VERSION} ${CXX_VERSION}) != 0 ]] || [[ $(vercomp ${CC_VERSION} ${FC_VERSION}) != 0 ]]; then
     log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
 	leave 1
 fi
 
 # Fix for GNU 10
-if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); then # only GNU>=10.2			
+if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # only GNU>=10.0			
 	export FFLAGS="-w -fallow-argument-mismatch -O2"
-	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
+	export FCFLAGS="-w -fallow-argument-mismatch -O2"
+	echo "icic	"
+	echo $(vercomp ${CC_VERSION} 10.0)
+	
 fi
 
 # 9. Tester la version du MPI
@@ -851,8 +858,8 @@ function install()
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
 					else											
-						vercomp ${version["$index"]} $(cat lib_test)
-						versionTest=$?
+						
+						versionTest=$(vercomp ${version["$index"]} $(cat lib_test))
 						if [ "$versionTest" == "1" ] ; then		
 							alreadyInstall=false	
 						elif [ "$versionTest" == "2" ] ; then
