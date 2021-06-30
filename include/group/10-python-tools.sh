@@ -9,7 +9,7 @@ groupname[$group]="Python tools"
 
 # Pillow 8.2.0
 index=1
-name["$group-$index"]=pillow
+name["$group-$index"]=PIL
 version["$group-$index"]=8.2.0
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/21/23/af6bac2a601be6670064a817273d4190b79df6f74d8012926a39bc7aa77f/Pillow-8.2.0.tar.gz"
@@ -67,8 +67,23 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# airflow 2.1.1
+# pendulum 2.1.2
 index=5
+name["$group-$index"]=pendulum
+version["$group-$index"]=2.1.2
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/db/15/6e89ae7cde7907118769ed3d2481566d05b5fd362724025198bb95faf599/pendulum-2.1.2.tar.gz"
+filename["$group-$index"]=pendulum-2.1.2.tar.gz
+dirname["$group-$index"]=pendulum-2.1.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# airflow 2.1.1
+index=6
 name["$group-$index"]=airflow
 version["$group-$index"]=2.1.1
 details["$group-$index"]=""
@@ -83,7 +98,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # PyInstaller 3.6
-index=6
+index=7
 name["$group-$index"]=pyinstaller
 version["$group-$index"]=3.6
 details["$group-$index"]=""
@@ -98,7 +113,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # wheel-0.36.2
-index=7
+index=8
 name["$group-$index"]=wheel
 version["$group-$index"]=0.36.2
 details["$group-$index"]=""
@@ -113,7 +128,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # scons-4.1.0
-index=8
+index=9
 name["$group-$index"]=scons
 version["$group-$index"]=4.1.0
 details["$group-$index"]=""
@@ -128,7 +143,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # staticx 0.12.2
-index=9
+index=10
 name["$group-$index"]=staticx
 version["$group-$index"]=0.12.2
 details["$group-$index"]="(requires musl 1.2.0)"

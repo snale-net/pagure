@@ -5,6 +5,8 @@
 group=11
 groupname[$group]="Model Delft3D"
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # Delft3D v6.03 (rev68819)
 index=1
 name["$group-$index"]=delft3d
@@ -414,4 +416,5 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "	
 
+fi # end-MPI-only
 

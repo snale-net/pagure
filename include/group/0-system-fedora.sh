@@ -30,6 +30,7 @@ fi  # end-only-if-Python
 # GDAL deps
 sudo dnf install $dnfArgs libsqlite3x-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # StaticX deps
+sudo dnf install $dnfArgs glibc-nss-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Ruby deps
 sudo dnf install $dnfArgs openssl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
