@@ -70,8 +70,12 @@ function exec_module()
 {
    module $1 &> module_exec  
    
-   if [ $debug == "1" ]; then   	
-   	log debug "Execution of 'module $1' returns '$(cat module_exec)'"
+   if [ $debug == "1" ]; then   
+   	if [ "$(cat module_exec)" == "" ]; then	
+   		log debug "Execution of 'module $1'"
+   	else
+   		log debug "Execution of 'module $1' returns '$(cat module_exec)'"
+   	fi
    fi
   
    isFailed=$(cat module_exec | grep 'ERROR' -c)

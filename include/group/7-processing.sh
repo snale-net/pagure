@@ -578,7 +578,7 @@ fi # MPI-only
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # Scotch 6.0.9
-index=16
+index=17
 name["$group-$index"]=scotch
 version["$group-$index"]=6.0.9
 details["$group-$index"]="(sequential version)"
@@ -919,7 +919,7 @@ fi # MPI-only
 
 # SuiteSparse 5.10.1
 index=20
-name["$group-$index"]=SuiteSparse
+name["$group-$index"]=suitesparse
 version["$group-$index"]=5.10.1
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz -O SuiteSparse-5.10.1.tar.gz"
@@ -1030,5 +1030,52 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
+
+# petsc 3.12.5
+index=23
+name["$group-$index"]=petsc
+version["$group-$index"]=3.12.5
+details["$group-$index"]=""
+url["$group-$index"]="https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.12.5.tar.gz"
+filename["$group-$index"]=petsc-3.12.5.tar.gz
+dirname["$group-$index"]=petsc-3.12.5
+patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 +0200
++++ configure	2021-06-30 16:42:39.844440867 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python${pythonVersion}
+ 
+ import sys, os
+ sys.path.insert(0, os.path.abspath('config'))
+"
+patchfile_01["$group-$index"]="configure"
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.12.1 mumps/$mpilib/$compilo/5.2.1"
+args["$group$index"]="--with-debugging=0 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 -with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-mpi4py=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv PETSC_DIR $prefix/${dirinstall["$group$index"]}/
+"
+
+
 
 
