@@ -66,7 +66,7 @@ function log(){
 }
 
 # Execute module
-exec_module()
+function exec_module()
 {
    module $1 &> module_exec  
    
@@ -85,7 +85,7 @@ exec_module()
 
 
 # Quitter le script
-leave()
+function leave()
 {
   ret="${PIPESTATUS[0]}"  
   if [[ "$ret" -ne "0" ]]; then
@@ -99,6 +99,41 @@ leave()
   	log abort $1
      	exit $1
   fi   
+}
+
+# Comparer une version
+# Returns 0 if =
+# Returns 1 if >
+# Returns 2 if <     
+function vercomp () {
+    if [[ $1 == $2 ]]
+    then
+        return 0
+    fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            return 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            return 2
+        fi
+    done
+    return 0
 }
 
 # Usage
@@ -809,15 +844,27 @@ function install()
 				# On teste si la librairie est déjà installée
 				if [[ "${dirinstall["$index"]}" =~ .*(python-modules).* ]]; then				
 					# module Python							
-					$pythonInterpreter -c "import ${name["$index"]}" &> lib_test									
+					$pythonInterpreter -c "import ${name["$index"]}; print(${name["$index"]}.__version__)" &> lib_test									
 					libTest=$(cat lib_test | grep "Error" -c)					
-					rm -f lib_test
+					
 								
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
-					else
-						alreadyInstall=true
+					else											
+						vercomp ${version["$index"]} $(cat lib_test)
+						versionTest=$?
+						if [ "$versionTest" == "1" ] ; then		
+							alreadyInstall=false	
+						elif [ "$versionTest" == "2" ] ; then
+							log info "A superior version ($(cat lib_test)) is already installed"
+							alreadyInstall=true
+						else							
+							alreadyInstall=true	
+						fi							
 					fi
+					
+					rm -f lib_test					
+					
 				else				
 					# module normal				
 					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test

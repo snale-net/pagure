@@ -5,6 +5,8 @@
 group="12"
 groupname[$group]="Model SWAN"
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # SWAN
 index=1
 name["$group-$index"]=swan
@@ -123,5 +125,6 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
+fi # end-MPI-only
 
 
