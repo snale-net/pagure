@@ -857,7 +857,7 @@ function install()
 					libTest=$(cat lib_test | grep "Error" -c)
 					
 					if [ $debug == "1" ]; then      	
-				   		log debug "Testing python module '${name["$index"]}' returns '$(cat lib_test)'"				   	
+				   		log debug "Testing if '${name["$index"]}' exists : '$(cat lib_test)'"				   	
 				   	fi					
 									
 								

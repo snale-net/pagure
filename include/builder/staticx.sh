@@ -7,8 +7,8 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages"
 export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
 if [[ "$compiler" == "intel" ]] ; then
 	LDSHARED="icc -shared" $pythonInterpreter setup.py build 2>&1 >&3 | tee -a $LOGFILE && leave
-	LDSHARED="icc -shared" $pythonInterpreter setup.py install --user 2>&1 >&3 | tee -a $LOGFILE && leave
+	LDSHARED="icc -shared" $pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
 else
 	$pythonInterpreter setup.py build 2>&1 >&3 | tee -a $LOGFILE && leave
-	$pythonInterpreter setup.py install --user 2>&1 >&3 | tee -a $LOGFILE && leave
+	$pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
 fi
