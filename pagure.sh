@@ -854,8 +854,12 @@ function install()
 				if [[ "${dirinstall["$index"]}" =~ .*(python-modules).* ]]; then				
 					# module Python							
 					$pythonInterpreter -c "import ${name["$index"]}; print(${name["$index"]}.__version__)" &> lib_test									
-					libTest=$(cat lib_test | grep "Error" -c)					
+					libTest=$(cat lib_test | grep "Error" -c)
 					
+					if [ $debug == "1" ]; then      	
+				   		log debug "Testing python module '${name["$index"]}' returns '$(cat lib_test)'"				   	
+				   	fi					
+									
 								
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
