@@ -157,8 +157,6 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-
-
 # PyGObject 3.40.1
 index=6
 name["$group-$index"]=gi
