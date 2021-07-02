@@ -735,6 +735,7 @@ prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInter
 prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
+prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
 "
     		echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
 	fi
