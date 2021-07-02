@@ -88,15 +88,15 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# Gtk3
+# Gtk+ 3.22.30
 index=4
-name["$group-$index"]=gtk
-version["$group-$index"]=3.24.29
+name["$group-$index"]=gtk+
+version["$group-$index"]=3.22.30
 details["$group-$index"]=""
-url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.29.tar.xz -O gtk-3.24.29.tar.xz"
-filename["$group-$index"]=gtk-3.24.29.tar.xz
-dirname["$group-$index"]=gtk+-3.24.29
-builder["$group-$index"]="meson"
+url["$group-$index"]="http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/gtk+-3.22.30.tar.xz"
+filename["$group-$index"]=gtk+-3.22.30.tar.xz
+dirname["$group-$index"]=gtk+-3.22.30
+builder["$group-$index"]="configure"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -133,7 +133,7 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/51/2f/4d5d5afb7000
 filename["$group-$index"]=PyGObject-3.40.1.tar.gz
 dirname["$group-$index"]=PyGObject-3.40.1
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot gtk/$compilo/3.24.29"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot gtk+/$compilo/3.22.30"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
@@ -148,7 +148,7 @@ url["$group-$index"]="https://github.com/FluidityProject/spud/archive/refs/heads
 filename["$group-$index"]=spud-main.zip
 dirname["$group-$index"]=spud-main
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot gtk/$compilo/3.24.29"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot gtk+/$compilo/3.22.30"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
