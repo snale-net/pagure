@@ -467,6 +467,7 @@ module-whatis \"Python MPI librairies\"
 
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
+prepend-path PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 "
 fi
 args["$group-$index"]=""

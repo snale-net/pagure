@@ -451,9 +451,10 @@ then
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
 	log info "Python interpreter is set to $pythonInterpreter"
-	if [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
-		installedPython=0
-	fi
+	# Commenter pour réinstaller le module python en cas de --force-reinstall=1
+	#if [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
+	#	installedPython=0
+	#fi
 else
 	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
@@ -718,8 +719,9 @@ fi
 # Si on a déjà un python installé
 if [ "$installedPython" == "1" ]; then # only-if-Python
  
-	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
+	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]] || [ $forceReinstall == "1" ]
 	then
+		log debug "Installation of 'python-modules/$compilo/${pythonVersion}'"
 		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
     		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
@@ -737,7 +739,7 @@ prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
 prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
 "
-    		echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
+    		echo $"${pymodulefile}" > $moduleDir/python-modules/$compilo/${pythonVersion}   
 	fi
 fi  # end-only-if-Python
 
@@ -858,9 +860,8 @@ function install()
 					libTest=$(cat lib_test | grep "Error" -c)
 					
 					if [ $debug == "1" ]; then      	
-				   		log debug "Testing if '${name["$index"]}' exists : '$(cat lib_test)'"				   	
-				   	fi					
-									
+				   		log debug "Testing if '${name["$index"]}' exists: $(cat lib_test)"				   	
+				   	fi				
 								
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
@@ -870,7 +871,7 @@ function install()
 						if [ "$versionTest" == "1" ] ; then		
 							alreadyInstall=false	
 						elif [ "$versionTest" == "2" ] ; then
-							log info "A superior version ($(cat lib_test)) is already installed"
+							log warn "${name["$index"]} newest version is already installed ($(cat lib_test))"
 							alreadyInstall=true
 						else							
 							alreadyInstall=true	
