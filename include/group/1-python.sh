@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$pythonInterpreter" != "none" ] && [ "$installedPython" == "0"  ]; then # only-if-we-want-Python-and-is-not-installed 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-we-want-Python-and-is-not-installed 
 
 #################################################################
 #Group 1 : Python

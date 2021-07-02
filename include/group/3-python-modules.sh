@@ -76,6 +76,7 @@ args["$group-$index"]=""
 fi
 
 # wheel 0.35.1
+# TODO ne marche pas avec python2.7
 index=5
 name["$group-$index"]=wheel
 version["$group-$index"]=0.35.1
@@ -492,14 +493,30 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# scons-4.1.0
+# scons 4.1.0.post1
 index=29
 name["$group-$index"]=SCons
-version["$group-$index"]=4.1.0
+version["$group-$index"]=4.1.0.post1
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/be/d0/bf4e7003369c6d8a6e490741c54791c7918d9ef10b56aec201e76706f1d7/SCons-4.1.0.post1.tar.gz"
 filename["$group-$index"]=SCons-4.1.0.post1.tar.gz
 dirname["$group-$index"]=SCons-4.1.0.post1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# scikit-build 0.11.1
+index=30
+name["$group-$index"]=scikit-build
+version["$group-$index"]=0.11.1
+details["$group-$index"]=""
+mandatory["$group-$index"]=1
+url["$group-$index"]="https://files.pythonhosted.org/packages/71/02/1e94506b7bee5739317f2d141cebab7dab5bb5731b377e718fddd3b3e7e7/scikit-build-0.11.1.tar.gz"
+filename["$group-$index"]=scikit-build-0.11.1.tar.gz
+dirname["$group-$index"]=scikit-build-0.11.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
