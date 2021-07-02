@@ -542,8 +542,8 @@ else
 	leave 1
 fi
 
-if [[ $(vercomp ${CC_VERSION} ${CXX_VERSION}) != 0 ]] || [[ $(vercomp ${CC_VERSION} ${FC_VERSION}) != 0 ]]; then
-    log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
+if [[ $(vercomp ${CC_VERSION:0:3} ${CXX_VERSION:0:3}) != 0 ]] || [[ $(vercomp ${CC_VERSION:0:3} ${FC_VERSION:0:3}) != 0 ]]; then
+	log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
 	leave 1
 fi
 
@@ -717,7 +717,9 @@ if [ "$installedPython" == "1" ]; then # only-if-Python
  
 	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]] || [ $forceReinstall == "1" ]
 	then
-		log debug "Installation of 'python-modules/$compilo/${pythonVersion}'"
+		if [ $debug == "1" ]; then  
+			log debug "Installation of 'python-modules/$compilo/${pythonVersion}'"
+		fi
 		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
     		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
