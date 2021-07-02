@@ -40,8 +40,6 @@ sudo apt-get $aptArgs install libarchive-tools nfs-kernel-server php php-xml php
 sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
 # SuiteSparse deps
 sudo apt-get $aptArgs install libgmp3-dev libmpfr-dev 2>&1 >&3 | tee -a $LOGFILE && leave
-# SPLUD / diamonds deps
-sudo apt-get $aptArgs install libglib2.0-dev gobject-introspection 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
 
