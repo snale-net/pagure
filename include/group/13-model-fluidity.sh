@@ -55,18 +55,18 @@ args["$group-$index"]=""
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# gobject-introspection 1.68.0
+# gobject-introspection 1.56.1
 index=3
 name["$group-$index"]=gobject-introspection
-version["$group-$index"]=1.68.0
+version["$group-$index"]=1.56.1
 details["$group-$index"]=""
-url["$group-$index"]="https://download-fallback.gnome.org/sources/gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz"
-filename["$group-$index"]=gobject-introspection-1.68.0.tar.xz
-dirname["$group-$index"]=gobject-introspection-1.68.0
-builder["$group-$index"]="meson"
+url["$group-$index"]="https://download.gnome.org/sources/gobject-introspection/1.56/gobject-introspection-1.56.1.tar.xz"
+filename["$group-$index"]=gobject-introspection-1.56.1.tar.xz
+dirname["$group-$index"]=gobject-introspection-1.56.1
+builder["$group-$index"]="configure"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="PYTHON=python${pythonVersion}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
@@ -97,7 +97,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.2
 filename["$group-$index"]=gtk-3.24.29.tar.xz
 dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -133,7 +133,7 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/51/2f/4d5d5afb7000
 filename["$group-$index"]=PyGObject-3.40.1.tar.gz
 dirname["$group-$index"]=PyGObject-3.40.1
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot gtk/$compilo/3.24.29"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.56.1 cairo/$compilo/snapshot gtk/$compilo/3.24.29"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
