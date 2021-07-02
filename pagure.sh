@@ -450,17 +450,13 @@ elif hash python${pythonVersion} 2>/dev/null
 then    
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
-	log info "Python interpreter is set to $pythonInterpreter"
-	# Commenter pour réinstaller le module python en cas de --force-reinstall=1
-	#if [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
-	#	installedPython=0
-	#fi
+	log info "Python interpreter is set to $pythonInterpreter"	
 else
 	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
-		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 can be installed with PAGURE" 
+		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 with PAGURE" 
 		leave 1
 	fi
 fi
@@ -842,11 +838,18 @@ function install()
 					dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`												
 				fi
 
-				# Si on a déjà un python installé
-				# On enlève le module python
-				if [ "$installedPython" == "1" ]; then # only-if-Python				
-					dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
-				fi  # end-only-if-Python
+				# Si on a déjà un python installé										
+				if [ "$installedPython" == "1" ]; then 		
+					# On test si le module python existe									
+					module show python/$compilo/${pythonVersion} &> lib_test
+					libTest=$(cat lib_test | grep "ERROR" -c)
+					rm -f lib_test
+								
+					if [ "$libTest" == "1" ] ; then
+						# Il n'existe pas alors on le supprime des dépendances pour utiliser celui du système		
+						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}						
+					fi			
+				fi 
 
 				# On charge les dépendances
 				if [[ ! -z "${dependencies["$index"]}" ]] ; then 						

@@ -75,8 +75,57 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 fi
 
-# Cython 0.29.14
+# wheel 0.35.1
 index=5
+name["$group-$index"]=wheel
+version["$group-$index"]=0.35.1
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/83/72/611c121b6bd15479cb62f1a425b2e3372e121b324228df28e64cc28b01c2/wheel-0.35.1.tar.gz"
+filename["$group-$index"]=wheel-0.35.1.tar.gz
+dirname["$group-$index"]=wheel-0.35.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+if (( $(echo "$pythonVersion >= 3.6" | bc -l) )); then # only Python>=3.6
+# pip 21.1.3
+index=6
+name["$group-$index"]=pip
+version["$group-$index"]=21.1.3
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]=https://files.pythonhosted.org/packages/4d/0c/3b63fe024414a8a48661cf04f0993d4b2b8ef92daed45636474c018cd5b7/pip-21.1.3.tar.gz
+filename["$group-$index"]=pip-21.1.3.tar.gz
+dirname["$group-$index"]=pip-21.1.3
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+else
+# pip 20.3.4
+index=7
+name["$group-$index"]=pip
+version["$group-$index"]=20.3.4
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]=https://files.pythonhosted.org/packages/53/7f/55721ad0501a9076dbc354cc8c63ffc2d6f1ef360f49ad0fbcce19d68538/pip-20.3.4.tar.gz
+filename["$group-$index"]=pip-20.3.4.tar.gz
+dirname["$group-$index"]=pip-20.3.4
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+fi
+
+# Cython 0.29.14
+index=8
 name["$group-$index"]=cython
 version["$group-$index"]=0.29.14
 mandatory["$group-$index"]=1
@@ -93,7 +142,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # numpy 1.18.1
-index=6
+index=9
 name["$group-$index"]=numpy
 version["$group-$index"]=1.18.1
 mandatory["$group-$index"]=1
@@ -124,7 +173,7 @@ args["$group-$index"]=""
 
 else
 # numpy 1.16.6
-index=7
+index=10
 name["$group-$index"]=numpy
 version["$group-$index"]=1.16.6
 mandatory["$group-$index"]=1
@@ -142,7 +191,7 @@ args["$group-$index"]=""
 fi
 
 # dateutil 2.8.1
-index=8
+index=11
 name["$group-$index"]=dateutil
 version["$group-$index"]=2.8.1
 mandatory["$group-$index"]=1
@@ -159,7 +208,7 @@ args["$group-$index"]=""
 
 
 # pybind11 2.4.3
-index=9
+index=12
 name["$group-$index"]=pybind11
 version["$group-$index"]=2.4.3
 mandatory["$group-$index"]=1
@@ -175,7 +224,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # pytz 2021.1
-index=10
+index=13
 name["$group-$index"]=pytz
 version["$group-$index"]=2021.1
 mandatory["$group-$index"]=1
@@ -190,9 +239,25 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# pytzdata 2020.1
+index=14
+name["$group-$index"]=pytzdata
+version["$group-$index"]=2020.1
+mandatory["$group-$index"]=1
+details["$group-$index"]=
+url["$group-$index"]="https://files.pythonhosted.org/packages/67/62/4c25435a7c2f9c7aef6800862d6c227fc4cd81e9f0beebc5549a49c8ed53/pytzdata-2020.1.tar.gz"
+filename["$group-$index"]=pytzdata-2020.1.tar.gz
+dirname["$group-$index"]=pytzdata-2020.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 # pandas 0.25.3
-index=11
+index=15
 name["$group-$index"]=pandas
 version["$group-$index"]=0.25.3
 mandatory["$group-$index"]=1
@@ -209,7 +274,7 @@ args["$group-$index"]=""
 
 else
 # pandas 0.23.4
-index=12
+index=16
 name["$group-$index"]=pandas
 version["$group-$index"]=0.23.4
 mandatory["$group-$index"]=1
@@ -228,7 +293,7 @@ fi
 
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 # scipy 1.6.3
-index=13
+index=17
 name["$group-$index"]=scipy
 version["$group-$index"]=1.6.3
 mandatory["$group-$index"]=1
@@ -245,7 +310,7 @@ args["$group-$index"]=""
 
 else
 # scipy 1.2.3
-index=14
+index=18
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
 mandatory["$group-$index"]=1
@@ -263,7 +328,7 @@ args["$group-$index"]=""
 fi
 
 # cftime 1.0.4.2
-index=15
+index=19
 name["$group-$index"]=cftime
 version["$group-$index"]=1.0.4.2
 mandatory["$group-$index"]=1
@@ -279,7 +344,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # pyparsing 2.4.7
-index=16
+index=20
 name["$group-$index"]=pyparsing
 version["$group-$index"]=2.4.7
 mandatory["$group-$index"]=0
@@ -296,7 +361,7 @@ args["$group-$index"]=""
 
 if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 # matplotlib 3.1.1
-index=17
+index=21
 name["$group-$index"]=matplotlib
 version["$group-$index"]=3.1.1
 details["$group-$index"]=
@@ -312,7 +377,7 @@ args["$group-$index"]=""
 
 else
 # matplotlib 2.1.0
-index=18
+index=22
 name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
 details["$group-$index"]=
@@ -329,7 +394,7 @@ args["$group-$index"]=""
 fi
 
 # array_split 0.5.2
-index=19
+index=23
 name["$group-$index"]=array_split
 version["$group-$index"]=0.5.2
 mandatory["$group-$index"]=0
@@ -347,7 +412,7 @@ args["$group-$index"]=""
 if (( $(echo "$pythonVersion < 3.0" | bc -l) )); then # only Python < 3.0
 
 # MarkupSafe 1.1.1
-index=20
+index=24
 name["$group-$index"]=markupsafe
 version["$group-$index"]=1.1.1
 mandatory["$group-$index"]=0
@@ -365,7 +430,7 @@ args["$group-$index"]=""
 fi
 
 # Jinja2 2.11.3
-index=21
+index=25
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.11.3
 mandatory["$group-$index"]=0
@@ -381,7 +446,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # f90nml 1.1.2
-index=22
+index=26
 name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 mandatory["$group-$index"]=0
@@ -396,24 +461,8 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# pytzdata 2020.1
-index=23
-name["$group-$index"]=pytzdata
-version["$group-$index"]=2020.1
-mandatory["$group-$index"]=1
-details["$group-$index"]=
-url["$group-$index"]="https://files.pythonhosted.org/packages/67/62/4c25435a7c2f9c7aef6800862d6c227fc4cd81e9f0beebc5549a49c8ed53/pytzdata-2020.1.tar.gz"
-filename["$group-$index"]=pytzdata-2020.1.tar.gz
-dirname["$group-$index"]=pytzdata-2020.1
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 # pendulum 2.1.2
-index=24
+index=27
 name["$group-$index"]=pendulum
 version["$group-$index"]=2.1.2
 mandatory["$group-$index"]=1
@@ -429,7 +478,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # toolz 0.10.0
-index=25
+index=28
 name["$group-$index"]=toolz
 version["$group-$index"]=0.10.0
 details["$group-$index"]="(required by xarray)"
@@ -443,23 +492,8 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# wheel-0.36.2
-index=26
-name["$group-$index"]=wheel
-version["$group-$index"]=0.36.2
-details["$group-$index"]=""
-url["$group-$index"]="https://files.pythonhosted.org/packages/ed/46/e298a50dde405e1c202e316fa6a3015ff9288423661d7ea5e8f22f589071/wheel-0.36.2.tar.gz"
-filename["$group-$index"]=wheel-0.36.2.tar.gz
-dirname["$group-$index"]=wheel-0.36.2
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 # scons-4.1.0
-index=27
+index=29
 name["$group-$index"]=SCons
 version["$group-$index"]=4.1.0
 details["$group-$index"]=""
