@@ -15,9 +15,9 @@ if [[ $compiler == "intel" ]]; then
 	details["$group-$index"]="(requires Intel MKL)"
 fi
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/langou/lapack/archive/refs/heads/master.zip -O scalapack-master.zip"
+url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/heads/master.zip -O scalapack-master.zip"
 filename["$group-$index"]=scalapack-master.zip
-dirname["$group-$index"]=lapack-master
+dirname["$group-$index"]=scalapack-master
 builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
