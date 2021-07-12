@@ -83,8 +83,60 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# cairo snapshot
+# libxml2 snapshot
 index=3
+name["$group-$index"]=libxml2
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxml2/-/archive/master/libxml2-master.zip"
+filename["$group-$index"]=libxml2-master.zip
+dirname["$group-$index"]=libxml2-master
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# lxml 4.6.3
+index=4
+name["$group-$index"]=lxml
+version["$group-$index"]=4.6.3
+mandatory["$group-$index"]=0
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
+filename["$group-$index"]=lxml-4.6.3.tar.gz
+dirname["$group-$index"]=lxml-4.6.3
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} libxml2/$compilo/snapshot"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# cairo snapshot
+index=5
 name["$group-$index"]=cairo
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -117,7 +169,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # pycairo 1.20.1
-index=4
+index=6
 name["$group-$index"]=pycairo
 version["$group-$index"]=1.20.1
 details["$group-$index"]=""
@@ -132,7 +184,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # glib 2.68.3
-index=5
+index=7
 name["$group-$index"]=glib
 version["$group-$index"]=2.68.3
 details["$group-$index"]=""
@@ -165,7 +217,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gobject-introspection 1.68.0
-index=6
+index=8
 name["$group-$index"]=gobject-introspection
 version["$group-$index"]=1.68.0
 details["$group-$index"]=""
@@ -199,7 +251,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # pango 1.48.6
-index=7
+index=9
 name["$group-$index"]=pango
 version["$group-$index"]=1.48.6
 details["$group-$index"]=""
@@ -236,7 +288,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # harfbuzz 2.8.2
-index=8
+index=10
 name["$group-$index"]=harfbuzz
 version["$group-$index"]=2.8.2
 details["$group-$index"]=""
@@ -273,7 +325,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # gdk-pixbuf 2.42.0
-index=9
+index=11
 name["$group-$index"]=gdk-pixbuf
 version["$group-$index"]=2.42.0
 details["$group-$index"]=""
@@ -310,7 +362,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # atk 2.36.0
-index=10
+index=12
 name["$group-$index"]=atk
 version["$group-$index"]=2.36.0
 details["$group-$index"]=""
@@ -347,7 +399,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # Gtk 3.24.29
-index=11
+index=13
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -384,7 +436,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=12
+index=14
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -420,7 +472,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=13
+index=15
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -457,7 +509,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=14
+index=16
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""

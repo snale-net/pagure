@@ -528,22 +528,6 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# lxml 4.6.3
-index=31
-name["$group-$index"]=lxml
-version["$group-$index"]=4.6.3
-mandatory["$group-$index"]=0
-details["$group-$index"]=""
-url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
-filename["$group-$index"]=lxml-4.6.3.tar.gz
-dirname["$group-$index"]=lxml-4.6.3
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 fi  # end-only-if-Python
 
 
