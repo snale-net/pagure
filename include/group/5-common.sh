@@ -8,7 +8,7 @@ groupname[$group]="Common librairies"
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 #Scalapack 2.1.0
-index=3
+index=1
 name["$group-$index"]=scalapack
 version["$group-$index"]=2.1.0
 if [[ $compiler == "intel" ]]; then
@@ -60,10 +60,10 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 fi # MPI-only
 
 #Zlib 1.2.11
-index=4
+index=2
 name["$group-$index"]=zlib
 version["$group-$index"]=1.2.11
-details["$group-$index"]="(required by NetCDF)"
+details["$group-$index"]="(required by HDF5)"
 url["$group-$index"]=http://zlib.net/zlib-1.2.11.tar.gz
 filename["$group-$index"]=zlib-1.2.11.tar.gz
 dirname["$group-$index"]=zlib-1.2.11
@@ -91,7 +91,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 #musl 1.2.0
-index=5
+index=3
 name["$group-$index"]=musl
 version["$group-$index"]=1.2.0
 details["$group-$index"]="(required by StaticX)"
@@ -123,7 +123,7 @@ setenv BOOTLOADER_CC $prefix/${dirinstall["$group-$index"]}/bin/musl-gcc
 "
 
 #ruby 2.7.2
-index=6
+index=4
 name["$group-$index"]=ruby
 version["$group-$index"]=2.7.2
 details["$group-$index"]=""
@@ -157,7 +157,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 #jasper 2.0.26
-index=7
+index=5
 name["$group-$index"]=jasper
 version["$group-$index"]=2.0.26
 details["$group-$index"]="(require by Eccodes)"

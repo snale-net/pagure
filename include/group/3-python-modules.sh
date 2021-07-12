@@ -80,6 +80,7 @@ fi
 index=5
 name["$group-$index"]=wheel
 version["$group-$index"]=0.35.1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/83/72/611c121b6bd15479cb62f1a425b2e3372e121b324228df28e64cc28b01c2/wheel-0.35.1.tar.gz"
 filename["$group-$index"]=wheel-0.35.1.tar.gz
@@ -207,7 +208,6 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-
 # pybind11 2.4.3
 index=12
 name["$group-$index"]=pybind11
@@ -261,7 +261,7 @@ if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 index=15
 name["$group-$index"]=pandas
 version["$group-$index"]=0.25.3
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]=https://files.pythonhosted.org/packages/b7/93/b544dd08092b457d88e10fc1e0989d9397fd32ca936fdfcbb2584178dd2b/pandas-0.25.3.tar.gz
 filename["$group-$index"]=pandas-0.25.3.tar.gz
@@ -278,7 +278,7 @@ else
 index=16
 name["$group-$index"]=pandas
 version["$group-$index"]=0.23.4
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]=https://files.pythonhosted.org/packages/e9/ad/5e92ba493eff96055a23b0a1323a9a803af71ec859ae3243ced86fcbd0a4/pandas-0.23.4.tar.gz
 filename["$group-$index"]=pandas-0.23.4.tar.gz
@@ -297,7 +297,7 @@ if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
 index=17
 name["$group-$index"]=scipy
 version["$group-$index"]=1.6.3
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]="(require Lapack-Blas 3.9.0)"
 url["$group-$index"]="https://github.com/scipy/scipy/releases/download/v1.6.3/scipy-1.6.3.tar.gz"
 filename["$group-$index"]=scipy-1.6.3.tar.gz
@@ -314,7 +314,7 @@ else
 index=18
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]="(require Lapack-Blas 3.9.0)"
 url["$group-$index"]="https://github.com/scipy/scipy/archive/v1.2.3.tar.gz -O scipy-1.2.3.tar.gz"
 filename["$group-$index"]=scipy-1.2.3.tar.gz
@@ -348,7 +348,7 @@ args["$group-$index"]=""
 index=20
 name["$group-$index"]=pyparsing
 version["$group-$index"]=2.4.7
-mandatory["$group-$index"]=0
+mandatory["$group-$index"]=1
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz"
 filename["$group-$index"]=pyparsing-2.4.7.tar.gz
@@ -365,6 +365,7 @@ if (( $(echo "$pythonVersion >= 3.6" |bc -l) )); then # only Python>=3.6
 index=21
 name["$group-$index"]=matplotlib
 version["$group-$index"]=3.1.1
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://github.com/matplotlib/matplotlib/archive/v3.1.1.tar.gz -O matplotlib-3.1.1.tar.gz"
 filename["$group-$index"]=matplotlib-3.1.1.tar.gz
@@ -381,6 +382,7 @@ else
 index=22
 name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
+mandatory["$group-$index"]=0
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/6c/90/cf10bb2020d2811da811a49601f6eafcda022c6ccd296fd05aba093dee96/matplotlib-2.1.0.tar.gz"
 filename["$group-$index"]=matplotlib-2.1.0.tar.gz
@@ -410,7 +412,7 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion < 3.0" | bc -l) )); then # only Python < 3.0
+if (( $(echo "$pythonVersion > 3.0" | bc -l) )); then # only Python > 3.0
 
 # MarkupSafe 1.1.1
 index=24
@@ -434,7 +436,7 @@ fi
 index=25
 name["$group-$index"]=jinja2
 version["$group-$index"]=2.11.3
-mandatory["$group-$index"]=0
+mandatory["$group-$index"]=1
 details["$group-$index"]=
 url["$group-$index"]="https://files.pythonhosted.org/packages/4f/e7/65300e6b32e69768ded990494809106f87da1d436418d5f1367ed3966fd7/Jinja2-2.11.3.tar.gz"
 filename["$group-$index"]=Jinja2-2.11.3.tar.gz
@@ -466,7 +468,7 @@ args["$group-$index"]=""
 index=27
 name["$group-$index"]=pendulum
 version["$group-$index"]=2.1.2
-mandatory["$group-$index"]=1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/db/15/6e89ae7cde7907118769ed3d2481566d05b5fd362724025198bb95faf599/pendulum-2.1.2.tar.gz"
 filename["$group-$index"]=pendulum-2.1.2.tar.gz
@@ -482,6 +484,7 @@ args["$group-$index"]=""
 index=28
 name["$group-$index"]=toolz
 version["$group-$index"]=0.10.0
+mandatory["$group-$index"]=0
 details["$group-$index"]="(required by xarray)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/22/8e/037b9ba5c6a5739ef0dcde60578c64d49f45f64c5e5e886531bfbc39157f/toolz-0.10.0.tar.gz"
 filename["$group-$index"]=toolz-0.10.0.tar.gz
@@ -497,6 +500,7 @@ args["$group-$index"]=""
 index=29
 name["$group-$index"]=SCons
 version["$group-$index"]=4.1.0.post1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/be/d0/bf4e7003369c6d8a6e490741c54791c7918d9ef10b56aec201e76706f1d7/SCons-4.1.0.post1.tar.gz"
 filename["$group-$index"]=SCons-4.1.0.post1.tar.gz
@@ -512,11 +516,27 @@ args["$group-$index"]=""
 index=30
 name["$group-$index"]=scikit-build
 version["$group-$index"]=0.11.1
+mandatory["$group-$index"]=0
 details["$group-$index"]=""
-mandatory["$group-$index"]=1
 url["$group-$index"]="https://files.pythonhosted.org/packages/71/02/1e94506b7bee5739317f2d141cebab7dab5bb5731b377e718fddd3b3e7e7/scikit-build-0.11.1.tar.gz"
 filename["$group-$index"]=scikit-build-0.11.1.tar.gz
 dirname["$group-$index"]=scikit-build-0.11.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# lxml 4.6.3
+index=31
+name["$group-$index"]=lxml
+version["$group-$index"]=4.6.3
+mandatory["$group-$index"]=0
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
+filename["$group-$index"]=lxml-4.6.3.tar.gz
+dirname["$group-$index"]=lxml-4.6.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
