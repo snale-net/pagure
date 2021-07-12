@@ -63,7 +63,7 @@ fi # MPI-only
 index=2
 name["$group-$index"]=zlib
 version["$group-$index"]=1.2.11
-details["$group-$index"]="(required by HDF5)"
+details["$group-$index"]="(needed by HDF5)"
 url["$group-$index"]=http://zlib.net/zlib-1.2.11.tar.gz
 filename["$group-$index"]=zlib-1.2.11.tar.gz
 dirname["$group-$index"]=zlib-1.2.11
@@ -94,7 +94,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=3
 name["$group-$index"]=musl
 version["$group-$index"]=1.2.0
-details["$group-$index"]="(required by StaticX)"
+details["$group-$index"]="(needed by StaticX)"
 url["$group-$index"]=https://musl.libc.org/releases/musl-1.2.0.tar.gz
 filename["$group-$index"]=musl-1.2.0.tar.gz
 dirname["$group-$index"]=musl-1.2.0
@@ -160,7 +160,7 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 index=5
 name["$group-$index"]=jasper
 version["$group-$index"]=2.0.26
-details["$group-$index"]="(require by Eccodes)"
+details["$group-$index"]="(needed by Eccodes)"
 url["$group-$index"]="https://github.com/jasper-software/jasper/archive/version-2.0.26.tar.gz -O jasper-2.0.26.tar.gz"
 filename["$group-$index"]=jasper-2.0.26.tar.gz
 dirname["$group-$index"]=jasper-version-2.0.26

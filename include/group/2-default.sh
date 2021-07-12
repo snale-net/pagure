@@ -100,3 +100,40 @@ prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 
 fi # old-version
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# meson 0.58.1
+index=3
+name["$group-$index"]=meson
+version["$group-$index"]=0.58.1
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python tool)"
+url["$group-$index"]="https://github.com/mesonbuild/meson/archive/refs/tags/0.58.1.tar.gz -O meson-0.58.1.tar.gz"
+filename["$group-$index"]=meson-0.58.1.tar.gz
+dirname["$group-$index"]=meson-0.58.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# ninja 1.10.0.post2
+index=4
+name["$group-$index"]=ninja
+version["$group-$index"]=1.10.0.post2
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python tool)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/55/a3/56376f09d6be4be5b7ebfc492d3e89cb05206a61f8c5f695a5d1e8cc49b7/ninja-1.10.0.post2.tar.gz"
+filename["$group-$index"]=ninja-1.10.0.post2.tar.gz
+dirname["$group-$index"]=ninja-1.10.0.post2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+fi  # end-only-if-Python
+
+
