@@ -15,9 +15,9 @@ if [[ $compiler == "intel" ]]; then
 	details["$group-$index"]="(requires Intel MKL)"
 fi
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
-filename["$group-$index"]=scalapack-2.1.0.tar.gz
-dirname["$group-$index"]=scalapack-2.1.0
+url["$group-$index"]="https://github.com/langou/lapack/archive/refs/heads/master.zip -O scalapack-master.zip"
+filename["$group-$index"]=scalapack-master.zip
+dirname["$group-$index"]=lapack-master
 builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
@@ -37,7 +37,7 @@ patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.00000
  
  # Organize output files.  On Windows this also keeps .dll files next
 "
-patchfile_01["$group-$index"]="CMakeLists.txt"
+#patchfile_01["$group-$index"]="CMakeLists.txt"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/libblas.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
