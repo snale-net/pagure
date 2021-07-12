@@ -250,14 +250,14 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# pango 1.48.6
+# harfbuzz 2.8.2
 index=9
-name["$group-$index"]=pango
-version["$group-$index"]=1.48.6
+name["$group-$index"]=harfbuzz
+version["$group-$index"]=2.8.2
 details["$group-$index"]=""
-url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6.tar.xz"
-filename["$group-$index"]=pango-1.48.6.tar.xz
-dirname["$group-$index"]=pango-1.48.6
+url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8.2/harfbuzz-2.8.2.tar.xz"
+filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
+dirname["$group-$index"]=harfbuzz-2.8.2
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -284,16 +284,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# harfbuzz 2.8.2
+# pango 1.48.6
 index=10
-name["$group-$index"]=harfbuzz
-version["$group-$index"]=2.8.2
+name["$group-$index"]=pango
+version["$group-$index"]=1.48.6
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8.2/harfbuzz-2.8.2.tar.xz"
-filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
-dirname["$group-$index"]=harfbuzz-2.8.2
+url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6.tar.xz"
+filename["$group-$index"]=pango-1.48.6.tar.xz
+dirname["$group-$index"]=pango-1.48.6
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
