@@ -386,41 +386,8 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# xmlto 0.0.28
-index=13
-name["$group-$index"]=xmlto
-version["$group-$index"]=0.0.28
-details["$group-$index"]=""
-url["$group-$index"]="https://releases.pagure.org/xmlto/xmlto-0.0.28.tar.gz"
-filename["$group-$index"]=xmlto-0.0.28.tar.gz
-dirname["$group-$index"]=xmlto-0.0.28
-builder["$group-$index"]="configure"
-dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-"
-
 # wayland 1.19.0
-index=14
+index=13
 name["$group-$index"]=wayland
 version["$group-$index"]=1.19.0
 details["$group-$index"]=""
@@ -428,9 +395,9 @@ url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-1.19.0.ta
 filename["$group-$index"]=wayland-1.19.0.tar.xz
 dirname["$group-$index"]=wayland-1.19.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xmlto/$compilo/0.0.28"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="-Ddocumentation=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -453,7 +420,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # libxkbcommon 1.3.0
-index=15
+index=14
 name["$group-$index"]=libxkbcommon
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -486,7 +453,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Gtk 3.24.29
-index=16
+index=15
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -523,7 +490,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=17
+index=16
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -559,7 +526,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=18
+index=17
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -596,7 +563,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=19
+index=18
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""
