@@ -397,7 +397,7 @@ dirname["$group-$index"]=libxkbcommon-1.3.0
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="-Denable-wayland=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
