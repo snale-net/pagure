@@ -419,8 +419,41 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# libxkbcommon 1.3.0
+# wayland-protocols 1.21
 index=14
+name["$group-$index"]=wayland-protocols
+version["$group-$index"]=1.21
+details["$group-$index"]=""
+url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-protocols-1.21.tar.xz"
+filename["$group-$index"]=wayland-protocols-1.21.tar.xz
+dirname["$group-$index"]=wayland-protocols-1.21
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} wayland/$compilo/1.19.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="-Ddocumentation=false"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# libxkbcommon 1.3.0
+index=15
 name["$group-$index"]=libxkbcommon
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -428,7 +461,7 @@ url["$group-$index"]="https://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
 filename["$group-$index"]=libxkbcommon-1.3.0.tar.xz
 dirname["$group-$index"]=libxkbcommon-1.3.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} wayland/$compilo/1.19.0"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -453,7 +486,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Gtk 3.24.29
-index=15
+index=16
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -490,7 +523,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=16
+index=17
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -526,7 +559,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=17
+index=18
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -563,7 +596,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=18
+index=19
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""
