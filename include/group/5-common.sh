@@ -15,14 +15,14 @@ if [[ $compiler == "intel" ]]; then
 	details["$group-$index"]="(requires Intel MKL)"
 fi
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/refs/heads/master.zip -O scalapack-master.zip"
-filename["$group-$index"]=scalapack-master.zip
-dirname["$group-$index"]=scalapack-master
+url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
+filename["$group-$index"]=scalapack-2.1.0.tar.gz
+dirname["$group-$index"]=scalapack-2.1.0
 builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-patch_01["$group-$index"]="--- CMakeLists_original.txt	2021-07-12 17:09:20.242765000 +0200
-+++ CMakeLists.txt	2021-07-12 17:09:56.707114417 +0200
+patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000000 +0100
++++ CMakeLists.txt	2021-03-07 17:10:22.775977865 +0100
 @@ -93,9 +93,9 @@
  # Testing
  SET(DART_TESTING_TIMEOUT 600)
@@ -165,7 +165,7 @@ url["$group-$index"]="https://github.com/jasper-software/jasper/archive/version-
 filename["$group-$index"]=jasper-2.0.26.tar.gz
 dirname["$group-$index"]=jasper-version-2.0.26
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"

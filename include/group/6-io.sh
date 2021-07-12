@@ -574,9 +574,9 @@ filename["$group-$index"]=eccodes-2.22.1.tar.gz
 dirname["$group-$index"]=eccodes-2.22.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
+	dependencies["$group-$index"]="cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
+	dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0"

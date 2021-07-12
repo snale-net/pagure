@@ -52,12 +52,12 @@ filename["$group-$index"]=VTK-8.2.0.tar.gz
 dirname["$group-$index"]=VTK-8.2.0
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3"
+	dependencies["$group-$index"]="cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
     args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
     dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
+	dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
     args["$group-$index"]="-DVTK_USE_MPI=ON -DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
     dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -92,7 +92,7 @@ url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxml2/-/archive/master/li
 filename["$group-$index"]=libxml2-master.zip
 dirname["$group-$index"]=libxml2-master
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -124,7 +124,7 @@ index=4
 name["$group-$index"]=lxml
 version["$group-$index"]=4.6.3
 mandatory["$group-$index"]=0
-details["$group-$index"]=""
+details["$group-$index"]="(Python module)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
 filename["$group-$index"]=lxml-4.6.3.tar.gz
 dirname["$group-$index"]=lxml-4.6.3
@@ -272,9 +272,6 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
-# Dependencies
-module load dependencies_modules
-
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -308,9 +305,6 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 }
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
@@ -346,9 +340,6 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
-# Dependencies
-module load dependencies_modules
-
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -382,9 +373,6 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 }
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-module load dependencies_modules
 
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin

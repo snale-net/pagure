@@ -100,10 +100,66 @@ prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 
 fi # old-version
 
+# cmake 3.20.5
+index=3
+name["$group-$index"]=cmake
+version["$group-$index"]=3.20.5
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/Kitware/CMake/releases/download/v3.20.5/cmake-3.20.5.tar.gz"
+filename["$group-$index"]=cmake-3.20.5.tar.gz
+dirname["$group-$index"]=cmake-3.20.5
+builder["$group-$index"]="cmake-builder"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+setenv CMAKE_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+# bison 3.7
+index=4
+name["$group-$index"]=bison
+version["$group-$index"]=3.7
+details["$group-$index"]=""
+url["$group-$index"]="http://ftp.gnu.org/gnu/bison/bison-3.7.tar.xz"
+filename["$group-$index"]=bison-3.7.tar.xz
+dirname["$group-$index"]=bison-3.7
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+"
+
+
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # meson 0.58.1
-index=3
+index=5
 name["$group-$index"]=meson
 version["$group-$index"]=0.58.1
 mandatory["$group-$index"]=1
@@ -119,7 +175,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # ninja 1.10.0.post2
-index=4
+index=6
 name["$group-$index"]=ninja
 version["$group-$index"]=1.10.0.post2
 mandatory["$group-$index"]=1

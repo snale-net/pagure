@@ -509,7 +509,7 @@ patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.66672
 "
 patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
 builder["$group-$index"]="parmetis"
-dependencies["$group-$index"]="$mpi_dep metis/$compilo/5.1.0"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 metis/$compilo/5.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ $mpilib == intel* ]] ; then
 	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
@@ -973,7 +973,7 @@ url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v5.2.2.tar.
 filename["$group-$index"]=cgal-5.2.2.tar.gz
 dirname["$group-$index"]=cgal-5.2.2
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="boost/$compilo/1.76.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$compilo/1.76.0"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -1054,7 +1054,7 @@ url["$group-$index"]="https://gmsh.info/src/gmsh-4.8.4-source.tgz"
 filename["$group-$index"]=gmsh-4.8.4-source.tgz
 dirname["$group-$index"]=gmsh-4.8.4-source
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="-DENABLE_BLAS_LAPACK=1 -DENABLE_METIS=1 -DENABLE_OPENMP=1 -DENABLE_MED=1 -DENABLE_MUMPS=1 -DENABLE_MPI=1 -DENABLE_FLTK=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
