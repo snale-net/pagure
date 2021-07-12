@@ -21,8 +21,8 @@ dirname["$group-$index"]=scalapack-master
 builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="$mpi_dep lapack-blas/$compilo/3.9.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000000 +0100
-+++ CMakeLists.txt	2021-03-07 17:10:22.775977865 +0100
+patch_01["$group-$index"]="--- CMakeLists_original.txt	2021-07-12 17:09:20.242765000 +0200
++++ CMakeLists.txt	2021-07-12 17:09:56.707114417 +0200
 @@ -93,9 +93,9 @@
  # Testing
  SET(DART_TESTING_TIMEOUT 600)
@@ -37,7 +37,7 @@ patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.00000
  
  # Organize output files.  On Windows this also keeps .dll files next
 "
-#patchfile_01["$group-$index"]="CMakeLists.txt"
+patchfile_01["$group-$index"]="CMakeLists.txt"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/libblas.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
