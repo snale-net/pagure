@@ -352,8 +352,128 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# atk 2.36.0
+# xorg-macros snapshot
 index=12
+name["$group-$index"]=xorg-macros
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/util/macros/-/archive/master/macros-master.zip"
+filename["$group-$index"]=macros-master.zip
+dirname["$group-$index"]=macros-master
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+prepend-path ACLOCAL_PATH $prefix/${dirinstall["$group-$index"]}/share/aclocal
+"
+
+# xorg-proto snapshot
+index=13
+name["$group-$index"]=xorg-proto
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/freedesktop/xorg-xorgproto/archive/refs/heads/master.zip -O xorg-proto-master.zip"
+filename["$group-$index"]=xorg-proto-master.zip
+dirname["$group-$index"]=xorg-xorgproto-master
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# libxrandr snapshot
+index=14
+name["$group-$index"]=libxrandr
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxrandr/-/archive/master/libxrandr-master.zip"
+filename["$group-$index"]=libxrandr-master.zip
+dirname["$group-$index"]=libxrandr-master
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# libxi snapshot
+index=15
+name["$group-$index"]=libxi
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxi/-/archive/master/libxi-master.zip"
+filename["$group-$index"]=libxi-master.zip
+dirname["$group-$index"]=libxi-master
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# atk 2.36.0
+index=16
 name["$group-$index"]=atk
 version["$group-$index"]=2.36.0
 details["$group-$index"]=""
@@ -387,7 +507,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # dbus 1.13.18
-index=13
+index=17
 name["$group-$index"]=dbus
 version["$group-$index"]=1.13.18
 details["$group-$index"]=""
@@ -420,8 +540,42 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
+# libXtst 1.2.3
+index=18
+name["$group-$index"]=libXtst
+version["$group-$index"]=1.2.3
+details["$group-$index"]=""
+url["$group-$index"]="https://www.paldo.org/paldo/sources/xtst/libXtst-1.2.3.tar.bz2"
+filename["$group-$index"]=libXtst-1.2.3.tar.bz2
+dirname["$group-$index"]=libXtst-1.2.3
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="libxi/$compilo/snapshot xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
+"
+
 # atk-bridge 2.38.0
-index=14
+index=19
 name["$group-$index"]=atk-bridge
 version["$group-$index"]=2.38.0
 details["$group-$index"]=""
@@ -429,7 +583,7 @@ url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
 dirname["$group-$index"]=at-spi2-atk-2.38.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0 dbus/$compilo/1.13.18"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -454,7 +608,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # wayland 1.19.0
-index=15
+index=20
 name["$group-$index"]=wayland
 version["$group-$index"]=1.19.0
 details["$group-$index"]=""
@@ -487,7 +641,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # wayland-protocols 1.21
-index=16
+index=21
 name["$group-$index"]=wayland-protocols
 version["$group-$index"]=1.21
 details["$group-$index"]=""
@@ -513,7 +667,7 @@ prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgcon
 "
 
 # libxkbcommon 1.3.0
-index=17
+index=22
 name["$group-$index"]=libxkbcommon
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -545,128 +699,8 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# xorg-macros snapshot
-index=18
-name["$group-$index"]=xorg-macros
-version["$group-$index"]=snapshot
-details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.freedesktop.org/xorg/util/macros/-/archive/master/macros-master.zip"
-filename["$group-$index"]=macros-master.zip
-dirname["$group-$index"]=macros-master
-builder["$group-$index"]="autogen"
-dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Variables
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
-prepend-path ACLOCAL_PATH $prefix/${dirinstall["$group-$index"]}/share/aclocal
-"
-
-# xorg-proto snapshot
-index=19
-name["$group-$index"]=xorg-proto
-version["$group-$index"]=snapshot
-details["$group-$index"]=""
-url["$group-$index"]="https://github.com/freedesktop/xorg-xorgproto/archive/refs/heads/master.zip -O xorg-proto-master.zip"
-filename["$group-$index"]=xorg-proto-master.zip
-dirname["$group-$index"]=xorg-xorgproto-master
-builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Variables
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-"
-
-# libxrandr snapshot
-index=20
-name["$group-$index"]=libxrandr
-version["$group-$index"]=snapshot
-details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxrandr/-/archive/master/libxrandr-master.zip"
-filename["$group-$index"]=libxrandr-master.zip
-dirname["$group-$index"]=libxrandr-master
-builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Variables
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-"
-
-# libxi snapshot
-index=21
-name["$group-$index"]=libxi
-version["$group-$index"]=snapshot
-details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxi/-/archive/master/libxi-master.zip"
-filename["$group-$index"]=libxi-master.zip
-dirname["$group-$index"]=libxi-master
-builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Variables
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-"
-
 # Gtk 3.24.29
-index=22
+index=23
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -703,7 +737,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=23
+index=24
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -739,7 +773,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=24
+index=25
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -776,7 +810,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=25
+index=26
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""
