@@ -537,7 +537,9 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/lib
 "
 
 # libXtst 1.2.3
