@@ -528,6 +528,22 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# future 0.18.2
+index=31
+name["$group-$index"]=future
+version["$group-$index"]=0.18.2
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/45/0b/38b06fd9b92dc2b68d58b75f900e97884c45bedd2ff83203d933cf5851c9/future-0.18.2.tar.gz"
+filename["$group-$index"]=future-0.18.2.tar.gz
+dirname["$group-$index"]=future-0.18.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 
