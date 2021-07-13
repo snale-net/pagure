@@ -504,7 +504,7 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
-prepend-path GI_GIR_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
+prepend-path GI_GIR_PATH $prefix/${dirinstall["$group-$index"]}/share/gir-1.0
 "
 
 # dbus 1.13.18
