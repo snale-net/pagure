@@ -738,6 +738,7 @@ prepend-path PATH $prefix/python-modules/$compilo/bin
 prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path PKG_CONFIG_PATH $prefix/python-modules/$compilo/lib/pkgconfig
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
 prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
 "
