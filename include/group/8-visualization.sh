@@ -722,7 +722,7 @@ dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot pango/$compilo/1.48.6 harfbuzz/$compilo/2.8.2 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 libxkbcommon/$compilo/1.3.0 libxrandr/$compilo/snapshot libxi/$compilo/snapshot dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="XDG_DATA_DIRS=\$GI_TYPELIB_PATH"
+args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
