@@ -938,6 +938,10 @@ function install()
 					then
 						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
 						
+					elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
+					then
+						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+						
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
 						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
