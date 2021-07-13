@@ -442,14 +442,7 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
 # Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
 "
 
 # libxkbcommon 1.3.0
