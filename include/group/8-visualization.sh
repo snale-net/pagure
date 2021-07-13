@@ -480,7 +480,7 @@ details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz"
 filename["$group-$index"]=atk-2.36.0.tar.xz
 dirname["$group-$index"]=atk-2.36.0
-builder["$group-$index"]="meson"
+builder["$group-$index"]="atk"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -505,7 +505,6 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 prepend-path GI_GIR_PATH $prefix/${dirinstall["$group-$index"]}/share/gir-1.0
-prepend-path XDG_DATA_DIRS $prefix/${dirinstall["$group-$index"]}/share/gir-1.0
 "
 
 # dbus 1.13.18
