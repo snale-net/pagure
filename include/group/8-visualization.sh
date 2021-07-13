@@ -176,7 +176,7 @@ details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/bc/3f/64e6e066d163fbcf13213f9eeda0fc83376243335ea46a66cefd70d62e8f/pycairo-1.20.1.tar.gz"
 filename["$group-$index"]=pycairo-1.20.1.tar.gz
 dirname["$group-$index"]=pycairo-1.20.1
-builder["$group-$index"]="python"
+builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
@@ -821,7 +821,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=26
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
-details["$group-$index"]=""
+details["$group-$index"]="(Python module)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/51/2f/4d5d5afb7000b9151e33952b59163c9389bd867ac6fe85d62f85831fa061/PyGObject-3.40.1.tar.gz"
 filename["$group-$index"]=PyGObject-3.40.1.tar.gz
 dirname["$group-$index"]=PyGObject-3.40.1
