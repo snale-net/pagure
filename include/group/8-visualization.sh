@@ -430,7 +430,7 @@ dirname["$group-$index"]=wayland-protocols-1.21
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} wayland/$compilo/1.19.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="-Ddocumentation=false"
+args["$group-$index"]="-Dtests=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
