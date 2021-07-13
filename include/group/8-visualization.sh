@@ -386,8 +386,41 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# wayland 1.19.0
+# atk-bridge 2.38.0
 index=13
+name["$group-$index"]=atk-bridge
+version["$group-$index"]=2.38.0
+details["$group-$index"]=""
+url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz"
+filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
+dirname["$group-$index"]=at-spi2-atk-2.38.0
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# wayland 1.19.0
+index=14
 name["$group-$index"]=wayland
 version["$group-$index"]=1.19.0
 details["$group-$index"]=""
@@ -420,7 +453,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # wayland-protocols 1.21
-index=14
+index=15
 name["$group-$index"]=wayland-protocols
 version["$group-$index"]=1.21
 details["$group-$index"]=""
@@ -446,7 +479,7 @@ prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgcon
 "
 
 # libxkbcommon 1.3.0
-index=15
+index=16
 name["$group-$index"]=libxkbcommon
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -479,7 +512,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # xorg-macros snapshot
-index=16
+index=17
 name["$group-$index"]=xorg-macros
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -506,7 +539,7 @@ prepend-path ACLOCAL_PATH $prefix/${dirinstall["$group-$index"]}/share/aclocal
 "
 
 # xorg-proto snapshot
-index=17
+index=18
 name["$group-$index"]=xorg-proto
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -535,7 +568,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # libxrandr snapshot
-index=18
+index=19
 name["$group-$index"]=libxrandr
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -567,7 +600,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # libxi snapshot
-index=19
+index=20
 name["$group-$index"]=libxi
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -599,7 +632,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Gtk 3.24.29
-index=20
+index=21
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -636,7 +669,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=21
+index=22
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -672,7 +705,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=22
+index=23
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -709,7 +742,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=23
+index=24
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""
