@@ -184,6 +184,10 @@ then
 	 usage
 	 leave 0
 fi
+
+# On logge la commande
+log raw "$0 $*" 
+
 while test $# -ge 1
 do
 case "$1" in

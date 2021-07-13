@@ -789,7 +789,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtksourceview/3.24/gtks
 filename["$group-$index"]=gtksourceview-3.24.11.tar.xz
 dirname["$group-$index"]=gtksourceview-3.24.11
 builder["$group-$index"]="gir_configure"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot pango/$compilo/1.48.6 harfbuzz/$compilo/2.8.2 gdk-pixbuf/$compilo/2.42.0 atk/$compilo/2.36.0 gtk/$compilo/3.24.29 vala/$compilo/0.42.3"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gtk/$compilo/3.24.29 vala/$compilo/0.42.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="--enable-introspection=yes --enable-vala=no"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
