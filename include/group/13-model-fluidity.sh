@@ -54,7 +54,7 @@ url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/h
 filename["$group-$index"]=fluidity-master.zip
 dirname["$group-$index"]=fluidity-main
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="$mpi_dep petsc/$mpilib/$compilo/3.12.5 vtk/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot"
+dependencies["$group-$index"]="$mpi_dep petsc/$mpilib/$compilo/3.12.5 vtk/$mpilib/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/$compilo/8.2.0/include/vtk-8.2 -I$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/include -I$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/include \" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5=yes --with-netcdf --with-libspud-root=$prefix/spud/$compilo/snapshot"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
