@@ -505,8 +505,37 @@ prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgcon
 prepend-path ACLOCAL_PATH $prefix/${dirinstall["$group-$index"]}/share/aclocal
 "
 
-# libxrandr snapshot
+# xorg-proto snapshot
 index=17
+name["$group-$index"]=xorg-proto
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/freedesktop/xorg-xorgproto/archive/refs/heads/master.zip -O xorg-proto-master.zip"
+filename["$group-$index"]=xorg-proto-master.zip
+dirname["$group-$index"]=xorg-xorgproto-master
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# libxrandr snapshot
+index=18
 name["$group-$index"]=libxrandr
 version["$group-$index"]=snapshot
 details["$group-$index"]=""
@@ -514,7 +543,7 @@ url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxrandr/-/archiv
 filename["$group-$index"]=libxrandr-master.zip
 dirname["$group-$index"]=libxrandr-master
 builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="xorg-macros/$compilo/snapshot"
+dependencies["$group-$index"]="xorg-macros/$compilo/snapshot xorg-proto/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -538,7 +567,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Gtk 3.24.29
-index=18
+index=19
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -575,7 +604,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # vala 0.42.3
-index=19
+index=20
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -611,7 +640,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=20
+index=21
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -648,7 +677,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=21
+index=22
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]=""
