@@ -39,8 +39,6 @@ sudo dnf install $dnfArgs automake libtool uuid-devel 2>&1 >&3 | tee -a $LOGFILE
 sudo dnf install $dnfArgs php 2>&1 >&3 | tee -a $LOGFILE && leave
 # SuiteSparse deps
 sudo dnf install $dnfArgs gmp-devel mpfr-devel 2>&1 >&3 | tee -a $LOGFILE && leave
-# Gtk+ deps
-sudo dnf install $dnfArgs libxkbcommon-devel wayland-devel wayland-protocols-devel libXrandr-devel libXi-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
 
