@@ -553,7 +553,7 @@ url["$group-$index"]=https://gforge.inria.fr/frs/download.php/file/38187/scotch_
 filename["$group-$index"]=scotch_6.0.9.tar.gz
 dirname["$group-$index"]=scotch_6.0.9
 builder["$group-$index"]="scotch"
-dependencies["$group-$index"]="metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3"
+dependencies["$group-$index"]="metis/$compilo/5.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 configfilename["$group-$index"]="src/Makefile.inc"
 if [[ $compiler == "intel" ]]; then

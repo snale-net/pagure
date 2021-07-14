@@ -77,13 +77,16 @@ function exec_module()
    		log debug "Execution of 'module $1' returns '$(cat module_exec)'"
    	fi
    fi
-  
-   isFailed=$(cat module_exec | grep 'ERROR' -c)
-   if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
-   then  
-        log fail "Missing required dependency : $(cat module_exec). Please install it before"
-   	leave 100
-   fi  
+
+   if [ $1 != "purge" ]; then
+       # La commande n'est pas une purge  
+       isFailed=$(cat module_exec | grep 'ERROR' -c)
+       if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
+       then  
+            log fail "Missing required dependency : $(cat module_exec). Please install it before"
+       	leave 100
+       fi  
+   fi
    rm -f module_exec
 }
 
