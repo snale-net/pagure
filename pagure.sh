@@ -572,11 +572,11 @@ elif [ "$mpi" == "intelmpi" ] ; then
     if ! [ -x "$(command -v mpiicc)" ] ; then
 		log fail "Unable to find suitable Intel MPI compilers (mpiicc not found). Maybe you forgot to load the Intel MPI module before running PAGURE ?" 
 		leave 1
-	fi 
-
-    log warn "With Intem MPI, --mpi-version argument is ignored." 	 
+	fi     
 
     mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*\s\([0-9]\{4\}\)\s.*/\1/g') 
+    log warn "With Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
+
 	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
 	export MPIF77=mpiifort
