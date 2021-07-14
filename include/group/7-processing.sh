@@ -100,7 +100,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=3
 name["$group-$index"]=proj
 version["$group-$index"]=8.0.1
-details["$group-$index"]="(required for GDAL)"
+details["$group-$index"]="(needed by GDAL)"
 url["$group-$index"]=https://download.osgeo.org/proj/proj-8.0.1.tar.gz
 filename["$group-$index"]=proj-8.0.1.tar.gz
 dirname["$group-$index"]=proj-8.0.1
@@ -1004,7 +1004,7 @@ if [ "$mpilib" != "none" ]; then # MPI-only
 index=22
 name["$group-$index"]=petsc
 version["$group-$index"]=3.12.5
-details["$group-$index"]=""
+details["$group-$index"]="(with parallel)"
 url["$group-$index"]="https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.12.5.tar.gz"
 filename["$group-$index"]=petsc-3.12.5.tar.gz
 dirname["$group-$index"]=petsc-3.12.5
@@ -1049,7 +1049,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 index=23
 name["$group-$index"]=gmsh
 version["$group-$index"]=4.8.4
-details["$group-$index"]=""
+details["$group-$index"]="(with parallel)"
 url["$group-$index"]="https://gmsh.info/src/gmsh-4.8.4-source.tgz"
 filename["$group-$index"]=gmsh-4.8.4-source.tgz
 dirname["$group-$index"]=gmsh-4.8.4-source
