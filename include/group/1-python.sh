@@ -41,6 +41,9 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 "
 
 fi # end-only Python==3.7
