@@ -78,7 +78,7 @@ function exec_module()
    	fi
    fi
 
-   if [ $1 != "purge" ]; then
+   if [ "$1" != "purge" ]; then
        # La commande n'est pas une purge  
        isFailed=$(cat module_exec | grep 'ERROR' -c)
        if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
