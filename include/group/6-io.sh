@@ -228,22 +228,22 @@ builder["$group-$index"]="configure"
 if [[ "$mpi" == "openmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
+	args["$group-$index"]="F77=mpif90 FC=mpif90 LDFLAGS=\"$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib\""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 elif [[ "$mpi" == "mpich" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
+	args["$group-$index"]="F77=mpif90 FC=mpif90 LDFLAGS=\"$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib\""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpiifort FC=mpiifort"
+	args["$group-$index"]="F77=mpiifort FC=mpiifort LDFLAGS=\"$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib\""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
 else
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$compilo/fortran/${version["$group-$index"]}"	
-	args["$group-$index"]=""
+	args["$group-$index"]="LDFLAGS=\"$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib\""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$compilo"
 fi
 modulefile["$group-$index"]="#%Module1.0
