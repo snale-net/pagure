@@ -297,10 +297,10 @@ details["$group-$index"]=""
 url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8.2/harfbuzz-2.8.2.tar.xz"
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
-builder["$group-$index"]="gir_configure"
+builder["$group-$index"]="gir_meson"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="--enable-introspection=yes --with-gobject=yes"
+args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -335,26 +335,6 @@ builder["$group-$index"]="gir_meson"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
-patch_01["$group-$index"]="--- meson_original.build	2021-06-29 17:29:42.000000000 +0200
-+++ meson.build	2021-07-14 13:49:55.667320514 +0200
-@@ -203,11 +203,11 @@
- pango_deps += mathlib_dep
- 
- # gobject
--glib_dep = dependency('glib-2.0', version: glib_req_version,
--                      fallback: ['glib', 'libglib_dep'])
--gobject_dep = dependency('gobject-2.0', version: glib_req_version,
-+glib_dep = dependency('glib-2.0', version: glib_req_version, method : 'pkg-config',
-+                      fallback: ['glib', 'libglib_dep'], )
-+gobject_dep = dependency('gobject-2.0', version: glib_req_version, method : 'pkg-config',
-                          fallback: ['glib', 'libgobject_dep'])
--gio_dep = dependency('gio-2.0', version: glib_req_version,
-+gio_dep = dependency('gio-2.0', version: glib_req_version, method : 'pkg-config',
-                          fallback: ['glib', 'libgio_dep'])
- pango_deps += [glib_dep, gobject_dep, gio_dep] 
-
-"
-patchfile_01["$group-$index"]="meson.build"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
