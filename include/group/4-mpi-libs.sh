@@ -113,7 +113,7 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "
 fi
 
-if ["$mpi" == "mpich" -a $(vercomp $mpiVersion 3.3.2) != 2 ]; then
+if [ "$mpi" == "mpich" -a $(vercomp $mpiVersion 3.3.2) != 2 ]; then
 # Mpich 3.3.2
 index=4
 name["$group-$index"]=mpich
