@@ -512,24 +512,8 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# scikit-build 0.11.1
-index=30
-name["$group-$index"]=scikit-build
-version["$group-$index"]=0.11.1
-mandatory["$group-$index"]=0
-details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/71/02/1e94506b7bee5739317f2d141cebab7dab5bb5731b377e718fddd3b3e7e7/scikit-build-0.11.1.tar.gz"
-filename["$group-$index"]=scikit-build-0.11.1.tar.gz
-dirname["$group-$index"]=scikit-build-0.11.1
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 # future 0.18.2
-index=31
+index=30
 name["$group-$index"]=future
 version["$group-$index"]=0.18.2
 mandatory["$group-$index"]=0

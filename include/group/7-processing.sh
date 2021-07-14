@@ -378,11 +378,11 @@ dirname["$group-$index"]=med-4.0.0
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-if [[ $mpilib == intel* ]] ; then
+if [[ "$mpi" == "intelmpi" ]] ; then
 	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
-elif [[ $mpilib == mpich* ]] ; then
+elif [[ "$mpi" == "mpich" ]] ; then
 	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
-elif [[ $mpilib == openmpi* ]] ; then	
+elif [[ "$mpi" == "openmpi" ]] ; then	
 	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -511,11 +511,11 @@ patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
 builder["$group-$index"]="parmetis"
 dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 metis/$compilo/5.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-if [[ $mpilib == intel* ]] ; then
+if [[ "$mpi" == "intelmpi" ]] ; then
 	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
-elif [[ $mpilib == mpich* ]] ; then
+elif [[ "$mpi" == "mpich" ]] ; then
 	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
-elif [[ $mpilib == openmpi* ]] ; then	
+elif [[ "$mpi" == "openmpi" ]] ; then	
 	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"

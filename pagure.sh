@@ -153,7 +153,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
 	echo ' '
 }
 
@@ -201,6 +201,7 @@ case "$1" in
     -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -mpi-version=* | --mpi-version=*) mpiVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
     -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;; 
     -filter=* | --filter=*) selectedFilter=`echo $1 | sed 's/.*=//'`; shift ;; 
@@ -408,19 +409,23 @@ else
 		
 		# MPI
 		if  [[ "${libToInstall[@]}" =~ "4-1" ]]; then
-			mpi="openmpi110"
+			mpi="openmpi"
+            mpiVersion="1.10.7"
 		fi
 				
 		if  [[ "${libToInstall[@]}" =~ "4-2" ]]; then
-			mpi="openmpi300"
+			mpi="openmpi"
+            mpiVersion="3.1.6"
 		fi
 		
 		if  [[ "${libToInstall[@]}" =~ "4-3" ]]; then
-			mpi="mpich321"
+			mpi="mpich"
+            mpiVersion="3.2.1"
 		fi
 		
 		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
-			mpi="mpich332"
+			mpi="mpich"
+            mpiVersion="3.3.2"
 		fi
 		
 		# Python
@@ -494,29 +499,15 @@ fi
 
 log raw "......................"
 # 8. Récupérer la version du compilateur
-if [ -z "$compiler" ]
-then
-	compiler="gnu"
-	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
-	compilo=gcc${CC_VERSION//.}
-	export CC=gcc
-	export CXX=g++
-	export F77=gfortran
-	export F90=gfortran
-	export FC=gfortran	
-	log info "compiler is set to GNU ${CC_VERSION}"
-
-elif [ "$compiler" == "gnu" ]
+if [ -z "$compiler" ] || [ ! -z "$compiler" -a "$compiler" == "gnu" ]
 then
 	if ! [ -x "$(command -v gcc)" ] ; then
-		log fail "Unable to find suitable compilers (gcc or icc)" 
+		log fail "Unable to find suitable GNU compilers (gcc not found)" 
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -525,15 +516,15 @@ then
 	export FC=gfortran	
 	log info "compiler is set to GNU ${CC_VERSION}"
 
-elif [ "$compiler" == "intel" ]
+elif [ ! -z "$compiler" -a "$compiler" == "intel" ]
 then
 	if ! [ -x "$(command -v icc)" ] ; then
-		log fail "Unable to find suitable compilers (gcc or icc)" 
+		log fail "Unable to find suitable Intel compilers (icc not found)" 
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    	CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    	FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
 	export CC=icc
 	export CXX=icpc
@@ -562,75 +553,42 @@ if [ -z "$mpi" ]; then
 
 	mpilib="none"  
 
-elif [ "$mpi" == "openmpi110" ]; then
+elif [ "$mpi" == "openmpi" ]; then
 
-	mpilib="openmpi110"
-    	export MPICC=mpicc
+    if [ -z "$mpiVersion" ]; then
+        mpiVersion=1.10.7
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+    fi   
+
+	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
+    export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" == "openmpi300" ] ; then
+elif [ "$mpi" == "intelmpi" ] ; then
 
-	mpilib="openmpi300"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
+    if [ -z "$mpiVersion" ]; then       
+	    log fail "No MPI version was specified with --mpi-version argument. You must specify the version of Intel MPI." 	   
+        leave 1
+    fi   
 
-elif [ "$mpi" == "intel2016" ] ; then
-
-	mpilib="intel2016"
+	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
-elif [ "$mpi" == "intel2017" ] ; then
+elif [ "$mpi" == "mpich" ] ; then
 
-	mpilib="intel2017"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
+    if [ -z "$mpiVersion" ]; then
+        mpiVersion=3.2.1
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 3.2.1" 	   
+    fi   
 
-elif [ "$mpi" == "intel2018" ] ; then
-
-	mpilib="intel2018"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
-
-elif [ "$mpi" == "intel2019" ] ; then
-
-	mpilib="intel2019"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
-
-elif [ "$mpi" == "mpich321" ] ; then
-
-	mpilib="mpich321"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
-	
-	unset F90 
-	unset F90FLAGS	
-	
-elif [ "$mpi" == "mpich332" ] ; then
-
-	mpilib="mpich332"
+	mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
 	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
@@ -641,14 +599,14 @@ elif [ "$mpi" == "mpich332" ] ; then
 	unset F90FLAGS	
 	
 else   
-        log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332" 
+    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi|intelmpi|mpich" 
 	leave 1	
 fi
 
 if [ "$mpilib" == "openmpi110" ]; then
 	mpi_dep="openmpi/$compilo/1.10.7"
-elif [ "$mpilib" == "openmpi300" ]; then
-	mpi_dep="openmpi/$compilo/3.0.0"
+elif [ "$mpilib" == "openmpi316" ]; then
+	mpi_dep="openmpi/$compilo/3.1.6"
 elif [ "$mpilib" == "intel2016" ]; then
 	mpi_dep="intelmpi/$compilo/2016"
 elif [ "$mpilib" == "intel2017" ]; then

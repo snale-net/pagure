@@ -5,7 +5,7 @@
 group=4
 groupname[$group]="MPI librairies"
 
-if [ "$mpilib" == "openmpi110" ]; then
+if [ "$mpi" == "openmpi" -a $(vercomp $mpiVersion 1.10.7) != 2 ]; then
 #OpenMPI 1.10.7
 index=1
 name["$group-$index"]=openmpi
@@ -41,11 +41,11 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "	
 fi
 
-if [ "$mpilib" == "openmpi300" ]; then
-#OpenMPI 3.0.0
+if [ "$mpi" == "openmpi" -a $(vercomp $mpiVersion 3.1.6) != 2 ]; then
+#OpenMPI 3.1.6
 index=2
 name["$group-$index"]=openmpi
-version["$group-$index"]=3.0.0
+version["$group-$index"]=3.1.6
 details["$group-$index"]=""
 url["$group-$index"]=https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.6.tar.gz
 filename["$group-$index"]=openmpi-3.1.6.tar.gz
@@ -77,7 +77,7 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "
 fi
 
-if [ "$mpilib" == "mpich321" ]; then
+if [ "$mpi" == "mpich" -a $(vercomp $mpiVersion 3.2.1) != 2 ]; then
 # Mpich 3.2.1
 index=3
 name["$group-$index"]=mpich
@@ -113,7 +113,7 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "
 fi
 
-if [ "$mpilib" == "mpich332" ]; then
+if ["$mpi" == "mpich" -a $(vercomp $mpiVersion 3.3.2) != 2 ]; then
 # Mpich 3.3.2
 index=4
 name["$group-$index"]=mpich

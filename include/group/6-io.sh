@@ -104,17 +104,17 @@ url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.10
 filename["$group-$index"]=hdf5-1.10.5.tar.gz
 dirname["$group-$index"]=hdf5-1.10.5
 builder["$group-$index"]="configure"
-if [[ $mpilib == intel* ]] ; then
+if [[ "$mpi" == "intelmpi" ]] ; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-parallel CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
-elif [[ $mpilib == mpich* ]] ; then
+elif [[ "$mpi" == "mpich" ]] ; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-parallel CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
-elif [[ $mpilib == openmpi* ]] ; then
+elif [[ "$mpi" == "openmpi" ]] ; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-parallel CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
@@ -164,17 +164,17 @@ url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.8.0.tar.gz
 filename["$group-$index"]=netcdf-c-4.8.0.tar.gz
 dirname["$group-$index"]=netcdf-c-4.8.0
 builder["$group-$index"]="configure"
-if [[ $mpilib == openmpi* ]]; then
+if [[ "$mpi" == "openmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-pnetcdf --with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 F77=mpif90 FC=mpif90 LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == mpich* ]]; then
+elif [[ "$mpi" == "mpich" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-pnetcdf --with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 F77=mpif90 FC=mpif90 LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == intel* ]]; then
+elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="--enable-pnetcdf --with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 F77=mpiifort FC=mpiifort LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
@@ -224,17 +224,17 @@ url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.5.3.
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.5.3
 builder["$group-$index"]="configure"
-if [[ $mpilib == openmpi* ]]; then
+if [[ "$mpi" == "openmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == mpich* ]]; then
+elif [[ "$mpi" == "mpich" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == intel* ]]; then
+elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpiifort FC=mpiifort"
@@ -286,17 +286,17 @@ url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz
 filename["$group-$index"]=netcdf-4.4.1.1.tar.gz
 dirname["$group-$index"]=netcdf-4.4.1.1
 builder["$group-$index"]="configure"
-if [[ $mpilib == openmpi* ]]; then
+if [[ "$mpi" == "openmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == mpich* ]]; then
+elif [[ "$mpi" == "mpich" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == intel* ]]; then
+elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpiifort FC=mpiifort"
@@ -346,17 +346,17 @@ url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.4.4.
 filename["$group-$index"]=netcdf-fortran-4.4.4.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.4.4
 builder["$group-$index"]="configure"
-if [[ $mpilib == openmpi* ]]; then
+if [[ "$mpi" == "openmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.4.1.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == mpich* ]]; then
+elif [[ "$mpi" == "mpich" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.4.1.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.110/$mpilib/$compilo"
-elif [[ $mpilib == intel* ]]; then
+elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.4.1.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/fortran/${version["$group-$index"]}"
 	args["$group-$index"]="F77=mpiifort FC=mpiifort"
