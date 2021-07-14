@@ -274,6 +274,9 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
+# Dependencies
+module load dependencies_modules
+
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -295,7 +298,7 @@ url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -329,7 +332,7 @@ url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6
 filename["$group-$index"]=pango-1.48.6.tar.xz
 dirname["$group-$index"]=pango-1.48.6
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot harfbuzz/$compilo/2.8.2 "
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -363,7 +366,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pix
 filename["$group-$index"]=gdk-pixbuf-2.42.0.tar.xz
 dirname["$group-$index"]=gdk-pixbuf-2.42.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Dman=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -517,7 +520,7 @@ url["$group-$index"]="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar
 filename["$group-$index"]=atk-2.36.0.tar.xz
 dirname["$group-$index"]=atk-2.36.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -551,7 +554,7 @@ url["$group-$index"]="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.ta
 filename["$group-$index"]=dbus-1.13.18.tar.xz
 dirname["$group-$index"]=dbus-1.13.18
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 gobject-introspection/$compilo/1.68.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -623,7 +626,7 @@ url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
 dirname["$group-$index"]=at-spi2-atk-2.38.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -752,7 +755,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.2
 filename["$group-$index"]=gtk-3.24.29.tar.xz
 dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot pango/$compilo/1.48.6 harfbuzz/$compilo/2.8.2 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 libxkbcommon/$compilo/1.3.0 libxrandr/$compilo/snapshot libxi/$compilo/snapshot dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot pango/$compilo/1.48.6 harfbuzz/$compilo/2.8.2 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 libxkbcommon/$compilo/1.3.0 libxrandr/$compilo/snapshot libxi/$compilo/snapshot dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"

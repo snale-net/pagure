@@ -519,7 +519,7 @@ then
 elif [ ! -z "$compiler" -a "$compiler" == "intel" ]
 then
 	if ! [ -x "$(command -v icc)" ] ; then
-		log fail "Unable to find suitable Intel compilers (icc not found)" 
+		log fail "Unable to find suitable Intel compilers (icc not found). Maybe you forgot to load the Intel compiler module before running PAGURE ?" 
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
@@ -567,13 +567,16 @@ elif [ "$mpi" == "openmpi" ]; then
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" == "intelmpi" ] ; then
+elif [ "$mpi" == "intelmpi" ] ; then        
 
-    if [ -z "$mpiVersion" ]; then       
-	    log fail "No MPI version was specified with --mpi-version argument. You must specify the version of Intel MPI." 	   
-        leave 1
-    fi   
+    if ! [ -x "$(command -v mpiicc)" ] ; then
+		log fail "Unable to find suitable Intel MPI compilers (mpiicc not found). Maybe you forgot to load the Intel MPI module before running PAGURE ?" 
+		leave 1
+	fi 
 
+    log warn "With Intem MPI, --mpi-version argument is ignored." 	 
+
+    mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*\s\([0-9]\{4\}\)\s.*/\1/g') 
 	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
 	export MPIF77=mpiifort
