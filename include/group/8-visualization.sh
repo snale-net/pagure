@@ -297,7 +297,7 @@ details["$group-$index"]=""
 url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8.2/harfbuzz-2.8.2.tar.xz"
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
-builder["$group-$index"]="gir_configue"
+builder["$group-$index"]="gir_configure"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="--enable-introspection=yes --with-gobject=yes"
