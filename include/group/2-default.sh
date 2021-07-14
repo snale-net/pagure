@@ -128,7 +128,7 @@ url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/v3.9.0.
 filename["$group-$index"]=lapack-3.9.0.tar.gz
 dirname["$group-$index"]=lapack-3.9.0
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-21 08:57:43.000000000 +0100
 +++ CMakeLists.txt	2020-03-26 17:09:08.519176145 +0100
 @@ -73,10 +73,10 @@
@@ -185,7 +185,7 @@ url["$group-$index"]=http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
 filename["$group-$index"]=lapack-3.8.0.tar.gz
 dirname["$group-$index"]=lapack-3.8.0
 builder["$group-$index"]="lapack"
-#dependencies["$group-$index"]=""
+dependencies["$group-$index"]="cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
