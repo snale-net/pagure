@@ -574,8 +574,8 @@ elif [ "$mpi" == "intelmpi" ] ; then
 		leave 1
 	fi     
 
-    mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Build\s\([0-9]\{4\}\).*/\1/g') 
-    log warn "With Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
+    mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Version\s\([0-9\.]*\)\s.*/\1/g') 
+    log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
 
 	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
