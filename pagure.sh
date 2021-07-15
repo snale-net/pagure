@@ -683,7 +683,7 @@ fi
 # Si on a déjà un python installé
 if [ "$installedPython" == "1" ]; then # only-if-Python
  
-	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]] || [ $forceReinstall == "1" ]
+	if [ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" -o $forceReinstall == "1" ]
 	then
 		if [ $debug == "1" ]; then  
 			log debug "Installation of 'python-modules/$compilo/${pythonVersion}'"
