@@ -959,7 +959,7 @@ filename["$group-$index"]=SuiteSparse-5.10.1.tar.gz
 dirname["$group-$index"]=SuiteSparse-5.10.1
 builder["$group-$index"]="SuiteSparse"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.0 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
-args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -lblas\" LDFLAGS=\"-L$prefix/mpfr/$compilo/4.1.0/lib -lmpfr -L$prefix/gmp/$compilo/6.2.1/lib -lgmp\""
+args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -lblas\" LDFLAGS=\"-L$prefix/${dirinstall["$group-$index"]}/lib -L$prefix/mpfr/$compilo/4.1.0/lib -lmpfr -L$prefix/gmp/$compilo/6.2.1/lib -lgmp\""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
