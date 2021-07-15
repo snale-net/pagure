@@ -194,3 +194,40 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 fi  # end-only-if-Python
 
 
+# sqlite 3.36.0
+index=6
+name["$group-$index"]=sqlite
+version["$group-$index"]=3.36.0
+details["$group-$index"]="(needed by proj)"
+url["$group-$index"]="https://www.sqlite.org/2021/sqlite-autoconf-3360000.tar.gz"
+filename["$group-$index"]=sqlite-autoconf-3360000.tar.gz
+dirname["$group-$index"]=sqlite-autoconf-3360000
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+"
+
+
