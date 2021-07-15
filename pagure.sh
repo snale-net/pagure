@@ -69,6 +69,11 @@ function log(){
 function exec_module()
 {
    module $1 &> module_exec  
+
+   if [ ! -f "module_exec" ] ; then
+     log fail "Execution of 'module $1' has failed"
+     leave 100
+   fi
    
    if [ $debug == "1" ]; then   
    	if [ "$(cat module_exec)" == "" ]; then	
