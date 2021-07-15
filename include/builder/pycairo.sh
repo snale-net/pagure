@@ -10,4 +10,5 @@ else
 	$pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
 fi	
 
-cp -f $prefix/${dirinstall["$index"]}/lib/python${pythonVersion}/site-packages/cairo/include/* $prefix/${dirinstall["$index"]}/include/python${pythonVersion}/. 2>&1 | tee -a $LOGFILE && leave
+cp cairo/pycairo.h $prefix/${dirinstall["$index"]}/include/$pythonInterpreter 2>&1 >&3 | tee -a $LOGFILE && leave	
+
