@@ -884,8 +884,73 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 fi # MPI-only
 
-# SuiteSparse 5.10.1
+# gmp 6.2.1
 index=19
+name["$group-$index"]=gmp
+version["$group-$index"]=6.2.1
+details["$group-$index"]=""
+url["$group-$index"]="https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz"
+filename["$group-$index"]=gmp-6.2.1.tar.xz
+dirname["$group-$index"]=gmp-6.2.1
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]=""
+args["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# mpfr 4.1.0
+index=20
+name["$group-$index"]=mpfr
+version["$group-$index"]=4.1.0
+details["$group-$index"]=""
+url["$group-$index"]="https://www.mpfr.org/mpfr-current/mpfr-4.1.0.tar.gz"
+filename["$group-$index"]=mpfr-4.1.0.tar.gz
+dirname["$group-$index"]=mpfr-4.1.0
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="gmp/$compilo/6.2.1"
+args["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# SuiteSparse 5.10.1
+index=21
 name["$group-$index"]=suitesparse
 version["$group-$index"]=5.10.1
 details["$group-$index"]=""
@@ -893,7 +958,7 @@ url["$group-$index"]="https://github.com/DrTimothyAldenDavis/SuiteSparse/archive
 filename["$group-$index"]=SuiteSparse-5.10.1.tar.gz
 dirname["$group-$index"]=SuiteSparse-5.10.1
 builder["$group-$index"]="SuiteSparse"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.0 metis/$compilo/5.1.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.0 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
 args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -lblas\""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -920,7 +985,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Boost 1.76.0
-index=20
+index=22
 name["$group-$index"]=boost
 version["$group-$index"]=1.76.0
 details["$group-$index"]=""
@@ -965,7 +1030,7 @@ prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 # Cgal 5.2.2
-index=21
+index=23
 name["$group-$index"]=cgal
 version["$group-$index"]=5.2.2
 details["$group-$index"]=""
@@ -1001,7 +1066,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # petsc 3.12.5
-index=22
+index=24
 name["$group-$index"]=petsc
 version["$group-$index"]=3.12.5
 details["$group-$index"]="(with parallel)"
@@ -1046,7 +1111,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 # gmsh 4.8.4
-index=23
+index=25
 name["$group-$index"]=gmsh
 version["$group-$index"]=4.8.4
 details["$group-$index"]="(with parallel)"
