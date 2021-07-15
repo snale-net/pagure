@@ -681,7 +681,7 @@ fi
 
 # 12. Création du module python-modules
 # Si on a déjà un python installé
-if [ "$installedPython" == "1" ]; then # only-if-Python
+if [ "$installedPython" == "1" ] || [ ! -z "$pythonVersion" ]; then # only-if-Python
  
 	if [ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" -o $forceReinstall == "1" ]
 	then
