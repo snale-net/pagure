@@ -331,11 +331,9 @@ if [ -z "$forceReinstall" ]; then
 elif [ "${forceReinstall}" == "0" ]; then
 	forceReinstall=0
 elif  [ "${forceReinstall}" == "1" ]; then
+	forceReinstall=1
 	if  [ "${mode}" == "auto" ]; then
-		log fail "When using --mode=auto, you can't use --force-reinstall=1. Please switch to manual mode"
-		leave 10		
-	else
-		forceReinstall=1
+		log warn "You are in automatic mode and you will reinstall all the libraries"
 	fi
 else
 	log fail "Unable to decode boolean for argument force-reinstall : '${forceReinstall}'" 
