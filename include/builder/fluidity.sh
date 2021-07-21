@@ -6,5 +6,5 @@ echo $"${args["$index"]}" | xargs ./configure --prefix=$prefix/${dirinstall["$in
 make -j 2>&1 >&3 | tee -a $LOGFILE && leave
 make -j fltools 2>&1 >&3 | tee -a $LOGFILE && leave
 make -j install 2>&1 >&3 | tee -a $LOGFILE && leave
-make THREADS=4 test 2>&1 >&3 | tee -a $LOGFILE && leave
+#make THREADS=4 test 2>&1 >&3 | tee -a $LOGFILE && leave
 
