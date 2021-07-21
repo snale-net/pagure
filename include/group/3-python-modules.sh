@@ -528,6 +528,22 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# sympy 1.8
+index=31
+name["$group-$index"]=sympy
+version["$group-$index"]=1.8
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/88/b1/e4e620f45949a4cc7c935a0c711f6aac24e875810b68c37148c7402d838f/sympy-1.8.tar.gz"
+filename["$group-$index"]=sympy-1.8.tar.gz
+dirname["$group-$index"]=sympy-1.8
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+args["$group-$index"]=""
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 
