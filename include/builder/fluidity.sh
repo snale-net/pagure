@@ -1,9 +1,6 @@
 #!/bin/bash
 
-cp libspud/ltmain.sh . 2>&1 >&3 | tee -a $LOGFILE && leave
-cd h5hut
-./autogen.sh 2>&1 >&3 | tee -a $LOGFILE && leave
-cd ..
+cp spatialindex-1.8.0/ltmain.sh . 2>&1 >&3 | tee -a $LOGFILE && leave
 echo $"${args["$index"]}" | xargs ./configure --prefix=$prefix/${dirinstall["$index"]} --libdir=$prefix/${dirinstall["$index"]}/lib 2>&1 >&3 | tee -a $LOGFILE && leave
 #make -j clean  2>&1 >&3 | tee -a $LOGFILE && leave
 make -j 2>&1 >&3 | tee -a $LOGFILE && leave
