@@ -87,11 +87,11 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
  	cp -R schemas \$(DESTDIR)\$(datadir)/fluidity/
  	mkdir -p \$(DESTDIR)\$(datadir)/diamond/schemata
  	\$(SED) 's/\$\${datadir}/\$(subst /,\/,\$(datadir))/g' schemas/flml.in > \$(DESTDIR)\$(datadir)/diamond/schemata/flml
--	cd python ; python3 setup.py install --root=\$(shell echo \${DESTDIR} | sed 's/^\$\$/\//') --prefix="\$(prefix)" \$\$FLUIDITY_PYTHON_INSTALL_ARGS
+-	cd python ; python3 setup.py install --root=\$(shell echo \${DESTDIR} | sed 's/^\$\$/\//') --prefix=\"\$(prefix)\" \$\$FLUIDITY_PYTHON_INSTALL_ARGS
 +	cd python ; python3 setup.py install --user --force \$\$FLUIDITY_PYTHON_INSTALL_ARGS
  	cp -R examples \$(DESTDIR)\$(docdir)/fluidity
- 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i "s/\.\.\/\.\.\/\.\.\/bin\///" '{}' \;
- 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i "s/\.\.\/\.\.\/bin\///" '{}' \;
+ 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i \"s/\.\.\/\.\.\/\.\.\/bin\///\" '{}' \;
+ 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i \"s/\.\.\/\.\.\/bin\///\" '{}' \;
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
