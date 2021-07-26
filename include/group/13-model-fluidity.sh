@@ -13,6 +13,35 @@ details["$group-$index"]="(contains Diamond graphic tool)"
 url["$group-$index"]="https://github.com/FluidityProject/spud/archive/refs/heads/main.zip -O spud-main.zip"
 filename["$group-$index"]=spud-main.zip
 dirname["$group-$index"]=spud-main
+patch_01["$group-$index"]="--- Makefile_original.in	2021-05-07 12:20:11.000000000 +0200
++++ Makefile.in	2021-07-26 11:28:51.089103765 +0200
+@@ -95,20 +95,20 @@
+ 	@INSTALL@ -m644 schema/spud_base.rng \$(DESTDIR)@prefix@/share/spud
+ 
+ install-diamond:
+-	cd diamond;	python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
++	cd diamond;	python3 setup.py install --user --force; cd ..
+ 
+ install-pyspud:
+ ifeq (\$(origin BUILDING_DEBIAN),undefined)
+-	cd python; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
++	cd python; python3 setup.py install --user --force; cd ..
+ else
+-	cd python; for python in \$(shell py3versions -r); do \$\$python setup.py install --prefix=\$(DESTDIR)@prefix@ --install-layout=deb; done; cd ..
++	cd python; for python in \$(shell py3versions -r); do \$\$python setup.py install --user --force --install-layout=deb; done; cd ..
+ endif
+ 
+ install-dxdiff:
+ ifeq (\$(origin BUILDING_DEBIAN),undefined)
+ 	cd dxdiff; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
+ else
+-	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --prefix=\$(DESTDIR)@prefix@ --install-layout=deb; done; cd ..
++	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --user --force --install-layout=deb; done; cd ..
+ endif
+ 
+ clean:
+"
+patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gtk/$compilo/3.24.29 gtksourceview/$compilo/3.24.11 libxml2/$compilo/snapshot libxslt/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -39,8 +68,6 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 setenv SPUD_DIR $prefix/${dirinstall["$group-$index"]}
-prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
-prepend-path PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 "
 
 if [ "$mpilib" != "none" ]; then # MPI-only
