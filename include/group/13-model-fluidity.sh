@@ -14,7 +14,7 @@ url["$group-$index"]="https://github.com/FluidityProject/spud/archive/refs/heads
 filename["$group-$index"]=spud-main.zip
 dirname["$group-$index"]=spud-main
 patch_01["$group-$index"]="--- Makefile_original.in	2021-05-07 12:20:11.000000000 +0200
-+++ Makefile.in	2021-07-26 11:28:51.089103765 +0200
++++ Makefile.in	2021-07-26 11:37:05.857180539 +0200
 @@ -95,20 +95,20 @@
  	@INSTALL@ -m644 schema/spud_base.rng \$(DESTDIR)@prefix@/share/spud
  
@@ -33,7 +33,8 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-05-07 12:20:11.00000000
  
  install-dxdiff:
  ifeq (\$(origin BUILDING_DEBIAN),undefined)
- 	cd dxdiff; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
+-	cd dxdiff; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
++	cd dxdiff; python3 setup.py install --user --force ; cd ..
  else
 -	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --prefix=\$(DESTDIR)@prefix@ --install-layout=deb; done; cd ..
 +	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --user --force --install-layout=deb; done; cd ..
