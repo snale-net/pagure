@@ -81,6 +81,19 @@ details["$group-$index"]=""
 url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/heads/main.zip -O fluidity-master.zip"
 filename["$group-$index"]=fluidity-master.zip
 dirname["$group-$index"]=fluidity-main
+patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.000000000 +0200
++++ Makefile.in	2021-07-26 12:21:39.697289659 +0200
+@@ -559,7 +559,7 @@
+ 	cp -R schemas \$(DESTDIR)\$(datadir)/fluidity/
+ 	mkdir -p \$(DESTDIR)\$(datadir)/diamond/schemata
+ 	\$(SED) 's/\$\${datadir}/\$(subst /,\/,\$(datadir))/g' schemas/flml.in > \$(DESTDIR)\$(datadir)/diamond/schemata/flml
+-	cd python ; python3 setup.py install --root=\$(shell echo \${DESTDIR} | sed 's/^\$\$/\//') --prefix="\$(prefix)" \$\$FLUIDITY_PYTHON_INSTALL_ARGS
++	cd python ; python3 setup.py install --user --force \$\$FLUIDITY_PYTHON_INSTALL_ARGS
+ 	cp -R examples \$(DESTDIR)\$(docdir)/fluidity
+ 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i "s/\.\.\/\.\.\/\.\.\/bin\///" '{}' \;
+ 	find \$(DESTDIR)\$(docdir)/fluidity/examples -type f -exec \$(SED) -i "s/\.\.\/\.\.\/bin\///" '{}' \;
+"
+patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
 dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} petsc/$mpilib/$compilo/3.12.5 vtk/$mpilib/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot mpfr/$compilo/4.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
@@ -106,8 +119,6 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
-prepend-path PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 prepend-path DIAMOND_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/diamond/schemata
 "
 
