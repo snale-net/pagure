@@ -1038,8 +1038,12 @@ url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v5.2.2.tar.
 filename["$group-$index"]=cgal-5.2.2.tar.gz
 dirname["$group-$index"]=cgal-5.2.2
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$compilo/1.76.0"
-args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE"
+if [ "$mpilib" == "none" ]; then 
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+else
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+fi
+args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
