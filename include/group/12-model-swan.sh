@@ -5,6 +5,8 @@
 group="12"
 groupname[$group]="Model SWAN"
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # SWAN
 index=1
 name["$group-$index"]=swan
@@ -14,7 +16,7 @@ url["$group-$index"]=http://swanmodel.sourceforge.net/download/zip/swan4131.tar.
 filename["$group-$index"]=swan4131.tar.gz
 dirname["$group-$index"]=swan4131
 builder["$group-$index"]="swan"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.7.3 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.2"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
@@ -30,8 +32,8 @@ FLAGS90_MSC = \$(FLAGS_MSC)
 FLAGS_DYN = -fPIC
 FLAGS_SER = 
 FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
+NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
+NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -74,8 +76,8 @@ FLAGS_DYN =
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
 FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.7.3
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.2
+NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
+NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -123,5 +125,6 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
+fi # end-MPI-only
 
 

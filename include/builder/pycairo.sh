@@ -9,3 +9,5 @@ if [[ "$compiler" == "intel" ]] ; then
 else
 	$pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
 fi	
+
+cp $prefix/${dirinstall["$index"]}/lib/python${pythonVersion}/site-packages/pycairo-1.20.1-py3.7-linux-x86_64.egg/cairo/include/py3cairo.h $prefix/${dirinstall["$index"]}/include/python${pythonVersion}/. 2>&1 | tee -a $LOGFILE && leave

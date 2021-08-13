@@ -23,12 +23,12 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 		# Python v3.x
 		sudo $zypperCmd python3-devel 2>&1 >&3 | tee -a $LOGFILE && leave
-		# GDAL deps
+		# GMT deps
 		sudo $zypperCmd python3-Sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
 	else
 		# Python v2.x
 		sudo $zypperCmd python-devel 2>&1 >&3 | tee -a $LOGFILE && leave
-		# GDAL deps 08-03-2021 plus de support
+		# GMT deps 08-03-2021 plus de support
 		#sudo $zypperCmd python2-Sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
 	fi
 fi  # end-only-if-Python

@@ -19,6 +19,7 @@ BLANC="\\033[0;02m"
 BLANCLAIR="\\033[1;08m"
 ORANGE="\\033[1;33m"
 CYAN="\\033[1;36m"
+GRIS="\\033[1;90m"
 clear
 rm -f $LOGFILE
 function log(){
@@ -34,6 +35,10 @@ function log(){
     then
       echo -e "[ $BLEU INFO $NORMAL ] " $2
       echo "[ INFO ] " $2 >> $LOGFILE
+    elif [ $1 == "debug" ]
+    then
+      echo -e "[ $GRIS DEBUG $NORMAL ] " $2
+      echo "[ DEBUG ] " $2 >> $LOGFILE
     elif [ $1 == "step" ]
     then
       echo -e "[ $CYAN STEP $NORMAL ] " $2
@@ -44,7 +49,7 @@ function log(){
       echo "[ SKIP ] " $2 >> $LOGFILE
     elif [ $1 == "abort" ]
     then
-      echo -e "[ $ROUGE ABORT $NORMAL ] PAGURE aborted with status error" $2
+      echo -e "[ $GRIS ABORT $NORMAL ] PAGURE aborted with status error" $2
       echo "[ ABORT ] Abort with status error" $2 >> $LOGFILE
      elif [ $1 == "fail" ]
     then
@@ -61,22 +66,38 @@ function log(){
 }
 
 # Execute module
-exec_module()
+function exec_module()
 {
    module $1 &> module_exec  
-  
-   isFailed=$(cat module_exec | grep 'ERROR' -c)
-   if [ "$isFailed" == "1" ] 
-   then  
-        log fail "Missing required dependency : $(cat module_exec). Please install it before"
-   	leave 100
-   fi  
+
+   if [ ! -f "module_exec" ] ; then
+     log fail "Execution of 'module $1' has failed"
+     leave 100
+   fi
+   
+   if [ $debug == "1" ]; then   
+   	if [ "$(cat module_exec)" == "" ]; then	
+   		log debug "Execution of 'module $1'"
+   	else
+   		log debug "Execution of 'module $1' returns '$(cat module_exec)'"
+   	fi
+   fi
+
+   if [ "$1" != "purge" ]; then
+       # La commande n'est pas une purge  
+       isFailed=$(cat module_exec | grep 'ERROR' -c)
+       if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
+       then  
+            log fail "Missing required dependency : $(cat module_exec). Please install it before"
+       	leave 100
+       fi  
+   fi
    rm -f module_exec
 }
 
 
 # Quitter le script
-leave()
+function leave()
 {
   ret="${PIPESTATUS[0]}"  
   if [[ "$ret" -ne "0" ]]; then
@@ -92,6 +113,45 @@ leave()
   fi   
 }
 
+# Comparer une version
+# Returns 0 if $1 = $2
+# Returns 1 if $1 > $2
+# Returns 2 if $1 < $2     
+function vercomp () {	
+    if [[ $1 == $2 ]]
+    then
+        echo "0"
+        return
+    fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            echo "1"
+            return
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            echo "2"
+            return
+        fi
+    done
+    echo "0"
+    return
+}
+
 # Usage
 usage()
 {
@@ -101,7 +161,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
 	echo ' '
 }
 
@@ -125,12 +185,17 @@ fi
 forceDownload=0
 forceReinstall=0
 autoRemove=1
+debug=0
 
 if test $# -eq 0
 then
 	 usage
 	 leave 0
 fi
+
+# On logge la commande
+log raw "$0 $*" 
+
 while test $# -ge 1
 do
 case "$1" in
@@ -144,6 +209,7 @@ case "$1" in
     -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -mpi-version=* | --mpi-version=*) mpiVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
     -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;; 
     -filter=* | --filter=*) selectedFilter=`echo $1 | sed 's/.*=//'`; shift ;; 
@@ -153,6 +219,7 @@ case "$1" in
     -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
       echo "unknown option: $1"
       echo "$0 --help for help"
@@ -188,8 +255,12 @@ elif [ "$system" == "ubuntu" ] ; then
 
 	systemOS=`echo "$system" | awk '{print tolower($0)}'`
 
+elif [ "$system" == "fedora" ] ; then
+
+	systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
 else
-	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|UBUNTU|CENTOS|MACOS" 
+	log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS" 
 	leave 1
 fi
 log info "system is set to $systemOS"
@@ -260,11 +331,9 @@ if [ -z "$forceReinstall" ]; then
 elif [ "${forceReinstall}" == "0" ]; then
 	forceReinstall=0
 elif  [ "${forceReinstall}" == "1" ]; then
+	forceReinstall=1
 	if  [ "${mode}" == "auto" ]; then
-		log fail "When using --mode=auto, you can't use --force-reinstall=1. Please switch to manual mode"
-		leave 10		
-	else
-		forceReinstall=1
+		log warn "You are in automatic mode and you will reinstall all the libraries"
 	fi
 else
 	log fail "Unable to decode boolean for argument force-reinstall : '${forceReinstall}'" 
@@ -346,19 +415,23 @@ else
 		
 		# MPI
 		if  [[ "${libToInstall[@]}" =~ "4-1" ]]; then
-			mpi="openmpi110"
+			mpi="openmpi"
+            mpiVersion="1.10.7"
 		fi
 				
 		if  [[ "${libToInstall[@]}" =~ "4-2" ]]; then
-			mpi="openmpi300"
+			mpi="openmpi"
+            mpiVersion="3.1.6"
 		fi
 		
 		if  [[ "${libToInstall[@]}" =~ "4-3" ]]; then
-			mpi="mpich321"
+			mpi="mpich"
+            mpiVersion="3.2.1"
 		fi
 		
 		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
-			mpi="mpich332"
+			mpi="mpich"
+            mpiVersion="3.3.2"
 		fi
 		
 		# Python
@@ -373,7 +446,37 @@ else
 	
 fi
 
-# 6. Installation des paquets système
+# 6. Tester la version de Python
+installedPython=0
+if [ -z "$pythonVersion" ]; then
+	if ! hash python 2>/dev/null; then        
+		log warn "No Python interpreter" 
+		pythonInterpreter="none"	    
+	else	
+		python --version &> version_test
+		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		rm -f version_test
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+		log info "Python interpreter is set to $pythonInterpreter"
+	fi
+
+elif hash python${pythonVersion} 2>/dev/null
+then    
+	pythonInterpreter=python${pythonVersion}
+	installedPython=1
+	log info "Python interpreter is set to $pythonInterpreter"	
+else
+	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	else
+		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 with PAGURE" 
+		leave 1
+	fi
+fi
+
+# 7. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ]
 then
 	log raw "......................"
@@ -401,29 +504,16 @@ then
 fi
 
 log raw "......................"
-# 7. Récupérer la version du compilateur
-if [ -z "$compiler" ]
-then
-	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')    
-	compilo=gcc${CC_VERSION//.}
-	export CC=gcc
-	export CXX=g++
-	export F77=gfortran
-	export F90=gfortran
-	export FC=gfortran	
-	log info "compiler is set to GNU ${CC_VERSION}"
-
-elif [ "$compiler" == "gnu" ]
+# 8. Récupérer la version du compilateur
+if [ -z "$compiler" ] || [ ! -z "$compiler" -a "$compiler" == "gnu" ]
 then
 	if ! [ -x "$(command -v gcc)" ] ; then
-		log fail "Unable to find suitable compilers (gcc or icc)" 
+		log fail "Unable to find suitable GNU compilers (gcc not found)" 
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    	FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -432,15 +522,15 @@ then
 	export FC=gfortran	
 	log info "compiler is set to GNU ${CC_VERSION}"
 
-elif [ "$compiler" == "intel" ]
+elif [ ! -z "$compiler" -a "$compiler" == "intel" ]
 then
 	if ! [ -x "$(command -v icc)" ] ; then
-		log fail "Unable to find suitable compilers (gcc or icc)" 
+		log fail "Unable to find suitable Intel compilers (icc not found). Maybe you forgot to load the Intel compiler module before running PAGURE ?" 
 		leave 1
 	fi
 	CC_VERSION=$(icc --version | grep ^icc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    	CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
-    	FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    CXX_VERSION=$(icpc --version | grep ^icpc | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
+    FC_VERSION=$(ifort --version | grep ^ifort | sed 's/^[a-z]*\s.[A-Z]*.\s//g')
 	compilo=icc${CC_VERSION:0:2}
 	export CC=icc
 	export CXX=icpc
@@ -453,91 +543,61 @@ else
 	leave 1
 fi
 
-if [[ "${CC_VERSION}" != "${CXX_VERSION}" || "${CC_VERSION}" != "${FC_VERSION}" ]]; then
-    log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
+if [[ $(vercomp ${CC_VERSION:0:3} ${CXX_VERSION:0:3}) != 0 ]] || [[ $(vercomp ${CC_VERSION:0:3} ${FC_VERSION:0:3}) != 0 ]]; then
+	log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
 	leave 1
 fi
 
 # Fix for GNU 10
-if [[ $compiler == "gnu" ]] && (( $(echo "${CC_VERSION} >= 10.0" |bc -l) )); then # only GNU>=10.2			
+if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # only GNU>=10.0			
 	export FFLAGS="-w -fallow-argument-mismatch -O2"
 	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
 fi
 
-# 8. Tester la version du MPI
+# 9. Tester la version du MPI
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
 
-elif [ "$mpi" == "openmpi110" ]; then
+elif [ "$mpi" == "openmpi" ]; then
 
-	mpilib="openmpi110"
+    if [ -z "$mpiVersion" ]; then
+        mpiVersion=1.10.7
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+    fi   
+
+	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
     export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
 	export MPICXX=mpic++
 
-elif [ "$mpi" == "openmpi300" ] ; then
+elif [ "$mpi" == "intelmpi" ] ; then        
 
-	mpilib="openmpi300"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
+    if ! [ -x "$(command -v mpiicc)" ] ; then
+		log fail "Unable to find suitable Intel MPI compilers (mpiicc not found). Maybe you forgot to load the Intel MPI module before running PAGURE ?" 
+		leave 1
+	fi     
 
-elif [ "$mpi" == "intel2016" ] ; then
+    mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Version\s\([0-9\.]*\)\s.*/\1/g') 
+    log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
 
-	mpilib="intel2016"
+	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
 	export MPIF77=mpiifort
 	export MPIFC=mpiifort
 	export MPIF90=mpiifort
 	export MPICXX=mpiicpc
 
-elif [ "$mpi" == "intel2017" ] ; then
+elif [ "$mpi" == "mpich" ] ; then
 
-	mpilib="intel2017"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
+    if [ -z "$mpiVersion" ]; then
+        mpiVersion=3.2.1
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 3.2.1" 	   
+    fi   
 
-elif [ "$mpi" == "intel2018" ] ; then
-
-	mpilib="intel2018"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
-
-elif [ "$mpi" == "intel2019" ] ; then
-
-	mpilib="intel2019"
-	export MPICC=mpiicc
-	export MPIF77=mpiifort
-	export MPIFC=mpiifort
-	export MPIF90=mpiifort
-	export MPICXX=mpiicpc
-
-elif [ "$mpi" == "mpich321" ] ; then
-
-	mpilib="mpich321"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
-	
-	unset F90 
-	unset F90FLAGS	
-	
-elif [ "$mpi" == "mpich332" ] ; then
-
-	mpilib="mpich332"
+	mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
 	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
@@ -548,14 +608,14 @@ elif [ "$mpi" == "mpich332" ] ; then
 	unset F90FLAGS	
 	
 else   
-        log fail "Unable to decode argument '--mpi'. Accepted values : openmpi110|openmpi300|intel2016|intel2017|intel2018|intel2019|mpich321|mpich332" 
+    log fail "Unable to decode argument '--mpi'. Accepted values : openmpi|intelmpi|mpich" 
 	leave 1	
 fi
 
 if [ "$mpilib" == "openmpi110" ]; then
 	mpi_dep="openmpi/$compilo/1.10.7"
-elif [ "$mpilib" == "openmpi300" ]; then
-	mpi_dep="openmpi/$compilo/3.0.0"
+elif [ "$mpilib" == "openmpi316" ]; then
+	mpi_dep="openmpi/$compilo/3.1.6"
 elif [ "$mpilib" == "intel2016" ]; then
 	mpi_dep="intelmpi/$compilo/2016"
 elif [ "$mpilib" == "intel2017" ]; then
@@ -576,39 +636,6 @@ if [ "$mpilib" == "none" ]; then
     log warn "No MPI library"  
 else
     log info "MPI library is set to $mpilib"
-fi
-
-# 9. Tester la version de Python
-installedPython=0
-if [ -z "$pythonVersion" ]; then
-	if ! hash python 2>/dev/null; then        
-		log warn "No Python interpreter" 
-		pythonInterpreter="none"	    
-	else	
-		python --version &> version_test
-		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
-		rm -f version_test
-		pythonInterpreter=python${pythonVersion}
-		installedPython=1
-		log info "Python interpreter is set to $pythonInterpreter"
-	fi
-
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-	installedPython=1
-	log info "Python interpreter is set to $pythonInterpreter"
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		installedPython=0
-	fi
-else
-	if (( $(echo "$pythonVersion == 3.7" | bc -l) )); then # only Python==3.7
-		pythonInterpreter=python${pythonVersion}
-		log info "Python interpreter ${pythonVersion} will be installed"
-	else
-		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 can be installed with PAGURE" 
-		leave 1
-	fi
 fi
 
 log raw "......................"
@@ -657,10 +684,13 @@ fi
 
 # 12. Création du module python-modules
 # Si on a déjà un python installé
-if [ "$installedPython" == "1" ]; then # only-if-Python
+if [ "$installedPython" == "1" ] || [ ! -z "$pythonVersion" ]; then # only-if-Python
  
-	if [[ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" ]]
+	if [ ! -f "$moduleDir/python-modules/$compilo/${pythonVersion}" -o $forceReinstall == "1" ]
 	then
+		if [ $debug == "1" ]; then  
+			log debug "Installation of 'python-modules/$compilo/${pythonVersion}'"
+		fi
 		if [ ! -d "$moduleDir/python-modules/$compilo" ] ; then mkdir -p "$moduleDir/python-modules/$compilo" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
     		pymodulefile="#%Module1.0
 proc ModulesHelp { } {
@@ -675,9 +705,11 @@ prepend-path PATH $prefix/python-modules/$compilo/bin
 prepend-path C_INCLUDE_PATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
+prepend-path PKG_CONFIG_PATH $prefix/python-modules/$compilo/lib/pkgconfig
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
+prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
 "
-    		echo $"${pymodulefile}" >> $moduleDir/python-modules/$compilo/${pythonVersion}   
+    		echo $"${pymodulefile}" > $moduleDir/python-modules/$compilo/${pythonVersion}   
 	fi
 fi  # end-only-if-Python
 
@@ -696,6 +728,8 @@ declare -A patch_01
 declare -A patchfile_01
 declare -A patch_02
 declare -A patchfile_02
+declare -A patch_03
+declare -A patchfile_03
 declare -A builder
 declare -A dependencies
 declare -A dirinstall
@@ -778,29 +812,51 @@ function install()
 					dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`												
 				fi
 
-				# Si on a déjà un python installé
-				# On enlève le module python
-				if [ "$installedPython" == "1" ]; then # only-if-Python				
-					dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}				
-				fi  # end-only-if-Python
+				# Si on a déjà un python installé										
+				if [ "$installedPython" == "1" ]; then 		
+					# On test si le module python existe									
+					module show python/$compilo/${pythonVersion} &> lib_test
+					libTest=$(cat lib_test | grep "ERROR" -c)
+					rm -f lib_test
+								
+					if [ "$libTest" == "1" ] ; then
+						# Il n'existe pas alors on le supprime des dépendances pour utiliser celui du système		
+						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}						
+					fi			
+				fi 
 
 				# On charge les dépendances
-				if [[ ! -z "${dependencies["$index"]}" ]] ; then  												
+				if [[ ! -z "${dependencies["$index"]}" ]] ; then 						
 					exec_module "load ${dependencies["$index"]}"						
 				fi
 					
 				# On teste si la librairie est déjà installée
 				if [[ "${dirinstall["$index"]}" =~ .*(python-modules).* ]]; then				
 					# module Python							
-					$pythonInterpreter -c "import ${name["$index"]}" &> lib_test									
-					libTest=$(cat lib_test | grep "Error" -c)					
-					rm -f lib_test
+					$pythonInterpreter -c "import ${name["$index"]}; print(${name["$index"]}.__version__)" &> lib_test									
+					libTest=$(cat lib_test | grep "Error" -c)
+					
+					if [ $debug == "1" ]; then      	
+				   		log debug "Testing if '${name["$index"]}' exists: $(cat lib_test)"				   	
+				   	fi				
 								
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
-					else
-						alreadyInstall=true
+					else											
+						
+						versionTest=$(vercomp ${version["$index"]} $(cat lib_test))
+						if [ "$versionTest" == "1" ] ; then		
+							alreadyInstall=false	
+						elif [ "$versionTest" == "2" ] ; then
+							log warn "${name["$index"]} newest version is already installed ($(cat lib_test))"
+							alreadyInstall=true
+						else							
+							alreadyInstall=true	
+						fi							
 					fi
+					
+					rm -f lib_test					
+					
 				else				
 					# module normal				
 					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
@@ -816,7 +872,7 @@ function install()
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then		
-					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"					
+					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"										
 
 					cd $prefix/tgz
 
@@ -850,6 +906,14 @@ function install()
 					then						
 						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
 
+					elif [[ ${filename["$index"]} == *.tar.xz ]] 
+					then
+						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+						
+					elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
+					then
+						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+						
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
 						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
@@ -901,8 +965,7 @@ function install()
 						fi 
 						
 						if [[ ${dirmodule["$index"]} == python-modules* ]]
-						then	
-						${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}	                    
+						then						                 
 						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
 						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 

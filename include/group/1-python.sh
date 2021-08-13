@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$pythonInterpreter" != "none" ] && [ "$installedPython" == "0"  ]; then # only-if-we-want-Python-and-is-not-installed 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-we-want-Python-and-is-not-installed 
 
 #################################################################
 #Group 1 : Python
@@ -34,6 +34,11 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 }
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -41,6 +46,9 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 "
 
 fi # end-only Python==3.7
