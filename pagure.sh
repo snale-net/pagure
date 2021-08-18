@@ -85,7 +85,7 @@ function exec_module()
 
    if [ "$1" != "purge" ]; then
        # La commande n'est pas une purge  
-       isFailed=$(cat module_exec | grep 'ERROR' -c)
+       isFailed=$(cat module_exec | grep -i 'ERROR\|erreur' -c)
        if (( $(echo "${isFailed} > 0.0" | bc -l) )) 
        then  
             log fail "Missing required dependency : $(cat module_exec). Please install it before"
