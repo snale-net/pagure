@@ -874,8 +874,16 @@ function install()
 				fi								
 						
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
-				then		
-					log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"										
+				then
+
+                    if [ -d "$prefix/${dirinstall["$index"]}" -a $forceReinstall == "1" ]		
+                    then                       
+                        log info "Remove previous version of ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
+                        rm -rf $prefix/${dirinstall["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        rm -rf $moduleDir/${dirmodule["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave	
+                    fi		
+
+                    log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"					
 
 					cd $prefix/tgz
 
