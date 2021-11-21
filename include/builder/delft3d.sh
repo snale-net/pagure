@@ -34,7 +34,9 @@ make 2>&1 >&3 | tee -a $LOGFILE && leave
 cp -f $prefix/src/${dirname["$index"]}/third_party_open/swan/swan_omp/swan_omp.exe $prefix/${dirinstall["$index"]}/bin/swan_omp.exe 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # On déplace les librairies 64bits dans le dossier lib
-if [ -d "$prefix/${dirinstall["$index"]}/lib64" ] ; then
+if [ -d "$prefix/${dirinstall["$index"]}/lib64" ] ; then  
 	cp -r $prefix/${dirinstall["$index"]}/lib64/* $prefix/${dirinstall["$index"]}/lib 2>&1 >&3 | tee -a $LOGFILE && leave
 	rm -rf $prefix/${dirinstall["$index"]}/lib64/ 2>&1 >&3 | tee -a $LOGFILE && leave
 fi
+
+

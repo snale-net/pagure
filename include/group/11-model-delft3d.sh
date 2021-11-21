@@ -392,6 +392,20 @@ patch_03["$group-$index"]="--- Makefile_original.am	2021-06-10 17:36:34.39808068
  #Libraries
 "
 patchfile_03["$group-$index"]="third_party_open/swan/swan_omp/Makefile.am"
+patch_04["$group-$index"]="--- scripts_lgpl/linux/oss-install_original.sh	2021-11-21 19:35:08.645877660 +0100
++++ scripts_lgpl/linux/oss-install.sh	2021-11-21 19:35:22.799960714 +0100
+@@ -79,7 +79,7 @@
+ 
+ gatherESMF
+ 
+-gatherDependencies
++#gatherDependencies
+ 
+ # Set executable bit
+ cd \$prefix/bin
+
+"
+patchfile_04["$group-$index"]="scripts_lgpl/linux/oss-install.sh"
 builder["$group-$index"]="delft3d"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 ruby/$compilo/2.7.2"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}

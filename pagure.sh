@@ -958,6 +958,12 @@ function install()
 						dos2unix ${patchfile_03["$index"]}
 						patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
+                    if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
+					then			
+						echo $"${patch_04["$index"]}" > patch_to_apply.patch
+						dos2unix ${patchfile_04["$index"]}
+						patch -i patch_to_apply.patch ${patchfile_04["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					fi
 					
 					# Compilation #
 					if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then
