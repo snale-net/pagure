@@ -829,8 +829,13 @@ function install()
 				fi 
 
 				# On charge les dépendances
-				if [[ ! -z "${dependencies["$index"]}" ]] ; then 						
-					exec_module "load ${dependencies["$index"]}"						
+				if [[ ! -z "${dependencies["$index"]}" ]] ; then
+                    # On charge chaque librairie une par une
+                    IFS=' ' read -r -a depToLoad <<< "${dependencies["$index"]}" 	
+                    for libToLoad in "${depToLoad[@]}"
+                    do
+                        exec_module "load $libToLoad"	                       
+                    done										
 				fi
 					
 				# On teste si la librairie est déjà installée
