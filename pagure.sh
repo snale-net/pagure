@@ -881,7 +881,7 @@ function install()
 				if [ "$alreadyInstall" = false -o $forceReinstall == "1" ]
 				then
 
-                    if [ -d "$prefix/${dirinstall["$index"]}" -a $forceReinstall == "1" ]		
+                    if [ -d "$prefix/${dirinstall["$index"]}" ] && [[ ${dirinstall["$index"]} != python-modules* ]] && [ $forceReinstall == "1" ]		
                     then                       
                         log info "Remove previous version of ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
                         rm -rf $prefix/${dirinstall["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
