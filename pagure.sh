@@ -786,12 +786,12 @@ function install()
 				
 				if [ "$systemOS" == "cluster" ] ; then 					
 					
-					if [ -z "${filters["$selectedFilter"]}" ]; then
+					if [ "${libToInstall}" == "none" ] ; then
 						# Uniquement si on n'utilise pas de filtre, on essait d'utiliser les dépendences du cluster
 					
 						if [ "$mpilib" != "none" ] ; then			
 
-							if hash $MPIF90 2>/dev/null
+							if  [ -x `command -v ${MPIF90}` ]
 							then					
 								# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
 								mpi_dep_no_slash=${mpi_dep//\//\\/}							
