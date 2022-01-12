@@ -177,7 +177,7 @@ elif [[ "$mpi" == "mpich" ]]; then
 elif [[ "$mpi" == "intelmpi" ]]; then
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$mpilib/$compilo/c/${version["$group-$index"]}"
-	args["$group-$index"]="--enable-pnetcdf --with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 F77=mpiifort FC=mpiifort LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
+	args["$group-$index"]="--enable-pnetcdf --with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 CC=mpiicc F77=mpiifort FC=mpiifort LDFLAGS=-L$prefix/hdf5/$mpilib/$compilo/1.10.5/lib"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
 else
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5"
