@@ -452,13 +452,28 @@ filename["$group-$index"]=netcdf4-python-1.5.3.tar.gz
 dirname["$group-$index"]=netcdf4-python-1.5.3rel
 builder["$group-$index"]="python"
 if [ "$mpilib" == "none" ]; then 
+    if [[ "$compiler" == "intel" ]] ; then
+         args["$group-$index"]="LDSHARED='icc -shared'"
+    else
+        args["$group-$index"]=""
+    fi
+
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 	dirinstall["$group-$index"]="python-modules/$compilo"
+    args["$group-$index"]=""
 	#dirmodule["$group-$index"]=""
 	#modulefile["$group-$index"]=""
 else
+    if [[ "$mpi" == "intelmpi" ]]; then
+         args["$group-$index"]="CPP='mpiicc -E' CC='mpiicc' MPICC='mpiicc' F77='ifort' FC='mpiifort' LDSHARED='mpiicc -shared'"
+    elif [[ "$compiler" == "intel" ]] ; then
+         args["$group-$index"]="LDSHARED='icc -shared'"
+    else
+         args["$group-$index"]=""
+    fi
+
 	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} python-modules/$mpilib/$compilo/${pythonVersion}"
-	dirinstall["$group-$index"]="python-modules/$mpilib/$compilo"
+	dirinstall["$group-$index"]="python-modules/$mpilib/$compilo"   
 	dirmodule["$group-$index"]="python-modules/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -474,7 +489,7 @@ prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterp
 prepend-path PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 "
 fi
-args["$group-$index"]=""
+
 
 if [ "$showOldVersion" = "1" ] && [ "$mpilib" == "none" ]; then
 
