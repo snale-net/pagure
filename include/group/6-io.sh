@@ -453,7 +453,7 @@ dirname["$group-$index"]=netcdf4-python-1.5.3rel
 builder["$group-$index"]="python"
 if [ "$mpilib" == "none" ]; then 
     if [[ "$compiler" == "intel" ]] ; then
-         args["$group-$index"]="LDSHARED='icc -shared'"
+         args["$group-$index"]="LDSHARED=\"icc -shared\""
     else
         args["$group-$index"]=""
     fi
@@ -465,7 +465,7 @@ if [ "$mpilib" == "none" ]; then
 	#modulefile["$group-$index"]=""
 else
     if [[ "$mpi" == "intelmpi" ]]; then
-         args["$group-$index"]="CPP='mpiicc -E' CC='mpiicc' MPICC='mpiicc' F77='ifort' FC='mpiifort' LDSHARED='mpiicc -shared'"
+         args["$group-$index"]="CPP=mpiicc -E CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
     elif [[ "$compiler" == "intel" ]] ; then
          args["$group-$index"]="LDSHARED='icc -shared'"
     else
