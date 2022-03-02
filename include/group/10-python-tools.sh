@@ -18,7 +18,11 @@ dirname["$group-$index"]=Pillow-8.2.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -33,7 +37,11 @@ dirname["$group-$index"]=dask-2.10.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -48,7 +56,11 @@ dirname["$group-$index"]=xarray-0.15.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -63,7 +75,11 @@ dirname["$group-$index"]=airflow-2.1.1rc1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -78,7 +94,11 @@ dirname["$group-$index"]=PyInstaller-3.6
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -93,7 +113,11 @@ dirname["$group-$index"]=staticx-0.12.2
 builder["$group-$index"]="staticx"
 dependencies["$group-$index"]="musl/$compilo/1.2.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 

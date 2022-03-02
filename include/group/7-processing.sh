@@ -147,7 +147,11 @@ dirname["$group-$index"]=pyproj-3.1.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} proj/$compilo/8.0.1"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -207,7 +211,11 @@ dirname["$group-$index"]=pygdal-3.3.0.7
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="gdal/$compilo/3.3.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
