@@ -38,6 +38,8 @@ sudo apt-get $aptArgs install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFI
 # Web deps
 sudo apt-get $aptArgs install libarchive-tools nfs-kernel-server php php-xml php-mbstring ansible 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
+# Bazel deps
+sudo apt-get $aptArgs install default-jdk
 
 
 

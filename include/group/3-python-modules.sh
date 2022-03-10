@@ -154,15 +154,15 @@ fi
 #modulefile["$group-$index"]=""
 fi
 
-# Cython 0.29.14
+# Cython 0.29.28
 index=8
 name["$group-$index"]=cython
-version["$group-$index"]=0.29.14
+version["$group-$index"]=0.29.28
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/9c/9b/706dac7338c2860cd063a28cdbf5e9670995eaea408abbf2e88ba070d90d/Cython-0.29.14.tar.gz
-filename["$group-$index"]=Cython-0.29.14.tar.gz
-dirname["$group-$index"]=Cython-0.29.14
+url["$group-$index"]=https://files.pythonhosted.org/packages/cb/da/54a5d7a7d9afc90036d21f4b58229058270cc14b4c81a86d9b2c77fd072e/Cython-0.29.28.tar.gz
+filename["$group-$index"]=Cython-0.29.28.tar.gz
+dirname["$group-$index"]=Cython-0.29.28
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"

@@ -121,6 +121,63 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# scikit-learn 1.0.2
+index=7
+name["$group-$index"]=scikit-learn
+version["$group-$index"]=1.0.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/75/44/074b780d8ac0b0899937e9b8ba6d5d8873a71b99aa915219251ef85a8890/scikit-learn-1.0.2.tar.gz"
+filename["$group-$index"]=scikit-learn-1.0.2.tar.gz
+dirname["$group-$index"]=scikit-learn-1.0.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# tensorflow 2.8.0
+index=8
+name["$group-$index"]=tensorflow
+version["$group-$index"]=2.8.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.8.0.tar.gz -O tensorflow-2.8.0.tar.gz"
+filename["$group-$index"]=tensorflow-2.8.0.tar.gz
+dirname["$group-$index"]=tensorflow-2.8.0
+builder["$group-$index"]="tensorflow"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} bazel/$compilo/4.2.2"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="--config=mkl"
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# pytorch 2.8.0
+index=9
+name["$group-$index"]=pytorch
+version["$group-$index"]=2.8.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://github.com/pytorch/pytorch/archive/refs/tags/v1.10.2.tar.gz -O pytorch-1.10.2.tar.gz"
+filename["$group-$index"]=pytorch-1.10.2.tar.gz
+dirname["$group-$index"]=tpytorch-1.10.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+      args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 

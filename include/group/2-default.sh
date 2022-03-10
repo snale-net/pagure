@@ -209,4 +209,30 @@ prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 
 fi # old-version
 
+# bazel 4.2.2
+index=8
+name["$group-$index"]=bazel
+version["$group-$index"]=4.2.2
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/bazelbuild/bazel/releases/download/4.2.2/bazel-4.2.2-dist.zip -O bazel-4.2.2-dist.all-in-root.zip"
+filename["$group-$index"]=bazel-4.2.2-dist.all-in-root.zip
+dirname["$group-$index"]=bazel-4.2.2-dist
+builder["$group-$index"]="bazel"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+"
+
 

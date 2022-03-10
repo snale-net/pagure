@@ -733,6 +733,8 @@ declare -A patch_02
 declare -A patchfile_02
 declare -A patch_03
 declare -A patchfile_03
+declare -A patch_04
+declare -A patchfile_04
 declare -A builder
 declare -A dependencies
 declare -A dirinstall
@@ -919,20 +921,39 @@ function install()
 					if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
 
 					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
-					then						
-						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-
+					then
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        tar xvfz ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi
 					elif [[ ${filename["$index"]} == *.tar.xz ]] 
 					then
-						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        tar xJf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi						
 						
 					elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
 					then
-						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-						
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                       tar xf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi	
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
-						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        unzip -o ${filename["$index"]} -d../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi	
+						
 					else
 						mkdir -p ../src/${dirname["$index"]}
 						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
@@ -963,7 +984,7 @@ function install()
 						dos2unix ${patchfile_03["$index"]}
 						patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
-                    if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
+                    			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
 					then			
 						echo $"${patch_04["$index"]}" > patch_to_apply.patch
 						dos2unix ${patchfile_04["$index"]}
