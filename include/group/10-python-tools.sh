@@ -152,28 +152,47 @@ builder["$group-$index"]="tensorflow"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} bazel/$compilo/4.2.2"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
-     args["$group-$index"]="--config=mkl"
+     args["$group-$index"]="--config=mkl --jobs=2 --local_ram_resources=HOST_RAM*.5"
 else
-     args["$group-$index"]=""
+     args["$group-$index"]="--jobs=2 --local_ram_resources=HOST_RAM*.5"
 fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# pytorch 2.8.0
+# pytorch 1.7.0
 index=9
 name["$group-$index"]=pytorch
-version["$group-$index"]=2.8.0
+version["$group-$index"]=1.7.0
 details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://github.com/pytorch/pytorch/archive/refs/tags/v1.10.2.tar.gz -O pytorch-1.10.2.tar.gz"
-filename["$group-$index"]=pytorch-1.10.2.tar.gz
-dirname["$group-$index"]=tpytorch-1.10.2
+url["$group-$index"]="git clone --branch v1.7.0 --recursive https://github.com/pytorch/pytorch"
+filename["$group-$index"]=pytorch-1.7.0
+dirname["$group-$index"]=pytorch-1.7.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
-      args["$group-$index"]="LDSHARED=\"icc -shared\""
+      args["$group-$index"]="LDSHARED=\"icc -shared\" MAX_JOBS=2 USE_CUDA=0 USE_CUDNN=0 USE_MKLDNN=1"
 else
-     args["$group-$index"]=""
+     args["$group-$index"]="MAX_JOBS=2 USE_CUDA=0 USE_CUDNN=0 USE_MKLDNN=1"
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# torchvision 0.8.2
+index=10
+name["$group-$index"]=torchvision
+version["$group-$index"]=0.8.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://github.com/pytorch/vision/archive/refs/tags/v0.8.2.tar.gz -O torchvision-0.8.2.tar.gz"
+filename["$group-$index"]=torchvision-0.8.2.tar.gz
+dirname["$group-$index"]=vision-0.8.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+      args["$group-$index"]="LDSHARED=\"icc -shared\" MAX_JOBS=2"
+else
+     args["$group-$index"]="MAX_JOBS=2"
 fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""

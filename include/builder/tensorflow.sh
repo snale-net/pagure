@@ -10,12 +10,9 @@ bazel clean 2>&1 >&3 | tee -a $LOGFILE && leave
 
 sed -i "1i #!/usr/bin/env ${pythonInterpreter}" tensorflow/tools/git/gen_git_source.py 2>&1 >&3 | tee -a $LOGFILE && leave
 
-echo ${args["$index"]} | xargs -0 -i sh -c "bazel build //tensorflow/tools/pip_package:build_pip_package" 2>&1 >&3 | tee -a $LOGFILE && leave
-
-#grep -sR -e "/usr/bin/env python$" * | xargs -0 -l sed -i "s~/usr/bin/env python~#/usr/bin/env ${pythonInterpreter}~g" 2>&1 >&3 | tee -a $LOGFILE && leave
-#echo ${args["$index"]} | xargs -0 -i sh -c "bazel build //tensorflow/tools/pip_package:build_pip_package" 2>&1 >&3 | tee -a $LOGFILE && leave
+echo ${args["$index"]} | xargs -i sh -c "bazel build {} //tensorflow/tools/pip_package:build_pip_package" 2>&1 >&3 | tee -a $LOGFILE && leave
 
 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package ./tensorflow_pkg 2>&1 >&3 | tee -a $LOGFILE && leave
-pip install ./tensorflow_pkg/tensorflow-${version["$index"]}.whl 2>&1 >&3 | tee -a $LOGFILE && leave
+pip install ./tensorflow_pkg/tensorflow-${version["$index"]}-cp37-cp37m-linux_x86_64.whl 2>&1 >&3 | tee -a $LOGFILE && leave
 
 #echo ${args["$index"]} | xargs -0 -i sh -c "{} ${pythonInterpreter} setup.py install --user --force" 2>&1 >&3 | tee -a $LOGFILE && leave

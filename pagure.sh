@@ -894,7 +894,7 @@ function install()
 
 					cd $prefix/tgz
 
-					if [ ! -f "${filename["$index"]}" -o $forceDownload == "1" ]; then 
+					if [ ! -f "${filename["$index"]}" -a ! -d "${filename["$index"]}" -o $forceDownload == "1" ]; then 
 
 						rm -f ${filename["$index"]}
 						
@@ -913,7 +913,9 @@ function install()
 								fi
 							done
 							
-						else
+						elif [[ ${url["$index"]} == "git clone"* ]] ; then                          
+                            ${url["$index"]} ${filename["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else
 							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 						fi
 					fi
@@ -954,7 +956,11 @@ function install()
     						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
                         fi	
 						
-					else
+					elif [ -d "${filename["$index"]}" ] ; then    
+                        # C'est un répertoire, on copie son contenu  
+                        mkdir -p ../src/${dirname["$index"]}
+						cp -r ${filename["$index"]}/* ../src/${dirname["$index"]}/.
+                    else
 						mkdir -p ../src/${dirname["$index"]}
 						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
 					fi

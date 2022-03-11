@@ -5,5 +5,5 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" ] ; then 
 if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
 
 export PYTHONUSERBASE=`echo $PYTHONUSERBASE | cut -d: -f1`
-echo ${args["$index"]} | xargs -0 -i sh -c "{} ${pythonInterpreter} setup.py install --user --force" 2>&1 >&3 | tee -a $LOGFILE && leave
+echo ${args["$index"]} | xargs -i sh -c "{} ${pythonInterpreter} setup.py install --user --force" 2>&1 >&3 | tee -a $LOGFILE && leave
 
