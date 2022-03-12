@@ -15,4 +15,5 @@ echo ${args["$index"]} | xargs -i sh -c "bazel build {} //tensorflow/tools/pip_p
 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package ./tensorflow_pkg 2>&1 >&3 | tee -a $LOGFILE && leave
 pip install ./tensorflow_pkg/tensorflow-${version["$index"]}-cp37-cp37m-linux_x86_64.whl 2>&1 >&3 | tee -a $LOGFILE && leave
 
-#echo ${args["$index"]} | xargs -0 -i sh -c "{} ${pythonInterpreter} setup.py install --user --force" 2>&1 >&3 | tee -a $LOGFILE && leave
+pip uninstall -y dataclasses 2>&1 >&3 | tee -a $LOGFILE && leave
+
