@@ -7,5 +7,5 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages"
 export PYTHONUSERBASE=`echo $PYTHONUSERBASE | cut -d: -f1`
 
 cmd=`echo ${args["$index"]} | xargs -0 -i echo {} ${pythonInterpreter} setup.py install --user --force | sed -z '$ s/\n//' | xargs`
-exec $cmd 2>&1 >&3 | tee -a $LOGFILE && leave
+eval "$cmd" 2>&1 >&3 | tee -a $LOGFILE && leave
 
