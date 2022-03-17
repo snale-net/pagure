@@ -668,6 +668,26 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# PyYAML 6.0
+index=32
+name["$group-$index"]=pyyaml
+version["$group-$index"]=6.0
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+filename["$group-$index"]=PyYAML-6.0.tar.gz
+dirname["$group-$index"]=PyYAML-6.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 
