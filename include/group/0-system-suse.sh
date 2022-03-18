@@ -41,7 +41,7 @@ sudo $zypperCmd scons patchelf 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo $zypperCmd automake libtool libuuid-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Web deps
 sudo $zypperCmd bsdtar nfs-kernel-server ansible php 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
+#sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
 # Bazel deps
 sudo $zypperCmd openjdk 2>&1 >&3 | tee -a $LOGFILE && leave
 
