@@ -7,6 +7,7 @@ else
 fi
 
 sudo $zypperCmd git 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd bc 2>&1 >&3 | tee -a $LOGFILE && leave
 # Derniere version
 sudo $zypperCmd gcc gcc-c++ gcc-fortran 2>&1 >&3 | tee -a $LOGFILE && leave
 # Version 7
@@ -43,6 +44,6 @@ sudo $zypperCmd automake libtool libuuid-devel 2>&1 >&3 | tee -a $LOGFILE && lea
 sudo $zypperCmd bsdtar nfs-kernel-server ansible php 2>&1 >&3 | tee -a $LOGFILE && leave
 #sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
 # Bazel deps
-sudo $zypperCmd openjdk 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd java-11-openjdk 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
