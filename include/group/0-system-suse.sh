@@ -23,7 +23,7 @@ sudo $zypperCmd libopenssl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 		# Python v3.x
-		sudo $zypperCmd python3-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+		sudo $zypperCmd python3-devel libffi-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 		# GMT deps
 		sudo $zypperCmd python3-Sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
 	else
