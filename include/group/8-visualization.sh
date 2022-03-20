@@ -786,8 +786,45 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# vala 0.42.3
+# graphviz 3.0.0
 index=25
+name["$group-$index"]=graphviz
+version["$group-$index"]=3.0.0
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/3.0.0/graphviz-3.0.0.tar.gz"
+filename["$group-$index"]=graphviz-3.0.0.tar.gz
+dirname["$group-$index"]=graphviz-3.0.0
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="glib/$compilo/2.68.3 cairo/$compilo/snapshot pango/$compilo/1.48.6"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+
+# vala 0.42.3
+index=26
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -795,7 +832,7 @@ url["$group-$index"]="http://download.gnome.org/sources/vala/0.42/vala-0.42.3.ta
 filename["$group-$index"]=vala-0.42.3.tar.xz
 dirname["$group-$index"]=vala-0.42.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="glib/$compilo/2.68.3"
+dependencies["$group-$index"]="glib/$compilo/2.68.3 graphviz/$compilo/3.0.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -823,7 +860,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=26
+index=27
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -860,7 +897,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=27
+index=28
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]="(Python module)"
