@@ -663,7 +663,7 @@ url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-1.19.0.ta
 filename["$group-$index"]=wayland-1.19.0.tar.xz
 dirname["$group-$index"]=wayland-1.19.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} libxml2/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Ddocumentation=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
