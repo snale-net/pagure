@@ -17,7 +17,7 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10 2>&1 >&3 |
 sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 10 2>&1 >&3 | tee -a $LOGFILE && leave
 
 sudo $zypperCmd tcl tcl-devel tcllib 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo $zypperCmd freetype-devel freetype2-devel libpng-devel libX11-devel libXaw-devel m4 patch make cmake libexpat-devel autoconf bison flex libcurl-devel xz-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd freetype-devel freetype2-devel libpng-devel libX11-devel libXrender-devel libXaw-devel m4 patch make cmake libexpat-devel autoconf bison flex libcurl-devel xz-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo $zypperCmd libopenssl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
