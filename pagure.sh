@@ -655,16 +655,16 @@ then
 		then
 			log info "Install Modules -- Software Environment Management"
 			cd $prefix/tgz
-			if [ ! -f "modules-4.0.0.tar.gz" -o $forceDownload == "1" ]; then
-			wget https://sourceforge.net/projects/modules/files/Modules/modules-4.0.0/modules-4.0.0.tar.gz
+			if [ ! -f "modules-5.0.1.tar.gz" -o $forceDownload == "1" ]; then
+			wget https://github.com/cea-hpc/modules/archive/refs/tags/v5.0.1.tar.gz -O modules-5.0.1.tar.gz
 			fi
-			tar xvfz modules-4.0.0.tar.gz -C../src
-			cd ../src/modules-4.0.0
+			tar xvfz modules-5.0.1.tar.gz -C../src
+			cd ../src/modules-5.0.1
 			./configure --prefix=$prefix/Modules
 			make 2>&1 >&3 | tee -a $LOGFILE && leave
 			make install 2>&1 >&3 | tee -a $LOGFILE && leave
 			mkdir $prefix/Modules/local
-			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/init/modulerc
+			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/etc/initrc
 			echo "source $prefix/Modules/init/bash" >> ~/.bashrc
 		fi
 
@@ -710,7 +710,7 @@ prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path PKG_CONFIG_PATH $prefix/python-modules/$compilo/lib/pkgconfig
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
-prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
+setenv PYTHONUSERBASE $prefix/python-modules/$compilo
 "
     		echo $"${pymodulefile}" > $moduleDir/python-modules/$compilo/${pythonVersion}   
 	fi
