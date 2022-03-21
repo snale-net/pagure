@@ -4,7 +4,9 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/bin" ] ; then mkdir -p "$prefix/${dir
 if [ ! -d "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
 if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
 
-export PYTHONUSERBASE=`echo $PYTHONUSERBASE | cut -d: -f1`
+export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
+echo $PYTHONPATH | sed 's/:/\n/g' > $PYTHONUSERBASE/module-extra.pth
+
 ${pythonInterpreter} configure.py 2>&1 >&3 | tee -a $LOGFILE && leave
 bazel clean 2>&1 >&3 | tee -a $LOGFILE && leave
 
@@ -17,4 +19,7 @@ exec $cmd 2>&1 >&3 | tee -a $LOGFILE && leave
 pip install ./tensorflow_pkg/tensorflow-${version["$index"]}-cp37-cp37m-linux_x86_64.whl 2>&1 >&3 | tee -a $LOGFILE && leave
 
 pip uninstall -y dataclasses 2>&1 >&3 | tee -a $LOGFILE && leave
+
+rm -f $PYTHONUSERBASE/module-extra.pth
+unset PYTHONUSERBASE
 
