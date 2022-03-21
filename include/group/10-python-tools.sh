@@ -18,7 +18,11 @@ dirname["$group-$index"]=Pillow-8.2.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -33,7 +37,11 @@ dirname["$group-$index"]=dask-2.10.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -48,7 +56,11 @@ dirname["$group-$index"]=xarray-0.15.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -63,7 +75,11 @@ dirname["$group-$index"]=airflow-2.1.1rc1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -78,7 +94,11 @@ dirname["$group-$index"]=PyInstaller-3.6
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -93,7 +113,87 @@ dirname["$group-$index"]=staticx-0.12.2
 builder["$group-$index"]="staticx"
 dependencies["$group-$index"]="musl/$compilo/1.2.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# scikit-learn 1.0.2
+index=7
+name["$group-$index"]=scikit-learn
+version["$group-$index"]=1.0.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/75/44/074b780d8ac0b0899937e9b8ba6d5d8873a71b99aa915219251ef85a8890/scikit-learn-1.0.2.tar.gz"
+filename["$group-$index"]=scikit-learn-1.0.2.tar.gz
+dirname["$group-$index"]=scikit-learn-1.0.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# tensorflow 2.8.0
+index=8
+name["$group-$index"]=tensorflow
+version["$group-$index"]=2.8.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.8.0.tar.gz -O tensorflow-2.8.0.tar.gz"
+filename["$group-$index"]=tensorflow-2.8.0.tar.gz
+dirname["$group-$index"]=tensorflow-2.8.0
+builder["$group-$index"]="tensorflow"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} bazel/$compilo/4.2.2"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="--config=mkl --jobs=2 --local_ram_resources=HOST_RAM*.5"
+else
+     args["$group-$index"]="--jobs=2 --local_ram_resources=HOST_RAM*.5"
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# pytorch 1.7.0
+index=9
+name["$group-$index"]=pytorch
+version["$group-$index"]=1.7.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="git clone --branch v1.7.0 --recursive https://github.com/pytorch/pytorch"
+filename["$group-$index"]=pytorch-1.7.0
+dirname["$group-$index"]=pytorch-1.7.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+      args["$group-$index"]="LDSHARED=\"icc -shared\" MAX_JOBS=2 USE_CUDA=0 USE_CUDNN=0 USE_MKLDNN=1"
+else
+     args["$group-$index"]="MAX_JOBS=2 USE_CUDA=0 USE_CUDNN=0 USE_MKLDNN=1"
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# torchvision 0.8.2
+index=10
+name["$group-$index"]=torchvision
+version["$group-$index"]=0.8.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://github.com/pytorch/vision/archive/refs/tags/v0.8.2.tar.gz -O torchvision-0.8.2.tar.gz"
+filename["$group-$index"]=torchvision-0.8.2.tar.gz
+dirname["$group-$index"]=vision-0.8.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+      args["$group-$index"]="LDSHARED=\"icc -shared\" MAX_JOBS=2"
+else
+     args["$group-$index"]="MAX_JOBS=2"
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 

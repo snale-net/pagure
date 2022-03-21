@@ -10,8 +10,9 @@ fi
 # Installation des entêtes Python & librairies essentielles
 sudo apt-get install $aptArgs gfortran g++ git 2>&1 >&3 | tee -a $LOGFILE && leave 
 sudo apt-get install $aptArgs tcl tcl-dev tcllib 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo apt-get install $aptArgs libfreetype6-dev libjpeg-dev libpng-dev libtiff-dev libx11-dev libxaw7-dev m4 patch make cmake autoconf bison flex libcurl4-gnutls-dev liblzma-dev libbz2-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo apt-get install $aptArgs libfreetype6-dev libjpeg-dev libpng-dev libtiff-dev libtiff5-dev libx11-dev libxrender-dev libxfixes-dev libxcb-xkb-dev libegl-dev libxaw7-dev m4 patch make cmake autoconf bison flex libcurl4-gnutls-dev liblzma-dev libbz2-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo apt-get install $aptArgs dos2unix 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo apt-get install $aptArgs doxygen 2>&1 >&3 | tee -a $LOGFILE && leave
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
@@ -35,6 +36,8 @@ sudo apt-get $aptArgs install sqlite3 libsqlite3-dev 2>&1 >&3 | tee -a $LOGFILE 
 sudo apt-get $aptArgs install libssl-dev 2>&1 >&3 | tee -a $LOGFILE && leave
 # Delft3D deps
 sudo apt-get $aptArgs install automake libtool uuid-dev 2>&1 >&3 | tee -a $LOGFILE && leave
+# Bazel deps
+sudo apt-get $aptArgs install default-jdk
 
 
 

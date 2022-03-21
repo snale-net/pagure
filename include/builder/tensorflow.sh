@@ -7,11 +7,19 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages"
 export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
 echo $PYTHONPATH | sed 's/:/\n/g' > $PYTHONUSERBASE/module-extra.pth
 
-if [[  "$compiler" == "intel" ]] ; then					
-	$pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave 
-else                   
-	$pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
-fi
+${pythonInterpreter} configure.py 2>&1 >&3 | tee -a $LOGFILE && leave
+bazel clean 2>&1 >&3 | tee -a $LOGFILE && leave
+
+sed -i "1i #!/usr/bin/env ${pythonInterpreter}" tensorflow/tools/git/gen_git_source.py 2>&1 >&3 | tee -a $LOGFILE && leave
+
+cmd=`echo ${args["$index"]} | xargs -0 -i echo bazel build {} //tensorflow/tools/pip_package:build_pip_package | sed -z '$ s/\n//' | xargs`
+exec $cmd 2>&1 >&3 | tee -a $LOGFILE && leave
+
+./bazel-bin/tensorflow/tools/pip_package/build_pip_package ./tensorflow_pkg 2>&1 >&3 | tee -a $LOGFILE && leave
+pip install ./tensorflow_pkg/tensorflow-${version["$index"]}-cp37-cp37m-linux_x86_64.whl 2>&1 >&3 | tee -a $LOGFILE && leave
+
+pip uninstall -y dataclasses 2>&1 >&3 | tee -a $LOGFILE && leave
 
 rm -f $PYTHONUSERBASE/module-extra.pth
 unset PYTHONUSERBASE
+

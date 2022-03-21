@@ -301,7 +301,7 @@ url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -335,7 +335,7 @@ url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6
 filename["$group-$index"]=pango-1.48.6.tar.xz
 dirname["$group-$index"]=pango-1.48.6
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot harfbuzz/$compilo/2.8.2 "
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0 harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -369,7 +369,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pix
 filename["$group-$index"]=gdk-pixbuf-2.42.0.tar.xz
 dirname["$group-$index"]=gdk-pixbuf-2.42.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Dman=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -523,7 +523,7 @@ url["$group-$index"]="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar
 filename["$group-$index"]=atk-2.36.0.tar.xz
 dirname["$group-$index"]=atk-2.36.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -629,7 +629,7 @@ url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
 dirname["$group-$index"]=at-spi2-atk-2.38.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3 libxml2/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -663,7 +663,7 @@ url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-1.19.0.ta
 filename["$group-$index"]=wayland-1.19.0.tar.xz
 dirname["$group-$index"]=wayland-1.19.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} libxml2/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Ddocumentation=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -722,7 +722,7 @@ url["$group-$index"]="https://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
 filename["$group-$index"]=libxkbcommon-1.3.0.tar.xz
 dirname["$group-$index"]=libxkbcommon-1.3.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} libxml2/$compilo/snapshot wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -758,7 +758,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.2
 filename["$group-$index"]=gtk-3.24.29.tar.xz
 dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gobject-introspection/$compilo/1.68.0 cairo/$compilo/snapshot pango/$compilo/1.48.6 harfbuzz/$compilo/2.8.2 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 libxkbcommon/$compilo/1.3.0 libxrandr/$compilo/snapshot libxi/$compilo/snapshot dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/snapshot gobject-introspection/$compilo/1.68.0 harfbuzz/$compilo/2.8.2 pango/$compilo/1.48.6 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 libxkbcommon/$compilo/1.3.0 libxrandr/$compilo/snapshot libxi/$compilo/snapshot dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -786,8 +786,45 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/girepository-1.0
 "
 
-# vala 0.42.3
+# graphviz 3.0.0
 index=25
+name["$group-$index"]=graphviz
+version["$group-$index"]=3.0.0
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/3.0.0/graphviz-3.0.0.tar.gz"
+filename["$group-$index"]=graphviz-3.0.0.tar.gz
+dirname["$group-$index"]=graphviz-3.0.0
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="glib/$compilo/2.68.3 cairo/$compilo/snapshot pango/$compilo/1.48.6"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+
+# vala 0.42.3
+index=26
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -795,7 +832,7 @@ url["$group-$index"]="http://download.gnome.org/sources/vala/0.42/vala-0.42.3.ta
 filename["$group-$index"]=vala-0.42.3.tar.xz
 dirname["$group-$index"]=vala-0.42.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="glib/$compilo/2.68.3"
+dependencies["$group-$index"]="glib/$compilo/2.68.3 graphviz/$compilo/3.0.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -823,7 +860,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=26
+index=27
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -860,7 +897,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=27
+index=28
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]="(Python module)"

@@ -20,7 +20,11 @@ dirname["$group-$index"]=setuptools-57.0.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 else 
@@ -36,7 +40,11 @@ dirname["$group-$index"]=setuptools-44.1.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 fi
@@ -54,7 +62,11 @@ dirname["$group-$index"]=setuptools_scm-6.0.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 else 
@@ -70,7 +82,11 @@ dirname["$group-$index"]=setuptools_scm-5.0.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 fi
@@ -88,7 +104,11 @@ dirname["$group-$index"]=wheel-0.35.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -105,7 +125,11 @@ dirname["$group-$index"]=pip-21.1.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 else
@@ -121,24 +145,32 @@ dirname["$group-$index"]=pip-20.3.4
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 fi
 
-# Cython 0.29.14
+# Cython 0.29.28
 index=8
 name["$group-$index"]=cython
-version["$group-$index"]=0.29.14
+version["$group-$index"]=0.29.28
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/9c/9b/706dac7338c2860cd063a28cdbf5e9670995eaea408abbf2e88ba070d90d/Cython-0.29.14.tar.gz
-filename["$group-$index"]=Cython-0.29.14.tar.gz
-dirname["$group-$index"]=Cython-0.29.14
+url["$group-$index"]=https://files.pythonhosted.org/packages/cb/da/54a5d7a7d9afc90036d21f4b58229058270cc14b4c81a86d9b2c77fd072e/Cython-0.29.28.tar.gz
+filename["$group-$index"]=Cython-0.29.28.tar.gz
+dirname["$group-$index"]=Cython-0.29.28
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -169,7 +201,11 @@ patchfile_01["$group-$index"]="numpy/distutils/intelccompiler.py"
 builder["$group-$index"]="numpy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -186,7 +222,11 @@ dirname["$group-$index"]=numpy-1.16.6
 builder["$group-$index"]="numpy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -204,7 +244,11 @@ dirname["$group-$index"]=python-dateutil-2.8.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -220,7 +264,11 @@ dirname["$group-$index"]=pybind11-2.4.3
 builder["$group-$index"]="pybind11"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -236,7 +284,11 @@ dirname["$group-$index"]=pytz-2021.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -252,7 +304,11 @@ dirname["$group-$index"]=pytzdata-2020.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -269,7 +325,11 @@ dirname["$group-$index"]=pandas-0.25.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -286,7 +346,11 @@ dirname["$group-$index"]=pandas-0.23.4
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -305,7 +369,11 @@ dirname["$group-$index"]=scipy-1.6.3
 builder["$group-$index"]="scipy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -322,7 +390,11 @@ dirname["$group-$index"]=scipy-1.2.3
 builder["$group-$index"]="scipy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -340,7 +412,11 @@ dirname["$group-$index"]=cftime-1.0.4.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -356,7 +432,11 @@ dirname["$group-$index"]=pyparsing-2.4.7
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -373,7 +453,11 @@ dirname["$group-$index"]=matplotlib-3.1.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -390,7 +474,11 @@ dirname["$group-$index"]=matplotlib-2.1.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -408,7 +496,11 @@ dirname["$group-$index"]=array_split-0.5.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -426,7 +518,11 @@ dirname["$group-$index"]=MarkupSafe-1.1.1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -444,7 +540,11 @@ dirname["$group-$index"]=Jinja2-2.11.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -460,7 +560,11 @@ dirname["$group-$index"]=f90nml-1.1.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -476,7 +580,11 @@ dirname["$group-$index"]=pendulum-2.1.2
 builder["$group-$index"]="pendulum"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -492,7 +600,11 @@ dirname["$group-$index"]=toolz-0.10.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -508,7 +620,11 @@ dirname["$group-$index"]=SCons-4.1.0.post1
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -524,7 +640,11 @@ dirname["$group-$index"]=future-0.18.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -540,7 +660,31 @@ dirname["$group-$index"]=sympy-1.8
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# PyYAML 6.0
+index=32
+name["$group-$index"]=pyyaml
+version["$group-$index"]=6.0
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+filename["$group-$index"]=PyYAML-6.0.tar.gz
+dirname["$group-$index"]=PyYAML-6.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 

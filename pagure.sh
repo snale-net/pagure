@@ -655,16 +655,16 @@ then
 		then
 			log info "Install Modules -- Software Environment Management"
 			cd $prefix/tgz
-			if [ ! -f "modules-4.0.0.tar.gz" -o $forceDownload == "1" ]; then
-			wget https://sourceforge.net/projects/modules/files/Modules/modules-4.0.0/modules-4.0.0.tar.gz
+			if [ ! -f "modules-5.0.1.tar.gz" -o $forceDownload == "1" ]; then
+			wget https://github.com/cea-hpc/modules/archive/refs/tags/v5.0.1.tar.gz -O modules-5.0.1.tar.gz
 			fi
-			tar xvfz modules-4.0.0.tar.gz -C../src
-			cd ../src/modules-4.0.0
+			tar xvfz modules-5.0.1.tar.gz -C../src
+			cd ../src/modules-5.0.1
 			./configure --prefix=$prefix/Modules
 			make 2>&1 >&3 | tee -a $LOGFILE && leave
 			make install 2>&1 >&3 | tee -a $LOGFILE && leave
 			mkdir $prefix/Modules/local
-			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/init/modulerc
+			echo "module use --append $prefix/Modules/local" >> $prefix/Modules/etc/initrc
 			echo "source $prefix/Modules/init/bash" >> ~/.bashrc
 		fi
 
@@ -710,7 +710,7 @@ prepend-path INCLUDE $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path CPATH $prefix/python-modules/$compilo/include/$pythonInterpreter
 prepend-path PKG_CONFIG_PATH $prefix/python-modules/$compilo/lib/pkgconfig
 prepend-path PYTHONPATH $prefix/python-modules/$compilo/lib/$pythonInterpreter/site-packages
-prepend-path PYTHONUSERBASE $prefix/python-modules/$compilo
+setenv PYTHONUSERBASE $prefix/python-modules/$compilo
 "
     		echo $"${pymodulefile}" > $moduleDir/python-modules/$compilo/${pythonVersion}   
 	fi
@@ -733,6 +733,8 @@ declare -A patch_02
 declare -A patchfile_02
 declare -A patch_03
 declare -A patchfile_03
+declare -A patch_04
+declare -A patchfile_04
 declare -A builder
 declare -A dependencies
 declare -A dirinstall
@@ -892,7 +894,7 @@ function install()
 
 					cd $prefix/tgz
 
-					if [ ! -f "${filename["$index"]}" -o $forceDownload == "1" ]; then 
+					if [ ! -f "${filename["$index"]}" -a ! -d "${filename["$index"]}" -o $forceDownload == "1" ]; then 
 
 						rm -f ${filename["$index"]}
 						
@@ -911,7 +913,9 @@ function install()
 								fi
 							done
 							
-						else
+						elif [[ ${url["$index"]} == "git clone"* ]] ; then                          
+                            ${url["$index"]} ${filename["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else
 							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 						fi
 					fi
@@ -919,21 +923,44 @@ function install()
 					if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
 
 					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
-					then						
-						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-
+					then
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        tar xvfz ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi
 					elif [[ ${filename["$index"]} == *.tar.xz ]] 
 					then
-						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        tar xJf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi						
 						
 					elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
 					then
-						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-						
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                       tar xf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi	
 					elif [[ ${filename["$index"]} == *.zip ]] 
 					then
-						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
-					else
+                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                            mkdir ../src/${dirname["$index"]}
+	                        unzip -o ${filename["$index"]} -d../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        else	
+    						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi	
+						
+					elif [ -d "${filename["$index"]}" ] ; then    
+                        # C'est un répertoire, on copie son contenu  
+                        mkdir -p ../src/${dirname["$index"]}
+						cp -r ${filename["$index"]}/* ../src/${dirname["$index"]}/.
+                    else
 						mkdir -p ../src/${dirname["$index"]}
 						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
 					fi
@@ -963,7 +990,7 @@ function install()
 						dos2unix ${patchfile_03["$index"]}
 						patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 					fi
-                    if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
+                    			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
 					then			
 						echo $"${patch_04["$index"]}" > patch_to_apply.patch
 						dos2unix ${patchfile_04["$index"]}

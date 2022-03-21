@@ -161,7 +161,13 @@ dirname["$group-$index"]=mpi4py-3.0.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$mpilib/$compilo"
-args["$group-$index"]=""
+if [[ "$mpi" == "intelmpi" ]]; then
+     args["$group-$index"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
+elif [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 dirmodule["$group-$index"]="python-modules/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -174,6 +180,6 @@ module-whatis \"Python MPI librairies\"
 
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
-prepend-path PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
+setenv PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 "
 fi # only-if-Python && MPI-only

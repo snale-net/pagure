@@ -7,6 +7,7 @@ else
 fi
 
 sudo $zypperCmd git 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd bc 2>&1 >&3 | tee -a $LOGFILE && leave
 # Derniere version
 sudo $zypperCmd gcc gcc-c++ gcc-fortran 2>&1 >&3 | tee -a $LOGFILE && leave
 # Version 7
@@ -16,13 +17,14 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10 2>&1 >&3 |
 sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-7 10 2>&1 >&3 | tee -a $LOGFILE && leave
 
 sudo $zypperCmd tcl tcl-devel tcllib 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo $zypperCmd freetype-devel freetype2-devel libpng-devel libX11-devel libXaw-devel m4 patch make cmake libexpat-devel autoconf bison flex libcurl-devel xz-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd freetype-devel freetype2-devel libpng-devel libtiff-devel libX11-devel libXrender-devel libXaw-devel libXfixes-devel freeglut-devel Mesa-libEGL-devel m4 patch make cmake libexpat-devel autoconf bison flex libcurl-devel xz-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo $zypperCmd libopenssl-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+sudo $zypperCmd doxygen cups-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 	if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
 		# Python v3.x
-		sudo $zypperCmd python3-devel 2>&1 >&3 | tee -a $LOGFILE && leave
+		sudo $zypperCmd python3-devel libffi-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 		# GMT deps
 		sudo $zypperCmd python3-Sphinx 2>&1 >&3 | tee -a $LOGFILE && leave
 	else
@@ -41,6 +43,8 @@ sudo $zypperCmd scons patchelf 2>&1 >&3 | tee -a $LOGFILE && leave
 sudo $zypperCmd automake libtool libuuid-devel 2>&1 >&3 | tee -a $LOGFILE && leave
 # Web deps
 sudo $zypperCmd bsdtar nfs-kernel-server ansible php 2>&1 >&3 | tee -a $LOGFILE && leave
-sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
+#sudo systemctl disable --now apache2 2>&1 >&3 | tee -a $LOGFILE && leave
+# Bazel deps
+sudo $zypperCmd java-11-openjdk 2>&1 >&3 | tee -a $LOGFILE && leave
 
 

@@ -147,7 +147,11 @@ dirname["$group-$index"]=pyproj-3.1.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} proj/$compilo/8.0.1"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
@@ -163,11 +167,11 @@ filename["$group-$index"]=gdal-3.3.0.tar.gz
 dirname["$group-$index"]=gdal-3.3.0
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
-	args["$group-$index"]="--with-proj=$prefix/proj/$compilo/8.0.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1"
+	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
-	args["$group-$index"]="--with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1"
+	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -207,7 +211,11 @@ dirname["$group-$index"]=pygdal-3.3.0.7
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="gdal/$compilo/3.3.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
-args["$group-$index"]=""
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
