@@ -9,7 +9,7 @@ if [ "$PYTHONUSERBASE" != "$prefix/${dirinstall["$index"]}" ] ; then
     export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
 fi
 
-cmd=`echo ${args["$index"]} | xargs -0 -i echo {} ${pythonInterpreter} setup.py install --user --force | sed -z '$ s/\n//' | xargs`
+cmd=`echo "${args["$index"]}" | xargs -0 -i echo {} ${pythonInterpreter} setup.py install --user --force | sed -z '$ s/\n//' | xargs -0`
 eval "$cmd" 2>&1 >&3 | tee -a $LOGFILE && leave
 
 
