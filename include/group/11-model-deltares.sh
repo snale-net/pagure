@@ -679,7 +679,7 @@ dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="--with-mpi --with-netcdf NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/lib\""
+args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -699,6 +699,8 @@ prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 "
 
+fi # end-MPI-only
+
 # xbeach rev5920
 index=5
 name["$group-$index"]=xbeach
@@ -710,7 +712,7 @@ dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
 dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
-args["$group-$index"]="--with-netcdf NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/lib\""
+args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -729,6 +731,4 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 "
-
-fi # end-MPI-only
 
