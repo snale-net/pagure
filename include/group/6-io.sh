@@ -304,7 +304,7 @@ elif [[ "$mpi" == "intelmpi" ]]; then
 	args["$group-$index"]="F77=mpiifort FC=mpiifort"
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$mpilib/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.110/$compilo/c/${version["$group-$index"]}"	
 	args["$group-$index"]=""
 	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.110/$compilo"
