@@ -1,6 +1,10 @@
 #!/bin/bash
 
 mv Makefile.regular Makefile 2>&1 >&3 | tee -a $LOGFILE && leave
+
+if [[ $compiler == "intel" ]]; then
+    sed -i -e "s/f77/ifort/g" Makefile 2>&1 >&3 | tee -a $LOGFILE && leave
+fi
 make all 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # Install to dir
