@@ -688,6 +688,26 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# Mako 1.2.0
+index=33
+name["$group-$index"]=mako
+version["$group-$index"]=1.2.0
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/50/ec/1d687348f0954bda388bfd1330c158ba8d7dea4044fc160e74e080babdb9/Mako-1.2.0.tar.gz"
+filename["$group-$index"]=Mako-1.2.0.tar.gz
+dirname["$group-$index"]=Mako-1.2.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 
