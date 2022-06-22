@@ -197,6 +197,48 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# rasterio 1.2.10
+index=11
+name["$group-$index"]=rasterio
+version["$group-$index"]=1.2.10
+details["$group-$index"]="(Python module - need GDAL 3.3.0)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/44/5e/9f19e1e6fe980b59d8da8809f2e8f81eb7f0322c71914f077edcbcd9a110/rasterio-1.2.10.tar.gz"
+filename["$group-$index"]=rasterio-1.2.10.tar.gz
+dirname["$group-$index"]=rasterio-1.2.10
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gdal/$compilo/3.3.0"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# geopandas 0.11.0
+index=12
+name["$group-$index"]=geopandas
+version["$group-$index"]=0.11.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/eb/80/40096527ad2d4ea748aefa11af1c1a0e160b65999d2e1c916a23e2a7bcb3/geopandas-0.11.0.tar.gz"
+filename["$group-$index"]=geopandas-0.11.0.tar.gz
+dirname["$group-$index"]=geopandas-0.11.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# shapely 1.8.2
+index=13
+name["$group-$index"]=shapely 
+version["$group-$index"]=1.8.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/93/3c/cda77e57a08c49569de5bd90376c547bcb981420100adcb0f3770ed681b1/Shapely-1.8.2.tar.gz"
+filename["$group-$index"]=Shapely-1.8.2.tar.gz
+dirname["$group-$index"]=Shapely-1.8.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 fi  # end-only-if-Python
 
 
