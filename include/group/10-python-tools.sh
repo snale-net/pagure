@@ -211,14 +211,14 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# geopandas 0.11.0
+# geopandas 0.10.2
 index=12
 name["$group-$index"]=geopandas
-version["$group-$index"]=0.11.0
+version["$group-$index"]=0.10.2
 details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/eb/80/40096527ad2d4ea748aefa11af1c1a0e160b65999d2e1c916a23e2a7bcb3/geopandas-0.11.0.tar.gz"
-filename["$group-$index"]=geopandas-0.11.0.tar.gz
-dirname["$group-$index"]=geopandas-0.11.0
+url["$group-$index"]="https://files.pythonhosted.org/packages/06/c7/e70c24a20854c9db6cbb22af30adcc0b5b06c4d1b74eb361d416ffbb5e7a/geopandas-0.10.2.tar.gz"
+filename["$group-$index"]=geopandas-0.10.2.tar.gz
+dirname["$group-$index"]=geopandas-0.10.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
