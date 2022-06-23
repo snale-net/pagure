@@ -197,8 +197,22 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# rasterio 1.2.10
+# Fiona 1.8.21
 index=11
+name["$group-$index"]=fiona
+version["$group-$index"]=1.8.21
+details["$group-$index"]="(Python module - need GDAL 3.3.0)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/67/5c/4e028e84a1f0cb3f8a994217cf2366360ca984dfc1433f6171de527d0dca/Fiona-1.8.21.tar.gz"
+filename["$group-$index"]=Fiona-1.8.21.tar.gz
+dirname["$group-$index"]=Fiona-1.8.21
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gdal/$compilo/3.3.0"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# rasterio 1.2.10
+index=12
 name["$group-$index"]=rasterio
 version["$group-$index"]=1.2.10
 details["$group-$index"]="(Python module - need GDAL 3.3.0)"
@@ -211,19 +225,6 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# geopandas 0.10.2
-index=12
-name["$group-$index"]=geopandas
-version["$group-$index"]=0.10.2
-details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/06/c7/e70c24a20854c9db6cbb22af30adcc0b5b06c4d1b74eb361d416ffbb5e7a/geopandas-0.10.2.tar.gz"
-filename["$group-$index"]=geopandas-0.10.2.tar.gz
-dirname["$group-$index"]=geopandas-0.10.2
-builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # shapely 1.8.2
 index=13
@@ -233,6 +234,20 @@ details["$group-$index"]="(Python module)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/93/3c/cda77e57a08c49569de5bd90376c547bcb981420100adcb0f3770ed681b1/Shapely-1.8.2.tar.gz"
 filename["$group-$index"]=Shapely-1.8.2.tar.gz
 dirname["$group-$index"]=Shapely-1.8.2
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} geos/$compilo/3.10.3"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+# geopandas 0.10.2
+index=14
+name["$group-$index"]=geopandas
+version["$group-$index"]=0.10.2
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/06/c7/e70c24a20854c9db6cbb22af30adcc0b5b06c4d1b74eb361d416ffbb5e7a/geopandas-0.10.2.tar.gz"
+filename["$group-$index"]=geopandas-0.10.2.tar.gz
+dirname["$group-$index"]=geopandas-0.10.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
