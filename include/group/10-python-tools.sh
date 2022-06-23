@@ -268,6 +268,20 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# pyshp-2.3.0
+index=16
+name["$group-$index"]=pyshp
+version["$group-$index"]=2.3.0
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/79/ef/2d5b7ef8d4f5253ea8dc5a53e478835ed64833f4fb582303eddc9e2fd0fe/pyshp-2.3.0.tar.gz"
+filename["$group-$index"]=pyshp-2.3.0.tar.gz
+dirname["$group-$index"]=pyshp-2.3.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
 
 fi  # end-only-if-Python
 
