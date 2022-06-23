@@ -254,6 +254,21 @@ dirinstall["$group-$index"]="python-modules/$compilo"
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
+# elasticsearch 7.10.1
+index=15
+name["$group-$index"]=elasticsearch
+version["$group-$index"]=7.10.1
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/65/6e/7d949d1801ae0ff84de0ed0ef3473bd061d0f26647282d632f2e65a05364/elasticsearch-7.10.1.tar.gz"
+filename["$group-$index"]=elasticsearch-7.10.1.tar.gz
+dirname["$group-$index"]=elasticsearch-7.10.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+
 fi  # end-only-if-Python
 
 
