@@ -219,14 +219,14 @@ fi
 
 fi  # end-only-if-Python
 
-# GDAL 3.3.0
+# GDAL 3.4.1
 index=7
 name["$group-$index"]=gdal
-version["$group-$index"]=3.3.0
+version["$group-$index"]=3.4.1
 details["$group-$index"]="(needed by GMT)"
-url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.3.0/gdal-3.3.0.tar.gz"
-filename["$group-$index"]=gdal-3.3.0.tar.gz
-dirname["$group-$index"]=gdal-3.3.0
+url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.4.1/gdal-3.4.1.tar.gz"
+filename["$group-$index"]=gdal-3.4.1.tar.gz
+dirname["$group-$index"]=gdal-3.4.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
@@ -262,16 +262,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 # GDAL Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# pygdal 3.3.0.7
+# pygdal 3.4.1.10
 index=8
 name["$group-$index"]=gdal
-version["$group-$index"]=3.3.0.7
-details["$group-$index"]="(version Python - need GDAL 3.3.0)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/50/7b/e1cc8fd0820fbd10857855529143976441c8ec874b51d626ae397ffd6876/pygdal-3.3.0.7.tar.gz
-filename["$group-$index"]=pygdal-3.3.0.7.tar.gz
-dirname["$group-$index"]=pygdal-3.3.0.7
+version["$group-$index"]=3.4.1.10
+details["$group-$index"]="(version Python - need GDAL 3.4.1)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/05/ba/0891004164c7d596f46e721cb6ef6a5f7530fff1a25e9fd98337ca57d503/pygdal-3.4.1.10.tar.gz
+filename["$group-$index"]=pygdal-3.4.1.10.tar.gz
+dirname["$group-$index"]=pygdal-3.4.1.10
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="gdal/$compilo/3.3.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="gdal/$compilo/3.4.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
@@ -365,9 +365,9 @@ filename["$group-$index"]=gmt-5.4.5.tar.gz
 dirname["$group-$index"]=gmt-5.4.5
 builder["$group-$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
