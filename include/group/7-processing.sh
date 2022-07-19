@@ -452,9 +452,9 @@ index=14
 name["$group-$index"]=metis
 version["$group-$index"]=5.1.0
 details["$group-$index"]="(sequential version)"
-url["$group-$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
-filename["$group-$index"]=metis-5.1.0.tar.gz
-dirname["$group-$index"]=metis-5.1.0
+url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/metis-5.1.0-p3.tar.gz
+filename["$group-$index"]=metis-5.1.0-p3.tar.gz
+dirname["$group-$index"]=metis-5.1.0-p3
 builder["$group-$index"]="metis"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -485,24 +485,9 @@ index=15
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
 details["$group-$index"]="(parallel version)"
-url["$group-$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.3.tar.gz
-filename["$group-$index"]=parmetis-4.0.3.tar.gz
-dirname["$group-$index"]=parmetis-4.0.3
-patch_01["$group-$index"]="--- CMakeLists_original.txt	2013-03-30 17:24:50.000000000 +0100
-+++ CMakeLists.txt	2020-03-26 13:00:59.542544000 +0100
-@@ -31,10 +31,10 @@
- include_directories(\${MPI_INCLUDE_PATH})
- include_directories(\${GKLIB_PATH})
- include_directories(\${METIS_PATH}/include)
-+link_directories(\${METIS_PATH}/lib)
- 
- # List of directories that cmake will look for CMakeLists.txt
--add_subdirectory(\${METIS_PATH}/libmetis \${CMAKE_BINARY_DIR}/libmetis)
- add_subdirectory(include)
- add_subdirectory(libparmetis)
- add_subdirectory(programs)
-"
-patchfile_01["$group-$index"]="CMakeLists.txt"
+url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/parmetis-4.0.3-p3.tar.gz
+filename["$group-$index"]=parmetis-4.0.3-p3.tar.gz
+dirname["$group-$index"]=parmetis-4.0.3-p3
 patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.666727000 +0100
 +++ CMakeLists.txt	2020-03-26 14:16:28.082736398 +0100
 @@ -5,7 +5,7 @@
