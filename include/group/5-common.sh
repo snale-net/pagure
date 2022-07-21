@@ -19,7 +19,7 @@ url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v
 filename["$group-$index"]=scalapack-2.1.0.tar.gz
 dirname["$group-$index"]=scalapack-2.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.0"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000000 +0100
 +++ CMakeLists.txt	2021-03-07 17:10:22.775977865 +0100
@@ -38,7 +38,7 @@ patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.00000
  # Organize output files.  On Windows this also keeps .dll files next
 "
 patchfile_01["$group-$index"]="CMakeLists.txt"
-args["$group-$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.0/lib/libblas.so"
+args["$group-$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.1/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/$compilo/3.9.1/lib/libblas.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {

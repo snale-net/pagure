@@ -303,9 +303,9 @@ filename["$group-$index"]=gmt-5.4.5.tar.gz
 dirname["$group-$index"]=gmt-5.4.5
 builder["$group-$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.0"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
@@ -711,7 +711,7 @@ url["$group-$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
 filename["$group-$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group-$index"]=MUMPS_5.2.1
 builder["$group-$index"]="mumps"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 scalapack/$mpilib/$compilo/2.1.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 configfilename["$group-$index"]="Makefile.inc"
 if [[ $compiler == "intel" ]]; then
@@ -951,8 +951,8 @@ url["$group-$index"]="https://github.com/DrTimothyAldenDavis/SuiteSparse/archive
 filename["$group-$index"]=SuiteSparse-5.10.1.tar.gz
 dirname["$group-$index"]=SuiteSparse-5.10.1
 builder["$group-$index"]="SuiteSparse"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.0 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
-args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.0/lib -lblas\" LDFLAGS=\"-L$prefix/${name["$group-$index"]}/$compilo/${version["$group-$index"]}/lib -L$prefix/mpfr/$compilo/4.1.0/lib -lmpfr -L$prefix/gmp/$compilo/6.2.1/lib -lgmp\""
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
+args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.1/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.1/lib -lblas\" LDFLAGS=\"-L$prefix/${name["$group-$index"]}/$compilo/${version["$group-$index"]}/lib -L$prefix/mpfr/$compilo/4.1.0/lib -lmpfr -L$prefix/gmp/$compilo/6.2.1/lib -lgmp\""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -1081,7 +1081,7 @@ patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.12.1 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.12.1 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -1116,7 +1116,7 @@ url["$group-$index"]="https://gmsh.info/src/gmsh-4.8.4-source.tgz"
 filename["$group-$index"]=gmsh-4.8.4-source.tgz
 dirname["$group-$index"]=gmsh-4.8.4-source
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="-DENABLE_BLAS_LAPACK=1 -DENABLE_METIS=1 -DENABLE_OPENMP=1 -DENABLE_MED=1 -DENABLE_MUMPS=1 -DENABLE_MPI=1 -DENABLE_FLTK=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"

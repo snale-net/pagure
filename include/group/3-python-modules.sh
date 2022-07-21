@@ -180,7 +180,7 @@ index=9
 name["$group-$index"]=numpy
 version["$group-$index"]=1.18.1
 mandatory["$group-$index"]=1
-details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
 filename["$group-$index"]=numpy-1.18.1.zip
 dirname["$group-$index"]=numpy-1.18.1
@@ -199,7 +199,7 @@ patch_01["$group-$index"]="--- numpy/distutils/intelccompiler_original.py	2020-0
 "
 patchfile_01["$group-$index"]="numpy/distutils/intelccompiler.py"
 builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
@@ -215,12 +215,12 @@ index=10
 name["$group-$index"]=numpy
 version["$group-$index"]=1.16.6
 mandatory["$group-$index"]=1
-details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/b7/6f/24647f014eef9b67a24adfcbcd4f4928349b4a0f8393b3d7fe648d4d2de3/numpy-1.16.6.zip
 filename["$group-$index"]=numpy-1.16.6.zip
 dirname["$group-$index"]=numpy-1.16.6
 builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
@@ -362,12 +362,12 @@ index=17
 name["$group-$index"]=scipy
 version["$group-$index"]=1.6.3
 mandatory["$group-$index"]=0
-details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]="https://github.com/scipy/scipy/releases/download/v1.6.3/scipy-1.6.3.tar.gz"
 filename["$group-$index"]=scipy-1.6.3.tar.gz
 dirname["$group-$index"]=scipy-1.6.3
 builder["$group-$index"]="scipy"
-dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
@@ -383,12 +383,12 @@ index=18
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
 mandatory["$group-$index"]=0
-details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]="https://github.com/scipy/scipy/archive/v1.2.3.tar.gz -O scipy-1.2.3.tar.gz"
 filename["$group-$index"]=scipy-1.2.3.tar.gz
 dirname["$group-$index"]=scipy-1.2.3
 builder["$group-$index"]="scipy"
-dependencies["$group-$index"]="lapack-blas/$compilo/3.9.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
