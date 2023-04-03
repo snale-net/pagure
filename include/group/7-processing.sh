@@ -1022,14 +1022,14 @@ prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
-# Cgal 5.2.2
+# Cgal 5.5.2
 index=23
 name["$group-$index"]=cgal
-version["$group-$index"]=5.2.2
+version["$group-$index"]=5.5.2
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v5.2.2.tar.gz -O cgal-5.2.2.tar.gz"
-filename["$group-$index"]=cgal-5.2.2.tar.gz
-dirname["$group-$index"]=cgal-5.2.2
+url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v5.5.2.tar.gz -O cgal-5.5.2.tar.gz"
+filename["$group-$index"]=cgal-5.5.2.tar.gz
+dirname["$group-$index"]=cgal-5.5.2
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
     dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
