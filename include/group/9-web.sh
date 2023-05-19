@@ -7,14 +7,14 @@ groupname[$group]="Web librairies"
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# nodejs 16.4.0
+# nodejs 18.16.0
 index=1
 name["$group-$index"]=nodejs
-version["$group-$index"]=16.4.0
+version["$group-$index"]=18.16.0
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/nodejs/node/archive/refs/tags/v16.4.0.tar.gz -O node-16.4.0.tar.gz"
-filename["$group-$index"]=node-16.4.0.tar.gz
-dirname["$group-$index"]=node-16.4.0
+url["$group-$index"]="https://github.com/nodejs/node/archive/refs/tags/v18.16.0.tar.gz -O node-18.16.0.tar.gz"
+filename["$group-$index"]=node-18.16.0.tar.gz
+dirname["$group-$index"]=node-18.16.0
 builder["$group-$index"]="nodejs"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -54,7 +54,7 @@ url["$group-$index"]="https://github.com/yarnpkg/yarn/archive/refs/tags/v1.22.10
 filename["$group-$index"]=yarn-1.22.10.tar.gz
 dirname["$group-$index"]=yarn-1.22.10
 builder["$group-$index"]="yarn"
-dependencies["$group-$index"]="nodejs/$compilo/16.4.0"
+dependencies["$group-$index"]="nodejs/$compilo/18.16.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
