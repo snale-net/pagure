@@ -411,32 +411,36 @@ else
 	
 	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
 		
-		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
+		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"		
 		
 		# MPI
-		if  [[ "${libToInstall[@]}" =~ "4-1" ]]; then
+		if  [[ "${libToInstall[@]}" =~ " 4-1 " ]]; then
 			mpi="openmpi"
             mpiVersion="1.10.7"
 		fi
 				
-		if  [[ "${libToInstall[@]}" =~ "4-2" ]]; then
+		if  [[ "${libToInstall[@]}" =~ " 4-2 " ]]; then
 			mpi="openmpi"
             mpiVersion="3.1.6"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-3" ]]; then
+		if  [[ "${libToInstall[@]}" =~ " 4-3 " ]]; then
 			mpi="mpich"
             mpiVersion="3.2.1"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
+		if  [[ "${libToInstall[@]}" =~ " 4-4 " ]]; then
 			mpi="mpich"
             mpiVersion="3.3.2"
 		fi
 		
 		# Python
-		if  [[ "${libToInstall[@]}" =~ "1-1" ]]; then
-			pythonVersion="3.7"
+		if  [[ "${libToInstall[@]}" =~ "1-1 " ]]; then
+			pythonVersion="3.7"          
+		fi
+
+        if  [[ "${libToInstall[@]}" =~ "1-2 " ]]; then
+			pythonVersion="2.7"           
 		fi
 		
 	else
@@ -458,6 +462,7 @@ if [ -z "$pythonVersion" ]; then
 		rm -f version_test
 		pythonInterpreter=python${pythonVersion}
 		installedPython=1
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter is set to $pythonInterpreter"
 	fi
 
@@ -465,10 +470,12 @@ elif hash python${pythonVersion} 2>/dev/null
 then    
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
+    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 	log info "Python interpreter is set to $pythonInterpreter"	
 else
 	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
 		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 with PAGURE" 

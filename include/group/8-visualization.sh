@@ -947,3 +947,39 @@ args["$group-$index"]=""
 
 fi  # end-only-if-Python
 
+
+# vtk 7.1.1
+index=30
+name["$group-$index"]=vtk
+version["$group-$index"]=7.1.1
+details["$group-$index"]=""
+url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
+filename["$group-$index"]=VTK-7.1.1.tar.gz
+dirname["$group-$index"]=VTK-7.1.1
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$compilo/1.8.21"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
