@@ -957,9 +957,9 @@ url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
 filename["$group-$index"]=VTK-7.1.1.tar.gz
 dirname["$group-$index"]=VTK-7.1.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$compilo/1.8.21"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON"
+args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
