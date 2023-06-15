@@ -251,6 +251,9 @@ puts stderr \"\tSpud ${version["$group-$index"]}\"
  
 module-whatis \"Spud ${version["$group-$index"]}\"
 
+# Dependencies
+module load dependencies_modules
+
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
@@ -310,6 +313,9 @@ puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 }
  
 module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
 
 prepend-path TF_CMAKE_PATH $prefix/${dirinstall["$group-$index"]}/share/terraferma/cpp
 prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/share/buckettools/cmake/modules
