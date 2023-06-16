@@ -994,11 +994,11 @@ else
     args["$group-$index"]="--with-python=${pythonInterpreter}"
 fi
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
+	dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
     dirinstall["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo/${version["$group-$index"]}"   
     dirmodule["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+	dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"	
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
 fi
@@ -1039,11 +1039,11 @@ else
     args["$group-$index"]="--with-python=${pythonInterpreter}"
 fi
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
+	dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
     dirinstall["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo/${version["$group-$index"]}"   
     dirmodule["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+	dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"	
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
 fi
