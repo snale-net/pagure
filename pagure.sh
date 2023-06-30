@@ -439,6 +439,10 @@ else
 			pythonVersion="3.7"
 		fi
 		
+		if  [[ "${libToInstall[@]}" =~ "1-2" ]]; then
+			pythonVersion="3.9"
+		fi
+		
 	else
 		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
 		leave 1	
@@ -468,6 +472,9 @@ then
 	log info "Python interpreter is set to $pythonInterpreter"	
 else
 	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
