@@ -160,7 +160,7 @@ if [ "$mpilib" == "none" ]; then
 else
 	details["$group-$index"]="(version C - need HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
 fi
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-c-4.8.0.tar.gz
+url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.8.0.tar.gz -O netcdf-c-4.8.0.tar.gz"
 filename["$group-$index"]=netcdf-c-4.8.0.tar.gz
 dirname["$group-$index"]=netcdf-c-4.8.0
 builder["$group-$index"]="configure"
@@ -221,7 +221,7 @@ if [ "$mpilib" == "none" ]; then
 else
 	details["$group-$index"]="(version Fortran - need Netcdf-C 4.8.0, HDF 1.10.5 and Parallel-Netcdf 1.12.1)"
 fi
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.5.3.tar.gz
+url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.3.tar.gz -O netcdf-fortran-4.5.3.tar.gz"
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.5.3
 builder["$group-$index"]="configure"
