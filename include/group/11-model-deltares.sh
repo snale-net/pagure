@@ -434,11 +434,11 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 # SWAN
 index=2
 name["$group-$index"]=swan
-version["$group-$index"]=41.31AB
+version["$group-$index"]=41.45
 details["$group-$index"]=""
-url["$group-$index"]=https://swanmodel.sourceforge.io/download/zip/swan4131AB.tar.gz
-filename["$group-$index"]=swan4131AB.tar.gz
-dirname["$group-$index"]=swan4131AB
+url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4145.tar.gz"
+filename["$group-$index"]=swan4145.tar.gz
+dirname["$group-$index"]=swan4145
 builder["$group-$index"]="swan"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
