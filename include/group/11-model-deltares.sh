@@ -553,11 +553,17 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 # SWASH
 index=3
 name["$group-$index"]=swash
-version["$group-$index"]=7.01
+#version["$group-$index"]=7.01
+version["$group-$index"]=8.01
 details["$group-$index"]=""
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-7.01AB.tar.gz
-filename["$group-$index"]=swash-7.01AB.tar.gz
-dirname["$group-$index"]=swash-7.01AB
+#url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-7.01AB.tar.gz
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-8.01.tar.gz
+
+#filename["$group-$index"]=swash-7.01AB.tar.gz
+#dirname["$group-$index"]=swash-7.01AB
+filename["$group-$index"]=swash-8.01.tar.gz
+dirname["$group-$index"]=swash-8.01
+
 builder["$group-$index"]="swash"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
