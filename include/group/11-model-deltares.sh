@@ -434,11 +434,11 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 # SWAN
 index=2
 name["$group-$index"]=swan
-version["$group-$index"]=41.31AB
+version["$group-$index"]=41.45
 details["$group-$index"]=""
-url["$group-$index"]=https://swanmodel.sourceforge.io/download/zip/swan4131AB.tar.gz
-filename["$group-$index"]=swan4131AB.tar.gz
-dirname["$group-$index"]=swan4131AB
+url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4145.tar.gz"
+filename["$group-$index"]=swan4145.tar.gz
+dirname["$group-$index"]=swan4145
 builder["$group-$index"]="swan"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
@@ -668,13 +668,13 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
-# xbeach rev5920
+# xbeach rev5961
 index=4
 name["$group-$index"]=xbeach
-version["$group-$index"]=rev5920
+version["$group-$index"]=rev5961
 details["$group-$index"]="(parallel version)"
 url["$group-$index"]=localfile
-filename["$group-$index"]=xbeach-rev5920.zip
+filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
@@ -701,13 +701,13 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 
 fi # end-MPI-only
 
-# xbeach rev5920
+# xbeach rev5961
 index=5
 name["$group-$index"]=xbeach
-version["$group-$index"]=rev5920
+version["$group-$index"]=rev5961
 details["$group-$index"]="(sequential version)"
 url["$group-$index"]=localfile
-filename["$group-$index"]=xbeach-rev5920.zip
+filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
 dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
