@@ -620,14 +620,14 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# atk-bridge 2.38.0
+# at-spi2-core 2.42.0
 index=20
-name["$group-$index"]=atk-bridge
-version["$group-$index"]=2.38.0
+name["$group-$index"]=at-spi2-core
+version["$group-$index"]=2.42.0
 details["$group-$index"]=""
-url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz"
-filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
-dirname["$group-$index"]=at-spi2-atk-2.38.0
+url["$group-$index"]="https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/AT_SPI2_CORE_2_42_0/at-spi2-core-AT_SPI2_CORE_2_42_0.zip"
+filename["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0.zip
+dirname["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3 libxml2/$compilo/snapshot"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -654,8 +654,42 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# wayland 1.19.0
+# atk-bridge 2.38.0
 index=21
+name["$group-$index"]=atk-bridge
+version["$group-$index"]=2.38.0
+details["$group-$index"]=""
+url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz"
+filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
+dirname["$group-$index"]=at-spi2-atk-2.38.0
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 libXtst/$compilo/1.2.3 libxml2/$compilo/snapshot at-spi2-core/$compilo/2.42.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# wayland 1.19.0
+index=22
 name["$group-$index"]=wayland
 version["$group-$index"]=1.19.0
 details["$group-$index"]=""
@@ -688,7 +722,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # wayland-protocols 1.21
-index=22
+index=23
 name["$group-$index"]=wayland-protocols
 version["$group-$index"]=1.21
 details["$group-$index"]=""
@@ -714,7 +748,7 @@ prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgcon
 "
 
 # libxkbcommon 1.3.0
-index=23
+index=24
 name["$group-$index"]=libxkbcommon
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -750,7 +784,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Gtk 3.24.29
-index=24
+index=25
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
 details["$group-$index"]=""
@@ -787,7 +821,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # graphviz 3.0.0
-index=25
+index=26
 name["$group-$index"]=graphviz
 version["$group-$index"]=3.0.0
 details["$group-$index"]=""
@@ -824,7 +858,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 
 # vala 0.42.3
-index=26
+index=27
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
 details["$group-$index"]=""
@@ -860,7 +894,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # gtksourceview 3.24.11
-index=27
+index=28
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
 details["$group-$index"]=""
@@ -897,7 +931,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 "
 
 # PyGObject 3.40.1
-index=28
+index=29
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
 details["$group-$index"]="(Python module)"

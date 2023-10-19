@@ -13,34 +13,25 @@ details["$group-$index"]="(contains Diamond graphic tool)"
 url["$group-$index"]="https://github.com/FluidityProject/spud/archive/refs/heads/main.zip -O spud-main.zip"
 filename["$group-$index"]=spud-main.zip
 dirname["$group-$index"]=spud-main
-patch_01["$group-$index"]="--- Makefile_original.in	2021-05-07 12:20:11.000000000 +0200
-+++ Makefile.in	2021-07-26 11:37:05.857180539 +0200
-@@ -95,20 +95,20 @@
+patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
++++ Makefile_new.in	2023-05-24 16:43:46.857853141 +0200
+@@ -98,13 +98,13 @@
  	@INSTALL@ -m644 schema/spud_base.rng \$(DESTDIR)@prefix@/share/spud
  
  install-diamond:
--	cd diamond;	python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
-+	cd diamond;	python3 setup.py install --user --force; cd ..
+-	cd diamond; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
++	cd diamond; python3 setup.py install --user --force; cd ..
  
  install-pyspud:
- ifeq (\$(origin BUILDING_DEBIAN),undefined)
 -	cd python; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
 +	cd python; python3 setup.py install --user --force; cd ..
- else
--	cd python; for python in \$(shell py3versions -r); do \$\$python setup.py install --prefix=\$(DESTDIR)@prefix@ --install-layout=deb; done; cd ..
-+	cd python; for python in \$(shell py3versions -r); do \$\$python setup.py install --user --force --install-layout=deb; done; cd ..
- endif
  
  install-dxdiff:
- ifeq (\$(origin BUILDING_DEBIAN),undefined)
 -	cd dxdiff; python3 setup.py install --prefix=\$(DESTDIR)@prefix@; cd ..
-+	cd dxdiff; python3 setup.py install --user --force ; cd ..
- else
--	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --prefix=\$(DESTDIR)@prefix@ --install-layout=deb; done; cd ..
-+	cd dxdiff; for python in \$(shell py3versions -r); do \$\$python setup.py install --user --force --install-layout=deb; done; cd ..
- endif
++	cd dxdiff; python3 setup.py install --user --force; cd ..
  
  clean:
+ 	@cd doc; $(MAKE) clean
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
