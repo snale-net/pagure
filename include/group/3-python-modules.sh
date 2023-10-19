@@ -8,15 +8,15 @@ group=3
 groupname[$group]="Python modules"
 
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
-# setuptools 57.0.0
+# setuptools 68.0.0
 index=1
 name["$group-$index"]=setuptools
-version["$group-$index"]=57.0.0
+version["$group-$index"]=68.0.0
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/88/fc/d17731c0cc67a5a8e385e4f47c3b0b186720e198b70f076ccb4676804a8f/setuptools-57.0.0.tar.gz
-filename["$group-$index"]=setuptools-57.0.0.tar.gz
-dirname["$group-$index"]=setuptools-57.0.0
+url["$group-$index"]=https://files.pythonhosted.org/packages/dc/98/5f896af066c128669229ff1aa81553ac14cfb3e5e74b6b44594132b8540e/setuptools-68.0.0.tar.gz
+filename["$group-$index"]=setuptools-68.0.0.tar.gz
+dirname["$group-$index"]=setuptools-68.0.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -154,15 +154,15 @@ fi
 #modulefile["$group-$index"]=""
 fi
 
-# Cython 0.29.28
+# Cython 0.29.35
 index=8
 name["$group-$index"]=cython
-version["$group-$index"]=0.29.28
+version["$group-$index"]=0.29.35
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/cb/da/54a5d7a7d9afc90036d21f4b58229058270cc14b4c81a86d9b2c77fd072e/Cython-0.29.28.tar.gz
-filename["$group-$index"]=Cython-0.29.28.tar.gz
-dirname["$group-$index"]=Cython-0.29.28
+url["$group-$index"]=https://files.pythonhosted.org/packages/da/a0/298340fb8412574a0b00a0d9856aa27e7038da429b9e31d6825173d1e6bd/Cython-0.29.35.tar.gz
+filename["$group-$index"]=Cython-0.29.35.tar.gz
+dirname["$group-$index"]=Cython-0.29.35
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -174,30 +174,37 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
-# numpy 1.18.1
+if (( $(echo "$pythonVersion >= 3.9" | bc -l) )); then # only Python>=3.9
+# numpy 1.25.0
 index=9
 name["$group-$index"]=numpy
-version["$group-$index"]=1.18.1
+version["$group-$index"]=1.25.0
 mandatory["$group-$index"]=1
-details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/40/de/0ea5092b8bfd2e3aa6fdbb2e499a9f9adf810992884d414defc1573dca3f/numpy-1.18.1.zip
-filename["$group-$index"]=numpy-1.18.1.zip
-dirname["$group-$index"]=numpy-1.18.1
-patch_01["$group-$index"]="--- numpy/distutils/intelccompiler_original.py	2020-02-14 11:17:16.471959103 +0100
-+++ numpy/distutils/intelccompiler.py	2020-02-14 11:16:30.791713000 +0100
-@@ -60,7 +60,7 @@
- 
-         v = self.get_version()
-         mpopt = 'openmp' if v and v < '15' else 'qopenmp'
--        self.cc_exe = ('icc -m64 -fPIC -fp-model strict -O3 '
-+        self.cc_exe = ('icc -m64 -std=c99 -fPIC -fp-model strict -O3 '
-                        '-fomit-frame-pointer -{}').format(mpopt)
-         compiler = self.cc_exe
- 
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/d0/b2/fe774844d1857804cc884bba67bec38f649c99d0dc1ee7cbbf1da601357c/numpy-1.25.0.tar.gz
+filename["$group-$index"]=numpy-1.25.0.tar.gz
+dirname["$group-$index"]=numpy-1.25.0
+builder["$group-$index"]="numpy"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
 
-"
-patchfile_01["$group-$index"]="numpy/distutils/intelccompiler.py"
+elif (( $(echo "$pythonVersion >= 3.7" | bc -l) )); then # only Python>=3.5
+# numpy 1.21.4
+index=9
+name["$group-$index"]=numpy
+version["$group-$index"]=1.21.4
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip
+filename["$group-$index"]=numpy-1.21.4.zip
+dirname["$group-$index"]=numpy-1.21.4
 builder["$group-$index"]="numpy"
 dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -232,15 +239,15 @@ fi
 
 fi
 
-# dateutil 2.8.1
+# dateutil 2.8.2
 index=11
 name["$group-$index"]=dateutil
-version["$group-$index"]=2.8.1
+version["$group-$index"]=2.8.2
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/be/ed/5bbc91f03fa4c839c4c7360375da77f9659af5f7086b7a7bdda65771c8e0/python-dateutil-2.8.1.tar.gz
-filename["$group-$index"]=python-dateutil-2.8.1.tar.gz
-dirname["$group-$index"]=python-dateutil-2.8.1
+url["$group-$index"]=https://files.pythonhosted.org/packages/4c/c4/13b4776ea2d76c115c1d1b84579f3764ee6d57204f6be27119f13a61d0a9/python-dateutil-2.8.2.tar.gz
+filename["$group-$index"]=python-dateutil-2.8.2.tar.gz
+dirname["$group-$index"]=python-dateutil-2.8.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -272,15 +279,15 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# pytz 2021.1
+# pytz 2021.3
 index=13
 name["$group-$index"]=pytz
-version["$group-$index"]=2021.1
+version["$group-$index"]=2021.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/b0/61/eddc6eb2c682ea6fd97a7e1018a6294be80dba08fa28e7a3570148b4612d/pytz-2021.1.tar.gz
-filename["$group-$index"]=pytz-2021.1.tar.gz
-dirname["$group-$index"]=pytz-2021.1
+url["$group-$index"]=https://files.pythonhosted.org/packages/e3/8e/1cde9d002f48a940b9d9d38820aaf444b229450c0854bdf15305ce4a3d1a/pytz-2021.3.tar.gz
+filename["$group-$index"]=pytz-2021.3.tar.gz
+dirname["$group-$index"]=pytz-2021.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -312,16 +319,16 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.0" | bc -l) )); then # only Python>=3.0
-# pandas 0.25.3
+if (( $(echo "$pythonVersion >= 3.7" | bc -l) )); then # only Python>=3.0
+# pandas 1.3.5
 index=15
 name["$group-$index"]=pandas
-version["$group-$index"]=0.25.3
+version["$group-$index"]=1.3.5
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/b7/93/b544dd08092b457d88e10fc1e0989d9397fd32ca936fdfcbb2584178dd2b/pandas-0.25.3.tar.gz
-filename["$group-$index"]=pandas-0.25.3.tar.gz
-dirname["$group-$index"]=pandas-0.25.3
+url["$group-$index"]=https://files.pythonhosted.org/packages/99/f0/f99700ef327e51d291efdf4a6de29e685c4d198cbf8531541fc84d169e0e/pandas-1.3.5.tar.gz
+filename["$group-$index"]=pandas-1.3.5.tar.gz
+dirname["$group-$index"]=pandas-1.3.5
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -356,9 +363,50 @@ fi
 
 fi
 
-if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
-# scipy 1.6.3
+# pythran-0.13.1
 index=17
+name["$group-$index"]=pythran
+version["$group-$index"]=0.13.1
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python module)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/8d/d8/b27e8dc3f3a03dcd317d40d9df0ae07ebbd85444585973ceba07716934d0/pythran-0.13.1.tar.gz"
+filename["$group-$index"]=pythran-0.13.1.tar.gz
+dirname["$group-$index"]=pythran-0.13.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+if (( $(echo "$pythonVersion >= 3.9" | bc -l) )); then # only Python>=3.9
+# scipy 1.11.1
+index=18
+name["$group-$index"]=scipy
+version["$group-$index"]=1.11.1
+mandatory["$group-$index"]=0
+details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
+url["$group-$index"]="https://files.pythonhosted.org/packages/a6/98/fceb84466a74b8fe74ce2dcc3a0a89cb7b4a689d4775e0fb4c95f335ef6a/scipy-1.11.1.tar.gz"
+filename["$group-$index"]=scipy-1.11.1.tar.gz
+dirname["$group-$index"]=scipy-1.11.1
+builder["$group-$index"]="scipy"
+dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+
+elif (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
+# scipy 1.6.3
+index=18
 name["$group-$index"]=scipy
 version["$group-$index"]=1.6.3
 mandatory["$group-$index"]=0
