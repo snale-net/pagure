@@ -7,14 +7,14 @@ groupname[$group]="Web librairies"
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# nodejs 18.16.0
+# nodejs 18.17.1
 index=1
 name["$group-$index"]=nodejs
-version["$group-$index"]=18.16.0
+version["$group-$index"]=18.17.1
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/nodejs/node/archive/refs/tags/v18.16.0.tar.gz -O node-18.16.0.tar.gz"
-filename["$group-$index"]=node-18.16.0.tar.gz
-dirname["$group-$index"]=node-18.16.0
+url["$group-$index"]="https://github.com/nodejs/node/archive/refs/tags/v18.17.1.tar.gz -O node-v18.17.1.tar.gz"
+filename["$group-$index"]=node-v18.17.1.tar.gz
+dirname["$group-$index"]=node-18.17.1
 builder["$group-$index"]="nodejs"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -45,16 +45,16 @@ fi  # end-only-if-Python
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (NodeJS need)
 
-# yarn 1.22.10
+# yarn 1.22.19
 index=2
 name["$group-$index"]=yarn
-version["$group-$index"]=1.22.10
+version["$group-$index"]=1.22.19
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/yarnpkg/yarn/archive/refs/tags/v1.22.10.tar.gz -O yarn-1.22.10.tar.gz"
-filename["$group-$index"]=yarn-1.22.10.tar.gz
-dirname["$group-$index"]=yarn-1.22.10
+url["$group-$index"]="https://github.com/yarnpkg/yarn/archive/refs/tags/v1.22.19.tar.gz -O yarn-1.22.19.tar.gz"
+filename["$group-$index"]=yarn-1.22.19.tar.gz
+dirname["$group-$index"]=yarn-1.22.19
 builder["$group-$index"]="yarn"
-dependencies["$group-$index"]="nodejs/$compilo/18.16.0"
+dependencies["$group-$index"]="nodejs/$compilo/18.17.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"

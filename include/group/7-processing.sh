@@ -96,8 +96,70 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
 
-# Proj 8.0.1
+# tiff 4.4.0
 index=3
+name["$group-$index"]=tiff
+version["$group-$index"]=4.4.0
+details["$group-$index"]="(needed by Proj)"
+url["$group-$index"]=http://download.osgeo.org/libtiff/tiff-4.4.0.tar.gz
+filename["$group-$index"]=tiff-4.4.0.tar.gz
+dirname["$group-$index"]=tiff-4.4.0
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/p${dirinstall["$group-$index"]}/include 
+"
+
+# geos 3.10.3
+index=4
+name["$group-$index"]=geos
+version["$group-$index"]=3.10.3
+details["$group-$index"]="(needed by GDAL)"
+url["$group-$index"]=http://download.osgeo.org/geos/geos-3.10.3.tar.bz2
+filename["$group-$index"]=geos-3.10.3.tar.bz2
+dirname["$group-$index"]=geos-3.10.3
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/p${dirinstall["$group-$index"]}/include 
+"
+
+# Proj 8.0.1
+index=5
 name["$group-$index"]=proj
 version["$group-$index"]=8.0.1
 details["$group-$index"]="(needed by GDAL)"
@@ -106,9 +168,9 @@ filename["$group-$index"]=proj-8.0.1.tar.gz
 dirname["$group-$index"]=proj-8.0.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="ANTLR_ROOT=$prefix/antlr/$compilo/2.7.7"
@@ -137,7 +199,7 @@ prepend-path CPATH $prefix/p${dirinstall["$group-$index"]}/include
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # pyproj 3.1.0
-index=4
+index=6
 name["$group-$index"]=pyproj
 version["$group-$index"]=3.1.0
 details["$group-$index"]="(version Python)"
@@ -157,20 +219,20 @@ fi
 
 fi  # end-only-if-Python
 
-# GDAL 3.3.0
-index=5
+# GDAL 3.4.1
+index=7
 name["$group-$index"]=gdal
-version["$group-$index"]=3.3.0
+version["$group-$index"]=3.4.1
 details["$group-$index"]="(needed by GMT)"
-url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.3.0/gdal-3.3.0.tar.gz"
-filename["$group-$index"]=gdal-3.3.0.tar.gz
-dirname["$group-$index"]=gdal-3.3.0
+url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.4.1/gdal-3.4.1.tar.gz"
+filename["$group-$index"]=gdal-3.4.1.tar.gz
+dirname["$group-$index"]=gdal-3.4.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -200,16 +262,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 # GDAL Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# pygdal 3.3.0.7
-index=6
+# pygdal 3.4.1.10
+index=8
 name["$group-$index"]=gdal
-version["$group-$index"]=3.3.0.7
-details["$group-$index"]="(version Python - need GDAL 3.3.0)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/50/7b/e1cc8fd0820fbd10857855529143976441c8ec874b51d626ae397ffd6876/pygdal-3.3.0.7.tar.gz
-filename["$group-$index"]=pygdal-3.3.0.7.tar.gz
-dirname["$group-$index"]=pygdal-3.3.0.7
+version["$group-$index"]=3.4.1.10
+details["$group-$index"]="(version Python - need GDAL 3.4.1)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/05/ba/0891004164c7d596f46e721cb6ef6a5f7530fff1a25e9fd98337ca57d503/pygdal-3.4.1.10.tar.gz
+filename["$group-$index"]=pygdal-3.4.1.10.tar.gz
+dirname["$group-$index"]=pygdal-3.4.1.10
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="gdal/$compilo/3.3.0 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="gdal/$compilo/3.4.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""
@@ -224,7 +286,7 @@ fi  # end-only-if-Python
 if [ "$showOldVersion" = "1" ]; then
 
 # GDAL 2.4.2
-index=7
+index=9
 name["$group-$index"]=gdal
 version["$group-$index"]=2.4.2
 details["$group-$index"]="(need Netcdf-C 4.4.1.1)"
@@ -264,7 +326,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 fi # end-old-version
 
 # gshhg-gmt 2.3.7
-index=8
+index=10
 name["$group-$index"]=gshhg-gmt
 version["$group-$index"]=2.3.7
 details["$group-$index"]="(needed by GMT)"
@@ -279,7 +341,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # dcw-gmt 2.1.0
-index=9
+index=11
 name["$group-$index"]=dcw-gmt
 version["$group-$index"]=2.1.0
 details["$group-$index"]="(needed by GMT)"
@@ -294,7 +356,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # GMT 5.4.5
-index=10
+index=12
 name["$group-$index"]=gmt
 version["$group-$index"]=5.4.5
 details["$group-$index"]=""
@@ -333,7 +395,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
 
 # CDO 1.9.10
-index=11
+index=13
 name["$group-$index"]=cdo
 version["$group-$index"]=1.9.10
 details["$group-$index"]=""
@@ -376,7 +438,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # MED-4.0.0
-index=12
+index=14
 name["$group-$index"]=med
 version["$group-$index"]=4.0.0
 details["$group-$index"]=""
@@ -418,7 +480,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 fi # MPI-only
 
 # AED2-1.3.0
-index=13
+index=15
 name["$group-$index"]=aed2
 version["$group-$index"]=1.3.0
 details["$group-$index"]=""
@@ -448,7 +510,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Metis 5.1.0
-index=14
+index=16
 name["$group-$index"]=metis
 version["$group-$index"]=5.1.0
 details["$group-$index"]="(sequential version)"
@@ -481,7 +543,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # ParMetis 4.0.3
-index=15
+index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
 details["$group-$index"]="(parallel version)"
@@ -538,7 +600,7 @@ fi # MPI-only
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # Scotch 6.0.9
-index=16
+index=18
 name["$group-$index"]=scotch
 version["$group-$index"]=6.0.9
 details["$group-$index"]="(sequential version)"
@@ -621,7 +683,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # PtScotch 6.0.9
-index=17
+index=19
 name["$group-$index"]=ptscotch
 version["$group-$index"]=6.0.9
 details["$group-$index"]="(parallel version)"
@@ -704,7 +766,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # MUMPS 5.2.1
-index=18
+index=20
 name["$group-$index"]=mumps
 version["$group-$index"]=5.2.1
 url["$group-$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
@@ -878,7 +940,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 fi # MPI-only
 
 # gmp 6.2.1
-index=19
+index=21
 name["$group-$index"]=gmp
 version["$group-$index"]=6.2.1
 details["$group-$index"]=""
@@ -909,7 +971,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # mpfr 4.1.0
-index=20
+index=22
 name["$group-$index"]=mpfr
 version["$group-$index"]=4.1.0
 details["$group-$index"]=""
@@ -943,7 +1005,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # SuiteSparse 5.10.1
-index=21
+index=23
 name["$group-$index"]=suitesparse
 version["$group-$index"]=5.10.1
 details["$group-$index"]=""
@@ -978,7 +1040,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # Boost 1.76.0
-index=22
+index=24
 name["$group-$index"]=boost
 version["$group-$index"]=1.76.0
 details["$group-$index"]=""
@@ -1022,8 +1084,9 @@ prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
+
 # Cgal 5.5.2
-index=23
+index=25
 name["$group-$index"]=cgal
 version["$group-$index"]=5.5.2
 details["$group-$index"]=""
@@ -1063,7 +1126,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # petsc 3.12.5
-index=24
+index=26
 name["$group-$index"]=petsc
 version["$group-$index"]=3.12.5
 details["$group-$index"]="(with parallel)"
@@ -1108,7 +1171,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 # gmsh 4.8.4
-index=25
+index=27
 name["$group-$index"]=gmsh
 version["$group-$index"]=4.8.4
 details["$group-$index"]="(with parallel)"
