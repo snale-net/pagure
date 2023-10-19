@@ -345,7 +345,7 @@ if [ "$mpilib" == "none" ]; then
 else
 	details["$group-$index"]="(version Fortran - need Netcdf-C 4.4.1.1 and HDF 1.10.5)"
 fi
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.4.4.tar.gz
+url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.4.4.tar.gz -O netcdf-fortran-4.4.4.tar.gz"
 filename["$group-$index"]=netcdf-fortran-4.4.4.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.4.4
 builder["$group-$index"]="configure"
@@ -640,6 +640,42 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 fi  # end-only-if-Python
+
+# HDF5 1.8.21
+index=14
+name["$group-$index"]=hdf5
+version["$group-$index"]=1.8.21
+details["$group-$index"]=""
+url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.21/src/hdf5-1.8.21.tar.gz
+filename["$group-$index"]=hdf5-1.8.21.tar.gz
+dirname["$group-$index"]=hdf5-1.8.21
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="zlib/$compilo/1.2.11"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="--enable-fortran --enable-cxx"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
+"
 
 
 
