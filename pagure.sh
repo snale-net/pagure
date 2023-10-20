@@ -483,6 +483,7 @@ else
 		log info "Python interpreter ${pythonVersion} will be installed"
 	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
 		pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
 		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 with PAGURE" 

@@ -442,7 +442,7 @@ index=14
 name["$group-$index"]=med
 version["$group-$index"]=4.0.0
 details["$group-$index"]=""
-url["$group-$index"]=http://files.salome-platform.org/Salome/other/med-4.0.0.tar.gz
+url["$group-$index"]=https://mirror.snale.net/med-4.0.0.tar.gz
 filename["$group-$index"]=med-4.0.0.tar.gz
 dirname["$group-$index"]=med-4.0.0
 builder["$group-$index"]="configure"
@@ -769,7 +769,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=20
 name["$group-$index"]=mumps
 version["$group-$index"]=5.2.1
-url["$group-$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
+url["$group-$index"]=https://mirror.snale.net/MUMPS_5.2.1.tar.gz
 filename["$group-$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group-$index"]=MUMPS_5.2.1
 builder["$group-$index"]="mumps"
@@ -1384,6 +1384,42 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+# petsc 3.18.6
+index=32
+name["$group-$index"]=petsc
+version["$group-$index"]=3.18.6
+details["$group-$index"]="(with parallel)"
+url["$group-$index"]="https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-3.18.6.tar.gz"
+filename["$group-$index"]=petsc-3.18.6.tar.gz
+dirname["$group-$index"]=petsc-3.18.6
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.12.1 mumps/$mpilib/$compilo/5.2.1"
+args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --download-superlu_dist --download-hwloc --download-pastix --with-valgrind=0 --with-mpi4py=0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
+setenv PETSC_OPT $prefix/${dirinstall["$group-$index"]}
 "
 
 fi # end-MPI-only
