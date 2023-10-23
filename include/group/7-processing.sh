@@ -547,31 +547,18 @@ index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
 details["$group-$index"]="(parallel version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/parmetis-4.0.3-p3.tar.gz
-filename["$group-$index"]=parmetis-4.0.3-p3.tar.gz
-dirname["$group-$index"]=parmetis-4.0.3-p3
-patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.666727000 +0100
-+++ CMakeLists.txt	2020-03-26 14:16:28.082736398 +0100
-@@ -5,7 +5,7 @@
- # Create libparmetis
- add_library(parmetis \${ParMETIS_LIBRARY_TYPE} \${parmetis_sources})
- # Link with metis and MPI libraries.
--target_link_libraries(parmetis metis \${MPI_LIBRARIES})
-+target_link_libraries(parmetis metis \${MPI_LIBRARIES} m)
- set_target_properties(parmetis PROPERTIES LINK_FLAGS \"\${MPI_LINK_FLAGS}\")
- 
- install(TARGETS parmetis
-"
-patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
+url["$group-$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/parmetis/parmetis-4.0.3.tar.gz
+filename["$group-$index"]=parmetis-4.0.3.tar.gz
+dirname["$group-$index"]=parmetis-4.0.3
 builder["$group-$index"]="parmetis"
 dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 metis/$compilo/5.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ "$mpi" == "intelmpi" ]] ; then
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
+	args["$group-$index"]="cc=mpiicc cxx=mpiicpc"
 elif [[ "$mpi" == "mpich" ]] ; then
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group-$index"]="cc=mpicc cxx=mpic++"	
 elif [[ "$mpi" == "openmpi" ]] ; then	
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group-$index"]="cc=mpicc cxx=mpic++"	
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
