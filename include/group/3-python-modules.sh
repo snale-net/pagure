@@ -8,15 +8,15 @@ group=3
 groupname[$group]="Python modules"
 
 if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
-# setuptools 68.0.0
+# setuptools 60.10.0
 index=1
 name["$group-$index"]=setuptools
-version["$group-$index"]=68.0.0
+version["$group-$index"]=60.10.0
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/dc/98/5f896af066c128669229ff1aa81553ac14cfb3e5e74b6b44594132b8540e/setuptools-68.0.0.tar.gz
-filename["$group-$index"]=setuptools-68.0.0.tar.gz
-dirname["$group-$index"]=setuptools-68.0.0
+url["$group-$index"]=https://files.pythonhosted.org/packages/af/e8/894c71e914dfbe01276a42dfad40025cd96119f2eefc39c554b6e8b9df86/setuptools-60.10.0.tar.gz
+filename["$group-$index"]=setuptools-60.10.0.tar.gz
+dirname["$group-$index"]=setuptools-60.10.0
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -184,8 +184,8 @@ details["$group-$index"]="(Python module - need Lapack-Blas 3.9.0)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/d0/b2/fe774844d1857804cc884bba67bec38f649c99d0dc1ee7cbbf1da601357c/numpy-1.25.0.tar.gz
 filename["$group-$index"]=numpy-1.25.0.tar.gz
 dirname["$group-$index"]=numpy-1.25.0
-builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/$compilo/3.9.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 open-blas/$compilo/0.3.24 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
 if [[ "$compiler" == "intel" ]] ; then
      args["$group-$index"]="LDSHARED=\"icc -shared\""

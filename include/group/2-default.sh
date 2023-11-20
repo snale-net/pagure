@@ -64,15 +64,57 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# meson 0.58.1
+if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
+# setuptools 60.10.0
 index=3
+name["$group-$index"]=setuptools
+version["$group-$index"]=60.10.0
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python module)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/af/e8/894c71e914dfbe01276a42dfad40025cd96119f2eefc39c554b6e8b9df86/setuptools-60.10.0.tar.gz
+filename["$group-$index"]=setuptools-60.10.0.tar.gz
+dirname["$group-$index"]=setuptools-60.10.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+else 
+# setuptools 44.1.1
+index=3
+name["$group-$index"]=setuptools
+version["$group-$index"]=44.1.1
+mandatory["$group-$index"]=1
+details["$group-$index"]="(Python module)"
+url["$group-$index"]=https://files.pythonhosted.org/packages/b2/40/4e00501c204b457f10fe410da0c97537214b2265247bc9a5bc6edd55b9e4/setuptools-44.1.1.zip
+filename["$group-$index"]=setuptools-44.1.1.zip
+dirname["$group-$index"]=setuptools-44.1.1
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
+fi
+
+# meson 1.2.3
+index=4
 name["$group-$index"]=meson
-version["$group-$index"]=0.58.1
+version["$group-$index"]=1.2.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python tool)"
-url["$group-$index"]="https://github.com/mesonbuild/meson/archive/refs/tags/0.58.1.tar.gz -O meson-0.58.1.tar.gz"
-filename["$group-$index"]=meson-0.58.1.tar.gz
-dirname["$group-$index"]=meson-0.58.1
+url["$group-$index"]="https://files.pythonhosted.org/packages/3a/7b/e4a0c98ae02418d08af5b69f129bcd0f15f13edb708b496867d85377f4e5/meson-1.2.3.tar.gz"
+filename["$group-$index"]=meson-1.2.3.tar.gz
+dirname["$group-$index"]=meson-1.2.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -81,7 +123,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # scikit-build 0.11.1
-index=4
+index=5
 name["$group-$index"]=scikit-build
 version["$group-$index"]=0.11.1
 mandatory["$group-$index"]=0
@@ -97,7 +139,7 @@ args["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
 # ninja 1.10.0.post2
-index=5
+index=6
 name["$group-$index"]=ninja
 version["$group-$index"]=1.10.0.post2
 mandatory["$group-$index"]=1
@@ -115,7 +157,7 @@ args["$group-$index"]=""
 fi  # end-only-if-Python
 
 #Lapack & Blas 3.9.1 Dynamic lib
-index=6
+index=7
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.9.1
 mandatory["$group-$index"]=1
@@ -145,6 +187,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
@@ -153,7 +196,7 @@ prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 if [ "$showOldVersion" = "1" ]; then # old-version
 
 #Lapack & Blas 3.8.0 Dynamic lib
-index=7
+index=8
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.8.0
 details["$group-$index"]="(static & dynamic lib)"
@@ -178,6 +221,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 # Variables
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
@@ -185,8 +229,40 @@ prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 
 fi # old-version
 
+# OpenBLAS
+index=9
+name["$group-$index"]=open-blas
+version["$group-$index"]=0.3.24
+mandatory["$group-$index"]=1
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/xianyi/OpenBLAS/releases/download/v0.3.24/OpenBLAS-0.3.24.tar.gz"
+filename["$group-$index"]=OpenBLAS-0.3.24.tar.gz
+dirname["$group-$index"]=OpenBLAS-0.3.24
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+"
+
+
 # bazel 4.2.2
-index=8
+index=10
 name["$group-$index"]=bazel
 version["$group-$index"]=4.2.2
 details["$group-$index"]=""

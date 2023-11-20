@@ -514,9 +514,9 @@ index=16
 name["$group-$index"]=metis
 version["$group-$index"]=5.1.0
 details["$group-$index"]="(sequential version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/metis-5.1.0-p3.tar.gz
-filename["$group-$index"]=metis-5.1.0-p3.tar.gz
-dirname["$group-$index"]=metis-5.1.0-p3
+url["$group-$index"]=http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-5.1.0.tar.gz
+filename["$group-$index"]=metis-5.1.0.tar.gz
+dirname["$group-$index"]=metis-5.1.0
 builder["$group-$index"]="metis"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -855,7 +855,7 @@ IMETIS    = -I\$(LMETISDIR)/include -I\$(LPARMETISDIR)/include
 
 LMETIS    = -L\$(LMETISDIR)/lib -L\$(LPARMETISDIR)/lib -lparmetis -lmetis
 
-ORDERINGSF = -Dscotch -Dmetis -Dpord -Dptscotch -Dparmetis
+ORDERINGSF = -Dmetis -Dpord -Dparmetis -Dscotch -Dptscotch
 ORDERINGSC  = \$(ORDERINGSF)
 
 LORDERINGS = \$(LMETIS) \$(LPORD) \$(LSCOTCH)

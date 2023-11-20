@@ -9,8 +9,10 @@ echo $PYTHONPATH | sed 's/:/\n/g' > $PYTHONUSERBASE/module-extra.pth
 
 if [[  "$compiler" == "intel" ]] ; then					
 	$pythonInterpreter setup.py config --compiler=intelem --fcompiler=intelem build_clib --compiler=intelem --fcompiler=intelem build_ext --compiler=intelem --fcompiler=intelem install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
-else                   
-	$pythonInterpreter setup.py install --user --force 2>&1 >&3 | tee -a $LOGFILE && leave
+else
+        cmd=`echo "${args["$index"]}" | xargs -0 -i echo {} ${pythonInterpreter} setup.py install --user --force | sed -z '$ s/\n//' | xargs -0`
+        echo $cmd
+        eval "$cmd" 2>&1 >&3 | tee -a $LOGFILE && leave                   
 fi
 
 rm -f $PYTHONUSERBASE/module-extra.pth
