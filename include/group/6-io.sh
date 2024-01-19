@@ -20,9 +20,9 @@ builder["$group-$index"]="configure"
 dependencies["$group-$index"]="$mpi_dep"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ $mpilib == mpich* ]] ; then
-	args["$group-$index"]="--enable-shared CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
+	args["$group-$index"]="--enable-shared CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90 FCFLAGS=\"-w -fallow-argument-mismatch -O2\""
 else
-	args["$group-$index"]="--enable-shared"
+	args["$group-$index"]="--enable-shared FCFLAGS=\"-w -fallow-argument-mismatch -O2\""
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -401,7 +401,7 @@ index=8
 name["$group-$index"]=udunits
 version["$group-$index"]=2.2.28
 details["$group-$index"]="(needed by netcdf4-python / Ncview / VTK)"
-url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.28.tar.gz
+url["$group-$index"]=https://mirror.snale.net/udunits-2.2.28.tar.gz
 filename["$group-$index"]=udunits-2.2.28.tar.gz
 dirname["$group-$index"]=udunits-2.2.28
 builder["$group-$index"]="configure"
@@ -438,18 +438,18 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 # NetCDF Python
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# netcdf4-python 1.6.4
+# netcdf4-python 1.6.5
 index=9
 name["$group-$index"]=netCDF4
-version["$group-$index"]=1.6.4
+version["$group-$index"]=1.6.5
 if [ "$mpilib" == "none" ]; then 
 	details["$group-$index"]="(version Python - need HDF5 1.10.5 / NetCDF C 4.8.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
 else
 	details["$group-$index"]="(version Python - need HDF5 1.10.5 / NetCDF C 4.8.0 / Pnetcdf 1.12.1 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
 fi
-url["$group-$index"]="https://github.com/Unidata/netcdf4-python/archive/refs/tags/v1.6.4rel.tar.gz -O netcdf4-python-1.6.4.tar.gz"
-filename["$group-$index"]=netcdf4-python-1.6.4.tar.gz
-dirname["$group-$index"]=netcdf4-python-1.6.4rel
+url["$group-$index"]="https://github.com/Unidata/netcdf4-python/archive/refs/tags/v1.6.5rel.tar.gz -O netcdf4-python-1.6.5.tar.gz"
+filename["$group-$index"]=netcdf4-python-1.6.5.tar.gz
+dirname["$group-$index"]=netcdf4-python-1.6.5rel
 builder["$group-$index"]="python"
 if [ "$mpilib" == "none" ]; then 
     if [[ "$compiler" == "intel" ]] ; then
