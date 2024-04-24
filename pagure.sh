@@ -413,37 +413,37 @@ else
 		
 		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"		
 		
-		# MPI
-		if  [[ "${libToInstall[@]}" =~ "4-1 " ]]; then
+		# MPI      
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-1[[:space:]] ]]; then            
 			mpi="openmpi"
-            mpiVersion="1.10.7"
-		fi
+            mpiVersion="1.10.7"		
+        fi
 				
-		if  [[ "${libToInstall[@]}" =~ "4-2 " ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-2[[:space:]] ]]; then
 			mpi="openmpi"
             mpiVersion="3.1.6"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-3 " ]]; then       
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-3[[:space:]] ]]; then       
 			mpi="mpich"
             mpiVersion="3.2.1"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-4[[:space:]] ]]; then
 			mpi="mpich"
             mpiVersion="3.3.2"
-		fi
+		fi       
 		
 		# Python
-		if  [[ "${libToInstall[@]}" =~ "1-1 " ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-1[[:space:]] ]]; then
 			pythonVersion="3.7"          
 		fi
 
-        if  [[ "${libToInstall[@]}" =~ "1-2 " ]]; then
+        if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-2[[:space:]] ]]; then
 			pythonVersion="2.7"           
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "1-3 " ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-3[[:space:]] ]]; then
 			pythonVersion="3.9"
 		fi
 		
