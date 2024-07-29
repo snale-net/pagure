@@ -442,7 +442,7 @@ index=14
 name["$group-$index"]=med
 version["$group-$index"]=4.0.0
 details["$group-$index"]=""
-url["$group-$index"]=http://files.salome-platform.org/Salome/other/med-4.0.0.tar.gz
+url["$group-$index"]=https://mirror.snale.net/med-4.0.0.tar.gz
 filename["$group-$index"]=med-4.0.0.tar.gz
 dirname["$group-$index"]=med-4.0.0
 builder["$group-$index"]="configure"
@@ -769,7 +769,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=20
 name["$group-$index"]=mumps
 version["$group-$index"]=5.2.1
-url["$group-$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
+url["$group-$index"]=https://mirror.snale.net/MUMPS_5.2.1.tar.gz
 filename["$group-$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group-$index"]=MUMPS_5.2.1
 builder["$group-$index"]="mumps"
