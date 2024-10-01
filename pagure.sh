@@ -163,6 +163,9 @@ usage()
 	echo ' '	
 	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
 	echo ' '
+    echo '  pagure.sh --mk-group-module [--module-dir=MODULE_DIR] [--debug=0|1]  To create a group module file'
+    echo ' '
+
 }
 
 # Liste des filtres
@@ -172,6 +175,110 @@ list()
 	echo ' '
 	for key in ${!filters[@]}; do
 		echo ${key}
+	done
+}
+
+# Make a group module
+mk_group_module()
+{    
+
+    for args in "$@"
+    do 
+        case "$args" in      
+            -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;     
+            -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;;       
+            -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;; 
+             *) shift ;; 
+            esac   
+    done 
+
+    # 1. Tester le système
+    if [ -z "$system" ]; then
+	    systemOS=`echo "cluster" | awk '{print tolower($0)}'`	
+
+    elif [ "$system" == "cluster" ]; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`	
+
+    elif [ "$system" == "suse" ]; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`	
+
+    elif [ "$system" == "mint" ] ; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+    elif [ "$system" == "centos" ] ; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+    elif [ "$system" == "macos" ] ; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+    elif [ "$system" == "ubuntu" ] ; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+    elif [ "$system" == "fedora" ] ; then
+
+	    systemOS=`echo "$system" | awk '{print tolower($0)}'`
+
+    else
+	    log fail "Unable to decode argument '--system'. Accepted values : CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS" 
+	    leave 1
+    fi
+    log info "system is set to $systemOS"
+
+    # 2. Tester le module-dir
+    if [ -z "$moduleDir" ]; then
+	    # On s'assure que le module dir est renseigné pour le mode cluster
+	    if [ "$systemOS" == "cluster" ]; then
+		    log fail "For cluster system, you have to specify the module dir path with --module-dir= (ex: /home/XXXX/privatemodules)"
+		    leave 8
+	    fi
+	    
+	    moduleDir="$prefix/Modules/local"
+    else	
+	    if [ -d "$moduleDir" ]; then
+		    log info "module dir is set to $moduleDir"
+	    else
+		    log fail "module dir path $moduleDir doesn't exists"
+		    leave 10
+	    fi
+    fi
+
+	log raw "......................"
+	while true; do
+		read -p "Type the absolute path of group module directory (the one witch contains module) : " groupmodulepath						
+		
+		if [ -d "$groupmodulepath" ]
+		then
+            while true; do
+	            read -p "Type the name of the group module : " groupmodulefilename	
+
+                if [ ! -d "$moduleDir/group-modules" ] ; then mkdir -p "$moduleDir/group-modules" 2>&1 >&3 | tee -a $LOGFILE && leave; fi	
+
+                modulegroupfile="#%Module1.0#
+                proc ModulesHelp { } {
+                        puts stderr \"\tThis module file adds the directory containing the\"
+                        puts stderr \"\tgroup modules $groupmodulefilename to your modules path.\"
+                }
+
+                module-whatis   \"adds the group module $groupmodulefilename directory to MODULEPATH\"
+
+                set     moddir  $groupmodulepath
+
+                module use --append \${moddir}"	
+
+                echo $"${modulegroupfile}" > $moduleDir/group-modules/${groupmodulefilename} 			
+	            
+	           
+            done			
+			break;
+		else
+			echo "'$groupmodulepath' doesn't exists or is not a directory. Please try again."
+		fi
 	done
 }
 
@@ -205,6 +312,9 @@ case "$1" in
      -l* | --list)
         list
         leave 0 ;;
+     --mk-group-module)
+            mk_group_module $*
+            leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
