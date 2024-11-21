@@ -185,7 +185,8 @@ mk_group_module()
     for args in "$@"
     do 
         case "$args" in      
-            -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;     
+            -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
+            -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;  
             -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;;       
             -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;; 
              *) shift ;; 
@@ -230,7 +231,23 @@ mk_group_module()
     fi
     log info "system is set to $systemOS"
 
-    # 2. Tester le module-dir
+    # 2. Tester le prefix
+    if [ -z "$prefix" ]; then
+    prefix=`pwd`
+    while true; do 
+	    log raw "......................"
+            log warn "You didn't specify a prefix argument. Default prefix is set to $prefix" 
+	    read -p "Do you wish to install softwares in this directory ? (y/n)" yn
+            case $yn in
+		    [Yy]* ) break;;
+		    [Nn]* ) log info "Please use the --prefix argument" ; leave 0 ;;
+		    *) echo "Please answer yes or no." ;;
+	    esac
+    done
+    fi
+    log info "prefix is set to $prefix"
+
+    # 3. Tester le module-dir
     if [ -z "$moduleDir" ]; then
 	    # On s'assure que le module dir est renseigné pour le mode cluster
 	    if [ "$systemOS" == "cluster" ]; then
@@ -250,36 +267,57 @@ mk_group_module()
 
 	log raw "......................"
 	while true; do
-		read -p "Type the absolute path of group module directory (the one witch contains module) : " groupmodulepath						
-		
-		if [ -d "$groupmodulepath" ]
-		then
-            while true; do
-	            read -p "Type the name of the group module : " groupmodulefilename	
+		read -p "Type the absolute path of group module directory (the one witch contains module) : " groupmodulepath	
 
-                if [ ! -d "$moduleDir/group-modules" ] ; then mkdir -p "$moduleDir/group-modules" 2>&1 >&3 | tee -a $LOGFILE && leave; fi	
+        if [ ! -d "$groupmodulepath" ] ; then 
+            mkdir -p "$groupmodulepath" 2>&1 >&3 | tee -a $LOGFILE && leave;
+            log info "group module dir is set to $groupmodulepath"
+        fi
+		
+        while true; do
+            read -p "Type the name of the group module : " groupmodulefilename	
+
+            if [ ! -d "$moduleDir/group-modules" ] ; then mkdir -p "$moduleDir/group-modules" 2>&1 >&3 | tee -a $LOGFILE && leave; fi	
+
+            if [ ! -f "$moduleDir/group-modules/${groupmodulefilename}" ]; then 
 
                 modulegroupfile="#%Module1.0#
-                proc ModulesHelp { } {
-                        puts stderr \"\tThis module file adds the directory containing the\"
-                        puts stderr \"\tgroup modules $groupmodulefilename to your modules path.\"
-                }
+    proc ModulesHelp { } {
+            puts stderr \"\tThis module file adds the directory containing the\"
+            puts stderr \"\tgroup modules $groupmodulefilename to your modules path.\"
+    }
 
-                module-whatis   \"adds the group module $groupmodulefilename directory to MODULEPATH\"
+    module-whatis   \"adds the group module $groupmodulefilename directory to MODULEPATH\"
 
-                set     moddir  $groupmodulepath
+    set     moddir  $groupmodulepath
 
-                module use --append \${moddir}"	
+    module use --append \${moddir}"	
 
-                echo $"${modulegroupfile}" > $moduleDir/group-modules/${groupmodulefilename} 			
-	            
-	           
-            done			
-			break;
-		else
-			echo "'$groupmodulepath' doesn't exists or is not a directory. Please try again."
-		fi
-	done
+                echo $"${modulegroupfile}" > $moduleDir/group-modules/${groupmodulefilename} 
+
+                log 0 "group module ${groupmodulefilename} has been created"	
+            else
+                log 0 "group module ${groupmodulefilename} already exists"	
+            fi		
+            
+            log raw "......................"
+	        while true; do
+		        read -p "Do you wish to copy installed modules to this group module ? (y/n)" yn
+		        case $yn in
+		                [Yy]* )
+	        log step "Transfer Install System packages (root acces is required)"
+	        log 0 "Install System packages"
+	        break;;
+		                [Nn]* )
+		                log skip "Everything is done"
+		                break ;;
+		                *) echo "Please answer yes or no." ;;
+		        esac
+	        done
+            break;	
+        done
+        break;		
+	done    
 }
 
 # Chargement des filtres
