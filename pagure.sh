@@ -983,7 +983,7 @@ function install()
 				if [ "$installedPython" == "1" ]; then 		
 					# On test si le module python existe									
 					module show python/$compilo/${pythonVersion} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					libTest=$(cat lib_test | grep "ERROR\|Lmod Warning" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then
@@ -1032,7 +1032,7 @@ function install()
 				else				
 					# module normal				
 					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					libTest=$(cat lib_test | grep "ERROR\|Lmod Warning" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then
