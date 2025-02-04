@@ -553,11 +553,11 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 # SWASH
 index=3
 name["$group-$index"]=swash
-version["$group-$index"]=10.01
+version["$group-$index"]=11.01
 details["$group-$index"]="(parallel)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-10.01.tar.gz
-filename["$group-$index"]=swash-10.01.tar.gz
-dirname["$group-$index"]=swash-10.01
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
 dependencies["$group-$index"]="$mpi_dep"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
@@ -698,11 +698,11 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 # SWASH-Sequential
 index=6
 name["$group-$index"]=swash
-version["$group-$index"]=10.01
+version["$group-$index"]=11.01
 details["$group-$index"]="(sequential)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-10.01.tar.gz
-filename["$group-$index"]=swash-10.01.tar.gz
-dirname["$group-$index"]=swash-10.01
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash_ser"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
