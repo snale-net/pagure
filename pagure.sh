@@ -166,8 +166,11 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
+    echo '  pagure.sh --mk-module-group --module-dir=MODULE_DIR [--debug=0|1]  To create a shared module group'
+	echo ' '	
 	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
-	echo ' '
+    echo ' '
+
 }
 
 # Liste des filtres
@@ -178,6 +181,86 @@ list()
 	for key in ${!filters[@]}; do
 		echo ${key}
 	done
+}
+
+# Make a shared module group
+mk_module_group()
+{    
+
+    for args in "$@"
+    do 
+        case "$args" in         
+            -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;;       
+            -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;; 
+             *) shift ;; 
+            esac   
+    done
+   
+    # 1. Tester le module-dir
+    if [ -z "$moduleDir" ]; then	   
+		    log fail "You have to specify the module dir path with --module-dir= (ex: /home/XXXX/privatemodules)"
+		    leave 8
+    elif [ -d "$moduleDir" ]; then
+	    log info "module dir is set to $moduleDir"
+    else
+	    log fail "module dir path $moduleDir doesn't exists"
+	    leave 10
+    fi    
+
+	log raw "......................"
+    log step "Setting of shared module group"
+	while true; do
+		read -p "Type the absolute path of the shared module group directory (the one that contains the shared modules) : " modulegrouppath	
+
+        if [ ! -d "$modulegrouppath" ] ; then 
+            mkdir -p "$modulegrouppath" 2>&1 >&3 | tee -a $LOGFILE && leave;
+            log info "Shared module group dir is set to $modulegrouppath"
+        fi
+		
+        while true; do
+            read -p "Type the name of this shared module group: " modulegroupfilename	
+
+            if [ ! -d "$moduleDir/module-group" ] ; then mkdir -p "$moduleDir/module-group" 2>&1 >&3 | tee -a $LOGFILE && leave; fi	
+
+            if [ ! -f "$moduleDir/module-group/${modulegroupfilename}" ]; then 
+
+                modulegroupfile="#%Module1.0#
+proc ModulesHelp { } {
+        puts stderr \"\tThis module file adds the directory containing the\"
+        puts stderr \"\tmodule group $modulegroupfilename to your modules path.\"
+}
+
+module-whatis   \"adds the module group $modulegroupfilename to MODULEPATH\"
+
+set     moddir  $modulegrouppath
+
+module use --append \${moddir}"	
+
+                echo $"${modulegroupfile}" > $moduleDir/module-group/${modulegroupfilename} 
+
+                log 0 "Module group ${modulegroupfilename} has been created"	
+            else
+                log 0 "Module group ${modulegroupfilename} already exists"	
+            fi		
+            
+            log raw "......................"
+	        while true; do
+		        read -p "Do you wish to copy installed modules to this module group ? (y/n)" yn
+		        case $yn in
+		                [Yy]* )
+	                    log step "Copy installed module to the module group ${modulegroupfilename}"
+	                    log fail "Not implemented yet"
+	                    break;;
+		                [Nn]* )		                
+		                break ;;
+		                *) echo "Please answer yes or no." ;;
+		        esac
+	        done
+            log 0 "Everything is done"
+            break;	
+        done
+        break;		
+	done    
 }
 
 # Chargement des filtres
@@ -210,6 +293,9 @@ case "$1" in
      -l* | --list)
         list
         leave 0 ;;
+     --mk-module-group)
+            mk_module_group $*
+            leave 0 ;;
     -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
     -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
@@ -451,6 +537,10 @@ else
 		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-3[[:space:]] ]]; then
 			pythonVersion="3.9"
 		fi
+
+        if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-4[[:space:]] ]]; then
+			pythonVersion="3.11"
+		fi
 		
 	else
 		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
@@ -487,6 +577,9 @@ else
         pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
 	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	elif  [[ $(vercomp $pythonVersion 3.11) == 0 ]]; then # only Python==3.11
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
@@ -840,7 +933,7 @@ function install()
 				if [ "$installedPython" == "1" ]; then 		
 					# On test si le module python existe									
 					module show python/$compilo/${pythonVersion} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					libTest=$(cat lib_test | grep "ERROR\|Lmod Warning" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then
@@ -889,7 +982,7 @@ function install()
 				else				
 					# module normal				
 					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					libTest=$(cat lib_test | grep "ERROR\|Lmod Warning" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then

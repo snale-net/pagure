@@ -558,13 +558,13 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 # SWASH
 index=3
 name["$group-$index"]=swash
-version["$group-$index"]=7.01
-details["$group-$index"]=""
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-7.01AB.tar.gz
-filename["$group-$index"]=swash-7.01AB.tar.gz
-dirname["$group-$index"]=swash-7.01AB
+version["$group-$index"]=11.01
+details["$group-$index"]="(parallel)"
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
+dependencies["$group-$index"]="$mpi_dep"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
@@ -580,35 +580,17 @@ FLAGS90_MSC = \$(FLAGS_MSC)
 FLAGS_DYN = -fPIC
 FLAGS_SER = 
 FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
-ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
-  NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
-else
-  INCS_SER =
-  INCS_OMP =
-  INCS_MPI =
-  LIBS_SER =
-  LIBS_OMP = -static-libgcc
-  LIBS_MPI =
-  NCF_OBJS =
-endif
-O_DIR = ../work/odir4/
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
 OUT = -o
 EXTO = o
 MAKE = make
 RM = rm -f
-ifneq (\$(NETCDFROOT),)
-  swch = -unix -netcdf
-else
-  swch = -unix
-endif
+swch = -unix
 "
 else
 configfile["$group-$index"]="##############################################################################
@@ -620,39 +602,20 @@ F90_MPI = \$(MPIF90)
 FLAGS_OPT = -O
 FLAGS_MSC = -w -fno-second-underscore
 FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
-FLAGS_DYN =
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
 FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
-ifneq (\$(NETCDFROOT),)
-  INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  INCS_MPI = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
-  LIBS_SER = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
-  LIBS_OMP = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff -static-libgcc
-  LIBS_MPI = -L\$(NETCDFROOT)/lib -L\$(NETCDFFROOT)/lib -lnetcdf -lnetcdff
-  NCF_OBJS = nctablemd.o agioncmd.o swn_outnc.o
-else
-  INCS_SER =
-  INCS_OMP =
-  INCS_MPI =
-  LIBS_SER =
-  LIBS_OMP = -static-libgcc
-  LIBS_MPI =
-  NCF_OBJS =
-endif
-O_DIR = ../work/odir4/
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
 OUT = -o
 EXTO = o
 MAKE = make
 RM = rm -f
-ifneq (\$(NETCDFROOT),)
-  swch = -unix -netcdf
-else
-  swch = -unix
-endif
+swch = -unix
 "
 fi
 args["$group-$index"]=""
@@ -735,5 +698,86 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+"
+
+# SWASH-Sequential
+index=6
+name["$group-$index"]=swash
+version["$group-$index"]=11.01
+details["$group-$index"]="(sequential)"
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
+builder["$group-$index"]="swash_ser"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
+configfilename["$group-$index"]="macros.inc"
+if [[ $compiler == "intel" ]]; then
+configfile["$group-$index"]="##############################################################################
+# IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
+##############################################################################
+F90_SER = ifort
+F90_OMP = ifort
+F90_MPI = \$(MPIF90)
+FLAGS_OPT = -O2
+FLAGS_MSC = -W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291
+FLAGS90_MSC = \$(FLAGS_MSC)
+FLAGS_DYN = -fPIC
+FLAGS_SER = 
+FLAGS_OMP = -qopenmp
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
+OUT = -o
+EXTO = o
+MAKE = make
+RM = rm -f
+swch = -unix
+"
+else
+configfile["$group-$index"]="##############################################################################
+# IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
+##############################################################################
+F90_SER = gfortran
+F90_OMP = gfortran
+F90_MPI = \$(MPIF90)
+FLAGS_OPT = -O
+FLAGS_MSC = -w -fno-second-underscore
+FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
+FLAGS_SER =
+FLAGS_OMP = -fopenmp
+FLAGS_MPI =
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
+OUT = -o
+EXTO = o
+MAKE = make
+RM = rm -f
+swch = -unix
+"
+fi
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 

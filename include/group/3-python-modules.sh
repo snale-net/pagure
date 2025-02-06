@@ -12,7 +12,7 @@ if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 group=3
 groupname[$group]="Python modules"
 
-if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
+if [[ $(vercomp $pythonVersion 3.5) < 2 ]]; then # only Python>=3.5
 # setuptools 68.0.0
 index=1
 name["$group-$index"]=setuptools
@@ -54,7 +54,7 @@ fi
 #modulefile["$group-$index"]=""
 fi
 
-if (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
+if [[ $(vercomp $pythonVersion 3.5) < 2 ]]; then # only Python>=3.5
 # setuptools-scm 6.0.1
 index=3
 name["$group-$index"]=setuptools_scm
@@ -117,7 +117,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.6" | bc -l) )); then # only Python>=3.6
+if [[ $(vercomp $pythonVersion 3.6) < 2 ]]; then # only Python>=3.6
 # pip 21.1.3
 index=6
 name["$group-$index"]=pip
@@ -179,7 +179,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.9" | bc -l) )); then # only Python>=3.9
+if [[ $(vercomp $pythonVersion 3.9) < 2 ]]; then # only Python>=3.9
 # numpy 1.25.0
 index=9
 name["$group-$index"]=numpy
@@ -200,7 +200,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-elif (( $(echo "$pythonVersion >= 3.7" | bc -l) )); then # only Python>=3.5
+elif [[ $(vercomp $pythonVersion 3.7) < 2 ]]; then # only Python>=3.7
 # numpy 1.21.4
 index=9
 name["$group-$index"]=numpy
@@ -324,7 +324,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.7" | bc -l) )); then # only Python>=3.0
+if [[ $(vercomp $pythonVersion 3.7) < 2 ]]; then # only Python>=3.7
 # pandas 1.3.5
 index=15
 name["$group-$index"]=pandas
@@ -388,7 +388,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.9" | bc -l) )); then # only Python>=3.9
+if [[ $(vercomp $pythonVersion 3.9) < 2 ]]; then # only Python>=3.9
 # scipy 1.11.1
 index=18
 name["$group-$index"]=scipy
@@ -409,7 +409,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-elif (( $(echo "$pythonVersion >= 3.5" | bc -l) )); then # only Python>=3.5
+elif [[ $(vercomp $pythonVersion 3.5) < 2 ]]; then # only Python>=3.5
 # scipy 1.6.3
 index=18
 name["$group-$index"]=scipy
