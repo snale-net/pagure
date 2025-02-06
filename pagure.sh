@@ -532,6 +532,10 @@ else
 		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-3[[:space:]] ]]; then
 			pythonVersion="3.9"
 		fi
+
+        if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-4[[:space:]] ]]; then
+			pythonVersion="3.11"
+		fi
 		
 	else
 		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
@@ -568,6 +572,9 @@ else
         pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
 	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
+		pythonInterpreter=python${pythonVersion}
+		log info "Python interpreter ${pythonVersion} will be installed"
+	elif  [[ $(vercomp $pythonVersion 3.11) == 0 ]]; then # only Python==3.11
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else

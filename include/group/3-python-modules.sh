@@ -112,7 +112,7 @@ fi
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-if (( $(echo "$pythonVersion >= 3.6" | bc -l) )); then # only Python>=3.6
+if [[ $(vercomp $pythonVersion 3.6) < 2 ]]; then # only Python>=3.6
 # pip 21.1.3
 index=6
 name["$group-$index"]=pip
