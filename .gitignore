@@ -1,3 +1,19 @@
 pagure.log
 tgz/**
 *.lock*
+
+# virtualenv
+.venv*
+venv*
+ENV/
+
+# PyCharm
+.idea/
+*.iml
+
+# Items generated when building the docs locally for release
+doc/build/*
+doc/source/api_reference/*
+doc/_build/
+doc/_doctrees/*/
+doc/_inventory_cache/
