@@ -1,0 +1,16 @@
+[project]
+name = "pagure"
+version = "2.0.0"
+description = "Pagure CLI"
+authors = [{ name = "Benjamin" }]
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.scripts]
+pagure = "pagure.cli.main:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

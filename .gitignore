@@ -1,3 +1,24 @@
 pagure.log
 tgz/**
 *.lock*
+/src/pagure.egg-info/
+
+pagure.log
+tgz/**
+*.lock*
+
+# virtualenv
+.venv*
+venv*
+ENV/
+
+# PyCharm
+.idea/
+*.iml
+
+# Items generated when building the docs locally for release
+docs/build/*
+docs/source/api_reference/*
+docs/_build/
+docs/_doctrees/*/
+docs/_inventory_cache/
