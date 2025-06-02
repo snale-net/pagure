@@ -1,6 +1,4 @@
-from abc import ABC, abstractmethod
+class Command:
 
-class BaseCommand(ABC):
-    @abstractmethod
-    def main(self, args):
-        pass
+    def run(self, options):
+        raise NotImplementedError("Subclasses must implement the 'run' method.")

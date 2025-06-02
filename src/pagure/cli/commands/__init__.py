@@ -11,4 +11,4 @@ def create_command(name):
     try:
         return COMMANDS[name]()
     except KeyError:
-        raise ValueError(f"Commande inconnue : {name}")
+        raise ValueError(f"Unknown command : {name}")
