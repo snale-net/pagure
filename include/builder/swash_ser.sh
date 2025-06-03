@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Version MPI
-make mpi 2>&1 >&3 | tee -a $LOGFILE && leave
+# Version seq
+make ser 2>&1 >&3 | tee -a $LOGFILE && leave
 
 # Install to dir
 chmod +x swashrun 2>&1 >&3 | tee -a $LOGFILE && leave
