@@ -567,8 +567,8 @@ fi
 
 # Fix for GNU 10
 if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # only GNU>=10.0			
-	export FFLAGS="-w -fallow-argument-mismatch -O2"
-	export FCFLAGS="-w -fallow-argument-mismatch -O2"	
+	export FFLAGS="-fallow-argument-mismatch"
+	export FCFLAGS="-fallow-argument-mismatch"	
 fi
 
 # 9. Tester la version du MPI

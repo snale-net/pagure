@@ -434,11 +434,11 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 # SWAN
 index=2
 name["$group-$index"]=swan
-version["$group-$index"]=41.45
+version["$group-$index"]=41.51
 details["$group-$index"]=""
-url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4145.tar.gz"
-filename["$group-$index"]=swan4145.tar.gz
-dirname["$group-$index"]=swan4145
+url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar.gz"
+filename["$group-$index"]=swan4151.tar.gz
+dirname["$group-$index"]=swan4151
 builder["$group-$index"]="swan"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
@@ -494,7 +494,7 @@ F90_SER = gfortran
 F90_OMP = gfortran
 F90_MPI = \$(MPIF90)
 FLAGS_OPT = -O
-FLAGS_MSC = -w -fno-second-underscore
+FLAGS_MSC = -w -fno-second-underscore \$(FCFLAGS)
 FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
 FLAGS_DYN =
 FLAGS_SER =
@@ -553,11 +553,11 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 # SWASH
 index=3
 name["$group-$index"]=swash
-version["$group-$index"]=10.01
+version["$group-$index"]=11.01
 details["$group-$index"]="(parallel)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-10.01.tar.gz
-filename["$group-$index"]=swash-10.01.tar.gz
-dirname["$group-$index"]=swash-10.01
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
 dependencies["$group-$index"]="$mpi_dep"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
@@ -698,11 +698,11 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 # SWASH-Sequential
 index=6
 name["$group-$index"]=swash
-version["$group-$index"]=10.01
+version["$group-$index"]=11.01
 details["$group-$index"]="(sequential)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-10.01.tar.gz
-filename["$group-$index"]=swash-10.01.tar.gz
-dirname["$group-$index"]=swash-10.01
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
+filename["$group-$index"]=swash-11.01.tar.gz
+dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash_ser"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
@@ -740,7 +740,7 @@ F90_SER = gfortran
 F90_OMP = gfortran
 F90_MPI = \$(MPIF90)
 FLAGS_OPT = -O
-FLAGS_MSC = -w -fno-second-underscore
+FLAGS_MSC = -w -fno-second-underscore \$(FCFLAGS)
 FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
