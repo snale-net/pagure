@@ -1,19 +1,48 @@
-pagure.log
-tgz/**
-*.lock*
+# MIT License
+# Copyright (c) 2025 [Ton Nom ou ta société]
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-# virtualenv
-.venv*
-venv*
-ENV/
+[build-system]
+requires = ["setuptools", "wheel", "build"]
+build-backend = "setuptools.build_meta"
 
-# PyCharm
-.idea/
-*.iml
+[project]
+name = "pagure"
+version = "2.0.0"
+dynamic = ["dependencies"]
+requires-python = ">=3.11"
+authors = [
+  {name = "Fabien RÉTIF", email = "fabien.retif@snale.net"},
+]
+description = "A modular Python CLI tool for configuration management, inspired by pip's internal architecture."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E.*"]
 
-# Items generated when building the docs locally for release
-doc/build/*
-doc/source/api_reference/*
-doc/_build/
-doc/_doctrees/*/
-doc/_inventory_cache/
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://lab.snale.net/produits/pagure"
+Documentation = "https://github.com/snale-net/pagure/blob/master/README.md"
+Repository = "https://github.com/snale-net/pagure"
+
+[tool.setuptools.packages.find]
+exclude = []

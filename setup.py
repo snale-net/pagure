@@ -1,47 +1,23 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-import io
-import os
-from setuptools import setup, find_packages
+# MIT License
+# Copyright (c) 2024 [SNALE - French SAS Company - RCS 951 724 616]
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+from setuptools import setup
 
-def read(*paths, **kwargs):
-    """Read the contents of a text file safely.
-    >>> read("project_name", "VERSION")
-    '2.0.0'
-    >>> read("README.md")
-    ...
-    """
-
-    content = ""
-    with io.open(
-            os.path.join(os.path.dirname(__file__), *paths),
-            encoding=kwargs.get("encoding", "utf8"),
-    ) as open_file:
-        content = open_file.read().strip()
-    return content
-
-
-def read_requirements(path):
-    return [
-        line.strip()
-        for line in read(path).split("\n")
-        if not line.startswith(('"', "#", "-", "git+"))
-    ]
-
-
-setup (
-       name='pagure',
-       version=read("VERSION"),
-       packages=find_packages(),
-
-       # Declare your packages' dependencies here, for eg:
-       install_requires=read_requirements("requirements.txt"),
-
-       author='Fabien Retif',
-       author_email='fabien.retif@snale.net',
-
-       #summary = 'Just another Python package for the cheese shop',
-       url='https://lab.snale.net/produits/pagure',
-       license='MIT',
-       long_description='  PAGURE is a tool for compiling numerical models and their dependencies. More information in the documentation.',
-       )
+setup()
