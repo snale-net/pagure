@@ -89,7 +89,7 @@ dirname["$group-$index"]=mpich-3.2.1
 builder["$group-$index"]="configure"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -125,7 +125,7 @@ dirname["$group-$index"]=mpich-3.3.2
 builder["$group-$index"]="configure"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {

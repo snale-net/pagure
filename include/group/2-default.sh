@@ -128,7 +128,11 @@ url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/ta
 filename["$group-$index"]=lapack-3.9.1.tar.gz
 dirname["$group-$index"]=lapack-3.9.1
 builder["$group-$index"]="lapack"
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+else
+dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+fi 
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0

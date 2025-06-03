@@ -161,7 +161,7 @@ usage()
 	echo 'Usage :'
 	echo '  pagure.sh --list   To list all filters available'
 	echo ' '	
-	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
+	echo '  pagure.sh --prefix=PREFIX [--system=CLUSTER|SUSE|MINT|UBUNTU|CENTOS|FEDORA|MACOS] [--compiler=GNU|INTEL] [--mpi=openmpi|intelmpi|mpich] [--mpi-version=X.X] [--python-version=X.X] [--filter=NAME_OF_FILTER] [--module-dir=MODULE_DIR] [--mode=manual|auto|docker] [--force-reinstall=0|1] [--force-download=0|1] [--auto-remove=0|1] [--auto-install-mandatory=0|1] [--show-old-version=0|1] [--debug=0|1]'	
 	echo ' '
 }
 
@@ -306,8 +306,10 @@ elif [ "${mode}" == "manual" ]; then
 	mode="manual"
 elif  [ "${mode}" == "auto" ]; then
 	mode="auto"
+elif  [ "${mode}" == "docker" ]; then
+	mode="docker"
 else
-	log fail "Unable to decode argument '--mode'. Accepted values : manual|auto"
+	log fail "Unable to decode argument '--mode'. Accepted values : manual|auto|docker"
 	leave 1
 fi
 log info "Installation mode is set to $mode"
@@ -411,35 +413,39 @@ else
 	
 	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
 		
-		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"
+		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"		
 		
-		# MPI
-		if  [[ "${libToInstall[@]}" =~ "4-1" ]]; then
+		# MPI      
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-1[[:space:]] ]]; then            
 			mpi="openmpi"
-            mpiVersion="1.10.7"
-		fi
+            mpiVersion="1.10.7"		
+        fi
 				
-		if  [[ "${libToInstall[@]}" =~ "4-2" ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-2[[:space:]] ]]; then
 			mpi="openmpi"
             mpiVersion="3.1.6"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-3" ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-3[[:space:]] ]]; then       
 			mpi="mpich"
             mpiVersion="3.2.1"
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "4-4" ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-4[[:space:]] ]]; then
 			mpi="mpich"
             mpiVersion="3.3.2"
-		fi
+		fi       
 		
 		# Python
-		if  [[ "${libToInstall[@]}" =~ "1-1" ]]; then
-			pythonVersion="3.7"
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-1[[:space:]] ]]; then
+			pythonVersion="3.7"          
+		fi
+
+        if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-2[[:space:]] ]]; then
+			pythonVersion="2.7"           
 		fi
 		
-		if  [[ "${libToInstall[@]}" =~ "1-2" ]]; then
+		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-3[[:space:]] ]]; then
 			pythonVersion="3.9"
 		fi
 		
@@ -462,6 +468,7 @@ if [ -z "$pythonVersion" ]; then
 		rm -f version_test
 		pythonInterpreter=python${pythonVersion}
 		installedPython=1
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter is set to $pythonInterpreter"
 	fi
 
@@ -469,10 +476,12 @@ elif hash python${pythonVersion} 2>/dev/null
 then    
 	pythonInterpreter=python${pythonVersion}
 	installedPython=1
+    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 	log info "Python interpreter is set to $pythonInterpreter"	
 else
 	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
 	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
 		pythonInterpreter=python${pythonVersion}
@@ -484,7 +493,7 @@ else
 fi
 
 # 7. Installation des paquets système
-if [ ! "$systemOS" == "cluster" ]
+if [ ! "$systemOS" == "cluster" ] && [ ! "$mode" == "docker" ]
 then
 	log raw "......................"
 	while true; do
@@ -519,8 +528,9 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+        CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+        FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+        compiler="gnu"
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -781,7 +791,7 @@ function install()
 		log raw "......................"
 		while true; do		
 			
-			if [[ $mode == "auto" || $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
+			if [[ $mode == "auto" || $mode == "docker" || $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
 				yn="y"
 			else
 				read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
@@ -1053,16 +1063,19 @@ function install()
 	fi
 }
 
-log raw "......................"
-while true; do 
-        log 0 "We are now ready to install. Please check the information above"
-        log raw "......................"	
-	read -p "Everything is OK ? Press Enter to continue or press q to quit " yn
-        case $yn in
-        	[Qq]*) leave 0 ;;		
-		*)  break;;
-	esac
-done
+if [[ ! $mode == "docker" ]]; then
+	log raw "......................"
+	while true; do 
+		log 0 "We are now ready to install. Please check the information above"
+		log raw "......................"	
+		read -p "Everything is OK ? Press Enter to continue or press q to quit " yn
+		case $yn in
+			[Qq]*) leave 0 ;;		
+			*)  break;;
+		esac
+	done
+
+fi
 
 if [ "$libToInstall" == "none" ] ; then 
 

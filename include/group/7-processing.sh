@@ -367,7 +367,7 @@ builder["$group-$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
@@ -442,7 +442,7 @@ index=14
 name["$group-$index"]=med
 version["$group-$index"]=4.0.0
 details["$group-$index"]=""
-url["$group-$index"]=http://files.salome-platform.org/Salome/other/med-4.0.0.tar.gz
+url["$group-$index"]=https://mirror.snale.net/med-4.0.0.tar.gz
 filename["$group-$index"]=med-4.0.0.tar.gz
 dirname["$group-$index"]=med-4.0.0
 builder["$group-$index"]="configure"
@@ -769,7 +769,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=20
 name["$group-$index"]=mumps
 version["$group-$index"]=5.2.1
-url["$group-$index"]=http://mumps.enseeiht.fr/MUMPS_5.2.1.tar.gz
+url["$group-$index"]=https://mirror.snale.net/MUMPS_5.2.1.tar.gz
 filename["$group-$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group-$index"]=MUMPS_5.2.1
 builder["$group-$index"]="mumps"
@@ -1039,14 +1039,16 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
 
-# Boost 1.76.0
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
+
+# Boost 1.72.0
 index=24
 name["$group-$index"]=boost
-version["$group-$index"]=1.76.0
+version["$group-$index"]=1.72.0
 details["$group-$index"]=""
-url["$group-$index"]="https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz"
-filename["$group-$index"]=boost_1_76_0.tar.gz
-dirname["$group-$index"]=boost_1_76_0
+url["$group-$index"]="https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.gz"
+filename["$group-$index"]=boost_1_72_0.tar.gz
+dirname["$group-$index"]=boost_1_72_0
 builder["$group-$index"]="boost"
 if [[ "$compiler" == "intel" ]] ; then
     args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
@@ -1054,13 +1056,13 @@ else
     args["$group-$index"]="--with-python=${pythonInterpreter}"
 fi
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
-    dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"   
-    dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+	dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo/${version["$group-$index"]}"   
+    dirmodule["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-    dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"	
-	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+	dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"	
+	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
 fi
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -1084,9 +1086,55 @@ prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
+# Boost 1.76.0
+index=25
+name["$group-$index"]=boost
+version["$group-$index"]=1.76.0
+details["$group-$index"]=""
+url["$group-$index"]="https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz"
+filename["$group-$index"]=boost_1_76_0.tar.gz
+dirname["$group-$index"]=boost_1_76_0
+builder["$group-$index"]="boost"
+if [[ "$compiler" == "intel" ]] ; then
+    args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
+else
+    args["$group-$index"]="--with-python=${pythonInterpreter}"
+fi
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"    
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo/${version["$group-$index"]}"   
+    dirmodule["$group-$index"]="${name["$group-$index"]}/$pythonlib/$compilo"
+else
+	dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+    dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"	
+	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
+fi
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
+prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+fi  # end-only-if-Python
 
 # Cgal 5.5.2
-index=25
+index=26
 name["$group-$index"]=cgal
 version["$group-$index"]=5.5.2
 details["$group-$index"]=""
@@ -1095,9 +1143,9 @@ filename["$group-$index"]=cgal-5.5.2.tar.gz
 dirname["$group-$index"]=cgal-5.5.2
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 else
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 fi
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -1126,7 +1174,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 if [ "$mpilib" != "none" ]; then # MPI-only
 
 # petsc 3.12.5
-index=26
+index=27
 name["$group-$index"]=petsc
 version["$group-$index"]=3.12.5
 details["$group-$index"]="(with parallel)"
@@ -1144,10 +1192,10 @@ patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.12.1 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1171,7 +1219,7 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 # gmsh 4.8.4
-index=27
+index=28
 name["$group-$index"]=gmsh
 version["$group-$index"]=4.8.4
 details["$group-$index"]="(with parallel)"
@@ -1207,7 +1255,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 fi # end-MPI-only
 
 # GMT 6.4.0
-index=26
+index=29
 name["$group-$index"]=gmt
 version["$group-$index"]=6.4.0
 details["$group-$index"]=""
@@ -1216,9 +1264,9 @@ filename["$group-$index"]=gmt-6.4.0.tar.gz
 dirname["$group-$index"]=gmt-6.4.0
 builder["$group-$index"]="gmt6"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.12.1 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
@@ -1245,6 +1293,100 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include  
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
+if [ "$mpilib" != "none" ]; then # MPI-only
+
+# hypre 2.11.1
+index=30
+name["$group-$index"]=hypre
+version["$group-$index"]=2.11.1
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/hypre-space/hypre/archive/refs/tags/v2.11.1.tar.gz -O hypre-2.11.1.tar.gz"
+filename["$group-$index"]=hypre-2.11.1.tar.gz
+dirname["$group-$index"]=hypre-2.11.1/src
+patch_01["$group-$index"]="--- Makefile	2016-06-09 16:48:30.000000000 +0200
++++ Makefile_new	2023-05-29 15:02:43.661248000 +0200
+@@ -106,6 +106,6 @@
+ 	\${RANLIB} \$@
+ 
+ libHYPRE.so: \${FILES_HYPRE}
+-	@echo  \"Building \$@ ... \"
+-	\${BUILD_CC_SHARED} -o \${SONAME} \${FILES_HYPRE} \${SOLIBS} \${SHARED_SET_SONAME}\${SONAME} \${SHARED_OPTIONS} \${LDFLAGS}
++	@echo  \"Building $@ ... \"  
++	\${BUILD_CC_SHARED} -o \${SONAME} \${FILES_HYPRE} \$(subst null,,\$(SOLIBS)) -lmpi_cxx \${SHARED_SET_SONAME}\${SONAME} \${SHARED_OPTIONS} \${LDFLAGS}
+ 	ln -s \${SONAME} \$@
+"
+patchfile_01["$group-$index"]="lib/Makefile"
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="$mpi_dep"
+args["$group-$index"]="--enable-shared"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# petsc tferma-v1.0
+index=31
+name["$group-$index"]=petsc
+version["$group-$index"]=tferma-v1.0
+details["$group-$index"]="(with parallel)"
+url["$group-$index"]="https://bitbucket.org/tferma/petsc/get/tferma-v1.0.tar.gz -O petsc-tferma-v1.0.tar.gz"
+filename["$group-$index"]=petsc-tferma-v1.0.tar.gz
+dirname["$group-$index"]=tferma-petsc-111ef2698fa5
+patch_01["$group-$index"]="--- configure	2023-05-25 16:30:38.647142840 +0200
++++ configure_new	2023-05-25 16:34:54.017557895 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python${pythonVersion}
+ 
+ import sys
+ if not type(sys.version_info) is tuple and sys.version_info.major > 2:
+"
+patchfile_01["$group-$index"]="configure"
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 hypre/$mpilib/$compilo/2.11.1"
+args["$group-$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/$compilo/3.9.1/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/$compilo/3.9.1/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis --with-hypre=1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+fi # end-MPI-only
 
 
 
