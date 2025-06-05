@@ -1,7 +1,18 @@
+import sys
+
 from ..base_command import Command
 from ...configuration import Configuration
 
 class ConfigurationCommand(Command):
+    name = "config"
+    usage = "pagure config [debug|set|list] ..."
+    summary = "Manage pagure configuration."
+
+    def add_options(selfself,parser):
+        """ Specific Options"""
+        #To implement here
+        pass
+
     def run(self, options):
         action = options.get("action")
         config = Configuration()
