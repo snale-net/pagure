@@ -1,3 +1,44 @@
-pagure.log
-tgz/**
-*.lock*
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+!providers/fab/**/www/static/dist
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# virtualenv
+.venv*
+venv*
+ENV/
+
+# PyCharm
+.idea/
+*.iml
+
+# Items generated when building the doc locally for release
+doc/build/*
+doc/source/api_reference/*
+doc/_build/
+doc/_doctrees/*/
+doc/_inventory_cache/
