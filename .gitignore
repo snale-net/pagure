@@ -36,7 +36,7 @@ ENV/
 .idea/
 *.iml
 
-# Items generated when building the docs locally for release
+# Items generated when building the doc locally for release
 doc/build/*
 doc/source/api_reference/*
 doc/_build/
