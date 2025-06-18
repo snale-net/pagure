@@ -18,38 +18,39 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-[build-system]
-requires = ["setuptools", "wheel", "build"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "pagure"
 version = "2.0.0"
 dynamic = ["dependencies"]
 requires-python = ">=3.11"
 authors = [
-  {name = "XXX", email = "test@test.com"},
+  {name = "Fabien RÉTIF", email = "fabien.retif@snale.net"},
+  {name = "Benjamin GUENOUN", email = "benjamin.guenoun@snale.net"},
 ]
-description = "XXXX"
+description = "PAGURE is a tool for compiling numerical models and their dependencies"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICEN[CS]E.*"]
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+[project.scripts]
+pagure = "pagure.cli.main:main"
 
 [project.urls]
 Homepage = "https://lab.snale.net/produits/pagure"
 Documentation = "https://github.com/snale-net/pagure/blob/master/README.md"
 Repository = "https://github.com/snale-net/pagure"
 
-[tool.setuptools.packages.find]
-where = ["pagure"]
-exclude = []
-
-[project.scripts]
-pagure = "pagure.cli.main:main"
+[build-system]
+requires = ["setuptools",]
+build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"" = "pagure"}
+package-dir = {"" = "src"}
+include-package-data = false
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["doc"]
