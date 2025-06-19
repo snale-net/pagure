@@ -145,12 +145,12 @@ class UpgradePrompt:
         return Group(
             Text(),
             Text.from_markup(
-                f"{notice} A new release of pip is available: "
+                f"{notice} A new release of pagure is available: "
                 f"[red]{self.old}[reset] -> [green]{self.new}[reset]"
             ),
             Text.from_markup(
                 f"{notice} To update, run: "
-                f"[green]{escape(pip_cmd)} install --upgrade pip"
+                f"[green]{escape(pip_cmd)} install --upgrade pagure"
             ),
         )
 
@@ -162,7 +162,7 @@ def was_installed_by_pip(pkg: str) -> bool:
     installed by system package manager, such as dnf on Fedora.
     """
     dist = get_default_environment().get_distribution(pkg)
-    return dist is not None and "pip" == dist.installer
+    return dist is not None and "pagure" == dist.installer
 
 
 def _get_current_remote_pip_version(
@@ -186,7 +186,7 @@ def _get_current_remote_pip_version(
         link_collector=link_collector,
         selection_prefs=selection_prefs,
     )
-    best_candidate = finder.find_best_candidate("pip").best_candidate
+    best_candidate = finder.find_best_candidate("pagure").best_candidate
     if best_candidate is None:
         return None
 
@@ -204,16 +204,16 @@ def _self_version_check_logic(
     if remote_version_str is None:
         remote_version_str = get_remote_version()
         if remote_version_str is None:
-            logger.debug("No remote pip version found")
+            logger.debug("No remote pagure version found")
             return None
         state.set(remote_version_str, current_time)
 
     remote_version = parse_version(remote_version_str)
-    logger.debug("Remote version of pip: %s", remote_version)
-    logger.debug("Local version of pip:  %s", local_version)
+    logger.debug("Remote version of pagure: %s", remote_version)
+    logger.debug("Local version of pagure:  %s", local_version)
 
-    pip_installed_by_pip = was_installed_by_pip("pip")
-    logger.debug("Was pip installed by pip? %s", pip_installed_by_pip)
+    pip_installed_by_pip = was_installed_by_pip("pagure")
+    logger.debug("Was pagure installed by pagure? %s", pip_installed_by_pip)
     if not pip_installed_by_pip:
         return None  # Only suggest upgrade if pip is installed by pip.
 
@@ -234,7 +234,7 @@ def pip_self_version_check(session: PipSession, options: optparse.Values) -> Non
     the active virtualenv or in the user's USER_CACHE_DIR keyed off the prefix
     of the pip script path.
     """
-    installed_dist = get_default_environment().get_distribution("pip")
+    installed_dist = get_default_environment().get_distribution("pagure")
     if not installed_dist:
         return
     try:
