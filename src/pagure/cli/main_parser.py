@@ -6,12 +6,12 @@ import os
 import subprocess
 import sys
 
-#from pip._internal.build_env import get_runnable_pip
+#from pagure._internal.build_env import get_runnable_pip
 from pagure.cli import cmdoptions
 from pagure.cli.parser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
 from pagure.cli.commands import commands_dict, get_similar_commands
 from pagure._internal.exceptions import CommandError
-from pagure.utils.misc import get_pip_version, get_prog
+from pagure._internal.utils.misc import get_pagure_version, get_prog
 
 __all__ = ["create_main_parser", "parse_command"]
 
@@ -28,7 +28,7 @@ def create_main_parser() -> ConfigOptionParser:
     )
     parser.disable_interspersed_args()
 
-    parser.version = get_pip_version()
+    parser.version = get_pagure_version()
 
     # add the general options
     gen_opts = cmdoptions.make_option_group(cmdoptions.general_group, parser)

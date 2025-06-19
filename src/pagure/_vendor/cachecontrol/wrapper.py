@@ -6,12 +6,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Collection
 
 from pagure._vendor.cachecontrol.adapter import CacheControlAdapter
-from _vendor.cachecontrol.cache import DictCache
+from pagure._vendor.cachecontrol.cache import DictCache
 
 if TYPE_CHECKING:
     from pagure._vendor import requests
 
-    from _vendor.cachecontrol.cache import BaseCache
+    from pagure._vendor.cachecontrol.cache import BaseCache
     from pagure._vendor.cachecontrol.controller import CacheController
     from pagure._vendor.cachecontrol.heuristics import BaseHeuristic
     from pagure._vendor.cachecontrol.serialize import Serializer

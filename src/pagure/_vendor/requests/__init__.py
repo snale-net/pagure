@@ -114,7 +114,7 @@ except (AssertionError, ValueError):
 try:
     # Note: This logic prevents upgrading cryptography on Windows, if imported
     #       as part of pip.
-    from pagure.utils.compat import WINDOWS
+    from pagure._internal.utils.compat import WINDOWS
     if not WINDOWS:
         raise ImportError("pip internals: don't import cryptography on Windows")
     try:

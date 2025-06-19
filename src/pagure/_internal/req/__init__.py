@@ -5,8 +5,8 @@ import logging
 from collections.abc import Generator, Sequence
 from dataclasses import dataclass
 
-from pip._internal.cli.progress_bars import get_install_progress_renderer
-from pip._internal.utils.logging import indent_log
+from pagure.cli.progress_bars import get_install_progress_renderer
+from pagure._internal.utils.logging import indent_log
 
 from .req_file import parse_requirements
 from .req_install import InstallRequirement

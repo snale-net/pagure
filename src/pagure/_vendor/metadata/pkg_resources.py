@@ -11,15 +11,15 @@ from typing import (
 )
 
 from pagure._vendor import pkg_resources
-from pagure._vendor.packaging.requirements import Requirement
-from pagure._vendor.packaging.utils import NormalizedName, canonicalize_name
-from pagure._vendor.packaging.version import Version
-from pagure._vendor.packaging.version import parse as parse_version
+from pagure._vendor.packaging import Requirement
+from pagure._vendor.packaging import NormalizedName, canonicalize_name
+from pagure._vendor.packaging import Version
+from pagure._vendor.packaging import parse as parse_version
 
-from pip._internal.exceptions import InvalidWheel, NoneMetadataError, UnsupportedWheel
-from pagure.utils.egg_link import egg_link_path_from_location
-from pagure.utils.misc import display_path, normalize_path
-from pagure.utils.wheel import parse_wheel, read_wheel_metadata_file
+from pagure._internal.exceptions import InvalidWheel, NoneMetadataError, UnsupportedWheel
+from pagure._internal.utils.egg_link import egg_link_path_from_location
+from pagure._internal.utils.misc import display_path, normalize_path
+from pagure._internal.utils.wheel import parse_wheel, read_wheel_metadata_file
 
 from .base import (
     BaseDistribution,

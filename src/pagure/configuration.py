@@ -25,9 +25,9 @@ from pagure._internal.exceptions import (
     ConfigurationError,
     ConfigurationFileCouldNotBeLoaded,
 )
-from pagure.utils import appdirs
-from pagure.utils.compat import WINDOWS
-from pagure.utils.misc import ensure_dir, enum
+from pagure._internal.utils import appdirs
+from pagure._internal.utils.compat import WINDOWS
+from pagure._internal.utils.misc import ensure_dir, enum
 
 RawConfigParser = configparser.RawConfigParser  # Shorthand
 Kind = NewType("Kind", str)
@@ -39,9 +39,10 @@ ENV_NAMES_IGNORED = "version", "help"
 kinds = enum(
     USER="user",  # User Specific
     GLOBAL="global",  # System Wide
+    SITE="site",  # [Virtual] Environment Specific
 )
-OVERRIDE_ORDER = kinds.GLOBAL, kinds.USER
-VALID_LOAD_ONLY = kinds.USER, kinds.GLOBAL
+OVERRIDE_ORDER = kinds.GLOBAL, kinds.USER, kinds.SITE
+VALID_LOAD_ONLY = kinds.USER, kinds.GLOBAL, kinds.SITE
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +80,7 @@ def get_configuration_files() -> dict[Kind, list[str]]:
     new_config_file = os.path.join(appdirs.user_config_dir("pagure"), CONFIG_BASENAME)
     return {
         kinds.GLOBAL: global_config_files,
+        kinds.SITE: [site_config_file],
         kinds.USER: [legacy_config_file, new_config_file],
     }
 
@@ -258,7 +260,7 @@ class Configuration:
                 self._parsers[variant].append((fname, parser))
 
     def _load_file(self, variant: Kind, fname: str) -> RawConfigParser:
-        logger.verbose("For variant '%s', will try loading '%s'", variant, fname)
+        logger.debug("For variant '%s', will try loading '%s'", variant, fname)
         parser = self._construct_parser(fname)
 
         for section in parser.sections():

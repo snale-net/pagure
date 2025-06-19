@@ -11,17 +11,17 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from typing import BinaryIO
 
-from pip._vendor.requests.models import Response
-from pip._vendor.urllib3.exceptions import ReadTimeoutError
+from pagure._vendor.requests.models import Response
+from pagure._vendor.urllib3.exceptions import ReadTimeoutError
 
-from pip._internal.cli.progress_bars import get_download_progress_renderer
-from pip._internal.exceptions import IncompleteDownloadError, NetworkConnectionError
-from pip._internal.models.index import PyPI
-from pip._internal.models.link import Link
-from pip._internal.network.cache import is_from_cache
-from pip._internal.network.session import PipSession
-from pip._internal.network.utils import HEADERS, raise_for_status, response_chunks
-from pip._internal.utils.misc import format_size, redact_auth_from_url, splitext
+from pagure.cli.progress_bars import get_download_progress_renderer
+from pagure._internal.exceptions import IncompleteDownloadError, NetworkConnectionError
+from pagure._internal.models.index import PyPI
+from pagure._internal.models.link import Link
+from pagure._internal.network.cache import is_from_cache
+from pagure._internal.network.session import PipSession
+from pagure._internal.network.utils import HEADERS, raise_for_status, response_chunks
+from pagure._internal.utils.misc import format_size, redact_auth_from_url, splitext
 
 logger = logging.getLogger(__name__)
 

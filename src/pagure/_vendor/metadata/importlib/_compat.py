@@ -4,7 +4,7 @@ import importlib.metadata
 import os
 from typing import Any, Protocol, cast
 
-from pagure._vendor.packaging.utils import NormalizedName, canonicalize_name
+from pagure._vendor.packaging import NormalizedName, canonicalize_name
 
 
 class BadMetadata(ValueError):

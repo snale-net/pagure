@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from pagure._vendor import requests
 
 from pagure._vendor.cachecontrol.adapter import CacheControlAdapter
-from _vendor.cachecontrol.cache import DictCache
+from pagure._vendor.cachecontrol.cache import DictCache
 from pagure._vendor.cachecontrol.controller import logger
 
 if TYPE_CHECKING:

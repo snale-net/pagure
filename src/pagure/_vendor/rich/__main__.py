@@ -7,7 +7,7 @@ from pagure._vendor.rich.color import Color
 from pagure._vendor.rich.console import Console, ConsoleOptions, Group, RenderableType, RenderResult
 from pagure._vendor.rich.markdown import Markdown
 from pagure._vendor.rich.measure import Measurement
-from _vendor.rich.pretty import Pretty
+from pagure._vendor.rich.pretty import Pretty
 from pagure._vendor.rich.segment import Segment
 from pagure._vendor.rich.style import Style
 from pagure._vendor.rich.syntax import Syntax

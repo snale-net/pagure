@@ -8,15 +8,15 @@ from collections.abc import Generator, Iterable
 from importlib.util import cache_from_source
 from typing import Any, Callable
 
-from pip._internal.exceptions import LegacyDistutilsInstall, UninstallMissingRecord
-from pip._internal.locations import get_bin_prefix, get_bin_user
-from pip._internal.metadata import BaseDistribution
-from pip._internal.utils.compat import WINDOWS
-from pip._internal.utils.egg_link import egg_link_path_from_location
-from pip._internal.utils.logging import getLogger, indent_log
-from pip._internal.utils.misc import ask, normalize_path, renames, rmtree
-from pip._internal.utils.temp_dir import AdjacentTempDirectory, TempDirectory
-from pip._internal.utils.virtualenv import running_under_virtualenv
+from pagure._internal.exceptions import LegacyDistutilsInstall, UninstallMissingRecord
+from pagure._internal.locations import get_bin_prefix, get_bin_user
+from pagure._internal.metadata import BaseDistribution
+from pagure._internal.utils.compat import WINDOWS
+from pagure._internal.utils.egg_link import egg_link_path_from_location
+from pagure._internal.utils.logging import getLogger, indent_log
+from pagure._internal.utils.misc import ask, normalize_path, renames, rmtree
+from pagure._internal.utils.temp_dir import AdjacentTempDirectory, TempDirectory
+from pagure._internal.utils.virtualenv import running_under_virtualenv
 
 logger = getLogger(__name__)
 

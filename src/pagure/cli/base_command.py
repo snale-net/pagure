@@ -21,6 +21,7 @@ from pagure.cli.status_codes import (
     ERROR,
     PREVIOUS_BUILD_DIR_ERROR,
     UNKNOWN_ERROR,
+    VIRTUALENV_NOT_FOUND,
 )
 from pagure._internal.exceptions import (
     BadCommand,
@@ -30,15 +31,16 @@ from pagure._internal.exceptions import (
     NetworkConnectionError,
     PreviousBuildDirError,
 )
-from pagure.utils.filesystem import check_path_owner
-#from pagure.utils.logging import BrokenStdoutLoggingError, setup_logging
-from pagure.utils.misc import get_prog, normalize_path
-from pagure.utils.temp_dir import TempDirectoryTypeRegistry as TempDirRegistry
-from pagure.utils.temp_dir import global_tempdir_manager, tempdir_registry
+from pagure._internal.utils.filesystem import check_path_owner
+from pagure._internal.utils.logging import BrokenStdoutLoggingError, setup_logging
+from pagure._internal.utils.misc import get_prog, normalize_path
+from pagure._internal.utils.temp_dir import TempDirectoryTypeRegistry as TempDirRegistry
+from pagure._internal.utils.temp_dir import global_tempdir_manager, tempdir_registry
+from pagure._internal.utils.virtualenv import running_under_virtualenv
 
 __all__ = ["Command"]
 
-from pagure.utils.logging import setup_logging
+from pagure._internal.utils.logging import setup_logging
 
 logger = logging.getLogger(__name__)
 

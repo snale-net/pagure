@@ -16,7 +16,7 @@ CommandInfo = namedtuple("CommandInfo", "module_path, class_name, summary")
 # - Enables avoiding additional (costly) imports for presenting `--help`.
 # - The ordering matters for help display.
 #
-# Even though the module path starts with the same "pip._internal.commands"
+# Even though the module path starts with the same "pagure._internal.commands"
 # prefix, the full path makes testing easier (specifically when modifying
 # `commands_dict` in test setup / teardown).
 commands_dict: dict[str, CommandInfo] = {
@@ -24,6 +24,11 @@ commands_dict: dict[str, CommandInfo] = {
         "pagure.cli.commands.install",
         "InstallCommand",
         "Install packages.",
+    ),
+    "download": CommandInfo(
+        "pagure._internal.commands.download",
+        "DownloadCommand",
+        "Download packages.",
     ),
     "uninstall": CommandInfo(
         "pagure.cli.commands.uninstall",

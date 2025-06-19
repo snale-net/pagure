@@ -24,8 +24,8 @@ from distutils.command.install import SCHEME_KEYS
 from distutils.command.install import install as distutils_install_command
 from distutils.sysconfig import get_python_lib
 
-from pip._internal.models.scheme import Scheme
-from pagure.utils.compat import WINDOWS
+from pagure._internal.models import Scheme
+from pagure._internal.utils.compat import WINDOWS
 
 from .base import get_major_minor_version
 

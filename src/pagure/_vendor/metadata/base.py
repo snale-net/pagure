@@ -17,22 +17,22 @@ from typing import (
     Union,
 )
 
-from pagure._vendor.packaging.requirements import Requirement
-from pagure._vendor.packaging.specifiers import InvalidSpecifier, SpecifierSet
-from pagure._vendor.packaging.utils import NormalizedName, canonicalize_name
-from pagure._vendor.packaging.version import Version
+from pagure._vendor.packaging import Requirement
+from pagure._vendor.packaging import InvalidSpecifier, SpecifierSet
+from pagure._vendor.packaging import NormalizedName, canonicalize_name
+from pagure._vendor.packaging import Version
 
 from pagure._internal.exceptions import NoneMetadataError
-from pagure._vendor.locations import site_packages, user_site
-# from pip._internal.models.direct_url import (
+from pagure._vendor import site_packages, user_site
+# from pagure._internal.models.direct_url import (
 #     DIRECT_URL_METADATA_NAME,
 #     DirectUrl,
 #     DirectUrlValidationError,
 # )
-from pagure.utils.compat import stdlib_pkgs  # TODO: Move definition here.
-from pagure.utils.egg_link import egg_link_path_from_sys_path
-from pagure.utils.misc import is_local, normalize_path
-from pagure.utils.urls import url_to_path
+from pagure._internal.utils.compat import stdlib_pkgs  # TODO: Move definition here.
+from pagure._internal.utils.egg_link import egg_link_path_from_sys_path
+from pagure._internal.utils.misc import is_local, normalize_path
+from pagure._internal.utils.urls import url_to_path
 
 from ._json import msg_to_json
 

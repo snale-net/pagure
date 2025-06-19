@@ -10,16 +10,16 @@ from typing import (
     NamedTuple,
 )
 
-from pip._vendor import pkg_resources
-from pip._vendor.packaging.requirements import Requirement
-from pip._vendor.packaging.utils import NormalizedName, canonicalize_name
-from pip._vendor.packaging.version import Version
-from pip._vendor.packaging.version import parse as parse_version
+from pagure._vendor import pkg_resources
+from pagure._vendor.packaging.requirements import Requirement
+from pagure._vendor.packaging.utils import NormalizedName, canonicalize_name
+from pagure._vendor.packaging.version import Version
+from pagure._vendor.packaging.version import parse as parse_version
 
-from pip._internal.exceptions import InvalidWheel, NoneMetadataError, UnsupportedWheel
-from pip._internal.utils.egg_link import egg_link_path_from_location
-from pip._internal.utils.misc import display_path, normalize_path
-from pip._internal.utils.wheel import parse_wheel, read_wheel_metadata_file
+from pagure._internal.exceptions import InvalidWheel, NoneMetadataError, UnsupportedWheel
+from pagure._internal.utils.egg_link import egg_link_path_from_location
+from pagure._internal.utils.misc import display_path, normalize_path
+from pagure._internal.utils.wheel import parse_wheel, read_wheel_metadata_file
 
 from .base import (
     BaseDistribution,

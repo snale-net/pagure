@@ -17,21 +17,21 @@ import re
 from collections.abc import Collection
 from dataclasses import dataclass
 
-from pip._vendor.packaging.markers import Marker
-from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
-from pip._vendor.packaging.specifiers import Specifier
+from pagure._vendor.packaging.markers import Marker
+from pagure._vendor.packaging.requirements import InvalidRequirement, Requirement
+from pagure._vendor.packaging.specifiers import Specifier
 
-from pip._internal.exceptions import InstallationError
-from pip._internal.models.index import PyPI, TestPyPI
-from pip._internal.models.link import Link
-from pip._internal.models.wheel import Wheel
-from pip._internal.req.req_file import ParsedRequirement
-from pip._internal.req.req_install import InstallRequirement
-from pip._internal.utils.filetypes import is_archive_file
-from pip._internal.utils.misc import is_installable_dir
-from pip._internal.utils.packaging import get_requirement
-from pip._internal.utils.urls import path_to_url
-from pip._internal.vcs import is_url, vcs
+from pagure._internal.exceptions import InstallationError
+from pagure._internal.models.index import PyPI, TestPyPI
+from pagure._internal.models.link import Link
+from pagure._internal.models.wheel import Wheel
+from pagure._internal.req.req_file import ParsedRequirement
+from pagure._internal.req.req_install import InstallRequirement
+from pagure._internal.utils.filetypes import is_archive_file
+from pagure._internal.utils.misc import is_installable_dir
+from pagure._internal.utils.packaging import get_requirement
+from pagure._internal.utils.urls import path_to_url
+from pagure._internal.vcs import is_url, vcs
 
 __all__ = [
     "install_req_from_editable",

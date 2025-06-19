@@ -11,7 +11,7 @@ from typing import Any
 
 from pagure.cli.main_parser import create_main_parser
 from pagure.cli.commands import commands_dict, create_command
-from pagure._vendor.metadata import get_default_environment
+from pagure._internal.metadata import get_default_environment
 
 
 def autocomplete() -> None:

@@ -4,7 +4,7 @@ import platform
 from pagure._vendor.rich import inspect
 from pagure._vendor.rich.console import Console, get_windows_console_features
 from pagure._vendor.rich.panel import Panel
-from _vendor.rich.pretty import Pretty
+from pagure._vendor.rich.pretty import Pretty
 
 
 def report() -> None:  # pragma: no cover

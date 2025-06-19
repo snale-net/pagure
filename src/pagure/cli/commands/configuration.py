@@ -7,15 +7,15 @@ from optparse import Values
 from typing import Any, Callable
 
 from pagure.cli.base_command import Command
-from pagure.cli.status_codes import ERROR, SUCCESS
+from pagure.cli import ERROR, SUCCESS
 from pagure.configuration import (
     Configuration,
     Kind,
     kinds,
 )
 from pagure._internal.exceptions import PagureError
-from pagure.utils.logging import indent_log
-from pagure.utils.misc import get_prog, write_output
+from pagure._internal.utils.logging import indent_log
+from pagure._internal.utils.misc import get_prog, write_output
 
 logger = logging.getLogger(__name__)
 
