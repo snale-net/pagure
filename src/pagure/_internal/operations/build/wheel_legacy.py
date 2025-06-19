@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import os.path
 
-from pagure._internal.cli.spinners import open_spinner
+from pagure.cli.spinners import open_spinner
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.setuptools_build import make_setuptools_bdist_wheel_args
 from pagure._internal.utils.subprocess import call_subprocess, format_command_args

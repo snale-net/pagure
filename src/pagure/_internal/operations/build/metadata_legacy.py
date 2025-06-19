@@ -4,7 +4,7 @@ import logging
 import os
 
 from pagure._internal.build_env import BuildEnvironment
-from pagure._internal.cli.spinners import open_spinner
+from pagure.cli.spinners import open_spinner
 from pagure._internal.exceptions import (
     InstallationError,
     InstallationSubprocessError,
