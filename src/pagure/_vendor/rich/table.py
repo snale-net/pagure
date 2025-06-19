@@ -25,7 +25,14 @@ from .style import Style, StyleType
 from .text import Text, TextType
 
 if TYPE_CHECKING:
-    pass
+    from .console import (
+        Console,
+        ConsoleOptions,
+        JustifyMethod,
+        OverflowMethod,
+        RenderableType,
+        RenderResult,
+    )
 
 
 @dataclass

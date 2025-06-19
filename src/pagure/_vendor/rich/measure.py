@@ -5,7 +5,7 @@ from . import errors
 from .protocol import is_renderable, rich_cast
 
 if TYPE_CHECKING:
-    pass
+    from .console import Console, ConsoleOptions, RenderableType
 
 
 class Measurement(NamedTuple):

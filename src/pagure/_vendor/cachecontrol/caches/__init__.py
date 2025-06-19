@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from _vendor.cachecontrol.caches.redis_cache import RedisCache
+from pagure._vendor.cachecontrol.caches.file_cache import FileCache, SeparateBodyFileCache
+from pagure._vendor.cachecontrol.caches.redis_cache import RedisCache
 
 __all__ = ["FileCache", "SeparateBodyFileCache", "RedisCache"]

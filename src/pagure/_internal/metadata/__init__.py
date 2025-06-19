@@ -6,8 +6,8 @@ import os
 import sys
 from typing import Literal, Protocol, cast
 
-from pip._internal.utils.deprecation import deprecated
-from pip._internal.utils.misc import strtobool
+from pagure._internal.utils.deprecation import deprecated
+from pagure._internal.utils.misc import strtobool
 
 from .base import BaseDistribution, BaseEnvironment, FilesystemWheel, MemoryWheel, Wheel
 

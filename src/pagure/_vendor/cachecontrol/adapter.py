@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 import functools
+import types
 import weakref
 import zlib
 from typing import TYPE_CHECKING, Any, Collection, Mapping
 
 from pagure._vendor.requests.adapters import HTTPAdapter
 
-from _vendor.cachecontrol.cache import DictCache
+from pagure._vendor.cachecontrol.cache import DictCache
 from pagure._vendor.cachecontrol.controller import PERMANENT_REDIRECT_STATUSES, CacheController
 from pagure._vendor.cachecontrol.filewrapper import CallbackFileWrapper
 
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
     from pagure._vendor.requests import PreparedRequest, Response
     from pagure._vendor.urllib3 import HTTPResponse
 
-    from _vendor.cachecontrol.cache import BaseCache
+    from pagure._vendor.cachecontrol.cache import BaseCache
     from pagure._vendor.cachecontrol.heuristics import BaseHeuristic
     from pagure._vendor.cachecontrol.serialize import Serializer
 

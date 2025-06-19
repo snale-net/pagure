@@ -10,9 +10,9 @@ import warnings
 
 from pagure.cli.autocompletion import autocomplete
 from pagure.cli.main_parser import parse_command
-from pagure.cli.commands import create_command
+from pagure._internal.commands import create_command
 from pagure._internal.exceptions import PagureError
-from pagure.utils import deprecation
+from pagure._internal.utils import deprecation
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ def main(args: list[str] | None = None) -> int:
         sys.exit(1)
 
     # Needed for locale.getpreferredencoding(False) to work
-    # in pagure.utils.encoding.auto_decode
+    # in pagure._internal.utils.encoding.auto_decode
     try:
         locale.setlocale(locale.LC_ALL, "")
     except locale.Error as e:

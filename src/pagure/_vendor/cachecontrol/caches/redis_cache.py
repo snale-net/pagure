@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
 
-from _vendor.cachecontrol.cache import BaseCache
+from pagure._vendor.cachecontrol.cache import BaseCache
 
 if TYPE_CHECKING:
     from redis import Redis

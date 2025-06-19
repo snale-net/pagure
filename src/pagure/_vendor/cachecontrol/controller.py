@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING, Collection, Mapping
 
 from pagure._vendor.requests.structures import CaseInsensitiveDict
 
-from _vendor.cachecontrol.cache import DictCache, SeparateBodyBaseCache
+from pagure._vendor.cachecontrol.cache import DictCache, SeparateBodyBaseCache
 from pagure._vendor.cachecontrol.serialize import Serializer
 
 if TYPE_CHECKING:
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from pagure._vendor.requests import PreparedRequest
     from pagure._vendor.urllib3 import HTTPResponse
 
-    from _vendor.cachecontrol.cache import BaseCache
+    from pagure._vendor.cachecontrol.cache import BaseCache
 
 logger = logging.getLogger(__name__)
 

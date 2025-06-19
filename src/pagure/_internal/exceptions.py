@@ -545,7 +545,7 @@ class HashMissing(HashError):
 
     def body(self) -> str:
         # Dodge circular import.
-        from pagure.utils.hashes import FAVORITE_HASH
+        from pagure._internal.utils.hashes import FAVORITE_HASH
 
         package = None
         if self.req:
@@ -734,7 +734,7 @@ class ExternallyManagedEnvironment(DiagnosticPagureError):
         except KeyError:
             pass
         except (OSError, UnicodeDecodeError, configparser.ParsingError):
-            from pagure.utils._log import VERBOSE
+            from pagure._internal.utils._log import VERBOSE
 
             exc_info = logger.isEnabledFor(VERBOSE)
             logger.warning("Failed to read %s", config, exc_info=exc_info)
@@ -821,7 +821,7 @@ class IncompleteDownloadError(DiagnosticPagureError):
 
     def __init__(self, download: _FileDownload) -> None:
         # Dodge circular import.
-        from pagure.utils.misc import format_size
+        from pagure._internal.utils.misc import format_size
 
         assert download.size is not None
         download_status = (

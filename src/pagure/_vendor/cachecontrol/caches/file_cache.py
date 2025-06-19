@@ -10,7 +10,7 @@ from textwrap import dedent
 from typing import IO, TYPE_CHECKING
 from pathlib import Path
 
-from _vendor.cachecontrol.cache import BaseCache, SeparateBodyBaseCache
+from pagure._vendor.cachecontrol.cache import BaseCache, SeparateBodyBaseCache
 from pagure._vendor.cachecontrol.controller import CacheController
 
 if TYPE_CHECKING:

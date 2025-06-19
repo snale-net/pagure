@@ -13,7 +13,7 @@ from typing import Any, NoReturn
 
 from pagure.cli.status_codes import UNKNOWN_ERROR
 from pagure.configuration import Configuration, ConfigurationError
-from pagure.utils.misc import redact_auth_from_url, strtobool
+from pagure._internal.utils.misc import redact_auth_from_url, strtobool
 
 logger = logging.getLogger(__name__)
 

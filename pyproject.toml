@@ -20,9 +20,8 @@
 # SOFTWARE.
 [project]
 name = "pagure"
-version = "2.0.0"
-dynamic = ["dependencies"]
-requires-python = ">=3.11"
+dynamic = ["version", "dependencies"]
+requires-python = ">=3.10"
 authors = [
   {name = "Fabien RÉTIF", email = "fabien.retif@snale.net"},
   {name = "Benjamin GUENOUN", email = "benjamin.guenoun@snale.net"},
@@ -49,8 +48,22 @@ package-dir = {"" = "src"}
 include-package-data = false
 
 [tool.setuptools.dynamic]
+version = {attr = "pagure.__version__"}
 dependencies = {file = ["requirements.txt"]}
 
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["doc"]
+
+[tool.setuptools.package-data]
+"pagure" = ["py.typed"]
+"pagure._vendor" = ["vendor.txt"]
+"pagure._vendor.certifi" = ["*.pem"]
+"pagure._vendor.distlib" = [
+    "t32.exe",
+    "t64.exe",
+    "t64-arm.exe",
+    "w32.exe",
+    "w64.exe",
+    "w64-arm.exe",
+]

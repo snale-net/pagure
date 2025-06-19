@@ -15,7 +15,6 @@ import importlib.util
 import logging
 import os
 import pathlib
-import sys
 import textwrap
 from functools import partial
 from optparse import SUPPRESS_HELP, Option, OptionGroup, OptionParser, Values
@@ -26,28 +25,12 @@ from pagure._vendor.packaging.utils import canonicalize_name
 
 from pagure.cli.parser import ConfigOptionParser
 from pagure._internal.exceptions import CommandError
-from pagure.utils import appdirs
-# Application Directories
-USER_CACHE_DIR = appdirs.user_cache_dir("pip")
-
-def get_src_prefix() -> str:
-    # FIXME: keep src in cwd for now (it is not a temporary folder)
-    try:
-        src_prefix = os.path.join(os.getcwd(), "src")
-        # under macOS + virtualenv sys.prefix is not properly resolved
-        # it is something like /path/to/python/bin/..
-        return os.path.abspath(src_prefix)
-    except OSError:
-        # In case the current working directory has been renamed or deleted
-        sys.exit("The folder you are executing pip from can no longer be found.")
-
-
-
-#from pagure.models.format_control import FormatControl
-#from pagure.models.index import PyPI
-#from pagure.models.target_python import TargetPython
-#from pagure.utils.hashes import STRONG_HASHES
-#from pagure.utils.misc import strtobool
+from pagure._internal.locations import USER_CACHE_DIR, get_src_prefix
+from pagure._internal.models.format_control import FormatControl
+from pagure._internal.models.index import PyPI
+from pagure._internal.models.target_python import TargetPython
+from pagure._internal.utils.hashes import STRONG_HASHES
+from pagure._internal.utils.misc import strtobool
 
 logger = logging.getLogger(__name__)
 
@@ -371,7 +354,7 @@ index_url: Callable[..., Option] = partial(
     "--pypi-url",
     dest="index_url",
     metavar="URL",
-    default="https://url.com",
+    default=PyPI.simple_url,
     help="Base URL of the Python Package Index (default %default). "
     "This should point to a repository compliant with PEP 503 "
     "(the simple repository API) or a local directory laid out "

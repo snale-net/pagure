@@ -8,10 +8,10 @@ import sys
 import sysconfig
 from typing import Any
 
-from pip._internal.models.scheme import SCHEME_KEYS, Scheme
-from pagure.utils.compat import WINDOWS
-from pagure.utils.deprecation import deprecated
-from pagure.utils.virtualenv import running_under_virtualenv
+from pagure._internal.models import SCHEME_KEYS, Scheme
+from pagure._internal.utils.compat import WINDOWS
+from pagure._internal.utils.deprecation import deprecated
+from pagure._internal.utils.virtualenv import running_under_virtualenv
 
 from . import _sysconfig
 from .base import (

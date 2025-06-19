@@ -69,6 +69,7 @@ from .text import Text, TextType
 from .theme import Theme, ThemeStack
 
 if TYPE_CHECKING:
+    from ._windows import WindowsConsoleFeatures
     from .live import Live
     from .status import Status
 
