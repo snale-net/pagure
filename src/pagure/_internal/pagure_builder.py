@@ -12,16 +12,17 @@ from pagure._internal.exceptions import (
     InvalidPyProjectBuildRequires,
     MissingPyProjectBuildRequires,
 )
-from pagure._internal.utils.compat import tomllib
 from pagure._internal.utils.packaging import get_requirement
+
+from pagure._vendor.pyyaml.lib import yaml
 
 
 def _is_list_of_str(obj: Any) -> bool:
     return isinstance(obj, list) and all(isinstance(item, str) for item in obj)
 
 
-def make_pyproject_path(unpacked_source_directory: str) -> str:
-    return os.path.join(unpacked_source_directory, "pyproject.toml")
+def make_pagure_builder_path(unpacked_source_directory: str) -> str:
+    return os.path.join(unpacked_source_directory, "pagure.yaml")
 
 
 BuildSystemDetails = namedtuple(
@@ -29,10 +30,10 @@ BuildSystemDetails = namedtuple(
 )
 
 
-def load_pyproject_toml(
-    use_pep517: bool | None, pyproject_toml: str, setup_py: str, req_name: str
+def load_pagure_builder(
+    use_pep517: bool | None, pagure_builder: str, req_name: str
 ) -> BuildSystemDetails | None:
-    """Load the pyproject.toml file.
+    """Load the pagure.yaml file.
 
     Parameters:
         use_pep517 - Has the user requested PEP 517 processing? None
@@ -53,18 +54,18 @@ def load_pyproject_toml(
                 relative to the project root.
         )
     """
-    has_pyproject = os.path.isfile(pyproject_toml)
-    has_setup = os.path.isfile(setup_py)
+    has_pagure_builder = os.path.isfile(pagure_builder)
 
-    if not has_pyproject and not has_setup:
+    if not has_pagure_builder:
         raise InstallationError(
-            f"{req_name} does not appear to be a Python project: "
-            f"neither 'setup.py' nor 'pyproject.toml' found."
+            f"{req_name} does not appear to be a Pagure: "
+            f"'pagure.yaml' found."
         )
 
-    if has_pyproject:
-        with open(pyproject_toml, encoding="utf-8") as f:
-            pp_toml = tomllib.loads(f.read())
+    if has_pagure_builder:
+        with open(pagure_builder, encoding="utf-8") as f:
+            # TODO load yaml file
+            pp_toml = yaml.safe_load(f)
         build_system = pp_toml.get("build-system")
     else:
         build_system = None
@@ -75,7 +76,7 @@ def load_pyproject_toml(
     # opposed to False can occur when the value is provided via an
     # environment variable or config file option (due to the quirk of
     # strtobool() returning an integer in pip's configuration code).
-    if has_pyproject and not has_setup:
+    if has_pagure_builder:
         if use_pep517 is not None and not use_pep517:
             raise InstallationError(
                 "Disabling PEP 517 processing is invalid: "
@@ -103,7 +104,7 @@ def load_pyproject_toml(
     # https://github.com/pypa/pip/issues/8559
     elif use_pep517 is None:
         use_pep517 = (
-            has_pyproject
+            has_pagure_builder
             or not importlib.util.find_spec("setuptools")
             or not importlib.util.find_spec("wheel")
         )

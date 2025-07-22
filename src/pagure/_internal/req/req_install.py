@@ -41,7 +41,7 @@ from pagure._internal.operations.install.editable_legacy import (
     install_editable as install_editable_legacy,
 )
 from pagure._internal.operations.install.wheel import install_wheel
-from pagure._internal.pyproject import load_pyproject_toml, make_pyproject_path
+from pagure._internal.pagure_builder import load_pagure_builder, make_pagure_builder_path
 from pagure._internal.req.req_uninstall import UninstallPathSet
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.hashes import Hashes
@@ -500,29 +500,29 @@ class InstallRequirement:
         return setup_cfg
 
     @property
-    def pyproject_toml_path(self) -> str:
+    def pagure_builder_path(self) -> str:
         assert self.source_dir, f"No source dir for {self}"
-        return make_pyproject_path(self.unpacked_source_directory)
+        return make_pagure_builder_path(self.unpacked_source_directory)
 
-    def load_pyproject_toml(self) -> None:
-        """Load the pyproject.toml file.
+    def load_pagure_builder(self) -> None:
+        """Load the pagure.yaml file.
 
         After calling this routine, all of the attributes related to PEP 517
         processing for this requirement have been set. In particular, the
         use_pep517 attribute can be used to determine whether we should
         follow the PEP 517 or legacy (setup.py) code path.
         """
-        pyproject_toml_data = load_pyproject_toml(
-            self.use_pep517, self.pyproject_toml_path, self.setup_py_path, str(self)
+        pagure_builder_data = load_pagure_builder(
+            self.use_pep517, self.pagure_builder_path, str(self)
         )
 
-        if pyproject_toml_data is None:
+        if pagure_builder_data is None:
             assert not self.config_settings
             self.use_pep517 = False
             return
 
         self.use_pep517 = True
-        requires, backend, check, backend_path = pyproject_toml_data
+        requires, backend, check, backend_path = pagure_builder_data
         self.requirements_to_check = check
         self.pyproject_requires = requires
         self.pep517_backend = ConfiguredBuildBackendHookCaller(

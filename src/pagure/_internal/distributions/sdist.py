@@ -38,8 +38,8 @@ class SourceDistribution(AbstractDistribution):
         build_isolation: bool,
         check_build_deps: bool,
     ) -> None:
-        # Load pyproject.toml, to determine whether PEP 517 is to be used
-        self.req.load_pyproject_toml()
+        # Load pagyre.yaml, to determine whether PEP 517 is to be used
+        self.req.load_pagure_builder()
 
         # Set up the build isolation, if this requirement should be isolated
         should_isolate = self.req.use_pep517 and build_isolation
