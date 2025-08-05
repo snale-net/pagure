@@ -17,19 +17,13 @@ from pagure._internal.exceptions import InstallationError, PreviousBuildDirError
 from pagure._internal.metadata import (
     BaseDistribution,
     get_default_environment,
-    get_directory_distribution,
-    get_wheel_distribution,
 )
-from pagure._internal.metadata.base import FilesystemWheel
 from pagure._internal.models.direct_url import DirectUrl
 from pagure._internal.models.link import Link
 from pagure._internal.operations.build.metadata import generate_metadata
 from pagure._internal.operations.build.metadata_editable import generate_editable_metadata
 from pagure._internal.operations.build.metadata_legacy import (
     generate_metadata as generate_metadata_legacy,
-)
-from pagure._internal.operations.install.editable_legacy import (
-    install_editable as install_editable_legacy,
 )
 from pagure._internal.operations.install.librairy import install_librairy
 from pagure._internal.pagure_builder import load_pagure_builder
@@ -60,7 +54,9 @@ from pagure._vendor.packaging.version import Version
 from pagure._vendor.packaging.version import parse as parse_version
 from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
 
-from src.pagure._internal.pagure_builder import make_pyproject_path
+from src.pagure._internal.metadata import get_metadata_distribution
+from src.pagure._internal.operations.install.librairy import load_yaml_config
+from src.pagure._internal.pagure_builder import make_pagure_path
 
 logger = logging.getLogger(__name__)
 
@@ -73,22 +69,22 @@ class InstallRequirement:
     """
 
     def __init__(
-        self,
-        req: Requirement | None,
-        comes_from: str | InstallRequirement | None,
-        editable: bool = False,
-        link: Link | None = None,
-        markers: Marker | None = None,
-        use_pep517: bool | None = None,
-        isolated: bool = False,
-        *,
-        global_options: list[str] | None = None,
-        hash_options: dict[str, list[str]] | None = None,
-        config_settings: dict[str, str | list[str]] | None = None,
-        constraint: bool = False,
-        extras: Collection[str] = (),
-        user_supplied: bool = False,
-        permit_editable_wheels: bool = False,
+            self,
+            req: Requirement | None,
+            comes_from: str | InstallRequirement | None,
+            editable: bool = False,
+            link: Link | None = None,
+            markers: Marker | None = None,
+            use_pep517: bool | None = None,
+            isolated: bool = False,
+            *,
+            global_options: list[str] | None = None,
+            hash_options: dict[str, list[str]] | None = None,
+            config_settings: dict[str, str | list[str]] | None = None,
+            constraint: bool = False,
+            extras: Collection[str] = (),
+            user_supplied: bool = False,
+            permit_editable_wheels: bool = False,
     ) -> None:
         assert req is None or isinstance(req, Requirement), req
         self.req = req
@@ -345,7 +341,7 @@ class InstallRequirement:
         return s
 
     def ensure_build_location(
-        self, build_dir: str, autodelete: bool, parallel_builds: bool
+            self, build_dir: str, autodelete: bool, parallel_builds: bool
     ) -> str:
         assert build_dir is not None
         if self._temp_build_dir is not None:
@@ -502,7 +498,7 @@ class InstallRequirement:
     @property
     def pyproject_toml_path(self) -> str:
         assert self.source_dir, f"No source dir for {self}"
-        return make_pyproject_path(self.unpacked_source_directory)
+        return make_pagure_path(self.unpacked_source_directory)
 
     def load_pagure_builder(self) -> None:
         """Load the pagure.yaml file.
@@ -539,11 +535,11 @@ class InstallRequirement:
         or as a setup.py or a setup.cfg
         """
         if (
-            self.editable
-            and self.use_pep517
-            and not self.supports_pyproject_editable
-            and not os.path.isfile(self.setup_py_path)
-            and not os.path.isfile(self.setup_cfg_path)
+                self.editable
+                and self.use_pep517
+                and not self.supports_pyproject_editable
+                and not os.path.isfile(self.setup_py_path)
+                and not os.path.isfile(self.setup_cfg_path)
         ):
             raise InstallationError(
                 f"Project {self} has a 'pyproject.toml' and its build "
@@ -565,9 +561,9 @@ class InstallRequirement:
         if self.use_pep517:
             assert self.pep517_backend is not None
             if (
-                self.editable
-                and self.permit_editable_wheels
-                and self.supports_pyproject_editable
+                    self.editable
+                    and self.permit_editable_wheels
+                    and self.supports_pyproject_editable
             ):
                 self.metadata_directory = generate_editable_metadata(
                     build_env=self.build_env,
@@ -605,17 +601,18 @@ class InstallRequirement:
         return self._metadata
 
     def get_dist(self) -> BaseDistribution:
-        if self.metadata_directory:
-            return get_directory_distribution(self.metadata_directory)
-        elif self.local_file_path and self.is_wheel:
-            assert self.req is not None
-            return get_wheel_distribution(
-                FilesystemWheel(self.local_file_path),
-                canonicalize_name(self.req.name),
-            )
-        raise AssertionError(
-            f"InstallRequirement {self} has no metadata directory and no wheel: "
-            f"can't make a distribution."
+        # TODO write dependencies from pagure.yaml
+        config = load_yaml_config(os.path.join(self.source_dir, "pagure.yaml"))
+        return get_metadata_distribution(
+            metadata_contents=bytes(
+                f"""Metadata-Version: 2.1
+Name: {config['project']['name']}
+Version: {config['project']['version']}
+Requires-Dist: setuptools (>=80.0.0)
+
+""", "utf-8"),
+            filename=self.local_file_path,
+            canonical_name=canonicalize_name(self.req.name),
         )
 
     def assert_source_matches_version(self) -> None:
@@ -637,10 +634,10 @@ class InstallRequirement:
 
     # For both source distributions and editables
     def ensure_has_source_dir(
-        self,
-        parent_dir: str,
-        autodelete: bool = False,
-        parallel_builds: bool = False,
+            self,
+            parent_dir: str,
+            autodelete: bool = False,
+            parallel_builds: bool = False,
     ) -> None:
         """Ensure that a source_dir is set.
 
@@ -701,7 +698,7 @@ class InstallRequirement:
 
     # Top-level Actions
     def uninstall(
-        self, auto_confirm: bool = False, verbose: bool = False
+            self, auto_confirm: bool = False, verbose: bool = False
     ) -> UninstallPathSet | None:
         """
         Uninstall the distribution currently satisfying this requirement.
@@ -731,7 +728,7 @@ class InstallRequirement:
             assert name.startswith(
                 prefix + os.path.sep
             ), f"name {name!r} doesn't start with prefix {prefix!r}"
-            name = name[len(prefix) + 1 :]
+            name = name[len(prefix) + 1:]
             name = name.replace(os.path.sep, "/")
             return name
 
@@ -808,53 +805,15 @@ class InstallRequirement:
         logger.info("Saved %s", display_path(archive_path))
 
     def install(
-        self,
-        global_options: Sequence[str] | None = None,
-        root: str | None = None,
-        home: str | None = None,
-        prefix: str | None = None,
-        warn_script_location: bool = True,
-        use_user_site: bool = False,
+            self,
+            global_options: Sequence[str] | None = None,
+            root: str | None = None,
+            home: str | None = None,
+            prefix: str | None = None,
+            warn_script_location: bool = True,
+            use_user_site: bool = False,
     ) -> None:
         assert self.req is not None
-
-        if self.editable and not self.is_wheel:
-            deprecated(
-                reason=(
-                    f"Legacy editable install of {self} (setup.py develop) "
-                    "is deprecated."
-                ),
-                replacement=(
-                    "to add a pyproject.toml or enable --use-pep517, "
-                    "and use setuptools >= 64. "
-                    "If the resulting installation is not behaving as expected, "
-                    "try using --config-settings editable_mode=compat. "
-                    "Please consult the setuptools documentation for more information"
-                ),
-                gone_in="25.3",
-                issue=11457,
-            )
-            if self.config_settings:
-                logger.warning(
-                    "--config-settings ignored for legacy editable install of %s. "
-                    "Consider upgrading to a version of setuptools "
-                    "that supports PEP 660 (>= 64).",
-                    self,
-                )
-            install_editable_legacy(
-                global_options=global_options if global_options is not None else [],
-                prefix=prefix,
-                home=home,
-                use_user_site=use_user_site,
-                name=self.req.name,
-                setup_py_path=self.setup_py_path,
-                isolated=self.isolated,
-                build_env=self.build_env,
-                unpacked_source_directory=self.unpacked_source_directory,
-            )
-            self.install_succeeded = True
-            return
-
         assert self.local_file_path
 
         install_librairy(
@@ -871,6 +830,7 @@ class InstallRequirement:
             requested=self.user_supplied,
         )
         self.install_succeeded = True
+
 
 def check_invalid_constraint_type(req: InstallRequirement) -> str:
     # Check for unsupported forms
@@ -910,8 +870,8 @@ def _has_option(options: Values, reqs: list[InstallRequirement], option: str) ->
 
 
 def check_legacy_setup_py_options(
-    options: Values,
-    reqs: list[InstallRequirement],
+        options: Values,
+        reqs: list[InstallRequirement],
 ) -> None:
     has_build_options = _has_option(options, reqs, "build_options")
     has_global_options = _has_option(options, reqs, "global_options")

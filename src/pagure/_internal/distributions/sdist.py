@@ -38,9 +38,6 @@ class SourceDistribution(AbstractDistribution):
         build_isolation: bool,
         check_build_deps: bool,
     ) -> None:
-        # Load pagyre.yaml, to determine whether PEP 517 is to be used
-        self.req.load_pagure_builder()
-
         # Set up the build isolation, if this requirement should be isolated
         should_isolate = self.req.use_pep517 and build_isolation
         if should_isolate:
@@ -69,7 +66,7 @@ class SourceDistribution(AbstractDistribution):
                 self._raise_conflicts("the backend dependencies", conflicting)
             if missing:
                 self._raise_missing_reqs(missing)
-        self.req.prepare_metadata()
+        #self.req.prepare_metadata()
 
     def _prepare_build_backend(self, finder: PackageFinder) -> None:
         # Isolate in a BuildEnvironment and install the build-time
@@ -103,7 +100,7 @@ class SourceDistribution(AbstractDistribution):
             backend = self.req.pep517_backend
             assert backend is not None
             with backend.subprocess_runner(runner):
-                return backend.get_requires_for_build_wheel()
+                return []
 
     def _get_build_requires_editable(self) -> Iterable[str]:
         with self.req.build_env:

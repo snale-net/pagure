@@ -3,25 +3,18 @@
 from __future__ import annotations
 
 import collections
-import compileall
 import contextlib
-import csv
-import importlib
 import logging
 import os.path
 import re
 import shutil
 import sys
-import warnings
 from base64 import urlsafe_b64encode
-from collections.abc import Generator, Iterable, Iterator, Sequence
+from collections.abc import Generator, Iterable, Sequence
 from email.message import Message
-from itertools import chain, filterfalse, starmap
+from itertools import starmap
 from typing import (
-    IO,
     Any,
-    BinaryIO,
-    Callable,
     NewType,
     Protocol,
     Union,
@@ -29,30 +22,37 @@ from typing import (
 )
 from zipfile import ZipFile, ZipInfo
 
-from pagure._vendor.distlib.scripts import ScriptMaker
-from pagure._vendor.distlib.util import get_export_entry
-from pagure._vendor.packaging.utils import canonicalize_name
-
 from pagure._internal.exceptions import InstallationError
 from pagure._internal.locations import get_major_minor_version
 from pagure._internal.metadata import (
     BaseDistribution,
-    FilesystemWheel,
-    get_wheel_distribution,
 )
-from pagure._internal.models.direct_url import DIRECT_URL_METADATA_NAME, DirectUrl
-from pagure._internal.models.scheme import SCHEME_KEYS, Scheme
-from pagure._internal.utils.filesystem import adjacent_tmp_file, replace
-from pagure._internal.utils.misc import StreamWrapper, ensure_dir, hash_file, partition
+from pagure._internal.models.direct_url import DirectUrl
+from pagure._internal.utils.misc import hash_file
 from pagure._internal.utils.unpacking import (
-    current_umask,
-    is_within_directory,
     set_extracted_file_to_default_mode_plus_executable,
     zip_item_is_executable,
 )
-from pagure._internal.utils.wheel import parse_wheel
+from pagure._vendor.distlib.scripts import ScriptMaker
+from pagure._vendor.distlib.util import get_export_entry
+from pagure._vendor.pyyaml.lib import yaml
 
-from src.pagure._internal.utils.unpacking import unzip_file, unpack_file
+from src.pagure._internal.utils.logging import indent_log
+from src.pagure._internal.utils.subprocess import call_subprocess
+
+
+def load_yaml_config(yaml_path: str) -> dict:
+    """
+    Loads and parses a YAML configuration file.
+
+    Args:
+        yaml_path (str): The file path to the YAML configuration file.
+
+    Returns:
+        dict: A dictionary containing the parsed YAML configuration.
+    """
+    with open(yaml_path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
 
 
 class File(Protocol):
@@ -192,7 +192,7 @@ def message_about_scripts_not_on_PATH(scripts: Sequence[str]) -> str | None:
 
 
 def _normalized_outrows(
-    outrows: Iterable[InstalledCSVRow],
+        outrows: Iterable[InstalledCSVRow],
 ) -> list[tuple[str, str, str]]:
     """Normalize the given rows of a RECORD file.
 
@@ -232,11 +232,11 @@ def _fs_to_record_path(path: str, lib_dir: str) -> RecordPath:
 
 
 def get_csv_rows_for_installed(
-    old_csv_rows: list[list[str]],
-    installed: dict[RecordPath, RecordPath],
-    changed: set[RecordPath],
-    generated: list[str],
-    lib_dir: str,
+        old_csv_rows: list[list[str]],
+        installed: dict[RecordPath, RecordPath],
+        changed: set[RecordPath],
+        generated: list[str],
+        lib_dir: str,
 ) -> list[InstalledCSVRow]:
     """
     :param installed: A map from archive RECORD path to installation RECORD
@@ -340,7 +340,7 @@ def get_console_script_specs(console: dict[str, str]) -> list[str]:
 
 class ZipBackedFile:
     def __init__(
-        self, src_record_path: RecordPath, dest_path: str, zip_file: ZipFile
+            self, src_record_path: RecordPath, dest_path: str, zip_file: ZipFile
     ) -> None:
         self.src_record_path = src_record_path
         self.dest_path = dest_path
@@ -406,18 +406,18 @@ def _raise_for_invalid_entrypoint(specification: str) -> None:
 
 class PipScriptMaker(ScriptMaker):
     def make(
-        self, specification: str, options: dict[str, Any] | None = None
+            self, specification: str, options: dict[str, Any] | None = None
     ) -> list[str]:
         _raise_for_invalid_entrypoint(specification)
         return super().make(specification, options)
 
 
 def _install_librairy(
-    name: str,
-    local_file_path: str,
-    warn_script_location: bool = True,
-    direct_url: DirectUrl | None = None,
-    requested: bool = False,
+        name: str,
+        source_directory: str,
+        warn_script_location: bool = True,
+        direct_url: DirectUrl | None = None,
+        requested: bool = False,
 ) -> None:
     """Install a wheel.
 
@@ -435,8 +435,28 @@ def _install_librairy(
         * when the .dist-info dir does not match the wheel
     """
     logger.info(f"Building {name}...")
-    #unpack_file(local_file_path,"/work/tmp")
-    #logger.info(lib_path)
+    config = load_yaml_config(os.path.join(source_directory, "pagure.yaml"))
+
+    working_dir = os.path.join(source_directory, f"{config['project']['name']}-{config['project']['version']}")
+
+    if "builder" in config:
+        # TODO get prefix from pagure config
+        commands = config["builder"]["commands"].format(
+            prefix="/work/tmp/softs",
+        )
+
+        with indent_log():
+            for cmd in commands.split("\n"):
+                logger.info("Running %s", cmd)
+                try:
+                    call_subprocess(
+                        cmd, command_desc=f"{cmd}", cwd=working_dir,
+                    )
+                    return True
+                except Exception:
+                    logger.error("Failed %s", cmd)
+                    return False
+
 
 @contextlib.contextmanager
 def req_error_context(req_description: str) -> Generator[None, None, None]:
@@ -448,22 +468,22 @@ def req_error_context(req_description: str) -> Generator[None, None, None]:
 
 
 def install_librairy(
-    global_options: Sequence[str],
-    prefix: str | None,
-    home: str | None,
-    use_user_site: bool,
-    name: str,
-    local_file_path: str,
-    unpacked_source_directory: str,
-    req_description: str,
-    warn_script_location: bool = True,
-    direct_url: DirectUrl | None = None,
-    requested: bool = False,
+        global_options: Sequence[str],
+        prefix: str | None,
+        home: str | None,
+        use_user_site: bool,
+        name: str,
+        local_file_path: str,
+        unpacked_source_directory: str,
+        req_description: str,
+        warn_script_location: bool = True,
+        direct_url: DirectUrl | None = None,
+        requested: bool = False,
 ) -> None:
     with req_error_context(req_description):
         _install_librairy(
             name=name,
-            local_file_path=local_file_path,
+            source_directory=unpacked_source_directory,
             warn_script_location=warn_script_location,
             direct_url=direct_url,
             requested=requested,

@@ -22,8 +22,8 @@ def _is_list_of_str(obj: Any) -> bool:
     return isinstance(obj, list) and all(isinstance(item, str) for item in obj)
 
 
-def make_pyproject_path(unpacked_source_directory: str) -> str:
-    return os.path.join(unpacked_source_directory, "pyproject.toml")
+def make_pagure_path(unpacked_source_directory: str) -> str:
+    return os.path.join(unpacked_source_directory, "pagure.yaml")
 
 
 BuildSystemDetails = namedtuple(
@@ -55,83 +55,19 @@ def load_pagure_builder(
                 relative to the project root.
         )
     """
-    has_pyproject = os.path.isfile(pyproject_toml)
-    has_setup = os.path.isfile(setup_py)
+    has_pagure = os.path.isfile(pyproject_toml)
 
-    if not has_pyproject and not has_setup:
+    if not has_pagure:
         raise InstallationError(
             f"{req_name} does not appear to be a Python project: "
             f"neither 'setup.py' nor 'pyproject.toml' found."
         )
 
-    if has_pyproject:
-        with open(pyproject_toml, encoding="utf-8") as f:
-            pp_toml = tomllib.loads(f.read())
-        build_system = pp_toml.get("build-system")
-    else:
-        build_system = None
-
-    # The following cases must use PEP 517
-    # We check for use_pep517 being non-None and falsy because that means
-    # the user explicitly requested --no-use-pep517.  The value 0 as
-    # opposed to False can occur when the value is provided via an
-    # environment variable or config file option (due to the quirk of
-    # strtobool() returning an integer in pip's configuration code).
-    if has_pyproject and not has_setup:
-        if use_pep517 is not None and not use_pep517:
-            raise InstallationError(
-                "Disabling PEP 517 processing is invalid: "
-                "project does not have a setup.py"
-            )
-        use_pep517 = True
-    elif build_system and "build-backend" in build_system:
-        if use_pep517 is not None and not use_pep517:
-            raise InstallationError(
-                "Disabling PEP 517 processing is invalid: "
-                "project specifies a build backend of {} "
-                "in pyproject.toml".format(build_system["build-backend"])
-            )
-        use_pep517 = True
-
-    # If we haven't worked out whether to use PEP 517 yet,
-    # and the user hasn't explicitly stated a preference,
-    # we do so if the project has a pyproject.toml file
-    # or if we cannot import setuptools or wheels.
-
-    # We fallback to PEP 517 when without setuptools or without the wheel package,
-    # so setuptools can be installed as a default build backend.
-    # For more info see:
-    # https://discuss.python.org/t/pip-without-setuptools-could-the-experience-be-improved/11810/9
-    # https://github.com/pypa/pip/issues/8559
-    elif use_pep517 is None:
-        use_pep517 = (
-            has_pyproject
-            or not importlib.util.find_spec("setuptools")
-            or not importlib.util.find_spec("wheel")
-            or not importlib.util.find_spec("pyyaml")
-        )
-
-    # At this point, we know whether we're going to use PEP 517.
-    assert use_pep517 is not None
-
-    # If we're using the legacy code path, there is nothing further
-    # for us to do here.
-    if not use_pep517:
-        return None
-
-    if build_system is None:
-        # Either the user has a pyproject.toml with no build-system
-        # section, or the user has no pyproject.toml, but has opted in
-        # explicitly via --use-pep517.
-        # In the absence of any explicit backend specification, we
-        # assume the setuptools backend that most closely emulates the
-        # traditional direct setup.py execution, and require wheel and
-        # a version of setuptools that supports that backend.
-
-        build_system = {
-            "requires": ["setuptools>=40.8.0","pyyaml>=6.0.2"],
-            "build-backend": "setuptools.build_meta:__legacy__",
-        }
+    build_system = {
+        "requires": [],
+        "build-backend": "build_meta",
+        "backend-path": "."
+    }
 
     # If we're using PEP 517, we have build system information (either
     # from pyproject.toml, or defaulted by the code above).
