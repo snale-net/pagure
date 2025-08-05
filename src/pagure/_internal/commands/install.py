@@ -425,21 +425,21 @@ class InstallCommand(RequirementCommand):
                 if should_build_for_install_command(r)
             ]
 
-            _, build_failures = build(
-                reqs_to_build,
-                wheel_cache=wheel_cache,
-                verify=True,
-                build_options=[],
-                global_options=global_options,
-            )
-
-            if build_failures:
-                raise InstallationError(
-                    "Failed to build installable wheels for some "
-                    "pyproject.toml based projects ({})".format(
-                        ", ".join(r.name for r in build_failures)  # type: ignore
-                    )
-                )
+            # _, build_failures = build(
+            #     reqs_to_build,
+            #     wheel_cache=wheel_cache,
+            #     verify=True,
+            #     build_options=[],
+            #     global_options=global_options,
+            # )
+            #
+            # if build_failures:
+            #     raise InstallationError(
+            #         "Failed to build installable wheels for some "
+            #         "pyproject.toml based projects ({})".format(
+            #             ", ".join(r.name for r in build_failures)  # type: ignore
+            #         )
+            #     )
 
             to_install = resolver.get_installation_order(requirement_set)
 
@@ -465,7 +465,6 @@ class InstallCommand(RequirementCommand):
                 prefix=options.prefix_path,
                 warn_script_location=warn_script_location,
                 use_user_site=options.use_user_site,
-                pycompile=options.compile,
                 progress_bar=options.progress_bar,
             )
 

@@ -17,12 +17,12 @@ class PipReporter(BaseReporter[Requirement, Candidate, str]):
 
         self._messages_at_reject_count = {
             1: (
-                "pip is looking at multiple versions of {package_name} to "
+                "pagure is looking at multiple versions of {package_name} to "
                 "determine which version is compatible with other "
                 "requirements. This could take a while."
             ),
             8: (
-                "pip is still looking at multiple versions of {package_name} to "
+                "pagure is still looking at multiple versions of {package_name} to "
                 "determine which version is compatible with other "
                 "requirements. This could take a while."
             ),

@@ -230,14 +230,12 @@ def _build_one_inside_env(
             wheel_name = os.path.basename(wheel_path)
             dest_path = os.path.join(output_dir, wheel_name)
             try:
-                wheel_hash, length = hash_file(wheel_path)
+                #wheel_hash, length = hash_file(wheel_path)
                 shutil.move(wheel_path, dest_path)
                 logger.info(
-                    "Created wheel for %s: filename=%s size=%d sha256=%s",
+                    "Created wheel for %s: filename=%s",
                     req.name,
-                    wheel_name,
-                    length,
-                    wheel_hash.hexdigest(),
+                    wheel_name
                 )
                 logger.info("Stored in directory: %s", output_dir)
                 return dest_path

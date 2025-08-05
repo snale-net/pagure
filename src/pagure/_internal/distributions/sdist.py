@@ -99,7 +99,7 @@ class SourceDistribution(AbstractDistribution):
 
     def _get_build_requires_wheel(self) -> Iterable[str]:
         with self.req.build_env:
-            runner = runner_with_spinner_message("Getting requirements to build wheel")
+            runner = runner_with_spinner_message("Getting requirements to build")
             backend = self.req.pep517_backend
             assert backend is not None
             with backend.subprocess_runner(runner):

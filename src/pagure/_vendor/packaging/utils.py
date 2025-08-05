@@ -94,10 +94,10 @@ def _(version: str, *, strip_trailing_zero: bool = True) -> str:
 def parse_wheel_filename(
     filename: str,
 ) -> tuple[NormalizedName, Version, BuildTag, frozenset[Tag]]:
-    if not filename.endswith(".whl"):
-        raise InvalidWheelFilename(
-            f"Invalid wheel filename (extension must be '.whl'): {filename!r}"
-        )
+    # if not filename.endswith(".whl"):
+    #     raise InvalidWheelFilename(
+    #         f"Invalid wheel filename (extension must be '.whl'): {filename!r}"
+    #     )
 
     filename = filename[:-4]
     dashes = filename.count("-")

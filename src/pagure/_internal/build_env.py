@@ -292,7 +292,7 @@ class BuildEnvironment:
         with open_spinner(f"Installing {kind}") as spinner:
             call_subprocess(
                 args,
-                command_desc=f"pip subprocess to install {kind}",
+                command_desc=f"pagure subprocess to install {kind}",
                 spinner=spinner,
             )
 

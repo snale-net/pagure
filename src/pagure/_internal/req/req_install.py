@@ -12,17 +12,8 @@ from optparse import Values
 from pathlib import Path
 from typing import Any
 
-from pagure._vendor.packaging.markers import Marker
-from pagure._vendor.packaging.requirements import Requirement
-from pagure._vendor.packaging.specifiers import SpecifierSet
-from pagure._vendor.packaging.utils import canonicalize_name
-from pagure._vendor.packaging.version import Version
-from pagure._vendor.packaging.version import parse as parse_version
-from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
-
 from pagure._internal.build_env import BuildEnvironment, NoOpBuildEnvironment
 from pagure._internal.exceptions import InstallationError, PreviousBuildDirError
-from pagure._internal.locations import get_scheme
 from pagure._internal.metadata import (
     BaseDistribution,
     get_default_environment,
@@ -40,8 +31,8 @@ from pagure._internal.operations.build.metadata_legacy import (
 from pagure._internal.operations.install.editable_legacy import (
     install_editable as install_editable_legacy,
 )
-from pagure._internal.operations.install.wheel import install_wheel
-from pagure._internal.pagure_builder import load_pagure_builder, make_pagure_builder_path
+from pagure._internal.operations.install.librairy import install_librairy
+from pagure._internal.pagure_builder import load_pagure_builder
 from pagure._internal.req.req_uninstall import UninstallPathSet
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.hashes import Hashes
@@ -61,6 +52,15 @@ from pagure._internal.utils.temp_dir import TempDirectory, tempdir_kinds
 from pagure._internal.utils.unpacking import unpack_file
 from pagure._internal.utils.virtualenv import running_under_virtualenv
 from pagure._internal.vcs import vcs
+from pagure._vendor.packaging.markers import Marker
+from pagure._vendor.packaging.requirements import Requirement
+from pagure._vendor.packaging.specifiers import SpecifierSet
+from pagure._vendor.packaging.utils import canonicalize_name
+from pagure._vendor.packaging.version import Version
+from pagure._vendor.packaging.version import parse as parse_version
+from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
+
+from src.pagure._internal.pagure_builder import make_pyproject_path
 
 logger = logging.getLogger(__name__)
 
@@ -500,9 +500,9 @@ class InstallRequirement:
         return setup_cfg
 
     @property
-    def pagure_builder_path(self) -> str:
+    def pyproject_toml_path(self) -> str:
         assert self.source_dir, f"No source dir for {self}"
-        return make_pagure_builder_path(self.unpacked_source_directory)
+        return make_pyproject_path(self.unpacked_source_directory)
 
     def load_pagure_builder(self) -> None:
         """Load the pagure.yaml file.
@@ -512,17 +512,17 @@ class InstallRequirement:
         use_pep517 attribute can be used to determine whether we should
         follow the PEP 517 or legacy (setup.py) code path.
         """
-        pagure_builder_data = load_pagure_builder(
-            self.use_pep517, self.pagure_builder_path, str(self)
+        pyproject_toml_data = load_pagure_builder(
+            self.use_pep517, self.pyproject_toml_path, self.setup_py_path, str(self)
         )
 
-        if pagure_builder_data is None:
+        if pyproject_toml_data is None:
             assert not self.config_settings
             self.use_pep517 = False
             return
 
         self.use_pep517 = True
-        requires, backend, check, backend_path = pagure_builder_data
+        requires, backend, check, backend_path = pyproject_toml_data
         self.requirements_to_check = check
         self.pyproject_requires = requires
         self.pep517_backend = ConfiguredBuildBackendHookCaller(
@@ -815,17 +815,8 @@ class InstallRequirement:
         prefix: str | None = None,
         warn_script_location: bool = True,
         use_user_site: bool = False,
-        pycompile: bool = True,
     ) -> None:
         assert self.req is not None
-        scheme = get_scheme(
-            self.req.name,
-            user=use_user_site,
-            home=home,
-            root=root,
-            isolated=self.isolated,
-            prefix=prefix,
-        )
 
         if self.editable and not self.is_wheel:
             deprecated(
@@ -864,21 +855,22 @@ class InstallRequirement:
             self.install_succeeded = True
             return
 
-        assert self.is_wheel
         assert self.local_file_path
 
-        install_wheel(
-            self.req.name,
-            self.local_file_path,
-            scheme=scheme,
+        install_librairy(
+            global_options=global_options if global_options is not None else [],
+            prefix=prefix,
+            home=home,
+            use_user_site=use_user_site,
+            name=self.req.name,
+            local_file_path=self.local_file_path,
+            unpacked_source_directory=self.unpacked_source_directory,
             req_description=str(self.req),
-            pycompile=pycompile,
             warn_script_location=warn_script_location,
             direct_url=self.download_info if self.is_direct else None,
             requested=self.user_supplied,
         )
         self.install_succeeded = True
-
 
 def check_invalid_constraint_type(req: InstallRequirement) -> str:
     # Check for unsupported forms

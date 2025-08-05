@@ -45,28 +45,16 @@ class Wheel:
             if not legacy_wheel_info:
                 raise InvalidWheelFilename(e.args[0]) from None
 
-            deprecated(
-                reason=(
-                    f"Wheel filename {filename!r} is not correctly normalised. "
-                    "Future versions of pip will raise the following error:\n"
-                    f"{e.args[0]}\n\n"
-                ),
-                replacement=(
-                    "to rename the wheel to use a correctly normalised "
-                    "name (this may require updating the version in "
-                    "the project metadata)"
-                ),
-                gone_in="25.3",
-                issue=12938,
-            )
-
             self.name = legacy_wheel_info.group("name").replace("_", "-")
             self.version = legacy_wheel_info.group("ver").replace("_", "-")
 
             # Generate the file tags from the legacy wheel filename
-            pyversions = legacy_wheel_info.group("pyver").split(".")
-            abis = legacy_wheel_info.group("abi").split(".")
-            plats = legacy_wheel_info.group("plat").split(".")
+            #pyversions = legacy_wheel_info.group("pyver").split(".")
+            #abis = legacy_wheel_info.group("abi").split(".")
+            #plats = legacy_wheel_info.group("plat").split(".")
+            pyversions = ""
+            abis = ""
+            plats = ""
             self.file_tags = frozenset(
                 Tag(interpreter=py, abi=abi, platform=plat)
                 for py in pyversions
