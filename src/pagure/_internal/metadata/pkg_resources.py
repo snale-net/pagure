@@ -267,13 +267,23 @@ class Environment(BaseEnvironment):
         yield get_metadata_distribution(
             metadata_contents=bytes(
                 f"""Metadata-Version: 2.1
-                    Name: modules
-                    Version: 5.0.1
-                    Requires-Dist: setuptools (>=80.0.0)
-
+Name: modules
+Version: 5.0.1
+Provides-Extra: parallel                                        
+Requires-Dist: setuptools (>=80.0.0)
                     """, "utf-8"),
             filename="/tmp",
             canonical_name="modules",
+        )
+
+        yield get_metadata_distribution(
+            metadata_contents=bytes(
+                f"""Metadata-Version: 2.1
+Name: setuptools
+Version: 80.0.0 
+                """, "utf-8"),
+            filename="/tmp",
+            canonical_name="setuptools",
         )
 
     def _search_distribution(self, name: str) -> BaseDistribution | None:

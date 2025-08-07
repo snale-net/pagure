@@ -609,7 +609,6 @@ class InstallRequirement:
 Name: {config['project']['name']}
 Version: {config['project']['version']}
 Requires-Dist: setuptools (>=80.0.0)
-
 """, "utf-8"),
             filename=self.local_file_path,
             canonical_name=canonicalize_name(self.req.name),
