@@ -37,8 +37,9 @@ from pagure._vendor.distlib.scripts import ScriptMaker
 from pagure._vendor.distlib.util import get_export_entry
 from pagure._vendor.pyyaml.lib import yaml
 
-from src.pagure._internal.utils.logging import indent_log
-from src.pagure._internal.utils.subprocess import call_subprocess
+from pagure._internal.utils.logging import indent_log
+from pagure._internal.utils.subprocess import call_subprocess
+from pagure.configuration import Configuration, kinds
 
 
 def load_yaml_config(yaml_path: str) -> dict:
@@ -440,9 +441,15 @@ def _install_librairy(
     working_dir = os.path.join(source_directory, f"{config['project']['name']}-{config['project']['version']}")
 
     if "builder" in config:
-        # TODO get prefix from pagure config
+
+        # TODO better define witch value to use between USER, SITE and GLOBAL
+        configuration = Configuration(
+            isolated=False, load_only=kinds.USER
+        )
+        configuration.load()
+
         commands = config["builder"]["commands"].format(
-            prefix="/work/tmp/softs",
+            prefix=configuration.get_value("user.prefix"),
         )
 
         with indent_log():
@@ -450,12 +457,13 @@ def _install_librairy(
                 logger.info("Running %s", cmd)
                 try:
                     call_subprocess(
-                        cmd, command_desc=f"{cmd}", cwd=working_dir,
+                        cmd.strip().split(" "), command_desc=f"{cmd}", cwd=working_dir,
+                        show_stdout=True
                     )
-                    return True
-                except Exception:
-                    logger.error("Failed %s", cmd)
-                    return False
+                    #return True
+                except Exception as ex:
+                    logger.error("Failed %s : %s", cmd,ex)
+                    #return False
 
 
 @contextlib.contextmanager

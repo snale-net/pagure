@@ -54,9 +54,9 @@ from pagure._vendor.packaging.version import Version
 from pagure._vendor.packaging.version import parse as parse_version
 from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
 
-from src.pagure._internal.metadata import get_metadata_distribution
-from src.pagure._internal.operations.install.librairy import load_yaml_config
-from src.pagure._internal.pagure_builder import make_pagure_path
+from pagure._internal.metadata import get_metadata_distribution
+from pagure._internal.operations.install.librairy import load_yaml_config
+from pagure._internal.pagure_builder import make_pagure_path
 
 logger = logging.getLogger(__name__)
 
