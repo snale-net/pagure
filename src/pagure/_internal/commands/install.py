@@ -354,12 +354,6 @@ class InstallCommand(RequirementCommand):
 
             wheel_cache = WheelCache(options.cache_dir)
 
-            # Only when installing is it permitted to use PEP 660.
-            # In other circumstances (pip wheel, pip download) we generate
-            # regular (i.e. non editable) metadata and wheels.
-            for req in reqs:
-                req.permit_editable_wheels = True
-
             preparer = self.make_requirement_preparer(
                 temp_build_dir=directory,
                 options=options,
@@ -410,7 +404,7 @@ class InstallCommand(RequirementCommand):
                 return SUCCESS
 
             try:
-                pip_req = requirement_set.get_requirement("pip")
+                pip_req = requirement_set.get_requirement("pagure")
             except KeyError:
                 modifying_pip = False
             else:
@@ -425,21 +419,21 @@ class InstallCommand(RequirementCommand):
                 if should_build_for_install_command(r)
             ]
 
-            _, build_failures = build(
-                reqs_to_build,
-                wheel_cache=wheel_cache,
-                verify=True,
-                build_options=[],
-                global_options=global_options,
-            )
-
-            if build_failures:
-                raise InstallationError(
-                    "Failed to build installable wheels for some "
-                    "pyproject.toml based projects ({})".format(
-                        ", ".join(r.name for r in build_failures)  # type: ignore
-                    )
-                )
+            # _, build_failures = build(
+            #     reqs_to_build,
+            #     wheel_cache=wheel_cache,
+            #     verify=True,
+            #     build_options=[],
+            #     global_options=global_options,
+            # )
+            #
+            # if build_failures:
+            #     raise InstallationError(
+            #         "Failed to build installable wheels for some "
+            #         "pyproject.toml based projects ({})".format(
+            #             ", ".join(r.name for r in build_failures)  # type: ignore
+            #         )
+            #     )
 
             to_install = resolver.get_installation_order(requirement_set)
 
@@ -465,7 +459,6 @@ class InstallCommand(RequirementCommand):
                 prefix=options.prefix_path,
                 warn_script_location=warn_script_location,
                 use_user_site=options.use_user_site,
-                pycompile=options.compile,
                 progress_bar=options.progress_bar,
             )
 
@@ -771,7 +764,7 @@ def create_os_error_message(
     # Suggest to check "pip config debug" in case of invalid proxy
     if type(error) is InvalidProxyURL:
         parts.append(
-            'Consider checking your local proxy configuration with "pip config debug"'
+            'Consider checking your local proxy configuration with "pagure config debug"'
         )
         parts.append(".\n")
 

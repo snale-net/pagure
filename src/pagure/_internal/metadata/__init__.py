@@ -157,6 +157,7 @@ def get_metadata_distribution(
     :param filename: Filename for the dist this metadata represents.
     :param canonical_name: Normalized project name of the given dist.
     """
+    # TODO Read pagure yaml file
     return select_backend().Distribution.from_metadata_file_contents(
         metadata_contents,
         filename,

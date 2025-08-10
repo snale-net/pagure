@@ -28,7 +28,7 @@ def generate_metadata(
         # Note that BuildBackendHookCaller implements a fallback for
         # prepare_metadata_for_build_wheel, so we don't have to
         # consider the possibility that this hook doesn't exist.
-        runner = runner_with_spinner_message("Preparing metadata (pyproject.toml)")
+        runner = runner_with_spinner_message("Preparing metadata (pagure.yaml)")
         with backend.subprocess_runner(runner):
             try:
                 distinfo_dir = backend.prepare_metadata_for_build_wheel(metadata_dir)

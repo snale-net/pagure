@@ -172,7 +172,7 @@ class TempDirectory:
         # symlinked to another directory.  This tends to confuse build
         # scripts, so we canonicalize the path by traversing potential
         # symlinks here.
-        path = os.path.realpath(tempfile.mkdtemp(prefix=f"pip-{kind}-"))
+        path = os.path.realpath(tempfile.mkdtemp(prefix=f"pagure-{kind}-"))
         logger.debug("Created temporary directory: %s", path)
         return path
 
@@ -288,7 +288,7 @@ class AdjacentTempDirectory(TempDirectory):
                 break
         else:
             # Final fallback on the default behavior.
-            path = os.path.realpath(tempfile.mkdtemp(prefix=f"pip-{kind}-"))
+            path = os.path.realpath(tempfile.mkdtemp(prefix=f"pagure-{kind}-"))
 
         logger.debug("Created temporary directory: %s", path)
         return path

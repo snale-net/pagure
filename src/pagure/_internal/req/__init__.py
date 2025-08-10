@@ -43,7 +43,6 @@ def install_given_reqs(
     prefix: str | None,
     warn_script_location: bool,
     use_user_site: bool,
-    pycompile: bool,
     progress_bar: str,
 ) -> list[InstallationResult]:
     """
@@ -88,8 +87,7 @@ def install_given_reqs(
                     home=home,
                     prefix=prefix,
                     warn_script_location=warn_script_location,
-                    use_user_site=use_user_site,
-                    pycompile=pycompile,
+                    use_user_site=use_user_site
                 )
             except Exception:
                 # if install did not succeed, rollback previous uninstall
