@@ -22,13 +22,17 @@ from typing import (
 )
 from zipfile import ZipFile, ZipInfo
 
+from pagure._internal.build_env import BuildEnvironment
 from pagure._internal.exceptions import InstallationError
 from pagure._internal.locations import get_major_minor_version
 from pagure._internal.metadata import (
     BaseDistribution,
 )
 from pagure._internal.models.direct_url import DirectUrl
+from pagure._internal.utils.logging import indent_log
 from pagure._internal.utils.misc import hash_file
+from pagure._internal.utils.setuptools_build import make_setuptools_develop_args
+from pagure._internal.utils.subprocess import call_subprocess
 from pagure._internal.utils.unpacking import (
     set_extracted_file_to_default_mode_plus_executable,
     zip_item_is_executable,
@@ -36,9 +40,6 @@ from pagure._internal.utils.unpacking import (
 from pagure._vendor.distlib.scripts import ScriptMaker
 from pagure._vendor.distlib.util import get_export_entry
 from pagure._vendor.pyyaml.lib import yaml
-
-from pagure._internal.utils.logging import indent_log
-from pagure._internal.utils.subprocess import call_subprocess
 from pagure.configuration import Configuration, kinds
 
 
@@ -496,3 +497,38 @@ def install_librairy(
             direct_url=direct_url,
             requested=requested,
         )
+
+
+def install_editable(
+    *,
+    global_options: Sequence[str],
+    prefix: str | None,
+    home: str | None,
+    use_user_site: bool,
+    name: str,
+    setup_py_path: str,
+    isolated: bool,
+    build_env: BuildEnvironment,
+    unpacked_source_directory: str,
+) -> None:
+    """Install a package in editable mode. Most arguments are pass-through
+    to setuptools.
+    """
+    logger.info("Running setup.py develop for %s", name)
+
+    args = make_setuptools_develop_args(
+        setup_py_path,
+        global_options=global_options,
+        no_user_config=isolated,
+        prefix=prefix,
+        home=home,
+        use_user_site=use_user_site,
+    )
+
+    with indent_log():
+        with build_env:
+            call_subprocess(
+                args,
+                command_desc="python setup.py develop",
+                cwd=unpacked_source_directory,
+            )

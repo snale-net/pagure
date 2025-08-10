@@ -19,7 +19,7 @@ from pagure._internal.exceptions import IncompleteDownloadError, NetworkConnecti
 from pagure._internal.models.index import PyPI
 from pagure._internal.models.link import Link
 from pagure._internal.network.cache import is_from_cache
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.network.utils import HEADERS, raise_for_status, response_chunks
 from pagure._internal.utils.misc import format_size, redact_auth_from_url, splitext
 
@@ -162,7 +162,7 @@ class _FileDownload:
 class Downloader:
     def __init__(
         self,
-        session: PipSession,
+        session: PagureSession,
         progress_bar: str,
         resume_retries: int,
     ) -> None:

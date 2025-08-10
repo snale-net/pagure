@@ -264,17 +264,17 @@ class Environment(BaseEnvironment):
             yield Distribution(dist)
         # TODO Pagure : list dep from modules files
         from pagure._internal.metadata import get_metadata_distribution
-        yield get_metadata_distribution(
-            metadata_contents=bytes(
-                f"""Metadata-Version: 2.1
-Name: modules
-Version: 5.0.1
-Provides-Extra: parallel                                        
-Requires-Dist: setuptools (>=80.0.0)
-                    """, "utf-8"),
-            filename="/tmp",
-            canonical_name="modules",
-        )
+#         yield get_metadata_distribution(
+#             metadata_contents=bytes(
+#                 f"""Metadata-Version: 2.1
+# Name: modules
+# Version: 5.0.1
+# Provides-Extra: parallel
+# Requires-Dist: setuptools (>=80.0.0)
+#                     """, "utf-8"),
+#             filename="/tmp",
+#             canonical_name="modules",
+#         )
 
         yield get_metadata_distribution(
             metadata_contents=bytes(

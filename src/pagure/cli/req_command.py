@@ -21,7 +21,7 @@ from pagure._internal.index.collector import LinkCollector
 from pagure._internal.index.package_finder import PackageFinder
 from pagure._internal.models.selection_prefs import SelectionPreferences
 from pagure._internal.models.target_python import TargetPython
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.operations.build.build_tracker import BuildTracker
 from pagure._internal.operations.prepare import RequirementPreparer
 from pagure._internal.req.constructors import (
@@ -99,7 +99,7 @@ class RequirementCommand(IndexGroupCommand):
         temp_build_dir: TempDirectory,
         options: Values,
         build_tracker: BuildTracker,
-        session: PipSession,
+        session: PagureSession,
         finder: PackageFinder,
         use_user_site: bool,
         download_dir: str | None = None,
@@ -213,7 +213,7 @@ class RequirementCommand(IndexGroupCommand):
         args: list[str],
         options: Values,
         finder: PackageFinder,
-        session: PipSession,
+        session: PagureSession,
     ) -> list[InstallRequirement]:
         """
         Parse command-line arguments into the corresponding requirements.
@@ -323,7 +323,7 @@ class RequirementCommand(IndexGroupCommand):
     def _build_package_finder(
         self,
         options: Values,
-        session: PipSession,
+        session: PagureSession,
         target_python: TargetPython | None = None,
         ignore_requires_python: bool | None = None,
     ) -> PackageFinder:

@@ -54,7 +54,6 @@ from pagure._internal.utils.virtualenv import (
     running_under_virtualenv,
     virtualenv_no_global,
 )
-from pagure._internal.wheel_builder import build, should_build_for_install_command
 
 logger = getLogger(__name__)
 
@@ -412,28 +411,6 @@ class InstallCommand(RequirementCommand):
                 # we're not modifying it.
                 modifying_pip = pip_req.satisfied_by is None
             protect_pip_from_modification_on_windows(modifying_pip=modifying_pip)
-
-            reqs_to_build = [
-                r
-                for r in requirement_set.requirements_to_install
-                if should_build_for_install_command(r)
-            ]
-
-            # _, build_failures = build(
-            #     reqs_to_build,
-            #     wheel_cache=wheel_cache,
-            #     verify=True,
-            #     build_options=[],
-            #     global_options=global_options,
-            # )
-            #
-            # if build_failures:
-            #     raise InstallationError(
-            #         "Failed to build installable wheels for some "
-            #         "pyproject.toml based projects ({})".format(
-            #             ", ".join(r.name for r in build_failures)  # type: ignore
-            #         )
-            #     )
 
             to_install = resolver.get_installation_order(requirement_set)
 

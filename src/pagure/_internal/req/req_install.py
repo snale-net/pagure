@@ -20,13 +20,7 @@ from pagure._internal.metadata import (
 )
 from pagure._internal.models.direct_url import DirectUrl
 from pagure._internal.models.link import Link
-from pagure._internal.operations.build.metadata import generate_metadata
-from pagure._internal.operations.build.metadata_editable import generate_editable_metadata
-from pagure._internal.operations.build.metadata_legacy import (
-    generate_metadata as generate_metadata_legacy,
-)
 from pagure._internal.operations.install.librairy import install_librairy
-from pagure._internal.pagure_builder import load_pagure_builder
 from pagure._internal.req.req_uninstall import UninstallPathSet
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.hashes import Hashes
@@ -56,7 +50,6 @@ from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
 
 from pagure._internal.metadata import get_metadata_distribution
 from pagure._internal.operations.install.librairy import load_yaml_config
-from pagure._internal.pagure_builder import make_pagure_path
 
 logger = logging.getLogger(__name__)
 

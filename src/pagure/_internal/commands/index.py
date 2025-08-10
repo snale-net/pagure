@@ -20,7 +20,7 @@ from pagure._internal.index.collector import LinkCollector
 from pagure._internal.index.package_finder import PackageFinder
 from pagure._internal.models.selection_prefs import SelectionPreferences
 from pagure._internal.models.target_python import TargetPython
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.utils.misc import write_output
 
 logger = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class IndexCommand(IndexGroupCommand):
     def _build_package_finder(
         self,
         options: Values,
-        session: PipSession,
+        session: PagureSession,
         target_python: TargetPython | None = None,
         ignore_requires_python: bool | None = None,
     ) -> PackageFinder:

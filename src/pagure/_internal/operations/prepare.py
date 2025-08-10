@@ -40,7 +40,7 @@ from pagure._internal.network.lazy_wheel import (
     HTTPRangeRequestUnsupported,
     dist_from_wheel_url,
 )
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.operations.build.build_tracker import BuildTracker
 from pagure._internal.req.req_install import InstallRequirement
 from pagure._internal.utils._log import getLogger
@@ -234,7 +234,7 @@ class RequirementPreparer:
             build_isolation: bool,
             check_build_deps: bool,
             build_tracker: BuildTracker,
-            session: PipSession,
+            session: PagureSession,
             progress_bar: str,
             finder: PackageFinder,
             require_hashes: bool,

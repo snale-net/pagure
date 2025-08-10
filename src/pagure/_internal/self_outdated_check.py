@@ -21,7 +21,7 @@ from pagure._internal.index.collector import LinkCollector
 from pagure._internal.index.package_finder import PackageFinder
 from pagure._internal.metadata import get_default_environment
 from pagure._internal.models.selection_prefs import SelectionPreferences
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.utils.compat import WINDOWS
 from pagure._internal.utils.entrypoints import (
     get_best_invocation_for_this_pip,
@@ -166,7 +166,7 @@ def was_installed_by_pip(pkg: str) -> bool:
 
 
 def _get_current_remote_pip_version(
-    session: PipSession, options: optparse.Values
+    session: PagureSession, options: optparse.Values
 ) -> str | None:
     # Lets use PackageFinder to see what the latest pip version is
     link_collector = LinkCollector.create(
@@ -227,7 +227,7 @@ def _self_version_check_logic(
     return None
 
 
-def pip_self_version_check(session: PipSession, options: optparse.Values) -> None:
+def pip_self_version_check(session: PagureSession, options: optparse.Values) -> None:
     """Check for an update for pip.
 
     Limit the frequency of checks to once per week. State is stored either in

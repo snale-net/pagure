@@ -15,7 +15,7 @@ from pagure._vendor.packaging.utils import canonicalize_name
 from pagure._vendor.requests.models import CONTENT_CHUNK_SIZE, Response
 
 from pagure._internal.metadata import BaseDistribution, MemoryWheel, get_wheel_distribution
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.network.utils import HEADERS, raise_for_status, response_chunks
 
 
@@ -23,7 +23,7 @@ class HTTPRangeRequestUnsupported(Exception):
     pass
 
 
-def dist_from_wheel_url(name: str, url: str, session: PipSession) -> BaseDistribution:
+def dist_from_wheel_url(name: str, url: str, session: PagureSession) -> BaseDistribution:
     """Return a distribution object from the given wheel URL.
 
     This uses HTTP range requests to only fetch the portion of the wheel
@@ -50,7 +50,7 @@ class LazyZipOverHTTP:
     """
 
     def __init__(
-        self, url: str, session: PipSession, chunk_size: int = CONTENT_CHUNK_SIZE
+        self, url: str, session: PagureSession, chunk_size: int = CONTENT_CHUNK_SIZE
     ) -> None:
         head = session.head(url, headers=HEADERS)
         raise_for_status(head)

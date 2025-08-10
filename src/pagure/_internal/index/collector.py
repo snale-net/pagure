@@ -30,7 +30,7 @@ from pagure._vendor.requests.exceptions import RetryError, SSLError
 from pagure._internal.exceptions import NetworkConnectionError
 from pagure._internal.models.link import Link
 from pagure._internal.models.search_scope import SearchScope
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.network.utils import raise_for_status
 from pagure._internal.utils.filetypes import is_archive_file
 from pagure._internal.utils.misc import redact_auth_from_url
@@ -87,7 +87,7 @@ class _NotHTTP(Exception):
     pass
 
 
-def _ensure_api_response(url: str, session: PipSession) -> None:
+def _ensure_api_response(url: str, session: PagureSession) -> None:
     """
     Send a HEAD request to the URL, and ensure the response contains a simple
     API Response.
@@ -105,7 +105,7 @@ def _ensure_api_response(url: str, session: PipSession) -> None:
     _ensure_api_header(resp)
 
 
-def _get_simple_response(url: str, session: PipSession) -> Response:
+def _get_simple_response(url: str, session: PagureSession) -> Response:
     """Access an Simple API response with GET, and return the response.
 
     This consists of three parts:
@@ -316,7 +316,7 @@ def _make_index_content(
     )
 
 
-def _get_index_content(link: Link, *, session: PipSession) -> IndexContent | None:
+def _get_index_content(link: Link, *, session: PagureSession) -> IndexContent | None:
     url = link.url.split("#", 1)[0]
 
     # Check for VCS schemes that do not support lookup as web pages.
@@ -392,7 +392,7 @@ class LinkCollector:
 
     def __init__(
         self,
-        session: PipSession,
+        session: PagureSession,
         search_scope: SearchScope,
     ) -> None:
         self.search_scope = search_scope
@@ -401,7 +401,7 @@ class LinkCollector:
     @classmethod
     def create(
         cls,
-        session: PipSession,
+        session: PagureSession,
         options: Values,
         suppress_no_index: bool = False,
     ) -> LinkCollector:
