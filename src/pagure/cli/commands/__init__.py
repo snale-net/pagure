@@ -40,6 +40,16 @@ commands_dict: dict[str, CommandInfo] = {
         "ConfigurationCommand",
         "Manage local and global configuration.",
     ),
+    "list": CommandInfo(
+        "pagure._internal.commands.list",
+        "ListCommand",
+        "List installed packages.",
+    ),
+    "show": CommandInfo(
+        "pagure._internal.commands.show",
+        "ShowCommand",
+        "Show information about installed packages.",
+    ),
     "help": CommandInfo(
         "pagure.cli.commands.help",
         "HelpCommand",
