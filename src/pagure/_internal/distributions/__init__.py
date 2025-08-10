@@ -1,6 +1,5 @@
 from pagure._internal.distributions.base import AbstractDistribution
 from pagure._internal.distributions.sdist import SourceDistribution
-from pagure._internal.distributions.wheel import WheelDistribution
 from pagure._internal.req.req_install import InstallRequirement
 
 
@@ -12,10 +11,6 @@ def make_distribution_for_install_requirement(
     # legacy logic until we create a modern standard for them.
     if install_req.editable:
         return SourceDistribution(install_req)
-
-    # If it's a wheel, it's a WheelDistribution
-    if install_req.is_wheel:
-        return WheelDistribution(install_req)
 
     # Otherwise, a SourceDistribution
     return SourceDistribution(install_req)

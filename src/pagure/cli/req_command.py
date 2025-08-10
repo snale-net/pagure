@@ -113,19 +113,8 @@ class RequirementCommand(IndexGroupCommand):
         legacy_resolver = False
 
         resolver_variant = cls.determine_resolver_variant(options)
-        if resolver_variant == "resolvelib":
-            lazy_wheel = "fast-deps" in options.features_enabled
-            if lazy_wheel:
-                logger.warning(
-                    "pip is using lazily downloaded wheels using HTTP "
-                    "range requests to obtain dependency information. "
-                    "This experimental feature is enabled through "
-                    "--use-feature=fast-deps and it is not ready for "
-                    "production."
-                )
-        else:
+        if resolver_variant != "resolvelib":
             legacy_resolver = True
-            lazy_wheel = False
             if "fast-deps" in options.features_enabled:
                 logger.warning(
                     "fast-deps has no effect when used with the legacy resolver."
@@ -143,7 +132,6 @@ class RequirementCommand(IndexGroupCommand):
             finder=finder,
             require_hashes=options.require_hashes,
             use_user_site=use_user_site,
-            lazy_wheel=lazy_wheel,
             verbosity=verbosity,
             legacy_resolver=legacy_resolver,
             resume_retries=options.resume_retries,

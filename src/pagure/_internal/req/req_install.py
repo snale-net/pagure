@@ -219,17 +219,6 @@ class InstallRequirement:
             f"{str(self)} editable={self.editable!r}>"
         )
 
-    def format_debug(self) -> str:
-        """An un-tested helper for getting state, for debugging."""
-        attributes = vars(self)
-        names = sorted(attributes)
-
-        state = (f"{attr}={attributes[attr]!r}" for attr in sorted(names))
-        return "<{name} object: {{{state}}}>".format(
-            name=self.__class__.__name__,
-            state=", ".join(state),
-        )
-
     # Things that are valid for all kinds of requirements?
     @property
     def name(self) -> str | None:
@@ -376,46 +365,6 @@ class InstallRequirement:
             globally_managed=True,
         ).path
 
-    def _set_requirement(self) -> None:
-        """Set requirement after generating metadata."""
-        assert self.req is None
-        assert self.metadata is not None
-        assert self.source_dir is not None
-
-        # Construct a Requirement object from the generated metadata
-        if isinstance(parse_version(self.metadata["Version"]), Version):
-            op = "=="
-        else:
-            op = "==="
-
-        self.req = get_requirement(
-            "".join(
-                [
-                    self.metadata["Name"],
-                    op,
-                    self.metadata["Version"],
-                ]
-            )
-        )
-
-    def warn_on_mismatching_name(self) -> None:
-        assert self.req is not None
-        metadata_name = canonicalize_name(self.metadata["Name"])
-        if canonicalize_name(self.req.name) == metadata_name:
-            # Everything is fine.
-            return
-
-        # If we're here, there's a mismatch. Log a warning about it.
-        logger.warning(
-            "Generating metadata for package %s "
-            "produced metadata for project name %s. Fix your "
-            "#egg=%s fragments.",
-            self.name,
-            metadata_name,
-            self.name,
-        )
-        self.req = get_requirement(metadata_name)
-
     def check_if_exists(self, use_user_site: bool) -> None:
         """Find an installed distribution that satisfies or conflicts
         with this requirement, and set self.satisfied_by or
@@ -541,51 +490,6 @@ class InstallRequirement:
                 f"it cannot be installed in editable mode. "
                 f"Consider using a build backend that supports PEP 660."
             )
-
-    def prepare_metadata(self) -> None:
-        """Ensure that project metadata is available.
-
-        Under PEP 517 and PEP 660, call the backend hook to prepare the metadata.
-        Under legacy processing, call setup.py egg-info.
-        """
-        assert self.source_dir, f"No source dir for {self}"
-        details = self.name or f"from {self.link}"
-
-        if self.use_pep517:
-            assert self.pep517_backend is not None
-            if (
-                    self.editable
-                    and self.permit_editable_wheels
-                    and self.supports_pyproject_editable
-            ):
-                self.metadata_directory = generate_editable_metadata(
-                    build_env=self.build_env,
-                    backend=self.pep517_backend,
-                    details=details,
-                )
-            else:
-                self.metadata_directory = generate_metadata(
-                    build_env=self.build_env,
-                    backend=self.pep517_backend,
-                    details=details,
-                )
-        else:
-            self.metadata_directory = generate_metadata_legacy(
-                build_env=self.build_env,
-                setup_py_path=self.setup_py_path,
-                source_dir=self.unpacked_source_directory,
-                isolated=self.isolated,
-                details=details,
-            )
-
-        # Act on the newly generated metadata, based on the name and version.
-        if not self.name:
-            self._set_requirement()
-        else:
-            self.warn_on_mismatching_name()
-
-        self.assert_source_matches_version()
-
     @property
     def metadata(self) -> Any:
         if not hasattr(self, "_metadata"):
@@ -606,23 +510,6 @@ Requires-Dist: setuptools (>=80.0.0)
             filename=self.local_file_path,
             canonical_name=canonicalize_name(self.req.name),
         )
-
-    def assert_source_matches_version(self) -> None:
-        assert self.source_dir, f"No source dir for {self}"
-        version = self.metadata["version"]
-        if self.req and self.req.specifier and version not in self.req.specifier:
-            logger.warning(
-                "Requested %s, but installing version %s",
-                self,
-                version,
-            )
-        else:
-            logger.debug(
-                "Source in %s has version %s, which satisfies requirement %s",
-                display_path(self.source_dir),
-                version,
-                self,
-            )
 
     # For both source distributions and editables
     def ensure_has_source_dir(

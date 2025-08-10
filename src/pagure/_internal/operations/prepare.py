@@ -36,10 +36,6 @@ from pagure._internal.models.direct_url import ArchiveInfo
 from pagure._internal.models.link import Link
 from pagure._internal.models.wheel import Wheel
 from pagure._internal.network.download import Downloader
-from pagure._internal.network.lazy_wheel import (
-    HTTPRangeRequestUnsupported,
-    dist_from_wheel_url,
-)
 from pagure._internal.network.session import PagureSession
 from pagure._internal.operations.build.build_tracker import BuildTracker
 from pagure._internal.req.req_install import InstallRequirement
@@ -239,7 +235,6 @@ class RequirementPreparer:
             finder: PackageFinder,
             require_hashes: bool,
             use_user_site: bool,
-            lazy_wheel: bool,
             verbosity: int,
             legacy_resolver: bool,
             resume_retries: int,
@@ -268,9 +263,6 @@ class RequirementPreparer:
 
         # Should install in user site-packages?
         self.use_user_site = use_user_site
-
-        # Should wheels be downloaded lazily?
-        self.use_lazy_wheel = lazy_wheel
 
         # How verbose should underlying tooling be?
         self.verbosity = verbosity
@@ -381,9 +373,7 @@ class RequirementPreparer:
             )
             return None
         # Try PEP 658 metadata first, then fall back to lazy wheel if unavailable.
-        return self._fetch_metadata_using_link_data_attr(
-            req
-        ) or self._fetch_metadata_using_lazy_wheel(req.link)
+        return self._fetch_metadata_using_link_data_attr(req)
 
     def _fetch_metadata_using_link_data_attr(
             self,
@@ -425,35 +415,6 @@ class RequirementPreparer:
                 req, "Name", req.req.name, metadata_dist.raw_name
             )
         return metadata_dist
-
-    def _fetch_metadata_using_lazy_wheel(
-            self,
-            link: Link,
-    ) -> BaseDistribution | None:
-        """Fetch metadata using lazy wheel, if possible."""
-        # --use-feature=fast-deps must be provided.
-        if not self.use_lazy_wheel:
-            return None
-        if link.is_file or not link.is_wheel:
-            logger.debug(
-                "Lazy wheel is not used as %r does not point to a remote wheel",
-                link,
-            )
-            return None
-
-        wheel = Wheel(link.filename)
-        name = canonicalize_name(wheel.name)
-        logger.info(
-            "Obtaining dependency information from %s %s",
-            name,
-            wheel.version,
-        )
-        url = link.url.split("#", 1)[0]
-        try:
-            return dist_from_wheel_url(name, url, self._session)
-        except HTTPRangeRequestUnsupported:
-            logger.debug("%s does not support range requests", url)
-            return None
 
     def _complete_partial_requirements(
             self,
