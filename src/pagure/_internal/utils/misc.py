@@ -283,18 +283,12 @@ def tabulate(rows: Iterable[Iterable[Any]]) -> tuple[list[str], list[int]]:
 
 
 def is_installable_dir(path: str) -> bool:
-    """Is path is a directory containing pyproject.toml or setup.py?
+    """Is path is a directory containing pagure.yaml?
 
-    If pyproject.toml exists, this is a PEP 517 project. Otherwise we look for
-    a legacy setuptools layout by identifying setup.py. We don't check for the
-    setup.cfg because using it without setup.py is only available for PEP 517
-    projects, which are already covered by the pyproject.toml check.
     """
     if not os.path.isdir(path):
         return False
-    if os.path.isfile(os.path.join(path, "pyproject.toml")):
-        return True
-    if os.path.isfile(os.path.join(path, "setup.py")):
+    if os.path.isfile(os.path.join(path, "pagure.yaml")):
         return True
     return False
 

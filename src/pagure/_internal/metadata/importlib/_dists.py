@@ -34,8 +34,8 @@ from ._compat import (
 )
 
 
-class WheelDistribution(importlib.metadata.Distribution):
-    """An ``importlib.metadata.Distribution`` read from a wheel.
+class PagureDistribution(importlib.metadata.Distribution):
+    """An ``importlib.metadata.Distribution`` read from a pagure.
 
     Although ``importlib.metadata.PathDistribution`` accepts ``zipfile.Path``,
     its implementation is too "lazy" for pip's needs (we can't keep the ZipFile
@@ -59,7 +59,7 @@ class WheelDistribution(importlib.metadata.Distribution):
         zf: zipfile.ZipFile,
         name: str,
         location: str,
-    ) -> WheelDistribution:
+    ) -> PagureDistribution:
         info_dir, _ = parse_wheel(zf, name)
         paths = (
             (name, pathlib.PurePosixPath(name.split("/", 1)[-1]))
@@ -136,7 +136,7 @@ class Distribution(BaseDistribution):
     def from_wheel(cls, wheel: Wheel, name: str) -> BaseDistribution:
         try:
             with wheel.as_zipfile() as zf:
-                dist = WheelDistribution.from_zipfile(zf, name, wheel.location)
+                dist = PagureDistribution.from_zipfile(zf, name, wheel.location)
         except zipfile.BadZipFile as e:
             raise InvalidWheel(wheel.location, name) from e
         return cls(dist, dist.info_location, pathlib.PurePosixPath(wheel.location))
@@ -212,6 +212,19 @@ class Distribution(BaseDistribution):
     def iter_dependencies(self, extras: Collection[str] = ()) -> Iterable[Requirement]:
         contexts: Sequence[dict[str, str]] = [{"extra": e} for e in extras]
         for req_string in self.metadata.get_all("Requires-Dist", []):
+            # strip() because email.message.Message.get_all() may return a leading \n
+            # in case a long header was wrapped.
+            req = get_requirement(req_string.strip())
+            if not req.marker:
+                yield req
+            elif not extras and req.marker.evaluate({"extra": ""}):
+                yield req
+            elif any(req.marker.evaluate(context) for context in contexts):
+                yield req
+
+    def iter_external_dependencies(self, extras: Collection[str] = ()) -> Iterable[Requirement]:
+        contexts: Sequence[dict[str, str]] = [{"extra": e} for e in extras]
+        for req_string in self.metadata.get_all("Requires-External", []):
             # strip() because email.message.Message.get_all() may return a leading \n
             # in case a long header was wrapped.
             req = get_requirement(req_string.strip())

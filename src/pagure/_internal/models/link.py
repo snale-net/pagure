@@ -517,7 +517,11 @@ class Link:
 
     @property
     def is_wheel(self) -> bool:
-        return self.ext == WHEEL_EXTENSION
+        return False
+
+    @property
+    def is_pagure_project(self) -> bool:
+        return self.is_file and os.path.exists((os.path.join(self.file_path, "pagure.yaml")))
 
     @property
     def is_vcs(self) -> bool:

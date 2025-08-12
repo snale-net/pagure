@@ -13,22 +13,10 @@ from pagure._internal.models.direct_url import DirectUrl
 from pagure._internal.utils.logging import indent_log
 from pagure._internal.utils.setuptools_build import make_setuptools_develop_args
 from pagure._internal.utils.subprocess import call_subprocess
-from pagure._vendor.pyyaml.lib import yaml
 from pagure.configuration import Configuration, kinds
+from pagure._internal.utils.wheel import load_yaml_config
 
 logger = logging.getLogger(__name__)
-def load_yaml_config(yaml_path: str) -> dict:
-    """
-    Loads and parses a YAML configuration file.
-
-    Args:
-        yaml_path (str): The file path to the YAML configuration file.
-
-    Returns:
-        dict: A dictionary containing the parsed YAML configuration.
-    """
-    with open(yaml_path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
 
 def _install_librairy(
         name: str,

@@ -3037,6 +3037,18 @@ class Distribution:
             self.__dep_map = self._filter_extras(self._build_dep_map())
         return self.__dep_map
 
+    @property
+    def _external_dep_map(self):
+        """
+        A map of external (direct) requirements
+        for this distribution, including the null extra.
+        """
+        try:
+            return self.__external_dep_map
+        except AttributeError:
+            self.__external_dep_map = self._filter_extras(self._build_dep_map())
+        return self.__external_dep_map
+
     @staticmethod
     def _filter_extras(dm: dict[str | None, list[Requirement]]):
         """
@@ -3077,6 +3089,13 @@ class Distribution:
                 raise UnknownExtra(
                     "%s has no such extra feature %r" % (self, ext)
                 ) from e
+        return deps
+
+    def external_requires(self):
+        """List of external Requirements needed for this distro"""
+        dm = self._external_dep_map
+        deps: list[Requirement] = []
+        deps.extend(dm.get(None, ()))
         return deps
 
     def _get_metadata_path_for_display(self, name):
@@ -3322,6 +3341,10 @@ class Distribution:
     def extras(self):
         return [dep for dep in self._dep_map if dep]
 
+    @property
+    def external_dependencies(self):
+        return [dep for dep in self._external_dep_map if dep]
+
 
 class EggInfoDistribution(Distribution):
     def _reload_version(self):
@@ -3393,6 +3416,27 @@ class DistInfoDistribution(Distribution):
             ]
 
         return self.__dep_map
+
+    @property
+    def _external_dep_map(self):
+        try:
+            return self.__external_dep_map
+        except AttributeError:
+            self.__external_dep_map = self._compute_external_dependencies()
+            return self.__external_dep_map
+    def _compute_external_dependencies(self) -> dict[str | None, list[Requirement]]:
+        """Recompute this distribution's external dependencies."""
+        self.__external_dep_map: dict[str | None, list[Requirement]] = {None: []}
+
+        reqs: list[Requirement] = []
+        # Including any condition expressions
+        for req in self._parsed_pkg_info.get_all('Requires-External') or []:
+            reqs.extend(parse_requirements(req))
+
+        common = types.MappingProxyType(dict.fromkeys(reqs))
+        self.__external_dep_map[None].extend(common)
+
+        return self.__external_dep_map
 
 
 _distributionImpl = {

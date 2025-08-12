@@ -18,6 +18,7 @@ from pagure._internal.metadata import (
     BaseDistribution,
     get_default_environment,
 )
+from pagure._internal.metadata import get_metadata_distribution
 from pagure._internal.models.direct_url import DirectUrl
 from pagure._internal.models.link import Link
 from pagure._internal.operations.install.librairy import install_librairy
@@ -25,7 +26,6 @@ from pagure._internal.req.req_uninstall import UninstallPathSet
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.hashes import Hashes
 from pagure._internal.utils.misc import (
-    ConfiguredBuildBackendHookCaller,
     ask_path_exists,
     backup_dir,
     display_path,
@@ -34,22 +34,17 @@ from pagure._internal.utils.misc import (
     redact_auth_from_requirement,
     redact_auth_from_url,
 )
-from pagure._internal.utils.packaging import get_requirement
 from pagure._internal.utils.subprocess import runner_with_spinner_message
 from pagure._internal.utils.temp_dir import TempDirectory, tempdir_kinds
 from pagure._internal.utils.unpacking import unpack_file
 from pagure._internal.utils.virtualenv import running_under_virtualenv
+from pagure._internal.utils.wheel import load_yaml_config
 from pagure._internal.vcs import vcs
 from pagure._vendor.packaging.markers import Marker
 from pagure._vendor.packaging.requirements import Requirement
 from pagure._vendor.packaging.specifiers import SpecifierSet
 from pagure._vendor.packaging.utils import canonicalize_name
-from pagure._vendor.packaging.version import Version
-from pagure._vendor.packaging.version import parse as parse_version
 from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
-
-from pagure._internal.metadata import get_metadata_distribution
-from pagure._internal.operations.install.librairy import load_yaml_config
 
 logger = logging.getLogger(__name__)
 
@@ -424,51 +419,11 @@ class InstallRequirement:
         )
 
     @property
-    def setup_py_path(self) -> str:
+    def pagure_path(self) -> str:
         assert self.source_dir, f"No source dir for {self}"
-        setup_py = os.path.join(self.unpacked_source_directory, "setup.py")
+        yaml_cfg = os.path.join(self.unpacked_source_directory, "pagure.yaml")
 
-        return setup_py
-
-    @property
-    def setup_cfg_path(self) -> str:
-        assert self.source_dir, f"No source dir for {self}"
-        setup_cfg = os.path.join(self.unpacked_source_directory, "setup.cfg")
-
-        return setup_cfg
-
-    @property
-    def pyproject_toml_path(self) -> str:
-        assert self.source_dir, f"No source dir for {self}"
-        return make_pagure_path(self.unpacked_source_directory)
-
-    def load_pagure_builder(self) -> None:
-        """Load the pagure.yaml file.
-
-        After calling this routine, all of the attributes related to PEP 517
-        processing for this requirement have been set. In particular, the
-        use_pep517 attribute can be used to determine whether we should
-        follow the PEP 517 or legacy (setup.py) code path.
-        """
-        pyproject_toml_data = load_pagure_builder(
-            self.use_pep517, self.pyproject_toml_path, self.setup_py_path, str(self)
-        )
-
-        if pyproject_toml_data is None:
-            assert not self.config_settings
-            self.use_pep517 = False
-            return
-
-        self.use_pep517 = True
-        requires, backend, check, backend_path = pyproject_toml_data
-        self.requirements_to_check = check
-        self.pyproject_requires = requires
-        self.pep517_backend = ConfiguredBuildBackendHookCaller(
-            self,
-            self.unpacked_source_directory,
-            backend,
-            backend_path=backend_path,
-        )
+        return yaml_cfg
 
     def isolated_editable_sanity_check(self) -> None:
         """Check that an editable requirement if valid for use with PEP 517/518.
@@ -505,6 +460,7 @@ class InstallRequirement:
                 f"""Metadata-Version: 2.1
 Name: {config['project']['name']}
 Version: {config['project']['version']}
+Requires-External: cmake
 Requires-Dist: setuptools (>=80.0.0)
 """, "utf-8"),
             filename=self.local_file_path,
@@ -693,7 +649,7 @@ Requires-Dist: setuptools (>=80.0.0)
             use_user_site: bool = False,
     ) -> None:
         assert self.req is not None
-        assert self.local_file_path
+        #assert self.local_file_path
 
         install_librairy(
             global_options=global_options if global_options is not None else [],
