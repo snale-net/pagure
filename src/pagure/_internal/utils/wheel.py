@@ -6,13 +6,27 @@ from email.parser import Parser
 from zipfile import BadZipFile, ZipFile
 
 from pagure._vendor.packaging.utils import canonicalize_name
-
+from pagure._vendor.pyyaml.lib import yaml
 from pagure._internal.exceptions import UnsupportedWheel
 
 VERSION_COMPATIBLE = (1, 0)
 
 
 logger = logging.getLogger(__name__)
+
+def load_yaml_config(yaml_path: str) -> dict:
+    """
+    Loads and parses a YAML configuration file.
+
+    Args:
+        yaml_path (str): The file path to the YAML configuration file.
+
+    Returns:
+        dict: A dictionary containing the parsed YAML configuration.
+    """
+    with open(yaml_path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
 
 
 def parse_wheel(wheel_zip: ZipFile, name: str) -> tuple[str, Message]:

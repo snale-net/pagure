@@ -18,20 +18,14 @@ from pagure._internal.metadata import (
     BaseDistribution,
     get_default_environment,
 )
+from pagure._internal.metadata import get_metadata_distribution
 from pagure._internal.models.direct_url import DirectUrl
 from pagure._internal.models.link import Link
-from pagure._internal.operations.build.metadata import generate_metadata
-from pagure._internal.operations.build.metadata_editable import generate_editable_metadata
-from pagure._internal.operations.build.metadata_legacy import (
-    generate_metadata as generate_metadata_legacy,
-)
 from pagure._internal.operations.install.librairy import install_librairy
-from pagure._internal.pagure_builder import load_pagure_builder
 from pagure._internal.req.req_uninstall import UninstallPathSet
 from pagure._internal.utils.deprecation import deprecated
 from pagure._internal.utils.hashes import Hashes
 from pagure._internal.utils.misc import (
-    ConfiguredBuildBackendHookCaller,
     ask_path_exists,
     backup_dir,
     display_path,
@@ -40,23 +34,17 @@ from pagure._internal.utils.misc import (
     redact_auth_from_requirement,
     redact_auth_from_url,
 )
-from pagure._internal.utils.packaging import get_requirement
 from pagure._internal.utils.subprocess import runner_with_spinner_message
 from pagure._internal.utils.temp_dir import TempDirectory, tempdir_kinds
 from pagure._internal.utils.unpacking import unpack_file
 from pagure._internal.utils.virtualenv import running_under_virtualenv
+from pagure._internal.utils.wheel import load_yaml_config
 from pagure._internal.vcs import vcs
 from pagure._vendor.packaging.markers import Marker
 from pagure._vendor.packaging.requirements import Requirement
 from pagure._vendor.packaging.specifiers import SpecifierSet
 from pagure._vendor.packaging.utils import canonicalize_name
-from pagure._vendor.packaging.version import Version
-from pagure._vendor.packaging.version import parse as parse_version
 from pagure._vendor.pyproject_hooks import BuildBackendHookCaller
-
-from pagure._internal.metadata import get_metadata_distribution
-from pagure._internal.operations.install.librairy import load_yaml_config
-from pagure._internal.pagure_builder import make_pagure_path
 
 logger = logging.getLogger(__name__)
 
@@ -226,17 +214,6 @@ class InstallRequirement:
             f"{str(self)} editable={self.editable!r}>"
         )
 
-    def format_debug(self) -> str:
-        """An un-tested helper for getting state, for debugging."""
-        attributes = vars(self)
-        names = sorted(attributes)
-
-        state = (f"{attr}={attributes[attr]!r}" for attr in sorted(names))
-        return "<{name} object: {{{state}}}>".format(
-            name=self.__class__.__name__,
-            state=", ".join(state),
-        )
-
     # Things that are valid for all kinds of requirements?
     @property
     def name(self) -> str | None:
@@ -383,46 +360,6 @@ class InstallRequirement:
             globally_managed=True,
         ).path
 
-    def _set_requirement(self) -> None:
-        """Set requirement after generating metadata."""
-        assert self.req is None
-        assert self.metadata is not None
-        assert self.source_dir is not None
-
-        # Construct a Requirement object from the generated metadata
-        if isinstance(parse_version(self.metadata["Version"]), Version):
-            op = "=="
-        else:
-            op = "==="
-
-        self.req = get_requirement(
-            "".join(
-                [
-                    self.metadata["Name"],
-                    op,
-                    self.metadata["Version"],
-                ]
-            )
-        )
-
-    def warn_on_mismatching_name(self) -> None:
-        assert self.req is not None
-        metadata_name = canonicalize_name(self.metadata["Name"])
-        if canonicalize_name(self.req.name) == metadata_name:
-            # Everything is fine.
-            return
-
-        # If we're here, there's a mismatch. Log a warning about it.
-        logger.warning(
-            "Generating metadata for package %s "
-            "produced metadata for project name %s. Fix your "
-            "#egg=%s fragments.",
-            self.name,
-            metadata_name,
-            self.name,
-        )
-        self.req = get_requirement(metadata_name)
-
     def check_if_exists(self, use_user_site: bool) -> None:
         """Find an installed distribution that satisfies or conflicts
         with this requirement, and set self.satisfied_by or
@@ -482,51 +419,11 @@ class InstallRequirement:
         )
 
     @property
-    def setup_py_path(self) -> str:
+    def pagure_path(self) -> str:
         assert self.source_dir, f"No source dir for {self}"
-        setup_py = os.path.join(self.unpacked_source_directory, "setup.py")
+        yaml_cfg = os.path.join(self.unpacked_source_directory, "pagure.yaml")
 
-        return setup_py
-
-    @property
-    def setup_cfg_path(self) -> str:
-        assert self.source_dir, f"No source dir for {self}"
-        setup_cfg = os.path.join(self.unpacked_source_directory, "setup.cfg")
-
-        return setup_cfg
-
-    @property
-    def pyproject_toml_path(self) -> str:
-        assert self.source_dir, f"No source dir for {self}"
-        return make_pagure_path(self.unpacked_source_directory)
-
-    def load_pagure_builder(self) -> None:
-        """Load the pagure.yaml file.
-
-        After calling this routine, all of the attributes related to PEP 517
-        processing for this requirement have been set. In particular, the
-        use_pep517 attribute can be used to determine whether we should
-        follow the PEP 517 or legacy (setup.py) code path.
-        """
-        pyproject_toml_data = load_pagure_builder(
-            self.use_pep517, self.pyproject_toml_path, self.setup_py_path, str(self)
-        )
-
-        if pyproject_toml_data is None:
-            assert not self.config_settings
-            self.use_pep517 = False
-            return
-
-        self.use_pep517 = True
-        requires, backend, check, backend_path = pyproject_toml_data
-        self.requirements_to_check = check
-        self.pyproject_requires = requires
-        self.pep517_backend = ConfiguredBuildBackendHookCaller(
-            self,
-            self.unpacked_source_directory,
-            backend,
-            backend_path=backend_path,
-        )
+        return yaml_cfg
 
     def isolated_editable_sanity_check(self) -> None:
         """Check that an editable requirement if valid for use with PEP 517/518.
@@ -548,51 +445,6 @@ class InstallRequirement:
                 f"it cannot be installed in editable mode. "
                 f"Consider using a build backend that supports PEP 660."
             )
-
-    def prepare_metadata(self) -> None:
-        """Ensure that project metadata is available.
-
-        Under PEP 517 and PEP 660, call the backend hook to prepare the metadata.
-        Under legacy processing, call setup.py egg-info.
-        """
-        assert self.source_dir, f"No source dir for {self}"
-        details = self.name or f"from {self.link}"
-
-        if self.use_pep517:
-            assert self.pep517_backend is not None
-            if (
-                    self.editable
-                    and self.permit_editable_wheels
-                    and self.supports_pyproject_editable
-            ):
-                self.metadata_directory = generate_editable_metadata(
-                    build_env=self.build_env,
-                    backend=self.pep517_backend,
-                    details=details,
-                )
-            else:
-                self.metadata_directory = generate_metadata(
-                    build_env=self.build_env,
-                    backend=self.pep517_backend,
-                    details=details,
-                )
-        else:
-            self.metadata_directory = generate_metadata_legacy(
-                build_env=self.build_env,
-                setup_py_path=self.setup_py_path,
-                source_dir=self.unpacked_source_directory,
-                isolated=self.isolated,
-                details=details,
-            )
-
-        # Act on the newly generated metadata, based on the name and version.
-        if not self.name:
-            self._set_requirement()
-        else:
-            self.warn_on_mismatching_name()
-
-        self.assert_source_matches_version()
-
     @property
     def metadata(self) -> Any:
         if not hasattr(self, "_metadata"):
@@ -608,28 +460,12 @@ class InstallRequirement:
                 f"""Metadata-Version: 2.1
 Name: {config['project']['name']}
 Version: {config['project']['version']}
+Requires-External: cmake
 Requires-Dist: setuptools (>=80.0.0)
 """, "utf-8"),
             filename=self.local_file_path,
             canonical_name=canonicalize_name(self.req.name),
         )
-
-    def assert_source_matches_version(self) -> None:
-        assert self.source_dir, f"No source dir for {self}"
-        version = self.metadata["version"]
-        if self.req and self.req.specifier and version not in self.req.specifier:
-            logger.warning(
-                "Requested %s, but installing version %s",
-                self,
-                version,
-            )
-        else:
-            logger.debug(
-                "Source in %s has version %s, which satisfies requirement %s",
-                display_path(self.source_dir),
-                version,
-                self,
-            )
 
     # For both source distributions and editables
     def ensure_has_source_dir(
@@ -813,7 +649,7 @@ Requires-Dist: setuptools (>=80.0.0)
             use_user_site: bool = False,
     ) -> None:
         assert self.req is not None
-        assert self.local_file_path
+        #assert self.local_file_path
 
         install_librairy(
             global_options=global_options if global_options is not None else [],

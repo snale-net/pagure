@@ -6,7 +6,7 @@ import xmlrpc.client
 from typing import TYPE_CHECKING
 
 from pagure._internal.exceptions import NetworkConnectionError
-from pagure._internal.network.session import PipSession
+from pagure._internal.network.session import PagureSession
 from pagure._internal.network.utils import raise_for_status
 
 if TYPE_CHECKING:
@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 
 
 class PipXmlrpcTransport(xmlrpc.client.Transport):
-    """Provide a `xmlrpclib.Transport` implementation via a `PipSession`
+    """Provide a `xmlrpclib.Transport` implementation via a `PagureSession`
     object.
     """
 
     def __init__(
-        self, index_url: str, session: PipSession, use_datetime: bool = False
+        self, index_url: str, session: PagureSession, use_datetime: bool = False
     ) -> None:
         super().__init__(use_datetime)
         index_parts = urllib.parse.urlparse(index_url)

@@ -21,7 +21,7 @@ from pagure._internal.utils.misc import tabulate, write_output
 
 if TYPE_CHECKING:
     from pagure._internal.index.package_finder import PackageFinder
-    from pagure._internal.network.session import PipSession
+    from pagure._internal.network.session import PagureSession
 
     class _DistWithLatestInfo(BaseDistribution):
         """Give the distribution object a couple of extra fields.
@@ -143,7 +143,7 @@ class ListCommand(IndexGroupCommand):
             super().handle_pip_version_check(options)
 
     def _build_package_finder(
-        self, options: Values, session: PipSession
+        self, options: Values, session: PagureSession
     ) -> PackageFinder:
         """
         Create a package finder appropriate to this list command.

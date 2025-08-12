@@ -3,7 +3,7 @@ Contains command classes which may interact with an index / the network.
 
 Unlike its sister module, req_command, this module still uses lazy imports
 so commands which don't always hit the network (e.g. list w/o --outdated or
---uptodate) don't need waste time importing PipSession and friends.
+--uptodate) don't need waste time importing PagureSession and friends.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ from pagure.cli.command_context import CommandContextMixIn
 if TYPE_CHECKING:
     from ssl import SSLContext
 
-    from pagure._internal.network.session import PipSession
+    from pagure._internal.network.session import PagureSession
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ class SessionCommandMixin(CommandContextMixIn):
 
     def __init__(self) -> None:
         super().__init__()
-        self._session: PipSession | None = None
+        self._session: PagureSession | None = None
 
     @classmethod
     def _get_index_urls(cls, options: Values) -> list[str] | None:
@@ -74,7 +74,7 @@ class SessionCommandMixin(CommandContextMixIn):
         # Return None rather than an empty list
         return index_urls or None
 
-    def get_default_session(self, options: Values) -> PipSession:
+    def get_default_session(self, options: Values) -> PagureSession:
         """Get a default-managed session."""
         if self._session is None:
             self._session = self.enter_context(self._build_session(options))
@@ -89,8 +89,8 @@ class SessionCommandMixin(CommandContextMixIn):
         options: Values,
         retries: int | None = None,
         timeout: int | None = None,
-    ) -> PipSession:
-        from pagure._internal.network.session import PipSession
+    ) -> PagureSession:
+        from pagure._internal.network.session import PagureSession
 
         cache_dir = options.cache_dir
         assert not cache_dir or os.path.isabs(cache_dir)
@@ -100,7 +100,7 @@ class SessionCommandMixin(CommandContextMixIn):
         else:
             ssl_context = None
 
-        session = PipSession(
+        session = PagureSession(
             cache=os.path.join(cache_dir, "http-v2") if cache_dir else None,
             retries=retries if retries is not None else options.retries,
             trusted_hosts=options.trusted_hosts,
@@ -136,7 +136,7 @@ class SessionCommandMixin(CommandContextMixIn):
         return session
 
 
-def _pip_self_version_check(session: PipSession, options: Values) -> None:
+def _pip_self_version_check(session: PagureSession, options: Values) -> None:
     from pagure._internal.self_outdated_check import pip_self_version_check as check
 
     check(session, options)

@@ -90,17 +90,8 @@ class Backend(Protocol):
 
 @functools.cache
 def select_backend() -> Backend:
-    if _should_use_importlib_metadata():
-        from . import importlib
-
-        return cast(Backend, importlib)
-
-    _emit_pkg_resources_deprecation_if_needed()
-
-    from . import pkg_resources
-
-    return cast(Backend, pkg_resources)
-
+    from . import importlib
+    return cast(Backend, importlib)
 
 def get_default_environment() -> BaseEnvironment:
     """Get the default representation for the current environment.
@@ -157,7 +148,6 @@ def get_metadata_distribution(
     :param filename: Filename for the dist this metadata represents.
     :param canonical_name: Normalized project name of the given dist.
     """
-    # TODO Read pagure yaml file
     return select_backend().Distribution.from_metadata_file_contents(
         metadata_contents,
         filename,

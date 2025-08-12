@@ -1,4 +1,4 @@
-"""PipSession and supporting code, containing all pip-specific
+"""PagureSession and supporting code, containing all pip-specific
 network request configuration and behavior.
 """
 
@@ -322,7 +322,7 @@ class InsecureCacheControlAdapter(CacheControlAdapter):
         super().cert_verify(conn=conn, url=url, verify=False, cert=cert)
 
 
-class PipSession(requests.Session):
+class PagureSession(requests.Session):
     timeout: int | None = None
 
     def __init__(

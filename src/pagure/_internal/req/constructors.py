@@ -17,21 +17,20 @@ import re
 from collections.abc import Collection
 from dataclasses import dataclass
 
-from pagure._vendor.packaging.markers import Marker
-from pagure._vendor.packaging.requirements import InvalidRequirement, Requirement
-from pagure._vendor.packaging.specifiers import Specifier
-
 from pagure._internal.exceptions import InstallationError
 from pagure._internal.models.index import PyPI, TestPyPI
 from pagure._internal.models.link import Link
-from pagure._internal.models.wheel import Wheel
 from pagure._internal.req.req_file import ParsedRequirement
 from pagure._internal.req.req_install import InstallRequirement
 from pagure._internal.utils.filetypes import is_archive_file
 from pagure._internal.utils.misc import is_installable_dir
 from pagure._internal.utils.packaging import get_requirement
 from pagure._internal.utils.urls import path_to_url
+from pagure._internal.utils.wheel import load_yaml_config
 from pagure._internal.vcs import is_url, vcs
+from pagure._vendor.packaging.markers import Marker
+from pagure._vendor.packaging.requirements import InvalidRequirement, Requirement
+from pagure._vendor.packaging.specifiers import Specifier
 
 __all__ = [
     "install_req_from_editable",
@@ -287,8 +286,7 @@ def _get_url_from_path(path: str, name: str) -> str | None:
         # TODO: The is_installable_dir test here might not be necessary
         #       now that it is done in load_pyproject_toml too.
         raise InstallationError(
-            f"Directory {name!r} is not installable. Neither 'setup.py' "
-            "nor 'pyproject.toml' found."
+            f"Directory {name!r} is not installable. No 'pagure.yaml' found."
         )
     if not is_archive_file(path):
         return None
@@ -339,10 +337,10 @@ def parse_req_from_line(name: str, line_source: str | None) -> RequirementParts:
         # Handle relative file URLs
         if link.scheme == "file" and re.search(r"\.\./", link.url):
             link = Link(path_to_url(os.path.normpath(os.path.abspath(link.path))))
-        # wheel file
-        if link.is_wheel:
-            wheel = Wheel(link.filename)  # can raise InvalidWheelFilename
-            req_as_string = f"{wheel.name}=={wheel.version}"
+        # pagure project
+        if link.is_pagure_project:
+            config_yaml = load_yaml_config(os.path.join(link.file_path,"pagure.yaml"))
+            req_as_string = f"{config_yaml['project']['name']}=={config_yaml['project']['version']}"
         else:
             # set the req to the egg fragment.  when it's not there, this
             # will become an 'unnamed' requirement

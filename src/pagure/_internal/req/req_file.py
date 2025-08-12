@@ -29,7 +29,7 @@ from pagure._internal.models.search_scope import SearchScope
 
 if TYPE_CHECKING:
     from pagure._internal.index.package_finder import PackageFinder
-    from pagure._internal.network.session import PipSession
+    from pagure._internal.network.session import PagureSession
 
 __all__ = ["parse_requirements"]
 
@@ -145,7 +145,7 @@ class ParsedLine:
 
 def parse_requirements(
     filename: str,
-    session: PipSession,
+    session: PagureSession,
     finder: PackageFinder | None = None,
     options: optparse.Values | None = None,
     constraint: bool = False,
@@ -153,7 +153,7 @@ def parse_requirements(
     """Parse a requirements file and yield ParsedRequirement instances.
 
     :param filename:    Path or url of requirements file.
-    :param session:     PipSession instance.
+    :param session:     PagureSession instance.
     :param finder:      Instance of pip.index.PackageFinder.
     :param options:     cli options.
     :param constraint:  If true, parsing a constraint file rather than
@@ -222,7 +222,7 @@ def handle_option_line(
     lineno: int,
     finder: PackageFinder | None = None,
     options: optparse.Values | None = None,
-    session: PipSession | None = None,
+    session: PagureSession | None = None,
 ) -> None:
     if opts.hashes:
         logger.warning(
@@ -290,7 +290,7 @@ def handle_line(
     line: ParsedLine,
     options: optparse.Values | None = None,
     finder: PackageFinder | None = None,
-    session: PipSession | None = None,
+    session: PagureSession | None = None,
 ) -> ParsedRequirement | None:
     """Handle a single parsed requirements line; This can result in
     creating/yielding requirements, or updating the finder.
@@ -333,7 +333,7 @@ def handle_line(
 class RequirementsFileParser:
     def __init__(
         self,
-        session: PipSession,
+        session: PagureSession,
         line_parser: LineParser,
     ) -> None:
         self._session = session
@@ -561,13 +561,13 @@ def expand_env_variables(lines_enum: ReqFileLines) -> ReqFileLines:
         yield line_number, line
 
 
-def get_file_content(url: str, session: PipSession) -> tuple[str, str]:
+def get_file_content(url: str, session: PagureSession) -> tuple[str, str]:
     """Gets the content of a file; it may be a filename, file: URL, or
     http: URL.  Returns (location, content).  Content is unicode.
     Respects # -*- coding: declarations on the retrieved files.
 
     :param url:         File path or url.
-    :param session:     PipSession instance.
+    :param session:     PagureSession instance.
     """
     scheme = urllib.parse.urlsplit(url).scheme
     # Pip has special support for file:// URLs (LocalFSAdapter).

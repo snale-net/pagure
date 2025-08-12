@@ -3109,6 +3109,13 @@ class Distribution:
                 raise UnknownExtra(f"{self} has no such extra feature {ext!r}") from e
         return deps
 
+    def external_requires(self) -> list[Requirement]:
+        """List of External Requirements needed for this distro """
+        dm = self._external_dep_map
+        deps: list[Requirement] = []
+        deps.extend(dm.get(None, ()))
+        return deps
+
     def _get_metadata_path_for_display(self, name):
         """
         Return the path to the given metadata file, if available.
@@ -3419,6 +3426,33 @@ class DistInfoDistribution(Distribution):
             ]
 
         return self.__dep_map
+
+    @property
+    def _external_dep_map(self):
+        try:
+            return self.__external_dep_map
+        except AttributeError:
+            self.__external_dep_map = self._compute_external_dependencies()
+            return self.__external_dep_map
+
+    def _compute_external_dependencies(self) -> dict[str | None, list[Requirement]]:
+        """Recompute this distribution's external dependencies."""
+        self.__external_dep_map: dict[str | None, list[Requirement]] = {None: []}
+
+        reqs: list[Requirement] = []
+        # Including any condition expressions
+        for req in self._parsed_pkg_info.get_all('Requires-External') or []:
+            reqs.extend(parse_requirements(req))
+
+        def reqs_for_extra(extra):
+            for req in reqs:
+                if not req.marker or req.marker.evaluate({'extra': extra}):
+                    yield req
+
+        common = types.MappingProxyType(dict.fromkeys(reqs_for_extra(None)))
+        self.__external_dep_map[None].extend(common)
+
+        return self.__external_dep_map
 
 
 _distributionImpl = {
