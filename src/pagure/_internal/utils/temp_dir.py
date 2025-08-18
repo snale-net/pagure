@@ -155,7 +155,7 @@ class TempDirectory:
     def __enter__(self: _T) -> _T:
         return self
 
-    def __exit__(self, exc: Any, value: Any, tb: Any) -> None:
+    def __exit__(self, exc: Any, value: Any) -> None:
         if self.delete is not None:
             delete = self.delete
         elif _tempdir_registry:

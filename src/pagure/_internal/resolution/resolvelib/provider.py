@@ -106,7 +106,6 @@ class PipProvider(_ProviderBase):
     def narrow_requirement_selection(
         self,
         identifiers: Iterable[str],
-        resolutions: Mapping[str, Candidate],
         candidates: Mapping[str, Iterator[Candidate]],
         information: Mapping[str, Iterator[PreferenceInformation]],
         backtrack_causes: Sequence[PreferenceInformation],
@@ -149,7 +148,6 @@ class PipProvider(_ProviderBase):
     def get_preference(
         self,
         identifier: str,
-        resolutions: Mapping[str, Candidate],
         candidates: Mapping[str, Iterator[Candidate]],
         information: Mapping[str, Iterable[PreferenceInformation]],
         backtrack_causes: Sequence[PreferenceInformation],
