@@ -76,9 +76,7 @@ class BuildTracker:
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
     ) -> None:
         self.cleanup()
 

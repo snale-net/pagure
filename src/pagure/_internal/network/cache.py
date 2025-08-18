@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 from collections.abc import Generator
 from contextlib import contextmanager
-from datetime import datetime
 from typing import BinaryIO
 
 from pagure._vendor.cachecontrol.cache import SeparateBodyBaseCache
@@ -94,7 +93,7 @@ class SafeFileCache(SeparateBodyBaseCache):
             replace(f.name, path)
 
     def set(
-        self, key: str, value: bytes, expires: int | datetime | None = None
+        self, key: str, value: bytes,
     ) -> None:
         path = self._get_cache_path(key)
         self._write(path, value)
