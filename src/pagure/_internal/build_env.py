@@ -10,7 +10,6 @@ import sys
 import textwrap
 from collections import OrderedDict
 from collections.abc import Iterable
-from types import TracebackType
 from typing import TYPE_CHECKING
 
 from pagure._vendor.packaging.version import Version
@@ -159,9 +158,7 @@ class BuildEnvironment:
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
     ) -> None:
         for varname, old_value in self._save_env.items():
             if old_value is None:
@@ -308,9 +305,7 @@ class NoOpBuildEnvironment(BuildEnvironment):
 
     def __exit__(
         self,
-        exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
     ) -> None:
         pass
 

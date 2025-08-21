@@ -6,7 +6,7 @@ from email.parser import Parser
 from zipfile import BadZipFile, ZipFile
 
 from pagure._vendor.packaging.utils import canonicalize_name
-from pagure._vendor.pyyaml.lib import yaml
+from pagure._vendor.pyyaml import yaml
 from pagure._internal.exceptions import UnsupportedWheel
 
 VERSION_COMPATIBLE = (1, 0)
