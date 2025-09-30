@@ -1254,14 +1254,14 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 fi # end-MPI-only
 
-# GMT 6.4.0
+# GMT 6.5.0
 index=29
 name["$group-$index"]=gmt
-version["$group-$index"]=6.4.0
+version["$group-$index"]=6.5.0
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/GenericMappingTools/gmt/archive/refs/tags/6.4.0.tar.gz -O gmt-6.4.0.tar.gz"
-filename["$group-$index"]=gmt-6.4.0.tar.gz
-dirname["$group-$index"]=gmt-6.4.0
+url["$group-$index"]="https://github.com/GenericMappingTools/gmt/archive/refs/tags/6.5.0.tar.gz -O gmt-6.5.0.tar.gz"
+filename["$group-$index"]=gmt-6.5.0.tar.gz
+dirname["$group-$index"]=gmt-6.5.0
 builder["$group-$index"]="gmt6"
 if [ "$mpilib" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
