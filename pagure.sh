@@ -694,7 +694,7 @@ else
     # On teste si les modules pré-chargés sont correctement chargés
     exec_module "list"
     # On charge le module privé
-    exec_module "load use.own"
+    #exec_module "load use.own"
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences   	
 	module list -t 2> module_list 	
 	sed -i -e 's/(default)//' module_list 
