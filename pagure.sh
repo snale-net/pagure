@@ -692,13 +692,16 @@ then
 	fi
 else
     # On teste si les modules pré-chargés sont correctement chargés
-    exec_module "list"
+    exec_module "-t list"
     # On charge le module privé
     #exec_module "load use.own"
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences   	
-	module list -t 2> module_list 	
-	sed -i -e 's/(default)//' module_list 
-	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+	module -t list > module_list 	
+	sed -i -e 's/(default)//' module_list
+        moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+	if [ ! -z "$moduleList" ] ; then
+	    log debug "Previous loaded modules are $moduleList"
+	fi
 	rm module_list
 fi
 
