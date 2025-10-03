@@ -802,8 +802,18 @@ function install()
 				
 				# On vide les dépendances
 				exec_module "purge"
+
+                if [ "$pythonInterpreter" != "none" ] ;  then
+
+                    if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
+                        # On a détecté un python qui ne provient pas de PAGURE, on supprime la dep au module de PAGURE
+		                dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/$pythonVersion/}
+                        dependencies["$index"]=${dependencies["$index"]/python-modules\/"$compilo"\/$pythonVersion/}
+            		fi                   
+
+                fi  	
 				
-				if [ "$systemOS" == "cluster" ] ; then 					
+				if [ "$systemOS" == "cluster" ] ; then                    				
 					
 					if [ "${libToInstall}" == "none" ] ; then
 						# Uniquement si on n'utilise pas de filtre, on essait d'utiliser les dépendences du cluster
