@@ -698,8 +698,9 @@ else
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences   	
 	module -t list > module_list 	
 	sed -i -e 's/(default)//' module_list
+    sed -i -e 's/Currently Loaded Modulefiles://' module_list 
         moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
-	if [ ! -z "$moduleList" ] ; then
+	if [[ ! -z "$moduleList" && $debug == "1" ]]; then
 	    log debug "Previous loaded modules are $moduleList"
 	fi
 	rm module_list
