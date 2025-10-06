@@ -479,7 +479,11 @@ then
     pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 	log info "Python interpreter is set to $pythonInterpreter"	
 else
-	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
+	if  [[ $(vercomp $pythonVersion 2.7) == 0 ]]; then # only Python==2.7
+		pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+		log info "Python interpreter ${pythonVersion} will be installed"
+	elif  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
         pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
