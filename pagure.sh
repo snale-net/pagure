@@ -478,6 +478,18 @@ then
 	installedPython=1
     pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 	log info "Python interpreter is set to $pythonInterpreter"	
+
+    if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
+        # On a détecté un python qui ne provient pas de PAGURE, on supprime l'installation du Python       
+        for i in "${!libToInstall[@]}"; do          
+            if [[ " ${libToInstall[i]} " =~ [[:space:]]1-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-2[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-3[[:space:]] ]]; then             
+              unset 'libToInstall[i]'
+            fi
+        done 
+        if [ $debug == "1" ]; then  
+			log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
+		fi       
+	fi    
 else
 	if  [[ $(vercomp $pythonVersion 2.7) == 0 ]]; then # only Python==2.7
 		pythonInterpreter=python${pythonVersion}
@@ -703,7 +715,8 @@ else
 	module -t list > module_list 	
 	sed -i -e 's/(default)//' module_list
     sed -i -e 's/Currently Loaded Modulefiles://' module_list 
-        moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+    sed -i -e 's/No Modulefiles Currently Loaded.//' module_list 
+    moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
 	if [[ ! -z "$moduleList" && $debug == "1" ]]; then
 	    log debug "Previous loaded modules are $moduleList"
 	fi
@@ -811,8 +824,7 @@ function install()
 				# On vide les dépendances
 				exec_module "purge"
 
-                if [ "$pythonInterpreter" != "none" ] ;  then
-
+                if [ "$installedPython" == "1" ];  then
                     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
                         # On a détecté un python qui ne provient pas de PAGURE, on supprime la dep au module de PAGURE
 		                dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/$pythonVersion/}
