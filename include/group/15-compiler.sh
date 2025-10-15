@@ -80,10 +80,10 @@ details["$group-$index"]=""
 url["$group-$index"]="https://mirror.snale.net/gcc-7.5.0.tar.gz" 
 filename["$group-$index"]=gcc-7.5.0.tar.gz
 dirname["$group-$index"]=gcc-7.5.0
-builder["$group-$index"]="configure"
-dependencies["$group-$index"]="gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0 mpc/$compilo/1.3.1 isl/$compilo/0.24"
+builder["$group-$index"]="gcc"
+dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="--enable-languages=c,c++,fortran --enable-bootstrap --disable-multilib"
+args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
