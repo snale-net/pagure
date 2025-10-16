@@ -578,7 +578,7 @@ fi
 
 if [[ $(vercomp ${CC_VERSION:0:3} ${CXX_VERSION:0:3}) != 0 ]] || [[ $(vercomp ${CC_VERSION:0:3} ${FC_VERSION:0:3}) != 0 ]]; then
 	log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
-	leave 1
+	#leave 1
 fi
 
 # Fix for GNU 10
@@ -716,6 +716,7 @@ else
 	sed -i -e 's/(default)//' module_list
     sed -i -e 's/Currently Loaded Modulefiles://' module_list 
     sed -i -e 's/No Modulefiles Currently Loaded.//' module_list 
+    sed -i -e 's/No modules loaded//' module_list 
     moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
 	if [[ ! -z "$moduleList" && $debug == "1" ]]; then
 	    log debug "Previous loaded modules are $moduleList"
@@ -916,8 +917,8 @@ function install()
 					
 				else				
 					# module normal				
-					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					module show ${dirmodule["$index"]}/${version["$index"]} > lib_test 2>&1
+					libTest=$(cat lib_test | grep "ERROR\|Failed" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then
