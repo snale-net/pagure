@@ -1015,3 +1015,35 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
+# libxt snapshot
+index=32
+name["$group-$index"]=libxt
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxt/-/archive/master/libxt-master.zip"
+filename["$group-$index"]=libxt-master.zip
+dirname["$group-$index"]=libxt-master
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/snapshot"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
