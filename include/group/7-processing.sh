@@ -514,9 +514,9 @@ index=16
 name["$group-$index"]=metis
 version["$group-$index"]=5.1.0
 details["$group-$index"]="(sequential version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/metis-5.1.0-p3.tar.gz
-filename["$group-$index"]=metis-5.1.0-p3.tar.gz
-dirname["$group-$index"]=metis-5.1.0-p3
+url["$group-$index"]=https://mirror.snale.net/metis-5.1.0.tar.gz
+filename["$group-$index"]=metis-5.1.0.tar.gz
+dirname["$group-$index"]=metis-5.1.0
 builder["$group-$index"]="metis"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -547,9 +547,9 @@ index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
 details["$group-$index"]="(parallel version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/parmetis-4.0.3-p3.tar.gz
-filename["$group-$index"]=parmetis-4.0.3-p3.tar.gz
-dirname["$group-$index"]=parmetis-4.0.3-p3
+url["$group-$index"]=https://mirror.snale.net/parmetis-4.0.3.tar.gz
+filename["$group-$index"]=parmetis-4.0.3.tar.gz
+dirname["$group-$index"]=parmetis-4.0.3
 patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.666727000 +0100
 +++ CMakeLists.txt	2020-03-26 14:16:28.082736398 +0100
 @@ -5,7 +5,7 @@
