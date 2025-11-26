@@ -168,7 +168,7 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d21
 filename["$group-$index"]=lxml-4.6.3.tar.gz
 dirname["$group-$index"]=lxml-4.6.3
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.22 xslt/$compilo/1.1.38"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.2 xslt/$compilo/1.1.38"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
@@ -222,14 +222,14 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# glib 2.68.3
+# glib 2.72.4
 index=8
 name["$group-$index"]=glib
-version["$group-$index"]=2.68.3
+version["$group-$index"]=2.72.4
 details["$group-$index"]=""
-url["$group-$index"]="https://download.gnome.org/sources/glib/2.68/glib-2.68.3.tar.xz"
-filename["$group-$index"]=glib-2.68.3.tar.xz
-dirname["$group-$index"]=glib-2.68.3
+url["$group-$index"]="https://download.gnome.org/sources/glib/2.72/glib-2.72.4.tar.xz"
+filename["$group-$index"]=glib-2.72.4.tar.xz
+dirname["$group-$index"]=glib-2.72.4
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -255,16 +255,16 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# gobject-introspection 1.68.0
+# gobject-introspection 1.72.1
 index=9
 name["$group-$index"]=gobject-introspection
-version["$group-$index"]=1.68.0
+version["$group-$index"]=1.72.1
 details["$group-$index"]=""
-url["$group-$index"]="https://download-fallback.gnome.org/sources/gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz"
-filename["$group-$index"]=gobject-introspection-1.68.0.tar.xz
-dirname["$group-$index"]=gobject-introspection-1.68.0
+url["$group-$index"]="https://download.gnome.org/sources/gobject-introspection/1.72/gobject-introspection-1.72.1.tar.xz"
+filename["$group-$index"]=gobject-introspection-1.72.1.tar.xz
+dirname["$group-$index"]=gobject-introspection-1.72.1
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} glib/$compilo/2.68.3 bison/$compilo/3.7"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} bison/$compilo/3.7"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -301,9 +301,9 @@ url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="-Dintrospection=enabled"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -335,7 +335,7 @@ url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6
 filename["$group-$index"]=pango-1.48.6.tar.xz
 dirname["$group-$index"]=pango-1.48.6
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 harfbuzz/$compilo/2.8.2 "
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -369,7 +369,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pix
 filename["$group-$index"]=gdk-pixbuf-2.42.0.tar.xz
 dirname["$group-$index"]=gdk-pixbuf-2.42.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Dman=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -523,7 +523,7 @@ url["$group-$index"]="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar
 filename["$group-$index"]=atk-2.36.0.tar.xz
 dirname["$group-$index"]=atk-2.36.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -557,7 +557,7 @@ url["$group-$index"]="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.ta
 filename["$group-$index"]=dbus-1.13.18.tar.xz
 dirname["$group-$index"]=dbus-1.13.18
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 gobject-introspection/$compilo/1.68.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -629,7 +629,7 @@ url["$group-$index"]="https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/AT_S
 filename["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0.zip
 dirname["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -663,7 +663,7 @@ url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
 dirname["$group-$index"]=at-spi2-atk-2.38.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2 at-spi2-core/$compilo/2.42.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2 at-spi2-core/$compilo/2.42.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -758,7 +758,7 @@ dirname["$group-$index"]=libxkbcommon-1.3.0
 builder["$group-$index"]="meson"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.2 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="-Denable-docs=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -792,7 +792,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.2
 filename["$group-$index"]=gtk-3.24.29.tar.xz
 dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.68.0 harfbuzz/$compilo/2.8.2 pango/$compilo/1.48.6 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xrandr/$compilo/1.5.4 xi/$compilo/1.8.1 dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
+dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 pango/$compilo/1.48.6 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xrandr/$compilo/1.5.4 xi/$compilo/1.8.1 dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -829,7 +829,7 @@ url["$group-$index"]="https://gitlab.com/api/v4/projects/4207231/packages/generi
 filename["$group-$index"]=graphviz-3.0.0.tar.gz
 dirname["$group-$index"]=graphviz-3.0.0
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="glib/$compilo/2.68.3 cairo/$compilo/1.17.8 pango/$compilo/1.48.6"
+dependencies["$group-$index"]="glib/$compilo/2.72.4 cairo/$compilo/1.17.8 pango/$compilo/1.48.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -865,7 +865,7 @@ url["$group-$index"]="http://download.gnome.org/sources/vala/0.42/vala-0.42.3.ta
 filename["$group-$index"]=vala-0.42.3.tar.xz
 dirname["$group-$index"]=vala-0.42.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="glib/$compilo/2.68.3 graphviz/$compilo/3.0.0"
+dependencies["$group-$index"]="glib/$compilo/2.81.2 graphviz/$compilo/3.0.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -956,9 +956,9 @@ url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
 filename["$group-$index"]=VTK-7.1.1.tar.gz
 dirname["$group-$index"]=VTK-7.1.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 libXtst/$compilo/1.2.3"
+dependencies["$group-$index"]="Xtst/$compilo/1.2.3 xcursor/$compilo/1.2.1 xft/$compilo/2.3.8 xres/$compilo/1.2.2 sm/$compilo/1.2.4 xmu/$compilo/1.1.4 xpm/$compilo/3.5.17 xrandr/$compilo/1.5.4 xt/$compilo/1.2.1 xtrans/$compilo/1.5.0 ice/$compilo/1.1.0 xslt/$compilo/1.1.38 xaw/$compilo/1.0.15 x11/$compilo/1.7.5 xfixes/$compilo/6.0.1 xi/$compilo/1.8.1 xorg-macros/$compilo/1.20.0 xorg-proto/$compilo/2023.1 xtst/$compilo/1.2.3 xinerama/$compilo/1.1.5 xxf86vm/$compilo/1.1.5 xcb/$compilo/1.15 xcomposite/$compilo/0.4.6 xdamage/$compilo/1.1.6 xcb-util/$compilo/0.3.6 xkbfile/$compilo/1.1.2 xdmcp/$compilo/1.1.4 xss/$compilo/1.2.4 xv/$compilo/1.0.12 gcc/7.5.0 python/$compilo/3.7 python-modules/$compilo/3.7 xml2/$compilo/2.13.2 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xcb-errors/$compilo/1.0.1 xcb-cursor/$compilo/0.1.6 xcb-xrm/$compilo/1.3 cmake/$compilo/3.31.8 mesa/$compilo/17.3.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-args["$group-$index"]=""
+args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/$compilo/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/$compilo/17.3.9/include"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
@@ -1363,5 +1363,728 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcomposite 0.4.6
+index=43
+name["$group-$index"]=xcomposite
+version["$group-$index"]=0.4.6
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcomposite/-/archive/libXcomposite-0.4.6/libxcomposite-libXcomposite-0.4.6.zip"
+filename["$group-$index"]=libxcomposite-libXcomposite-0.4.6.zip
+dirname["$group-$index"]=libxcomposite-libXcomposite-0.4.6
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 xfixes/$compilo/6.0.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xdamage 1.1.6
+index=44
+name["$group-$index"]=xdamage
+version["$group-$index"]=1.1.6
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxdamage/-/archive/libXdamage-1.1.6/libxdamage-libXdamage-1.1.6.zip"
+filename["$group-$index"]=libxdamage-libXdamage-1.1.6.zip
+dirname["$group-$index"]=libxdamage-libXdamage-1.1.6
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 xfixes/$compilo/6.0.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xdmcp 1.1.4
+index=45
+name["$group-$index"]=xdmcp
+version["$group-$index"]=1.1.4
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxdmcp/-/archive/libXdmcp-1.1.4/libxdmcp-libXdmcp-1.1.4.zip"
+filename["$group-$index"]=libxdmcp-libXdmcp-1.1.4.zip
+dirname["$group-$index"]=libxdmcp-libXdmcp-1.1.4
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xinerama 1.1.5
+index=46
+name["$group-$index"]=xinerama
+version["$group-$index"]=1.1.5
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxinerama/-/archive/libXinerama-1.1.5/libxinerama-libXinerama-1.1.5.zip"
+filename["$group-$index"]=libxinerama-libXinerama-1.1.5.zip
+dirname["$group-$index"]=libxinerama-libXinerama-1.1.5
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+# xxf86vm 1.1.5
+index=47
+name["$group-$index"]=xxf86vm
+version["$group-$index"]=1.1.5
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxxf86vm/-/archive/libXxf86vm-1.1.5/libxxf86vm-libXxf86vm-1.1.5.zip"
+filename["$group-$index"]=libxxf86vm-libXxf86vm-1.1.5.zip
+dirname["$group-$index"]=libxxf86vm-libXxf86vm-1.1.5
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb-util 0.3.6
+index=48
+name["$group-$index"]=xcb-util
+version["$group-$index"]=0.3.6
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcb-util/-/archive/0.3.6/libxcb-util-0.3.6.zip"
+filename["$group-$index"]=libxcb-util-0.3.6.zip
+dirname["$group-$index"]=libxcb-util-0.3.6
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 xcb/$compilo/1.15 gperf/$compilo/3.3"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xkbfile 1.1.2
+index=49
+name["$group-$index"]=xkbfile
+version["$group-$index"]=1.1.2
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxkbfile/-/archive/libxkbfile-1.1.2/libxkbfile-libxkbfile-1.1.2.zip"
+filename["$group-$index"]=libxkbfile-libxkbfile-1.1.2.zip
+dirname["$group-$index"]=libxkbfile-libxkbfile-1.1.2
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb 1.15
+index=50
+name["$group-$index"]=xcb
+version["$group-$index"]=1.15
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcb/-/archive/libxcb-1.15/libxcb-libxcb-1.15.zip"
+filename["$group-$index"]=libxcb-libxcb-1.15.zip
+dirname["$group-$index"]=libxcb-libxcb-1.15
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 xcb-proto/$compilo/1.15.2"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb-proto 1.15.2
+index=51
+name["$group-$index"]=xcb-proto
+version["$group-$index"]=1.15.2
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/archive/xcb-proto-1.15.2/xcbproto-xcb-proto-1.15.2.zip"
+filename["$group-$index"]=xcbproto-xcb-proto-1.15.2.zip
+dirname["$group-$index"]=xcbproto-xcb-proto-1.15.2
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+"
+
+# gperf 3.3
+index=52
+name["$group-$index"]=gperf
+version["$group-$index"]=3.3
+details["$group-$index"]=""
+url["$group-$index"]="http://ftp.gnu.org/pub/gnu/gperf/gperf-3.3.tar.gz"
+filename["$group-$index"]=gperf-3.3.tar.gz
+dirname["$group-$index"]=gperf-3.3
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+"
+
+# xss 1.2.4
+index=53
+name["$group-$index"]=xss
+version["$group-$index"]=1.2.4
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver/-/archive/libXScrnSaver-1.2.4/libxscrnsaver-libXScrnSaver-1.2.4.zip"
+filename["$group-$index"]=libxscrnsaver-libXScrnSaver-1.2.4.zip
+dirname["$group-$index"]=libxscrnsaver-libXScrnSaver-1.2.4
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xv 1.0.12
+index=54
+name["$group-$index"]=xv
+version["$group-$index"]=1.0.12
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxv/-/archive/libXv-1.0.12/libxv-libXv-1.0.12.zip"
+filename["$group-$index"]=libxv-libXv-1.0.12.zip
+dirname["$group-$index"]=libxv-libXv-1.0.12
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb-cursor 0.0.99
+index=55
+name["$group-$index"]=xcb-cursor
+version["$group-$index"]=0.0.99
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcb-cursor/-/archive/0.0.99/libxcb-cursor-0.0.99.zip"
+filename["$group-$index"]=libxcb-cursor-0.0.99.zip
+dirname["$group-$index"]=libxcb-cursor-0.0.99
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb-errors 1.0.1
+index=56
+name["$group-$index"]=xcb-errors
+version["$group-$index"]=1.0.1
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcb-errors/-/archive/xcb-util-errors-1.0.1/libxcb-errors-xcb-util-errors-1.0.1.zip"
+filename["$group-$index"]=libxcb-errors-xcb-util-errors-1.0.1.zip
+dirname["$group-$index"]=libxcb-errors-xcb-util-errors-1.0.1
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# xcb-wm 0.4.2
+index=57
+name["$group-$index"]=xcb-wm
+version["$group-$index"]=0.4.2
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxcb-wm/-/archive/xcb-util-wm-0.4.2/libxcb-wm-xcb-util-wm-0.4.2.zip"
+filename["$group-$index"]=libxcb-wm-xcb-util-wm-0.4.2.zip
+dirname["$group-$index"]=libxcb-wm-xcb-util-wm-0.4.2
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# mesa 17.3.9
+index=58
+name["$group-$index"]=mesa
+version["$group-$index"]=17.3.9
+details["$group-$index"]=""
+url["$group-$index"]="https://archive.mesa3d.org/older-versions/17.x/mesa-17.3.9.tar.xz"
+filename["$group-$index"]=mesa-17.3.9.tar.xz
+dirname["$group-$index"]=mesa-17.3.9
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 drm/$compilo/2.4.119 xdamage/$compilo/1.1.6 xfixes/$compilo/6.0.1 shmfence/$compilo/1.3.2 pciaccess/$compilo/0.17"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="--with-gallium-drivers=\"nouveau,swrast\""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# drm 2.4.119
+index=59
+name["$group-$index"]=drm
+version["$group-$index"]=2.4.119
+details["$group-$index"]=""
+url["$group-$index"]="https://dri.freedesktop.org/libdrm/libdrm-2.4.119.tar.xz"
+filename["$group-$index"]=libdrm-2.4.119.tar.xz
+dirname["$group-$index"]=libdrm-2.4.119
+builder["$group-$index"]="meson"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0 pciaccess/$compilo/0.17"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="-Dintel=enabled"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# shmfence 1.3.2
+index=60
+name["$group-$index"]=shmfence
+version["$group-$index"]=1.3.2
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxshmfence/-/archive/libxshmfence-1.3.2/libxshmfence-libxshmfence-1.3.2.zip"
+filename["$group-$index"]=libxshmfence-libxshmfence-1.3.2.zip
+dirname["$group-$index"]=libxshmfence-libxshmfence-1.3.2
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# pciaccess 0.17
+index=61
+name["$group-$index"]=pciaccess
+version["$group-$index"]=0.17
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/archive/libpciaccess-0.17/libpciaccess-libpciaccess-0.17.zip"
+filename["$group-$index"]=libpciaccess-libpciaccess-0.17.zip
+dirname["$group-$index"]=libpciaccess-libpciaccess-0.17
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# freeglut 3.2.0
+index=62
+name["$group-$index"]=freeglut
+version["$group-$index"]=3.2.0
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/freeglut/freeglut/releases/download/v3.2.0/freeglut-3.2.0.tar.gz"
+filename["$group-$index"]=freeglut-3.2.0.tar.gz
+dirname["$group-$index"]=freeglut-3.2.0
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8 mesa/$compilo/17.3.9 glu/$compilo/9.0.1 xi/$compilo/1.8.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/$compilo/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/$compilo/17.3.9/include -DOPENGL_glu_LIBRARY=$prefix/glu/$compilo/9.0.1/lib/libGLU.so.1"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# glu 9.0.1
+index=63
+name["$group-$index"]=glu
+version["$group-$index"]=9.0.1
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/mesa/glu/-/archive/glu-9.0.1/glu-glu-9.0.1.zip"
+filename["$group-$index"]=glu-glu-9.0.1.zip
+dirname["$group-$index"]=glu-glu-9.0.1
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="mesa/$compilo/17.3.9 drm/$compilo/2.4.119"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# glut snapshot
+index=64
+name["$group-$index"]=glut
+version["$group-$index"]=snapshot
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/mesa/glut/-/archive/master/glut-master.zip"
+filename["$group-$index"]=glut-master.zip
+dirname["$group-$index"]=glut-master
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="makedepend/$compilo/1.0.6 mesa/$compilo/17.3.9 glu/$compilo/9.0.1 xmu/$compilo/1.1.4 xi/$compilo/1.8.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+"
+
+# makedepend 1.0.6
+index=65
+name["$group-$index"]=makedepend
+version["$group-$index"]=1.0.6
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/xorg/util/makedepend/-/archive/makedepend-1.0.6/makedepend-makedepend-1.0.6.zip"
+filename["$group-$index"]=makedepend-makedepend-1.0.6.zip
+dirname["$group-$index"]=makedepend-makedepend-1.0.6
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="xorg-macros/$compilo/1.20.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
 

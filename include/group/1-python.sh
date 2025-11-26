@@ -21,9 +21,9 @@ builder["$group-$index"]="python-builder"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 if [[ $compiler == "intel" ]]; then
-	args["$group-$index"]="--enable-shared --without-gcc --with-icc"
+	args["$group-$index"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 else
-	args["$group-$index"]="--enable-shared"
+	args["$group-$index"]="--enable-shared --enable-optimizations"
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
@@ -67,9 +67,9 @@ builder["$group-$index"]="python-builder"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 if [[ $compiler == "intel" ]]; then
-	args["$group-$index"]="--enable-shared --without-gcc --with-icc"
+	args["$group-$index"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 else
-	args["$group-$index"]="--enable-shared"
+	args["$group-$index"]="--enable-shared --enable-optimizations"
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 

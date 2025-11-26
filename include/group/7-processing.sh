@@ -514,9 +514,9 @@ index=16
 name["$group-$index"]=metis
 version["$group-$index"]=5.1.0
 details["$group-$index"]="(sequential version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/metis-5.1.0-p3.tar.gz
-filename["$group-$index"]=metis-5.1.0-p3.tar.gz
-dirname["$group-$index"]=metis-5.1.0-p3
+url["$group-$index"]=https://mirror.snale.net/metis-5.1.0.tar.gz
+filename["$group-$index"]=metis-5.1.0.tar.gz
+dirname["$group-$index"]=metis-5.1.0
 builder["$group-$index"]="metis"
 dependencies["$group-$index"]="cmake/$compilo/3.20.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -547,9 +547,9 @@ index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
 details["$group-$index"]="(parallel version)"
-url["$group-$index"]=https://www.mcs.anl.gov/petsc/mirror/externalpackages/parmetis-4.0.3-p3.tar.gz
-filename["$group-$index"]=parmetis-4.0.3-p3.tar.gz
-dirname["$group-$index"]=parmetis-4.0.3-p3
+url["$group-$index"]=https://mirror.snale.net/parmetis-4.0.3.tar.gz
+filename["$group-$index"]=parmetis-4.0.3.tar.gz
+dirname["$group-$index"]=parmetis-4.0.3
 patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.666727000 +0100
 +++ CMakeLists.txt	2020-03-26 14:16:28.082736398 +0100
 @@ -5,7 +5,7 @@
@@ -1049,6 +1049,19 @@ details["$group-$index"]=""
 url["$group-$index"]="https://archives.boost.io/release/1.72.0/source/boost_1_72_0.tar.gz"
 filename["$group-$index"]=boost_1_72_0.tar.gz
 dirname["$group-$index"]=boost_1_72_0
+patchfile_01["$group-$index"]="boost/thread/pthread/thread_data.hpp"
+patch_01["$group-$index"]="--- ./boost/thread/pthread/thread_data.hpp.original  2025-10-30 12:27:17.626740000 +0100
++++ ./boost/thread/pthread/thread_data.hpp      2025-10-30 12:28:10.995168000 +0100
+@@ -57,7 +57,7 @@
+ #else
+           std::size_t page_size = ::sysconf( _SC_PAGESIZE);
+ #endif
+-#if PTHREAD_STACK_MIN > 0
++#ifdef PTHREAD_STACK_MIN
+           if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
+ #endif
+           size = ((size+page_size-1)/page_size)*page_size;
+"
 builder["$group-$index"]="boost"
 if [[ "$compiler" == "intel" ]] ; then
     args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
@@ -1084,6 +1097,7 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
+prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
 "
 
 # Boost 1.76.0
