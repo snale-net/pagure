@@ -1183,6 +1183,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv CGAL_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 if [ "$mpilib" != "none" ]; then # MPI-only
@@ -1402,7 +1403,44 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 
 fi # end-MPI-only
 
+# Cgal 6.1
+index=32
+name["$group-$index"]=cgal
+version["$group-$index"]=6.1
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v6.1.tar.gz -O cgal-6.1.tar.gz"
+filename["$group-$index"]=cgal-6.1.tar.gz
+dirname["$group-$index"]=cgal-6.1
+builder["$group-$index"]="cmake"
+if [ "$mpilib" == "none" ]; then 
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+else
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+fi
+args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv CGAL_DIR $prefix/${dirinstall["$group-$index"]}
+"
 
 
 

@@ -6,7 +6,7 @@ group="15"
 groupname[$group]="Compilers"
 
 # gcc 7.5.0
-index=3
+index=1
 name["$group-$index"]=gcc
 version["$group-$index"]=7.5.0
 details["$group-$index"]=""
@@ -148,6 +148,40 @@ patch_04["$group-$index"]="--- original/gcc-7.5.0/libsanitizer/sanitizer_common/
    extern unsigned IOCTL_EQL_GETMASTRCFG;
 "
 patchfile_04["$group-$index"]="libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h"
+builder["$group-$index"]="gcc"
+dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib64
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib64
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# gcc 11.5.0
+index=2
+name["$group-$index"]=gcc
+version["$group-$index"]=11.5.0
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/gcc-mirror/gcc/archive/refs/tags/releases/gcc-11.5.0.zip" 
+filename["$group-$index"]=gcc-11.5.0.zip
+dirname["$group-$index"]=gcc-releases-gcc-11.5.0
 builder["$group-$index"]="gcc"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
