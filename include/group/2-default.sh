@@ -10,14 +10,14 @@
 group=2
 groupname[$group]="Default librairies"
 
-# cmake 3.20.5
+# cmake 3.31.8
 index=1
 name["$group-$index"]=cmake
-version["$group-$index"]=3.20.5
+version["$group-$index"]=3.31.8
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/Kitware/CMake/releases/download/v3.20.5/cmake-3.20.5.tar.gz"
-filename["$group-$index"]=cmake-3.20.5.tar.gz
-dirname["$group-$index"]=cmake-3.20.5
+url["$group-$index"]="https://gitlab.kitware.com/cmake/cmake/-/archive/v3.31.8/cmake-v3.31.8.zip"
+filename["$group-$index"]=cmake-v3.31.8.zip
+dirname["$group-$index"]=cmake-v3.31.8
 builder["$group-$index"]="cmake-builder"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -69,15 +69,15 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# meson 0.58.1
+# meson 1.4.2
 index=3
 name["$group-$index"]=meson
-version["$group-$index"]=0.58.1
+version["$group-$index"]=1.4.2
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python tool)"
-url["$group-$index"]="https://github.com/mesonbuild/meson/archive/refs/tags/0.58.1.tar.gz -O meson-0.58.1.tar.gz"
-filename["$group-$index"]=meson-0.58.1.tar.gz
-dirname["$group-$index"]=meson-0.58.1
+url["$group-$index"]="https://github.com/mesonbuild/meson/archive/refs/tags/1.4.2.tar.gz -O meson-1.4.2.tar.gz"
+filename["$group-$index"]=meson-1.4.2.tar.gz
+dirname["$group-$index"]=meson-1.4.2
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"
@@ -134,9 +134,9 @@ filename["$group-$index"]=lapack-3.9.1.tar.gz
 dirname["$group-$index"]=lapack-3.9.1
 builder["$group-$index"]="lapack"
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 else
-dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8"
 fi 
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -170,7 +170,7 @@ url["$group-$index"]=http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
 filename["$group-$index"]=lapack-3.8.0.tar.gz
 dirname["$group-$index"]=lapack-3.8.0
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0

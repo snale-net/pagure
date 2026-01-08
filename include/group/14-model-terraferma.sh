@@ -131,7 +131,7 @@ index=7
 name["$group-$index"]=ply
 version["$group-$index"]=3.11
 details["$group-$index"]=""
-url["$group-$index"]="http://www.dabeaz.com/ply/ply-3.11.tar.gz"
+url["$group-$index"]="https://files.pythonhosted.org/packages/e5/69/882ee5c9d017149285cab114ebeab373308ef0f874fcdac9beb90e0ac4da/ply-3.11.tar.gz"
 filename["$group-$index"]=ply-3.11.tar.gz
 dirname["$group-$index"]=ply-3.11
 builder["$group-$index"]="python"
@@ -214,7 +214,7 @@ builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 swig/$compilo/3.0.12 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 eigen/$mpilib/$compilo/3.2.3"
 # flex/2.6.4 swig/3.0.11 hwloc/1.11.2
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="-DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOLFIN_ENABLE_CHOLMOD:BOOL=OFF -DDOLFIN_ENABLE_UMFPACK:BOOL=OFF -DDOLFIN_ENABLE_TRILINOS:BOOL=OFF -DDOLFIN_ENABLE_SLEPC:BOOL=OFF -DDOLFIN_ENABLE_TESTING:BOOL=OFF -DBoost_INCLUDE_DIR=$prefix/boost/$mpilib/$pythonlib/$compilo/1.72.0/include -DEIGEN3_INCLUDE_DIR=$prefix/eigen/$mpilib/$compilo/3.2.3/include/eigen3"
+args["$group-$index"]="-DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOLFIN_ENABLE_CHOLMOD:BOOL=OFF -DDOLFIN_ENABLE_UMFPACK:BOOL=OFF -DDOLFIN_ENABLE_TRILINOS:BOOL=OFF -DDOLFIN_ENABLE_SLEPC:BOOL=OFF -DDOLFIN_ENABLE_TESTING:BOOL=OFF -DBOOST_ROOT=$prefix/boost/$mpilib/$pythonlib/$compilo/1.72.0 -DEIGEN3_INCLUDE_DIR=$prefix/eigen/$mpilib/$compilo/3.2.3/include/eigen3"
 # PETSC4PY_INCLUDE_DIRS
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -331,7 +331,25 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 
 fi # end-MPI-only
 
+if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
+# mpmath 1.3.0
+index=13
+name["$group-$index"]=mpmath
+version["$group-$index"]=1.3.0
+details["$group-$index"]=""
+url["$group-$index"]="https://files.pythonhosted.org/packages/e0/47/dd32fa426cc72114383ac549964eecb20ecfd886d1e5ccf5340b55b02f57/mpmath-1.3.0.tar.gz"
+filename["$group-$index"]=mpmath-1.3.0.tar.gz
+dirname["$group-$index"]=mpmath-1.3.0
+builder["$group-$index"]="python"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dirinstall["$group-$index"]="python-modules/$compilo"
+if [[ "$compiler" == "intel" ]] ; then
+     args["$group-$index"]="LDSHARED=\"icc -shared\""
+else
+     args["$group-$index"]=""
+fi
+#dirmodule["$group-$index"]=""
+#modulefile["$group-$index"]=""
 
-
-
+fi # end-MPI-only
