@@ -1442,5 +1442,44 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv CGAL_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
+# GDAL 3.12.1
+index=33
+name["$group-$index"]=gdal
+version["$group-$index"]=3.12.1
+details["$group-$index"]="(needed by GMT)"
+url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.12.1/gdal-3.12.1.tar.gz"
+filename["$group-$index"]=gdal-3.12.1.tar.gz
+dirname["$group-$index"]=gdal-3.12.1
+builder["$group-$index"]="cmake"
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
+else
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
+fi
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include  
+"
+
 
 
