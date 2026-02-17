@@ -1,4 +1,9 @@
 #!/bin/bash
+#MIT License
+#Copyright (c) 2024 [SNALE - French SAS Company - RCS 951 724 616]
+#Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 basedir=`pwd`
 maxGroup=0
@@ -478,8 +483,24 @@ then
 	installedPython=1
     pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 	log info "Python interpreter is set to $pythonInterpreter"	
+
+    if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
+        # On a détecté un python qui ne provient pas de PAGURE, on supprime l'installation du Python       
+        for i in "${!libToInstall[@]}"; do          
+            if [[ " ${libToInstall[i]} " =~ [[:space:]]1-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-2[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-3[[:space:]] ]]; then             
+              unset 'libToInstall[i]'
+            fi
+        done 
+        if [ $debug == "1" ]; then  
+			log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
+		fi       
+	fi    
 else
-	if  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
+	if  [[ $(vercomp $pythonVersion 2.7) == 0 ]]; then # only Python==2.7
+		pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+		log info "Python interpreter ${pythonVersion} will be installed"
+	elif  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
 		pythonInterpreter=python${pythonVersion}
         pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
 		log info "Python interpreter ${pythonVersion} will be installed"
@@ -562,7 +583,7 @@ fi
 
 if [[ $(vercomp ${CC_VERSION:0:3} ${CXX_VERSION:0:3}) != 0 ]] || [[ $(vercomp ${CC_VERSION:0:3} ${FC_VERSION:0:3}) != 0 ]]; then
 	log fail "C / C++ / Fortran compilers have different version: ${CC_VERSION} / ${CXX_VERSION} / ${FC_VERSION}" 
-	leave 1
+	#leave 1
 fi
 
 # Fix for GNU 10
@@ -692,13 +713,19 @@ then
 	fi
 else
     # On teste si les modules pré-chargés sont correctement chargés
-    exec_module "list"
+    exec_module "-t list"
     # On charge le module privé
     #exec_module "load use.own"
 	# On sauvegarde le module list actuel pour le rajouter aux dépendences   	
-	module list -t 2> module_list 	
-	sed -i -e 's/(default)//' module_list 
-	moduleList=`awk 'NR>1{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+	module -t list > module_list 	
+	sed -i -e 's/(default)//' module_list
+    sed -i -e 's/Currently Loaded Modulefiles://' module_list 
+    sed -i -e 's/No Modulefiles Currently Loaded.//' module_list 
+    sed -i -e 's/No modules loaded//' module_list 
+    moduleList=`awk '{for (i=1; i<=NF; i++)printf("%s ",$i);}' module_list`
+	if [[ ! -z "$moduleList" && $debug == "1" ]]; then
+	    log debug "Previous loaded modules are $moduleList"
+	fi
 	rm module_list
 fi
 
@@ -802,8 +829,17 @@ function install()
 				
 				# On vide les dépendances
 				exec_module "purge"
+
+                if [ "$installedPython" == "1" ];  then
+                    if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
+                        # On a détecté un python qui ne provient pas de PAGURE, on supprime la dep au module de PAGURE
+		                dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/$pythonVersion/}
+                        dependencies["$index"]=${dependencies["$index"]/python-modules\/"$compilo"\/$pythonVersion/}
+            		fi                   
+
+                fi  	
 				
-				if [ "$systemOS" == "cluster" ] ; then 					
+				if [ "$systemOS" == "cluster" ] ; then                    				
 					
 					if [ "${libToInstall}" == "none" ] ; then
 						# Uniquement si on n'utilise pas de filtre, on essait d'utiliser les dépendences du cluster
@@ -886,8 +922,8 @@ function install()
 					
 				else				
 					# module normal				
-					module show ${dirmodule["$index"]}/${version["$index"]} &> lib_test
-					libTest=$(cat lib_test | grep "ERROR" -c)
+					module show ${dirmodule["$index"]}/${version["$index"]} > lib_test 2>&1
+					libTest=$(cat lib_test | grep "ERROR\|Failed" -c)
 					rm -f lib_test
 								
 					if [ "$libTest" == "1" ] ; then

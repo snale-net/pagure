@@ -1,4 +1,9 @@
 #!/bin/bash
+#MIT License
+#Copyright (c) 2024 [SNALE - French SAS Company - RCS 951 724 616]
+#Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #################################################################
 #Group 7 : Processing
@@ -1049,6 +1054,19 @@ details["$group-$index"]=""
 url["$group-$index"]="https://archives.boost.io/release/1.72.0/source/boost_1_72_0.tar.gz"
 filename["$group-$index"]=boost_1_72_0.tar.gz
 dirname["$group-$index"]=boost_1_72_0
+patchfile_01["$group-$index"]="boost/thread/pthread/thread_data.hpp"
+patch_01["$group-$index"]="--- ./boost/thread/pthread/thread_data.hpp.original  2025-10-30 12:27:17.626740000 +0100
++++ ./boost/thread/pthread/thread_data.hpp      2025-10-30 12:28:10.995168000 +0100
+@@ -57,7 +57,7 @@
+ #else
+           std::size_t page_size = ::sysconf( _SC_PAGESIZE);
+ #endif
+-#if PTHREAD_STACK_MIN > 0
++#ifdef PTHREAD_STACK_MIN
+           if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
+ #endif
+           size = ((size+page_size-1)/page_size)*page_size;
+"
 builder["$group-$index"]="boost"
 if [[ "$compiler" == "intel" ]] ; then
     args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
@@ -1084,6 +1102,7 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
+prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
 "
 
 # Boost 1.76.0
@@ -1169,6 +1188,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv CGAL_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
 if [ "$mpilib" != "none" ]; then # MPI-only
@@ -1388,7 +1408,83 @@ setenv PETSC_DIR $prefix/${dirinstall["$group-$index"]}
 
 fi # end-MPI-only
 
+# Cgal 6.1
+index=32
+name["$group-$index"]=cgal
+version["$group-$index"]=6.1
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v6.1.tar.gz -O cgal-6.1.tar.gz"
+filename["$group-$index"]=cgal-6.1.tar.gz
+dirname["$group-$index"]=cgal-6.1
+builder["$group-$index"]="cmake"
+if [ "$mpilib" == "none" ]; then 
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+else
+    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+fi
+args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
 
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+setenv CGAL_DIR $prefix/${dirinstall["$group-$index"]}
+"
+
+# GDAL 3.12.1
+index=33
+name["$group-$index"]=gdal
+version["$group-$index"]=3.12.1
+details["$group-$index"]="(needed by GMT)"
+url["$group-$index"]="https://github.com/OSGeo/gdal/releases/download/v3.12.1/gdal-3.12.1.tar.gz"
+filename["$group-$index"]=gdal-3.12.1.tar.gz
+dirname["$group-$index"]=gdal-3.12.1
+builder["$group-$index"]="cmake"
+if [ "$mpilib" == "none" ]; then 
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
+else
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
+fi
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include  
+"
 
 
 
