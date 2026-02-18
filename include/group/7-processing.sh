@@ -34,9 +34,9 @@ patch_01["$group-$index"]="--- antlr-2.7.7/scripts/../lib/cpp/antlr/CharScanner.
 patchfile_01["$group-$index"]="lib/cpp/antlr/CharScanner.hpp"
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -72,9 +72,9 @@ filename["$group-$index"]=nco-4.9.0.tar.gz
 dirname["$group-$index"]=nco-4.9.0
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 antlr/$compilo/2.7.7"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 antlr/$compilo/2.7.7"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 antlr/$compilo/2.7.7"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 antlr/$compilo/2.7.7"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="ANTLR_ROOT=$prefix/antlr/$compilo/2.7.7"
@@ -141,7 +141,7 @@ url["$group-$index"]=http://download.osgeo.org/geos/geos-3.10.3.tar.bz2
 filename["$group-$index"]=geos-3.10.3.tar.bz2
 dirname["$group-$index"]=geos-3.10.3
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -173,9 +173,9 @@ filename["$group-$index"]=proj-8.0.1.tar.gz
 dirname["$group-$index"]=proj-8.0.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 tiff/$compilo/4.4.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="ANTLR_ROOT=$prefix/antlr/$compilo/2.7.7"
@@ -234,10 +234,10 @@ filename["$group-$index"]=gdal-3.4.1.tar.gz
 dirname["$group-$index"]=gdal-3.4.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -300,9 +300,9 @@ filename["$group-$index"]=gdal-2.4.2.tar.gz
 dirname["$group-$index"]=gdal-2.4.2
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.4.1.1 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.4.1.1 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.4.1.1 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.4.1.1 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="--with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
@@ -370,9 +370,9 @@ filename["$group-$index"]=gmt-5.4.5.tar.gz
 dirname["$group-$index"]=gmt-5.4.5
 builder["$group-$index"]="gmt5"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.3.0 lapack-blas/$compilo/3.9.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
@@ -409,11 +409,11 @@ filename["$group-$index"]=cdo-1.9.10.tar.gz
 dirname["$group-$index"]=cdo-1.9.10
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
-	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$compilo/1.10.5/ --with-netcdf=$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/ --with-udunits2=$prefix/udunits/$compilo/2.2.28 --with-proj=$prefix/proj/$compilo/8.0.1/"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
+	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$compilo/1.14.6/ --with-netcdf=$prefix/netcdf/hdf5.146/$compilo/c/4.9.3/ --with-udunits2=$prefix/udunits/$compilo/2.2.28 --with-proj=$prefix/proj/$compilo/8.0.1/"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
-	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5/ --with-netcdf=$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/ --with-udunits2=$prefix/udunits/$compilo/2.2.28 --with-proj=$prefix/proj/$compilo/8.0.1/"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1"
+	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.14.6/ --with-netcdf=$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/ --with-udunits2=$prefix/udunits/$compilo/2.2.28 --with-proj=$prefix/proj/$compilo/8.0.1/"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -451,14 +451,14 @@ url["$group-$index"]=https://mirror.snale.net/med-4.0.0.tar.gz
 filename["$group-$index"]=med-4.0.0.tar.gz
 dirname["$group-$index"]=med-4.0.0
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ "$mpi" == "intelmpi" ]] ; then
-	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
+	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.14.6 --disable-python CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
 elif [[ "$mpi" == "mpich" ]] ; then
-	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.14.6 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 elif [[ "$mpi" == "openmpi" ]] ; then	
-	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.10.5 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
+	args["$group-$index"]="--with-hdf5=$prefix/hdf5/$mpilib/$compilo/1.14.6 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -523,7 +523,7 @@ url["$group-$index"]=https://mirror.snale.net/metis-5.1.0.tar.gz
 filename["$group-$index"]=metis-5.1.0.tar.gz
 dirname["$group-$index"]=metis-5.1.0
 builder["$group-$index"]="metis"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -569,7 +569,7 @@ patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.66672
 "
 patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
 builder["$group-$index"]="parmetis"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 metis/$compilo/5.1.0"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 metis/$compilo/5.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ "$mpi" == "intelmpi" ]] ; then
 	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
@@ -1018,7 +1018,7 @@ url["$group-$index"]="https://github.com/DrTimothyAldenDavis/SuiteSparse/archive
 filename["$group-$index"]=SuiteSparse-5.10.1.tar.gz
 dirname["$group-$index"]=SuiteSparse-5.10.1
 builder["$group-$index"]="SuiteSparse"
-dependencies["$group-$index"]="cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8 lapack-blas/$compilo/3.9.1 metis/$compilo/5.1.0 mpfr/$compilo/4.1.0"
 args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/$compilo/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/$compilo/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/$compilo/3.9.1/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/$compilo/3.9.1/lib -lblas\" LDFLAGS=\"-L$prefix/${name["$group-$index"]}/$compilo/${version["$group-$index"]}/lib -L$prefix/mpfr/$compilo/4.1.0/lib -lmpfr -L$prefix/gmp/$compilo/6.2.1/lib -lgmp\""
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -1162,9 +1162,9 @@ filename["$group-$index"]=cgal-5.5.2.tar.gz
 dirname["$group-$index"]=cgal-5.5.2
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 else
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 fi
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -1212,7 +1212,7 @@ patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
@@ -1247,7 +1247,7 @@ url["$group-$index"]="https://gmsh.info/src/gmsh-4.8.4-source.tgz"
 filename["$group-$index"]=gmsh-4.8.4-source.tgz
 dirname["$group-$index"]=gmsh-4.8.4-source
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.20.5 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="-DENABLE_BLAS_LAPACK=1 -DENABLE_METIS=1 -DENABLE_OPENMP=1 -DENABLE_MED=1 -DENABLE_MUMPS=1 -DENABLE_MPI=1 -DENABLE_FLTK=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -1284,9 +1284,9 @@ filename["$group-$index"]=gmt-6.5.0.tar.gz
 dirname["$group-$index"]=gmt-6.5.0
 builder["$group-$index"]="gmt6"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 parallel-netcdf/$mpilib/$compilo/1.13.0 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 proj/$compilo/8.0.1 gdal/$compilo/3.4.1 lapack-blas/$compilo/3.9.1"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/$compilo/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/$compilo/2.1.0"
@@ -1380,7 +1380,7 @@ patch_01["$group-$index"]="--- configure	2023-05-25 16:30:38.647142840 +0200
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 hypre/$mpilib/$compilo/2.11.1"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8 lapack-blas/$compilo/3.9.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 hypre/$mpilib/$compilo/2.11.1"
 args["$group-$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/$compilo/3.9.1/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/$compilo/3.9.1/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis --with-hypre=1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
@@ -1418,9 +1418,9 @@ filename["$group-$index"]=cgal-6.1.tar.gz
 dirname["$group-$index"]=cgal-6.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 else
-    dependencies["$group-$index"]="cmake/$compilo/3.20.5 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 fi
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -1457,10 +1457,10 @@ filename["$group-$index"]=gdal-3.12.1.tar.gz
 dirname["$group-$index"]=gdal-3.12.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
 	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
 else
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
 	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"

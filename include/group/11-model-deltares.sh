@@ -412,7 +412,7 @@ patch_04["$group-$index"]="--- scripts_lgpl/linux/oss-install_original.sh	2021-1
 "
 patchfile_04["$group-$index"]="scripts_lgpl/linux/oss-install.sh"
 builder["$group-$index"]="delft3d"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 ruby/$compilo/2.7.2"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 ruby/$compilo/2.7.2"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -445,7 +445,7 @@ url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar
 filename["$group-$index"]=swan4151.tar.gz
 dirname["$group-$index"]=swan4151
 builder["$group-$index"]="swan"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
@@ -461,8 +461,8 @@ FLAGS90_MSC = \$(FLAGS_MSC)
 FLAGS_DYN = -fPIC
 FLAGS_SER = 
 FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
+NETCDFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3
+NETCDFFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -505,8 +505,8 @@ FLAGS_DYN =
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
 FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0
-NETCDFFROOT = $prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3
+NETCDFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3
+NETCDFFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -645,9 +645,9 @@ url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.10.5 netcdf-c/hdf5.110/$mpilib/$compilo/4.8.0 netcdf-fortran/hdf5.110/$mpilib/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$mpilib/$compilo/fortran/4.5.3/lib\""
+args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -678,9 +678,9 @@ url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.10.5 netcdf-c/hdf5.110/$compilo/4.8.0 netcdf-fortran/hdf5.110/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
-args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/c/4.8.0/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.110/$compilo/fortran/4.5.3/lib\""
+args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$compilo/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/$compilo/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/$compilo/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
