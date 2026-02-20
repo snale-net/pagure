@@ -132,14 +132,14 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/p${dirinstall["$group-$index"]}/include 
 "
 
-# geos 3.10.3
+# geos 3.14.1
 index=4
 name["$group-$index"]=geos
-version["$group-$index"]=3.10.3
+version["$group-$index"]=3.14.1
 details["$group-$index"]="(needed by GDAL)"
-url["$group-$index"]=http://download.osgeo.org/geos/geos-3.10.3.tar.bz2
-filename["$group-$index"]=geos-3.10.3.tar.bz2
-dirname["$group-$index"]=geos-3.10.3
+url["$group-$index"]=http://download.osgeo.org/geos/geos-3.14.1.tar.bz2
+filename["$group-$index"]=geos-3.14.1.tar.bz2
+dirname["$group-$index"]=geos-3.14.1
 builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="cmake/$compilo/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -234,10 +234,10 @@ filename["$group-$index"]=gdal-3.4.1.tar.gz
 dirname["$group-$index"]=gdal-3.4.1
 builder["$group-$index"]="configure"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
+	dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.14.1"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3"
+	dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.14.1"
 	args["$group-$index"]="--with-sqlite3=$prefix/sqlite/$compilo/3.36.0 --with-proj=$prefix/proj/$compilo/8.0.1 LDFLAGS=-lmpi_cxx"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -1457,10 +1457,10 @@ filename["$group-$index"]=gdal-3.12.1.tar.gz
 dirname["$group-$index"]=gdal-3.12.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.14.1 tiff/$compilo/4.4.0"
 	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
 else
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.10.3 tiff/$compilo/4.4.0"
+	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 udunits/$compilo/2.2.28 sqlite/$compilo/3.36.0 proj/$compilo/8.0.1 geos/$compilo/3.14.1 tiff/$compilo/4.4.0"
 	args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/$compilo/8.0.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/$compilo/4.4.0/lib/libtiff.so"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
