@@ -1105,14 +1105,14 @@ prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
 "
 
-# Boost 1.76.0
+# Boost 1.90.0
 index=25
 name["$group-$index"]=boost
-version["$group-$index"]=1.76.0
+version["$group-$index"]=1.90.0
 details["$group-$index"]=""
-url["$group-$index"]="https://archives.boost.io/release/1.76.0/source/boost_1_76_0.tar.gz"
-filename["$group-$index"]=boost_1_76_0.tar.gz
-dirname["$group-$index"]=boost_1_76_0
+url["$group-$index"]="https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.gz"
+filename["$group-$index"]=boost_1_90_0.tar.gz
+dirname["$group-$index"]=boost_1_90_0
 builder["$group-$index"]="boost"
 if [[ "$compiler" == "intel" ]] ; then
     args["$group-$index"]="--toolset=intel --with-python=${pythonInterpreter}"
@@ -1162,9 +1162,9 @@ filename["$group-$index"]=cgal-5.5.2.tar.gz
 dirname["$group-$index"]=cgal-5.5.2
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.90.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 else
-    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.90.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 fi
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
@@ -1212,7 +1212,7 @@ patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.76.0 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.90.0 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
@@ -1418,9 +1418,9 @@ filename["$group-$index"]=cgal-6.1.tar.gz
 dirname["$group-$index"]=cgal-6.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$pythonlib/$compilo/1.90.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 else
-    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.76.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
+    dependencies["$group-$index"]="cmake/$compilo/3.31.8 boost/$mpilib/$pythonlib/$compilo/1.90.0 gmp/$compilo/6.2.1 mpfr/$compilo/4.1.0"
 fi
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/$compilo/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/$compilo/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/$compilo/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/$compilo/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
