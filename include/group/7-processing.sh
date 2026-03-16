@@ -1486,5 +1486,38 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include  
 "
 
+# superlu 7.0.1
+index=34
+name["$group-$index"]=superlu
+version["$group-$index"]=7.0.1
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/xiaoyeli/superlu/archive/refs/tags/v7.0.1.tar.gz -O superlu-7.0.1.tar.gz"
+filename["$group-$index"]=superlu-7.0.1.tar.gz
+dirname["$group-$index"]=superlu-7.0.1
+builder["$group-$index"]="cmake"
+dependencies["$group-$index"]="cmake/$compilo/3.31.8 lapack-blas/$compilo/3.9.1 metis/$compilo/5.1.0"
+args["$group-$index"]="-DTPL_ENABLE_METISLIB=ON -DTPL_METIS_INCLUDE_DIRS=$prefix/metis/$compilo/5.1.0/include -DTPL_METIS_LIBRARIES=$prefix/metis/$compilo/5.1.0/lib/libmetis.so"
+dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include  
+"
+
 
 

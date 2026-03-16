@@ -31,5 +31,6 @@ filters["NCVIEW"]="5-2,6-3,6-4,6-8,8-1"
 filters["GCC"]="15-1,15-2"
 filters["SINGULARITY"]="8-52,16-1,16-2"
 filters["GDAL"]="2-1,2-6,5-2,5-6,6-3,6-4,6-8,7-3,7-4,7-5,7-33"
+filters["SUPERLU"]="2-6,7-16,7-34"
 
 
