@@ -183,7 +183,7 @@ url["$group-$index"]="https://gitlab.com/libeigen/eigen/-/archive/3.2.3/eigen-3.
 filename["$group-$index"]=eigen-3.2.3.tar.gz
 dirname["$group-$index"]=eigen-3.2.3
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0"
 # flex/2.6.4 swig/3.0.11 VTK/7.1.1 hwloc/1.11.2 boost/openmpi/1.61.0
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DMETIS_LIBRARIES=${PETSC_DIR}/lib/libmetis.so -DSCOTCH_LIBRARIES=${PETSC_DIR}/lib/libscotch.a"
@@ -211,7 +211,7 @@ url["$group-$index"]="https://bitbucket.org/tferma/dolfin/get/tferma-v1.0.tar.gz
 filename["$group-$index"]=dolphin-tferma-v1.0.tar.gz
 dirname["$group-$index"]=tferma-dolfin-75dc693dce68
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 swig/$compilo/3.0.12 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 eigen/$mpilib/$compilo/3.2.3"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8 swig/$compilo/3.0.12 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 eigen/$mpilib/$compilo/3.2.3"
 # flex/2.6.4 swig/3.0.11 hwloc/1.11.2
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOLFIN_ENABLE_CHOLMOD:BOOL=OFF -DDOLFIN_ENABLE_UMFPACK:BOOL=OFF -DDOLFIN_ENABLE_TRILINOS:BOOL=OFF -DDOLFIN_ENABLE_SLEPC:BOOL=OFF -DDOLFIN_ENABLE_TESTING:BOOL=OFF -DBOOST_ROOT=$prefix/boost/$mpilib/$pythonlib/$compilo/1.72.0 -DEIGEN3_INCLUDE_DIR=$prefix/eigen/$mpilib/$compilo/3.2.3/include/eigen3"
@@ -243,7 +243,7 @@ url["$group-$index"]="https://github.com/FluidityProject/spud/archive/last-merge
 filename["$group-$index"]=spud-9f53a5f.tar.gz
 dirname["$group-$index"]=spud-last-merge-into-fluidity-pre-subtree
 builder["$group-$index"]="spud-tferma-v1.0"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 swig/$compilo/3.0.12 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 eigen/$mpilib/$compilo/3.2.3"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8 swig/$compilo/3.0.12 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 eigen/$mpilib/$compilo/3.2.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -305,7 +305,7 @@ patch_01["$group-$index"]="*** buckettools/cpp/CMakeLists.txt.old	2019-08-05 17:
 "
 patchfile_01["$group-$index"]="buckettools/cpp/CMakeLists.txt"
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.20.5 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 spud/$compilo/tferma-v1.0 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 dolfin/$mpilib/$compilo/tferma-v1.0"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8 lapack-blas/$compilo/3.9.1 vtk/$compilo/7.1.1 spud/$compilo/tferma-v1.0 boost/$mpilib/$pythonlib/$compilo/1.72.0 petsc/$mpilib/$pythonlib/$compilo/tferma-v1.0 dolfin/$mpilib/$compilo/tferma-v1.0"
 #  hwloc/1.11.2 flex/2.6.4 swig/3.0.11
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DSPUD_INCLUDE_DIRS=$prefix/spud/$compilo/tferma-v1.0/include -DSPUD_LIBRARIES=$prefix/spud/$compilo/tferma-v1.0/lib/libspud.so"

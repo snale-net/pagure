@@ -716,9 +716,9 @@ else
     exec_module "-t list"
     # On charge le module privé
     #exec_module "load use.own"
-	# On sauvegarde le module list actuel pour le rajouter aux dépendences   	
-	module -t list > module_list 	
-	sed -i -e 's/(default)//' module_list
+    # On sauvegarde le module list actuel pour le rajouter aux dépendences   	
+    module -t list > module_list 2>&1	
+    sed -i -e 's/(default)//' module_list
     sed -i -e 's/Currently Loaded Modulefiles://' module_list 
     sed -i -e 's/No Modulefiles Currently Loaded.//' module_list 
     sed -i -e 's/No modules loaded//' module_list 
