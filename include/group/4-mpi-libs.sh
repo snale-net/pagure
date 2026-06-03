@@ -164,7 +164,7 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566
 filename["$group-$index"]=mpi4py-3.0.3.tar.gz
 dirname["$group-$index"]=mpi4py-3.0.3
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$mpilib/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$mpilib/$compilo"
 if [[ "$mpi" == "intelmpi" ]]; then
      args["$group-$index"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""

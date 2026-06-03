@@ -453,15 +453,15 @@ fi
 
 fi
 
-# cftime 1.0.4.2
+# cftime 1.1.3
 index=19
 name["$group-$index"]=cftime
-version["$group-$index"]=1.0.4.2
+version["$group-$index"]=1.1.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/f3/a7/203301f17c2ce458fad9b2da7c71b26dc39.7.12a0200426ae960f8c9b60/cftime-1.0.4.2.tar.gz"
-filename["$group-$index"]=cftime-1.0.4.2.tar.gz
-dirname["$group-$index"]=cftime-1.0.4.2
+url["$group-$index"]="https://files.pythonhosted.org/packages/60/cd/41a3ea7facd7342496b21536a373a283783ea8b33ef5466b8b0263352e76/cftime-1.1.3.tar.gz"
+filename["$group-$index"]=cftime-1.1.3.tar.gz
+dirname["$group-$index"]=cftime-1.1.3
 builder["$group-$index"]="python"
 dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
 dirinstall["$group-$index"]="python-modules/$compilo"

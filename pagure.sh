@@ -407,7 +407,7 @@ then
 else
 
 	if [ ! -z "$mpi" ]; then
-		log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically selected by the filter. Please remove --mpi."
+		log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically detected or selected by the filter. Please remove --mpi."
 		leave 1	 	
 	fi
 
@@ -593,19 +593,34 @@ if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # 
 fi
 
 # 9. Tester la version du MPI
+installedMPI=0
 if [ -z "$mpi" ]; then
 
 	mpilib="none"  
 
 elif [ "$mpi" == "openmpi" ]; then
 
-    if [ -z "$mpiVersion" ]; then
+    if [ -x "$(command -v mpicc)" ] ; then
+    	installedMPI=1
+    	mpiVersion=$(mpirun --version | grep 'Open MPI' | sed 's/^.*\s\([0-9\.]*\)/\1/g')      
+    	if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]4-*[[:space:]] ]]; then
+		# On a détecté une lib MPI qui ne provient pas de PAGURE, on supprime l'installation du MPI       
+		for i in "${!libToInstall[@]}"; do          
+		    if [[ " ${libToInstall[i]} " =~ [[:space:]]4-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]4-2[[:space:]] ]]; then             
+		      unset 'libToInstall[i]'
+		    fi
+		done 
+		if [ $debug == "1" ]; then  
+			log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
+		fi       
+	fi    	 	
+    elif [ -z "$mpiVersion" ]; then
         mpiVersion=1.10.7
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+	log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
     fi   
 
 	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
-    export MPICC=mpicc
+	export MPICC=mpicc
 	export MPIF77=mpif90
 	export MPIFC=mpif90
 	export MPIF90=mpif90
@@ -616,8 +631,9 @@ elif [ "$mpi" == "intelmpi" ] ; then
     if ! [ -x "$(command -v mpiicc)" ] ; then
 		log fail "Unable to find suitable Intel MPI compilers (mpiicc not found). Maybe you forgot to load the Intel MPI module before running PAGURE ?" 
 		leave 1
-	fi     
-
+    fi  
+    
+    installedMPI=1 
     mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Version\s\([0-9\.]*\)\s.*/\1/g') 
     log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
 
@@ -650,7 +666,9 @@ else
 	leave 1	
 fi
 
-if [ "$mpilib" == "openmpi110" ]; then
+if [ "$installedPython" == "1" ];  then
+	mpi_dep=""
+elif [ "$mpilib" == "openmpi110" ]; then
 	mpi_dep="openmpi/$compilo/1.10.7"
 elif [ "$mpilib" == "openmpi316" ]; then
 	mpi_dep="openmpi/$compilo/3.1.6"
@@ -897,7 +915,7 @@ function install()
 				if [[ "${dirinstall["$index"]}" =~ .*(python-modules).* ]]; then				
 					# module Python							
 					$pythonInterpreter -c "import ${name["$index"]}; print(${name["$index"]}.__version__)" &> lib_test									
-					libTest=$(cat lib_test | grep "Error" -c)
+					libTest=$(cat lib_test | grep "ModuleNotFoundError" -c)
 					
 					if [ $debug == "1" ]; then      	
 				   		log debug "Testing if '${name["$index"]}' exists: $(cat lib_test)"				   	

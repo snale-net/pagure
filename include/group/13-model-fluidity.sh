@@ -72,11 +72,11 @@ if [ "$mpilib" != "none" ]; then # MPI-only
 # fluidity snapshot
 index=2
 name["$group-$index"]=fluidity
-version["$group-$index"]=snapshot
+version["$group-$index"]=4.1.20
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/heads/main.zip -O fluidity-master.zip"
-filename["$group-$index"]=fluidity-master.zip
-dirname["$group-$index"]=fluidity-main
+url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/tags/4.1.20.tar.gz -O fluidity-4.1.20.tar.gz"
+filename["$group-$index"]=fluidity-4.1.20.tar.gz
+dirname["$group-$index"]=fluidity-4.1.20
 patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.000000000 +0200
 +++ Makefile.in	2021-07-26 12:21:39.697289659 +0200
 @@ -559,7 +559,7 @@

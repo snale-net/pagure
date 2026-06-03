@@ -442,14 +442,14 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 if [ "$mpilib" != "none" ]; then # MPI-only
 
-# MED-4.0.0
+# MED-6.0.1
 index=14
 name["$group-$index"]=med
-version["$group-$index"]=4.0.0
+version["$group-$index"]=6.0.1
 details["$group-$index"]=""
-url["$group-$index"]=https://mirror.snale.net/med-4.0.0.tar.gz
-filename["$group-$index"]=med-4.0.0.tar.gz
-dirname["$group-$index"]=med-4.0.0
+url["$group-$index"]=https://mirror.snale.net/med-6.0.1.tar.gz
+filename["$group-$index"]=med-6.0.1.tar.gz
+dirname["$group-$index"]=med-6.0.1
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
@@ -537,7 +537,6 @@ puts stderr \"\tMetis ${version["$group-$index"]}\"
 module-whatis \"Metis ${version["$group-$index"]}\"
 
 # Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
@@ -569,14 +568,14 @@ patch_02["$group-$index"]="--- CMakeLists_original.txt	2020-03-26 14:13:03.66672
 "
 patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
 builder["$group-$index"]="parmetis"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 metis/$compilo/5.1.0"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 if [[ "$mpi" == "intelmpi" ]] ; then
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpiicc cxx=mpiicpc"
+	args["$group-$index"]="cc=mpiicc cxx=mpiicpc"
 elif [[ "$mpi" == "mpich" ]] ; then
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group-$index"]="cc=mpicc cxx=mpic++"	
 elif [[ "$mpi" == "openmpi" ]] ; then	
-	args["$group-$index"]="metis_path=$prefix/metis/$compilo/5.1.0 cc=mpicc cxx=mpic++"	
+	args["$group-$index"]="cc=mpicc cxx=mpic++"	
 fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 modulefile["$group-$index"]="#%Module1.0
@@ -601,8 +600,6 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 fi # MPI-only
-
-if [ "$mpilib" != "none" ]; then # MPI-only
 
 # Scotch 6.0.9
 index=18
@@ -687,6 +684,8 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 "
 
+if [ "$mpilib" != "none" ]; then # MPI-only
+
 # PtScotch 6.0.9
 index=19
 name["$group-$index"]=ptscotch
@@ -696,7 +695,7 @@ url["$group-$index"]="--no-check-certificate https://gforge.inria.fr/frs/downloa
 filename["$group-$index"]=scotch_6.0.9.tar.gz
 dirname["$group-$index"]=scotch_6.0.9
 builder["$group-$index"]="ptscotch"
-dependencies["$group-$index"]="$mpi_dep metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3"
+dependencies["$group-$index"]="$mpi_dep parmetis/$mpilib/$compilo/4.0.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 configfilename["$group-$index"]="src/Makefile.inc"
 if [[ $compiler == "intel" ]]; then
@@ -778,7 +777,7 @@ url["$group-$index"]=https://mirror.snale.net/MUMPS_5.2.1.tar.gz
 filename["$group-$index"]=MUMPS_5.2.1.tar.gz
 dirname["$group-$index"]=MUMPS_5.2.1
 builder["$group-$index"]="mumps"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 parmetis/$mpilib/$compilo/4.0.3 ptscotch/$mpilib/$compilo/6.0.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 configfilename["$group-$index"]="Makefile.inc"
 if [[ $compiler == "intel" ]]; then
@@ -910,7 +909,7 @@ LIBOTHERS = -lpthread -lz
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O -fopenmp -fPIC
+OPTF    = -O -fopenmp -fPIC -fallow-argument-mismatch
 OPTL    = -O -fopenmp -fPIC
 OPTC    = -O -fopenmp -fPIC
 #End Optimized options
@@ -1212,7 +1211,7 @@ patch_01["$group-$index"]="--- configure_original	2021-06-30 16:42:30.512355941 
 "
 patchfile_01["$group-$index"]="configure"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/4.0.0 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 scotch/$compilo/6.0.9 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.90.0 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 scalapack/$mpilib/$compilo/2.1.0 med/$mpilib/$compilo/6.0.1 parmetis/$mpilib/$compilo/4.0.3 ptscotch/$mpilib/$compilo/6.0.9 suitesparse/$compilo/5.10.1 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} boost/$mpilib/$pythonlib/$compilo/1.90.0 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 parallel-netcdf/$mpilib/$compilo/1.13.0 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="--with-debugging=0 --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --download-zoltan=1 --download-zoltan-configure-arguments=--enable-f90interface --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$pythonlib/$compilo"
@@ -1247,7 +1246,7 @@ url["$group-$index"]="https://gmsh.info/src/gmsh-4.8.4-source.tgz"
 filename["$group-$index"]=gmsh-4.8.4-source.tgz
 dirname["$group-$index"]=gmsh-4.8.4-source
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/4.0.0 mumps/$mpilib/$compilo/5.2.1"
+dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 metis/$compilo/5.1.0 parmetis/$mpilib/$compilo/4.0.3 med/$mpilib/$compilo/6.0.1 mumps/$mpilib/$compilo/5.2.1"
 args["$group-$index"]="-DENABLE_BLAS_LAPACK=1 -DENABLE_METIS=1 -DENABLE_OPENMP=1 -DENABLE_MED=1 -DENABLE_MUMPS=1 -DENABLE_MPI=1 -DENABLE_FLTK=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
