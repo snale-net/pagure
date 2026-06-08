@@ -57,12 +57,12 @@ filename["$group-$index"]=VTK-8.2.0.tar.gz
 dirname["$group-$index"]=VTK-8.2.0
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3"
+	dependencies["$group-$index"]="cmake/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
     args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
     dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
 else
-	dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3"
+	dependencies["$group-$index"]="$mpi_dep cmake/3.31.8 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3"
     dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
     args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
     dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
@@ -91,16 +91,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
-# xml2 2.13.2
+# xml2 2.13.6
 index=3
 name["$group-$index"]=xml2
-version["$group-$index"]=2.13.2
+version["$group-$index"]=2.13.6
 details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.13.2/libxml2-v2.13.2.zip"
-filename["$group-$index"]=libxml2-v2.13.2.zip
-dirname["$group-$index"]=libxml2-v2.13.2
+url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.13.6/libxml2-v2.13.6.zip"
+filename["$group-$index"]=libxml2-v2.13.6.zip
+dirname["$group-$index"]=libxml2-v2.13.6
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/$compilo/3.31.8"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cmake/3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -127,16 +127,16 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# xslt 1.1.38
+# xslt 1.1.45
 index=4
 name["$group-$index"]=xslt
-version["$group-$index"]=1.1.38
+version["$group-$index"]=1.1.45
 details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxslt/-/archive/v1.1.38/libxslt-v1.1.38.zip"
-filename["$group-$index"]=libxslt-v1.1.38.zip
-dirname["$group-$index"]=libxslt-v1.1.38
+url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxslt/-/archive/v1.1.45/libxslt-v1.1.45.zip"
+filename["$group-$index"]=libxslt-v1.1.45.zip
+dirname["$group-$index"]=libxslt-v1.1.45
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.20 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -173,7 +173,7 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d21
 filename["$group-$index"]=lxml-4.6.3.tar.gz
 dirname["$group-$index"]=lxml-4.6.3
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.2 xslt/$compilo/1.1.38"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.6 xslt/$compilo/1.1.45"
 dirinstall["$group-$index"]="python-modules/$compilo"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
@@ -306,7 +306,7 @@ url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
 dirname["$group-$index"]=harfbuzz-2.8.2
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Dintrospection=enabled"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -340,7 +340,7 @@ url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6
 filename["$group-$index"]=pango-1.48.6.tar.xz
 dirname["$group-$index"]=pango-1.48.6
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 "
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 "
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -374,7 +374,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pix
 filename["$group-$index"]=gdk-pixbuf-2.42.0.tar.xz
 dirname["$group-$index"]=gdk-pixbuf-2.42.0
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Dman=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -562,7 +562,7 @@ url["$group-$index"]="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.ta
 filename["$group-$index"]=dbus-1.13.18.tar.xz
 dirname["$group-$index"]=dbus-1.13.18
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 gobject-introspection/$compilo/1.72.1"
+dependencies["$group-$index"]="cmake/3.31.8 gobject-introspection/$compilo/1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -634,7 +634,7 @@ url["$group-$index"]="https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/AT_S
 filename["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0.zip
 dirname["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 xtst/$compilo/1.2.3 xml2/$compilo/2.13.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -668,7 +668,7 @@ url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
 dirname["$group-$index"]=at-spi2-atk-2.38.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 Xtst/$compilo/1.2.3 xml2/$compilo/2.13.2 at-spi2-core/$compilo/2.42.0"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 atk/$compilo/2.36.0 dbus/$compilo/1.13.18 xtst/$compilo/1.2.3 xml2/$compilo/2.13.6 at-spi2-core/$compilo/2.42.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -702,7 +702,7 @@ url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-1.19.0.ta
 filename["$group-$index"]=wayland-1.19.0.tar.xz
 dirname["$group-$index"]=wayland-1.19.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.2"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Ddocumentation=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -761,7 +761,7 @@ url["$group-$index"]="https://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
 filename["$group-$index"]=libxkbcommon-1.3.0.tar.xz
 dirname["$group-$index"]=libxkbcommon-1.3.0
 builder["$group-$index"]="meson"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.2 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} xml2/$compilo/2.13.6 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-Denable-docs=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -797,7 +797,7 @@ url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.2
 filename["$group-$index"]=gtk-3.24.29.tar.xz
 dirname["$group-$index"]=gtk+-3.24.29
 builder["$group-$index"]="gir_meson"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 pango/$compilo/1.48.6 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xrandr/$compilo/1.5.4 xi/$compilo/1.8.1 dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
+dependencies["$group-$index"]="cmake/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} cairo/$compilo/1.17.8 gobject-introspection/$compilo/1.72.1 harfbuzz/$compilo/2.8.2 pango/$compilo/1.48.6 gdk-pixbuf/$compilo/2.42.0 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xrandr/$compilo/1.5.4 xi/$compilo/1.8.1 dbus/$compilo/1.13.18 atk-bridge/$compilo/2.38.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -870,7 +870,7 @@ url["$group-$index"]="http://download.gnome.org/sources/vala/0.42/vala-0.42.3.ta
 filename["$group-$index"]=vala-0.42.3.tar.xz
 dirname["$group-$index"]=vala-0.42.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="glib/$compilo/2.81.2 graphviz/$compilo/3.0.0"
+dependencies["$group-$index"]="glib/$compilo/2.72.4 graphviz/$compilo/3.0.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -961,7 +961,7 @@ url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
 filename["$group-$index"]=VTK-7.1.1.tar.gz
 dirname["$group-$index"]=VTK-7.1.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="Xtst/$compilo/1.2.3 xcursor/$compilo/1.2.1 xft/$compilo/2.3.8 xres/$compilo/1.2.2 sm/$compilo/1.2.4 xmu/$compilo/1.1.4 xpm/$compilo/3.5.17 xrandr/$compilo/1.5.4 xt/$compilo/1.2.1 xtrans/$compilo/1.5.0 ice/$compilo/1.1.0 xslt/$compilo/1.1.38 xaw/$compilo/1.0.15 x11/$compilo/1.7.5 xfixes/$compilo/6.0.1 xi/$compilo/1.8.1 xorg-macros/$compilo/1.20.0 xorg-proto/$compilo/2023.1 xtst/$compilo/1.2.3 xinerama/$compilo/1.1.5 xxf86vm/$compilo/1.1.5 xcb/$compilo/1.15 xcomposite/$compilo/0.4.6 xdamage/$compilo/1.1.6 xcb-util/$compilo/0.3.6 xkbfile/$compilo/1.1.2 xdmcp/$compilo/1.1.4 xss/$compilo/1.2.4 xv/$compilo/1.0.12 gcc/7.5.0 python/$compilo/3.7 python-modules/$compilo/3.7 xml2/$compilo/2.13.2 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xcb-errors/$compilo/1.0.1 xcb-cursor/$compilo/0.1.6 xcb-xrm/$compilo/1.3 cmake/$compilo/3.31.8 mesa/$compilo/17.3.9"
+dependencies["$group-$index"]="xtst/$compilo/1.2.3 xcursor/$compilo/1.2.1 xft/$compilo/2.3.8 xres/$compilo/1.2.2 sm/$compilo/1.2.4 xmu/$compilo/1.1.4 xpm/$compilo/3.5.17 xrandr/$compilo/1.5.4 xt/$compilo/1.2.1 xtrans/$compilo/1.5.0 ice/$compilo/1.1.0 xslt/$compilo/1.1.45 xaw/$compilo/1.0.15 x11/$compilo/1.7.5 xfixes/$compilo/6.0.1 xi/$compilo/1.8.1 xorg-macros/$compilo/1.20.0 xorg-proto/$compilo/2023.1 xtst/$compilo/1.2.3 xinerama/$compilo/1.1.5 xxf86vm/$compilo/1.1.5 xcb/$compilo/1.15 xcomposite/$compilo/0.4.6 xdamage/$compilo/1.1.6 xcb-util/$compilo/0.3.6 xkbfile/$compilo/1.1.2 xdmcp/$compilo/1.1.4 xss/$compilo/1.2.4 xv/$compilo/1.0.12 gcc/7.5.0 python/$compilo/3.7 python-modules/$compilo/3.7 xml2/$compilo/2.13.6 wayland/$compilo/1.19.0 wayland-protocols/$compilo/1.21 xkbcommon/$compilo/1.3.0 xcb-errors/$compilo/1.0.1 xcb-cursor/$compilo/0.1.6 xcb-xrm/$compilo/1.3 cmake/3.31.8 mesa/$compilo/17.3.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/$compilo/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/$compilo/17.3.9/include"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -1979,7 +1979,7 @@ url["$group-$index"]="https://github.com/freeglut/freeglut/releases/download/v3.
 filename["$group-$index"]=freeglut-3.2.0.tar.gz
 dirname["$group-$index"]=freeglut-3.2.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 mesa/$compilo/17.3.9 glu/$compilo/9.0.1 xi/$compilo/1.8.1"
+dependencies["$group-$index"]="cmake/3.31.8 mesa/$compilo/17.3.9 glu/$compilo/9.0.1 xi/$compilo/1.8.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/$compilo/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/$compilo/17.3.9/include -DOPENGL_glu_LIBRARY=$prefix/glu/$compilo/9.0.1/lib/libGLU.so.1"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"

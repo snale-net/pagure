@@ -46,6 +46,7 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
@@ -86,6 +87,7 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
@@ -110,22 +112,22 @@ filename["$group-$index"]=hdf5-1.14.6.tar.gz
 dirname["$group-$index"]=hdf5-1.14.6
 builder["$group-$index"]="cmake"
 if [[ "$mpi" == "intelmpi" ]] ; then
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
+	dependencies["$group-$index"]="cmake/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON CC=mpiicc CXX=mpiicpc F77=mpiifort FC=mpiifort"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 elif [[ "$mpi" == "mpich" ]] ; then
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
+	dependencies["$group-$index"]="cmake/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 elif [[ "$mpi" == "openmpi" ]] ; then
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
+	dependencies["$group-$index"]="cmake/3.31.8 $mpi_dep zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
 else
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11"
+	dependencies["$group-$index"]="cmake/3.31.8 zlib/$compilo/1.2.11"
 	dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 	args["$group-$index"]="-DHDF5_BUILD_FORTRAN=ON"
 	dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -146,6 +148,7 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
@@ -598,9 +601,9 @@ filename["$group-$index"]=eccodes-2.22.1.tar.gz
 dirname["$group-$index"]=eccodes-2.22.1
 builder["$group-$index"]="cmake"
 if [ "$mpilib" == "none" ]; then 
-	dependencies["$group-$index"]="cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
+	dependencies["$group-$index"]="cmake/3.31.8 zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 else
-	dependencies["$group-$index"]="$mpi_dep cmake/$compilo/3.31.8 zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
+	dependencies["$group-$index"]="$mpi_dep cmake/3.31.8 zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 jasper/$compilo/2.0.26 ecbuild/$compilo/2021.05.0"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3"

@@ -5,21 +5,9 @@
 #The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-mkdir build 2>&1 >&3 | tee -a $LOGFILE && leave
+mkdir -p build 2>&1 >&3 | tee -a $LOGFILE && leave
 cd build
-
-if [[ ! -z "${configfilename["$index"]}" ]] ; then 
-	mv ../${configfilename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave
-fi
-
-# Dynamic
-cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$index"]}/lib -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON -DCBLAS=ON ../ 2>&1 >&3 | tee -a $LOGFILE && leave
+ls ..
+echo $"${args["$index"]}" | xargs -L1 ../configure --prefix=$prefix/${dirinstall["$index"]} --libdir=$prefix/${dirinstall["$index"]}/lib 2>&1 >&3 | tee -a $LOGFILE && leave
 make 2>&1 >&3 | tee -a $LOGFILE && leave
-make install 2>&1 >&3 | tee -a $LOGFILE && leave
-
-make clean 2>&1 >&3 | tee -a $LOGFILE && leave
-
-# Static
-cmake -DCMAKE_INSTALL_PREFIX=$prefix/${dirinstall["$index"]}  -DCMAKE_INSTALL_LIBDIR=$prefix/${dirinstall["$index"]}/lib -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=OFF -DLAPACKE=ON -DCBLAS=ON ../ 2>&1 >&3 | tee -a $LOGFILE && leave
-make 2>&1 >&3 | tee -a $LOGFILE && leave
-make install 2>&1 >&3 | tee -a $LOGFILE && leave
+make install 2>&1 | tee -a $LOGFILE && leave

@@ -10,14 +10,14 @@
 group="13"
 groupname[$group]="Model FLUIDITY"
 
-# Spud snapshot from main branch
+# Spud 1.2.2
 index=1
 name["$group-$index"]=spud
-version["$group-$index"]=snapshot
+version["$group-$index"]=1.2.2
 details["$group-$index"]="(contains Diamond graphic tool)"
-url["$group-$index"]="https://github.com/FluidityProject/spud/archive/refs/heads/main.zip -O spud-main.zip"
-filename["$group-$index"]=spud-main.zip
-dirname["$group-$index"]=spud-main
+url["$group-$index"]="https://github.com/FluidityProject/spud/archive/246de64aab5834580d5c076dad0cf018e6501d00.zip -O spud-1.2.2.zip"
+filename["$group-$index"]=spud-1.2.2.zip
+dirname["$group-$index"]=spud-246de64aab5834580d5c076dad0cf018e6501d00
 patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
 +++ Makefile_new.in	2023-05-24 16:43:46.857853141 +0200
 @@ -98,13 +98,13 @@
@@ -40,7 +40,7 @@ patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gtk/$compilo/3.24.29 gtksourceview/$compilo/3.24.11 libxml2/$compilo/snapshot libxslt/$compilo/snapshot"
+dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gtk/$compilo/3.24.29 gtksourceview/$compilo/3.24.11 xml2/$compilo/2.13.6 xslt/$compilo/1.1.45"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
@@ -91,7 +91,7 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} petsc/$mpilib/$pythonlib/$compilo/3.12.5 vtk/$mpilib/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot mpfr/$compilo/4.1.0 udunits/$compilo/2.2.28"
+dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} petsc/$mpilib/$pythonlib/$compilo/3.24.6 vtk/$mpilib/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot mpfr/$compilo/4.1.0 udunits/$compilo/2.2.28"
 dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/$mpilib/$compilo/8.2.0/include/vtk-8.2 -I$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/include -I$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/include -I$prefix/udunits/$compilo/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/$compilo/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5=yes --with-netcdf --with-libspud-root=$prefix/spud/$compilo/snapshot"
 dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
