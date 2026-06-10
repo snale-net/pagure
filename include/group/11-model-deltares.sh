@@ -10,7 +10,7 @@
 group=11
 groupname[$group]="Models from Deltares"
 
-if [ "$mpilib" != "none" ]; then # MPI-only
+if [ "__MPI_LIB__" != "none" ]; then # MPI-only
 
 # Delft3D v6.03 (rev68819)
 index=1
@@ -412,10 +412,10 @@ patch_04["$group-$index"]="--- scripts_lgpl/linux/oss-install_original.sh	2021-1
 "
 patchfile_04["$group-$index"]="scripts_lgpl/linux/oss-install.sh"
 builder["$group-$index"]="delft3d"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 ruby/$compilo/2.7.2"
-dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
+dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 ruby/__COMPILO__/2.7.2"
+dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -445,8 +445,8 @@ url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar
 filename["$group-$index"]=swan4151.tar.gz
 dirname["$group-$index"]=swan4151
 builder["$group-$index"]="swan"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3"
-dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
+dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3"
+dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group-$index"]="##############################################################################
@@ -461,8 +461,8 @@ FLAGS90_MSC = \$(FLAGS_MSC)
 FLAGS_DYN = -fPIC
 FLAGS_SER = 
 FLAGS_OMP = -qopenmp
-NETCDFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3
-NETCDFFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3
+NETCDFROOT = $prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3
+NETCDFFROOT = $prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -505,8 +505,8 @@ FLAGS_DYN =
 FLAGS_SER =
 FLAGS_OMP = -fopenmp
 FLAGS_MPI =
-NETCDFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3
-NETCDFFROOT = $prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3
+NETCDFROOT = $prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3
+NETCDFFROOT = $prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3
 ifneq (\$(NETCDFROOT),)
   INCS_SER = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
   INCS_OMP = -I\$(NETCDFROOT)/include -I\$(NETCDFFROOT)/include
@@ -537,7 +537,7 @@ endif
 "
 fi
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -554,18 +554,18 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
-
 # SWASH
 index=3
 name["$group-$index"]=swash
 version["$group-$index"]=11.01
+options["$group-$index"]="+mpi"
 details["$group-$index"]="(parallel)"
 url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
 filename["$group-$index"]=swash-11.01.tar.gz
 dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
 dependencies["$group-$index"]="$mpi_dep"
-dirinstall["$group-$index"]=${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}
+dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group-$index"]="##############################################################################
@@ -619,7 +619,7 @@ swch = -unix
 "
 fi
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -645,10 +645,10 @@ url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="$mpi_dep zlib/$compilo/1.2.11 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/lib\""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/lib\""
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -678,10 +678,10 @@ url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="zlib/$compilo/1.2.11 hdf5/$compilo/1.14.6 netcdf-c/hdf5.146/$compilo/4.9.3 netcdf-fortran/hdf5.146/$compilo/4.5.3 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
-args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$compilo/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/$compilo/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/$compilo/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/$compilo/fortran/4.5.3/lib\""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
+dirinstall["$group-$index"]=${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}
+args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/fortran/4.5.3/lib\""
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -704,13 +704,14 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 index=6
 name["$group-$index"]=swash
 version["$group-$index"]=11.01
+options["$group-$index"]=""
 details["$group-$index"]="(sequential)"
 url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
 filename["$group-$index"]=swash-11.01.tar.gz
 dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash_ser"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
+dirinstall["$group-$index"]=${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
 configfile["$group-$index"]="##############################################################################
@@ -764,7 +765,7 @@ swch = -unix
 "
 fi
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

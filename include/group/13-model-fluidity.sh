@@ -40,10 +40,10 @@ patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} gtk/$compilo/3.24.29 gtksourceview/$compilo/3.24.11 xml2/$compilo/2.13.6 xslt/$compilo/1.1.45"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ gtk/__COMPILO__/3.24.29 gtksourceview/__COMPILO__/3.24.11 xml2/__COMPILO__/2.13.6 xslt/__COMPILO__/1.1.45"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -67,7 +67,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv SPUD_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
-if [ "$mpilib" != "none" ]; then # MPI-only
+if [ "__MPI_LIB__" != "none" ]; then # MPI-only
 
 # fluidity snapshot
 index=2
@@ -91,10 +91,10 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="$mpi_dep python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion} petsc/$mpilib/$pythonlib/$compilo/3.24.6 vtk/$mpilib/$compilo/8.2.0 zlib/$compilo/1.2.11 lapack-blas/$compilo/3.9.1 hdf5/$mpilib/$compilo/1.14.6 netcdf-c/hdf5.146/$mpilib/$compilo/4.9.3 netcdf-fortran/hdf5.146/$mpilib/$compilo/4.5.3 gmsh/$mpilib/$compilo/4.8.4 spud/$compilo/snapshot mpfr/$compilo/4.1.0 udunits/$compilo/2.2.28"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo/${version["$group-$index"]}"
-args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/$mpilib/$compilo/8.2.0/include/vtk-8.2 -I$prefix/netcdf/hdf5.146/$mpilib/$compilo/c/4.9.3/include -I$prefix/netcdf/hdf5.146/$mpilib/$compilo/fortran/4.5.3/include -I$prefix/udunits/$compilo/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/$compilo/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5=yes --with-netcdf --with-libspud-root=$prefix/spud/$compilo/snapshot"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$mpilib/$compilo"
+dependencies["$group-$index"]="$mpi_dep python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ petsc/__MPI_LIB__/$pythonlib/__COMPILO__/3.24.6 vtk/__MPI_LIB__/__COMPILO__/8.2.0 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 gmsh/__MPI_LIB__/__COMPILO__/4.8.4 spud/__COMPILO__/snapshot mpfr/__COMPILO__/4.1.0 udunits/__COMPILO__/2.2.28"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/__MPI_LIB__/__COMPILO__/8.2.0/include/vtk-8.2 -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include -I$prefix/udunits/__COMPILO__/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/__COMPILO__/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5=yes --with-netcdf --with-libspud-root=$prefix/spud/__COMPILO__/snapshot"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion

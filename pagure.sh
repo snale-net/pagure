@@ -122,7 +122,7 @@ function leave()
 # Returns 0 if $1 = $2
 # Returns 1 if $1 > $2
 # Returns 2 if $1 < $2     
-function vercomp () {	
+function vercomp () {    	
     if [[ $1 == $2 ]]
     then
         echo "0"
@@ -155,6 +155,125 @@ function vercomp () {
     done
     echo "0"
     return
+}
+
+eval_dsl() {
+   local dsl="$1"
+
+    # empty = true
+    [[ -z "${dsl//[[:space:]]/}" ]] && return 0   
+
+    IFS='&&' read -ra parts <<< "$dsl"
+
+    local part var op val left r
+
+    for part in "${parts[@]}"; do
+        part=$(echo "$part" | xargs)
+        [[ -z "$part" ]] && continue
+
+        [[ "$part" =~ ^([a-zA-Z_][a-zA-Z0-9_]*)[[:space:]]*(==|!=|<=|>=|<|>)[[:space:]]*(.+)$ ]] || return 2
+
+        var="${BASH_REMATCH[1]}"
+        op="${BASH_REMATCH[2]}"
+        val="${BASH_REMATCH[3]}"
+
+        # remove quotes
+        val="${val//\"/}"
+
+        # normalize "none" (case-insensitive)
+        shopt -s nocasematch
+        if [[ "$val" == "none" ]]; then
+            val=""
+        fi
+        shopt -u nocasematch
+
+        left="${!var}"
+
+        case "$op" in
+            "==") [[ "$left" == "$val" ]] || return 1 ;;
+            "!=") [[ "$left" != "$val" ]] || return 1 ;;
+
+            "<")
+                [[ "$(vercomp "$left" "$val")" == "2" ]] || return 1
+                ;;
+
+            ">")
+                [[ "$(vercomp "$left" "$val")" == "1" ]] || return 1
+                ;;
+
+            "<=")
+                r=$(vercomp "$left" "$val")
+                [[ "$r" == "0" || "$r" == "2" ]] || return 1
+                ;;
+
+            ">=")
+                r=$(vercomp "$left" "$val")
+                [[ "$r" == "0" || "$r" == "1" ]] || return 1
+                ;;
+        esac
+    done
+
+    return 0
+}
+
+humanize_condition() {
+     local dsl="$1"
+
+    dsl="${dsl//&&/ AND }"
+
+    dsl=$(echo "$dsl" \
+        | sed 's/==/is/g' \
+        | sed 's/>=/is greater or equal to/g' \
+        | sed 's/<=/is lower or equal to/g' \
+        | sed 's/</is lower than/g' \
+        | sed 's/>/is greater than/g')
+
+    echo "$dsl"
+}
+
+# Create a build index
+build_index() {
+    local key
+    for key in "${!name[@]}"; do
+        pkg_key["${name[$key]}==${version[$key]}${options[$key]}"]="$key"
+    done
+}
+
+get_keys() {
+    local list="$1"
+    local item
+
+    IFS=',' read -ra items <<< "$list"
+    
+    # To Debug, print all key => value
+    #for key in "${!pkg_key[@]}"; do
+    #	echo "$key => ${pkg_key[$key]}"
+    #done  
+
+    local -a keys=()
+    for item in "${items[@]}"; do    	
+        keys+=("${pkg_key[$item]}")
+    done
+
+    printf '%s\n' "${keys[@]}"
+}
+
+get_version_from_filter() {
+    local pkg_name="$1"
+    local pkg_list="$2"
+    local pkg
+
+    IFS=',' read -ra pkgs <<< "$pkg_list"
+
+    for pkg in "${pkgs[@]}"; do
+        if [[ $pkg == "$pkg_name"==* ]]; then
+            pkg=${pkg#"$pkg_name"==}
+            echo "${pkg%%+*}"
+            return 0
+        fi
+    done
+
+    return 1
 }
 
 # Usage
@@ -400,6 +519,42 @@ else
 	log info "Show old version is set to $showOldVersion"
 fi
 
+# 5. Chargement des logiciels
+declare -A groupname
+declare -A name
+declare -A version
+declare -A options
+declare -A constraints
+declare -A mandatory
+declare -A details
+declare -A url
+declare -A filename
+declare -A dirname
+declare -A configfile
+declare -A configfilename
+declare -A patch_01
+declare -A patchfile_01
+declare -A patch_02
+declare -A patchfile_02
+declare -A patch_03
+declare -A patchfile_03
+declare -A patch_04
+declare -A patchfile_04
+declare -A builder
+declare -A dependencies
+declare -A dirinstall
+declare -A args
+declare -A dirmodule
+declare -A modulefile
+declare -A pkg_key
+
+for f in `find $basedir/include/group/ -regextype egrep -regex '.*/([1-9]|[0-9]{3}).*.sh'`; do   
+    maxGroup=$((maxGroup+1))  
+    source $f   
+done
+
+build_index
+
 # 5. Tester le filtre
 if [ -z "$selectedFilter" ]
 then
@@ -416,43 +571,28 @@ else
 		leave 1	 	
 	fi
 	
-	if [ ! -z "${filters["$selectedFilter"]}" ]; then	
+	if [ ! -z "${filters["$selectedFilter"]}" ]; then
+	
+		filter_string=$(
+		  echo "${filters["$selectedFilter"]}" |
+		  sed '/^\s*$/d' |
+		  paste -sd, -
+		)
+	
+		IFS=$'\n' read -r -d '' -a libToInstall < <(
+		    get_keys "$filter_string"
+		    printf '\0'
+		)
 		
-		IFS=', ' read -r -a libToInstall <<< "${filters["$selectedFilter"]}"		
-		
-		# MPI      
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-1[[:space:]] ]]; then            
-			mpi="openmpi"
-            mpiVersion="1.10.7"		
-        fi
-				
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-2[[:space:]] ]]; then
-			mpi="openmpi"
-            mpiVersion="3.1.6"
+		if mpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
+		   mpi="openmpi"		
 		fi
 		
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-3[[:space:]] ]]; then       
-			mpi="mpich"
-            mpiVersion="3.2.1"
+		if mpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
+		   mpi="mpich"		
 		fi
 		
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]4-4[[:space:]] ]]; then
-			mpi="mpich"
-            mpiVersion="3.3.2"
-		fi       
-		
-		# Python
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-1[[:space:]] ]]; then
-			pythonVersion="3.7"          
-		fi
-
-        if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-2[[:space:]] ]]; then
-			pythonVersion="2.7"           
-		fi
-		
-		if  [[ " ${libToInstall[@]} " =~ [[:space:]]1-3[[:space:]] ]]; then
-			pythonVersion="3.9"
-		fi
+		pythonVersion=$(get_version_from_filter python "$filter_string}")		  
 		
 	else
 		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
@@ -778,37 +918,6 @@ setenv PYTHONUSERBASE $prefix/python-modules/$compilo
 	fi
 fi  # end-only-if-Python
 
-# 13. Chargement des logiciels
-declare -A groupname
-declare -A name
-declare -A version
-declare -A mandatory
-declare -A details
-declare -A url
-declare -A filename
-declare -A dirname
-declare -A configfile
-declare -A configfilename
-declare -A patch_01
-declare -A patchfile_01
-declare -A patch_02
-declare -A patchfile_02
-declare -A patch_03
-declare -A patchfile_03
-declare -A patch_04
-declare -A patchfile_04
-declare -A builder
-declare -A dependencies
-declare -A dirinstall
-declare -A args
-declare -A dirmodule
-declare -A modulefile
-
-for f in `find $basedir/include/group/ -regextype egrep -regex '.*/([1-9]|[0-9]{3}).*.sh'`; do   
-    maxGroup=$((maxGroup+1))  
-    source $f   
-done
-
 log raw "......................"
 # 14. Afficher les librairies à installer
 if [ "${libToInstall}" != "none" ]
@@ -816,12 +925,14 @@ then
 	log info "The following libraries are pre-selected to be installed :"
 
 	for element in "${libToInstall[@]}"
-	do	
-		if [ -z "${name["$element"]}" ]; then
-			log fail "Library with index $element is not defined. Maybe you choose the wrong compiler or MPI lib or Python version for this filter '$selectedFilter'."
+	do			
+		# Check constraints
+		if ! eval_dsl "${constraints["$element"]}"; then
+			log fail "Library '${name["$element"]}==${version["$element"]}' does not meet the requirements '$(humanize_condition "${constraints["$element"]}")'. Check the compiler / MPI lib / Python."
 			leave 1
-		fi				
-		log info "${name["$element"]} ${version["$element"]} ${details["$element"]}"
+		fi	
+						
+		log info "${name["$element"]} ${version["$element"]} ${options["$element"]} ${details["$element"]}"
 	done	
 else
 	log info "No filter was selected. All libraries are pre-selected to be installed."
@@ -847,6 +958,52 @@ function install()
 				
 				# On vide les dépendances
 				exec_module "purge"
+
+                # On replace avec les valeurs dynamiques
+                dependencies["$index"]=${dependencies["$index"]//__COMPILO__/$compilo}
+                dependencies["$index"]=${dependencies["$index"]//__MPI_LIB__/$mpilib}
+                dependencies["$index"]=${dependencies["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dependencies["$index"]=${dependencies["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                dirinstall["$index"]=${dirinstall["$index"]//__COMPILO__/$compilo}
+                dirinstall["$index"]=${dirinstall["$index"]//__MPI_LIB__/$mpilib}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                args["$index"]=${args["$index"]//__COMPILO__/$compilo}
+                args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
+                args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                args["$index"]=${args["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                dirmodule["$index"]=${dirmodule["$index"]//__COMPILO__/$compilo}
+                dirmodule["$index"]=${dirmodule["$index"]//__MPI_LIB__/$mpilib}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                configfile["$index"]=${configfile["$index"]//__COMPILO__/$compilo}
+                configfile["$index"]=${configfile["$index"]//__MPI_LIB__/$mpilib}
+                configfile["$index"]=${configfile["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                configfile["$index"]=${configfile["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                patch_01["$index"]=${patch_01["$index"]//__COMPILO__/$compilo}
+                patch_01["$index"]=${patch_01["$index"]//__MPI_LIB__/$mpilib}
+                patch_01["$index"]=${patch_01["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                patch_01["$index"]=${patch_01["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                patch_02["$index"]=${patch_02["$index"]//__COMPILO__/$compilo}
+                patch_02["$index"]=${patch_02["$index"]//__MPI_LIB__/$mpilib}
+                patch_02["$index"]=${patch_02["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                patch_02["$index"]=${patch_02["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                patch_03["$index"]=${patch_03["$index"]//__COMPILO__/$compilo}
+                patch_03["$index"]=${patch_03["$index"]//__MPI_LIB__/$mpilib}
+                patch_03["$index"]=${patch_03["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                patch_03["$index"]=${patch_03["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+
+                patch_04["$index"]=${patch_04["$index"]//__COMPILO__/$compilo}
+                patch_04["$index"]=${patch_04["$index"]//__MPI_LIB__/$mpilib}
+                patch_04["$index"]=${patch_04["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                patch_04["$index"]=${patch_04["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
 
                 if [ "$installedPython" == "1" ];  then
                     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
@@ -901,7 +1058,7 @@ function install()
 					fi			
 				fi 
 
-				# On charge les dépendances
+				# On charge les dépendances               
 				if [[ ! -z "${dependencies["$index"]}" ]] ; then
                     # On charge chaque librairie une par une
                     IFS=' ' read -r -a depToLoad <<< "${dependencies["$index"]}" 	
@@ -923,8 +1080,7 @@ function install()
 								
 					if [ "$libTest" == "1" ] ; then						
 						alreadyInstall=false						
-					else											
-						
+					else 
 						versionTest=$(vercomp ${version["$index"]} $(cat lib_test))
 						if [ "$versionTest" == "1" ] ; then		
 							alreadyInstall=false	
@@ -961,112 +1117,116 @@ function install()
                         rm -rf $moduleDir/${dirmodule["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave	
                     fi		
 
-                    log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"					
+                    log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
+                    
+                    if [[ ${builder["$index"]} != "pip" ]]	
+                    then 					
 
-					cd $prefix/tgz
+					    cd $prefix/tgz
 
-					if [ ! -f "${filename["$index"]}" -a ! -d "${filename["$index"]}" -o $forceDownload == "1" ]; then 
+					    if [ ! -f "${filename["$index"]}" -a ! -d "${filename["$index"]}" -o $forceDownload == "1" ]; then 
 
-						rm -f ${filename["$index"]}
-						
-						if [[ ${url["$index"]} == "localfile" ]] 
-						then
-							log raw "......................"
-							while true; do
-								read -p "Type the absolute path of the archive file '${filename["$index"]}' : " filepath						
-								
-								if [ -f "$filepath/${filename["$index"]}" ]
-								then
-									cp $filepath/${filename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave
-									break;
-								else
-									echo "'$filepath/${filename["$index"]}' doesn't exists. Please try again."
-								fi
-							done
-							
-						elif [[ ${url["$index"]} == "git clone"* ]] ; then                          
-                            ${url["$index"]} ${filename["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+						    rm -f ${filename["$index"]}
+						    
+						    if [[ ${url["$index"]} == "localfile" ]] 
+						    then
+							    log raw "......................"
+							    while true; do
+								    read -p "Type the absolute path of the archive file '${filename["$index"]}' : " filepath						
+								    
+								    if [ -f "$filepath/${filename["$index"]}" ]
+								    then
+									    cp $filepath/${filename["$index"]} . 2>&1 >&3 | tee -a $LOGFILE && leave
+									    break;
+								    else
+									    echo "'$filepath/${filename["$index"]}' doesn't exists. Please try again."
+								    fi
+							    done
+							    
+						    elif [[ ${url["$index"]} == "git clone"* ]] ; then                          
+                                ${url["$index"]} ${filename["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                            else
+							    wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+						    fi
+					    fi
+
+					    if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
+
+					    if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
+					    then
+                            if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                                mkdir ../src/${dirname["$index"]}
+	                            tar xvfz ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                            else	
+        						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                            fi
+					    elif [[ ${filename["$index"]} == *.tar.xz ]] 
+					    then
+                            if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                                mkdir ../src/${dirname["$index"]}
+	                            tar xJf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                            else	
+        						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                            fi						
+						    
+					    elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
+					    then
+                            if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                                mkdir ../src/${dirname["$index"]}
+	                           tar xf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                            else	
+        						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                            fi	
+					    elif [[ ${filename["$index"]} == *.zip ]] 
+					    then
+                            if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
+                                mkdir ../src/${dirname["$index"]}
+	                            unzip -o ${filename["$index"]} -d../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                            else	
+        						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
+                            fi	
+						    
+					    elif [ -d "${filename["$index"]}" ] ; then    
+                            # C'est un répertoire, on copie son contenu  
+                            mkdir -p ../src/${dirname["$index"]}
+						    cp -r ${filename["$index"]}/* ../src/${dirname["$index"]}/.
                         else
-							wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-						fi
-					fi
+						    mkdir -p ../src/${dirname["$index"]}
+						    mv ${filename["$index"]} ../src/${dirname["$index"]}/.
+					    fi
 
-					if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
+					    cd ../src/${dirname["$index"]}
 
-					if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
-					then
-                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
-                            mkdir ../src/${dirname["$index"]}
-	                        tar xvfz ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                        else	
-    						tar xvfz ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-                        fi
-					elif [[ ${filename["$index"]} == *.tar.xz ]] 
-					then
-                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
-                            mkdir ../src/${dirname["$index"]}
-	                        tar xJf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                        else	
-    						tar xJf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-                        fi						
-						
-					elif [[ ${filename["$index"]} == *.tar.bz2 ]] 
-					then
-                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
-                            mkdir ../src/${dirname["$index"]}
-	                       tar xf ${filename["$index"]} -C../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                        else	
-    						tar xf ${filename["$index"]} -C../src 2>&1 >&3 | tee -a $LOGFILE && leave
-                        fi	
-					elif [[ ${filename["$index"]} == *.zip ]] 
-					then
-                        if [[ ${filename["$index"]} == *.all-in-root.* ]] ; then
-                            mkdir ../src/${dirname["$index"]}
-	                        unzip -o ${filename["$index"]} -d../src/${dirname["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                        else	
-    						unzip -o ${filename["$index"]} -d../src 2>&1 >&3 | tee -a $LOGFILE && leave
-                        fi	
-						
-					elif [ -d "${filename["$index"]}" ] ; then    
-                        # C'est un répertoire, on copie son contenu  
-                        mkdir -p ../src/${dirname["$index"]}
-						cp -r ${filename["$index"]}/* ../src/${dirname["$index"]}/.
-                    else
-						mkdir -p ../src/${dirname["$index"]}
-						mv ${filename["$index"]} ../src/${dirname["$index"]}/.
-					fi
+					    if [[ ! -z "${configfile["$index"]}" && ! -z "${configfilename["$index"]}" ]]
+					    then			
+						    echo $"${configfile["$index"]}" > ${configfilename["$index"]}		
+					    fi			
 
-					cd ../src/${dirname["$index"]}
-
-					if [[ ! -z "${configfile["$index"]}" && ! -z "${configfilename["$index"]}" ]]
-					then			
-						echo $"${configfile["$index"]}" > ${configfilename["$index"]}		
-					fi			
-
-					if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
-					then		
-						echo $"${patch_01["$index"]}" > patch_to_apply.patch
-						dos2unix ${patchfile_01["$index"]}
-						patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					fi
-					if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
-					then			
-						echo $"${patch_02["$index"]}" > patch_to_apply.patch
-						dos2unix ${patchfile_02["$index"]}
-						patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					fi
-					if [[ -f "${patchfile_03["$index"]}" && ! -z "${patch_03["$index"]}" ]]
-					then			
-						echo $"${patch_03["$index"]}" > patch_to_apply.patch
-						dos2unix ${patchfile_03["$index"]}
-						patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					fi
-                    			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
-					then			
-						echo $"${patch_04["$index"]}" > patch_to_apply.patch
-						dos2unix ${patchfile_04["$index"]}
-						patch -i patch_to_apply.patch ${patchfile_04["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					fi
+					    if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
+					    then		
+						    echo $"${patch_01["$index"]}" > patch_to_apply.patch
+						    dos2unix ${patchfile_01["$index"]}
+						    patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					    fi
+					    if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
+					    then			
+						    echo $"${patch_02["$index"]}" > patch_to_apply.patch
+						    dos2unix ${patchfile_02["$index"]}
+						    patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					    fi
+					    if [[ -f "${patchfile_03["$index"]}" && ! -z "${patch_03["$index"]}" ]]
+					    then			
+						    echo $"${patch_03["$index"]}" > patch_to_apply.patch
+						    dos2unix ${patchfile_03["$index"]}
+						    patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					    fi
+                        			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
+					    then			
+						    echo $"${patch_04["$index"]}" > patch_to_apply.patch
+						    dos2unix ${patchfile_04["$index"]}
+						    patch -i patch_to_apply.patch ${patchfile_04["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					    fi
+			        fi
 					
 					# Compilation #
 					if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then

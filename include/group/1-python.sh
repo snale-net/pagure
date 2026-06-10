@@ -5,19 +5,16 @@
 #The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-if [ "$pythonInterpreter" != "none" ]; then # only-if-we-want-Python-and-is-not-installed 
-
 #################################################################
 #Group 1 : Python
 group=1
 groupname[$group]="Python"
 
-if (( $(echo "$pythonVersion == 3.7" |bc -l) )); then # only Python==3.7
-
 #Python-3.7.7
 index=1
 name["$group-$index"]=python
 version["$group-$index"]=3.7
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.7'
 details["$group-$index"]=""
 url["$group-$index"]=https://www.python.org/ftp/python/3.7.7/Python-3.7.7.tgz
 filename["$group-$index"]=Python-3.7.7.tgz
@@ -57,14 +54,11 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pyth
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 "
 
-fi # end-only Python==3.7
-
-if (( $(echo "$pythonVersion == 2.7" |bc -l) )); then # only Python==2.7
-
 #Python-2.7.16
 index=2
 name["$group-$index"]=python
 version["$group-$index"]=2.7.16
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 2.7'
 details["$group-$index"]=""
 url["$group-$index"]=https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tgz
 filename["$group-$index"]=Python-2.7.16.tgz
@@ -105,14 +99,11 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${python
 "
 
 
-fi # end-only Python==2.7
-
-if (( $(echo "$pythonVersion == 3.9" |bc -l) )); then # only Python==3.9
-
 #Python-3.9.13
 index=3
 name["$group-$index"]=python
 version["$group-$index"]=3.9
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.9'
 details["$group-$index"]=""
 url["$group-$index"]=https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tgz
 filename["$group-$index"]=Python-3.9.13.tgz
@@ -151,8 +142,4 @@ prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include/pyth
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 "
-
-fi # end-only Python==3.9
-
-fi  # only-if-we-want-Python-and-is-not-installed 
 
