@@ -242,6 +242,7 @@ build_index() {
 get_keys() {
     local list="$1"
     local item
+    local found=0
 
     IFS=',' read -ra items <<< "$list"
     
@@ -251,11 +252,16 @@ get_keys() {
     #done  
 
     local -a keys=()
-    for item in "${items[@]}"; do    	
-        keys+=("${pkg_key[$item]}")
+    for item in "${items[@]}"; do
+        if [[ -n "${pkg_key[$item]}" ]]; then
+            keys+=("${pkg_key[$item]}")
+            found=1
+        fi
     done
 
     printf '%s\n' "${keys[@]}"
+
+    (( found ))
 }
 
 get_version_from_filter() {
@@ -318,38 +324,61 @@ then
 fi
 
 # On logge la commande
-log raw "$0 $*" 
+log raw "$0 $*"
 
-while test $# -ge 1
-do
-case "$1" in
+positional=() 
+
+for arg in "$@"; do
+    case "$arg" in
     -h* | --help)
         usage
         leave 0 ;;
      -l* | --list)
         list
         leave 0 ;;
-    -p*=* | --prefix=*) prefix=`echo $1 | sed 's/.*=//'`; shift ;;
-    -system=* | --system=*) system=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -compiler=* | --compiler=*) compiler=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -mpi=* | --mpi=*) mpi=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -mpi-version=* | --mpi-version=*) mpiVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -python-version=* | --python-version=*) pythonVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
-    -module-dir=* | --module-dir=*) moduleDir=`echo $1 | sed 's/.*=//'`; shift ;; 
-    -filter=* | --filter=*) selectedFilter=`echo $1 | sed 's/.*=//'`; shift ;; 
-    -mode=* | --mode=*) mode=`echo $1 | sed 's/.*=//'`; shift ;;
-    -force-download=* | --force-download=*) forceDownload=`echo $1 | sed 's/.*=//'`; shift ;;     
-    -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $1 | sed 's/.*=//'`; shift ;;     
-    -show-old-version=* | --show-old-version=*) oldVersion=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -auto-remove=* | --auto-remove=*) autoRemove=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -debug=* | --debug=* ) debug=`echo $1 | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -p*=* | --prefix=*) prefix=`echo $arg | sed 's/.*=//'`; shift ;;
+    -system=* | --system=*) system=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -compiler=* | --compiler=*) compiler=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -mpi=* | --mpi=*) mpi=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -mpi-version=* | --mpi-version=*) mpiVersion=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -python-version=* | --python-version=*) pythonVersion=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
+    -module-dir=* | --module-dir=*) moduleDir=`echo $arg | sed 's/.*=//'`; shift ;; 
+    -filter=* | --filter=*) 
+        log fail "--filter argument not exists anymore, please use $0 install filter_name | package_name"
+        leave 1 ; shift ;;   
+    -mode=* | --mode=*) mode=`echo $arg | sed 's/.*=//'`; shift ;;
+    -force-download=* | --force-download=*) forceDownload=`echo $arg | sed 's/.*=//'`; shift ;;     
+    -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $arg | sed 's/.*=//'`; shift ;;     
+    -show-old-version=* | --show-old-version=*) oldVersion=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -auto-remove=* | --auto-remove=*) autoRemove=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -debug=* | --debug=* ) debug=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
     *)
-      echo "unknown option: $1"
-      echo "$0 --help for help"
-      leave 1;;
+        positional+=("$arg")
+        ;;           
     esac
 done
+
+action="${positional[0]}"
+package="${positional[1]}"
+
+# Test l'action
+ if [[ -z "$action" ]]; then
+    log fail "Error: no action specified"
+    #echo "Usage: $0 [options] <action> [package]"
+    leave 1
+elif [[ "$action" != "install" ]]; then
+    log fail "Only install action is available yet"
+    #echo "Usage: $0 [options] install [package]"
+    leave 1
+fi
+
+# Tester le package
+if [[ -z "$package" ]]; then
+    log fail "Error: no package specified"
+    #echo "Usage: $0 [options] <action> [package]"
+    leave 1
+fi
 
 # 1. Tester le système
 if [ -z "$system" ]; then
@@ -556,50 +585,41 @@ done
 build_index
 
 # 5. Tester le filtre
-if [ -z "$selectedFilter" ]
-then
-	libToInstall="none"	
+if [[ -v "filters[$package]" ]]; then
+	filter_string=$(
+	  echo "${filters["$package"]}" |
+	  sed '/^\s*$/d' |
+	  paste -sd, -
+	)
+
+elif keys=$(get_keys "$package"); then
+    filter_string=$package      
 else
-
-	if [ ! -z "$mpi" ]; then
-		log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically detected or selected by the filter. Please remove --mpi."
-		leave 1	 	
-	fi
-
-	if [ ! -z "$pythonVersion" ]; then
-		log fail "You can't specify a Python version (--python-version) when using a filter (--filter). The Python version is automatically selected by the filter. Please remove --python-version."
-		leave 1	 	
-	fi
-	
-	if [ ! -z "${filters["$selectedFilter"]}" ]; then
-	
-		filter_string=$(
-		  echo "${filters["$selectedFilter"]}" |
-		  sed '/^\s*$/d' |
-		  paste -sd, -
-		)
-	
-		IFS=$'\n' read -r -d '' -a libToInstall < <(
-		    get_keys "$filter_string"
-		    printf '\0'
-		)
-		
-		if mpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
-		   mpi="openmpi"		
-		fi
-		
-		if mpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
-		   mpi="mpich"		
-		fi
-		
-		pythonVersion=$(get_version_from_filter python "$filter_string}")		  
-		
-	else
-		log fail "The filter '$selectedFilter' doesn't exists. Please check available filters with the option --list" 
-		leave 1	
-	fi
-	
+	log fail "The filter '$package' doesn't exists. Please check available filters with the option --list" 
+	leave 1	
 fi
+
+IFS=$'\n' read -r -d '' -a libToInstall < <(
+    get_keys "$filter_string"
+    printf '\0'
+)
+
+if [ -z "$mpi" ]; then
+	#log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically detected or selected by the filter. Please remove --mpi."
+	#leave 1	 	
+    if mpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
+        mpi="openmpi"		
+    elif mpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
+       mpi="mpich"		
+    fi
+fi
+
+if [ -z "$pythonVersion" ]; then
+	#log fail "You can't specify a Python version (--python-version) when using a filter (--filter). The Python version is automatically selected by the filter. Please remove --python-version."
+	#leave 1
+    pythonVersion=$(get_version_from_filter python "$filter_string}")	 	
+fi
+
 
 # 6. Tester la version de Python
 installedPython=0
@@ -735,9 +755,7 @@ fi
 # 9. Tester la version du MPI
 installedMPI=0
 if [ -z "$mpi" ]; then
-
-	mpilib="none"  
-
+	mpilib="none" 
 elif [ "$mpi" == "openmpi" ]; then
 
     if [ -x "$(command -v mpicc)" ] ; then
@@ -756,7 +774,7 @@ elif [ "$mpi" == "openmpi" ]; then
 	fi    	 	
     elif [ -z "$mpiVersion" ]; then
         mpiVersion=1.10.7
-	log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
     fi   
 
 	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
@@ -964,46 +982,55 @@ function install()
                 dependencies["$index"]=${dependencies["$index"]//__MPI_LIB__/$mpilib}
                 dependencies["$index"]=${dependencies["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 dependencies["$index"]=${dependencies["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dependencies["$index"]=${dependencies["$index"]//__PYTHON_LIB__/$pythonlib}                
 
                 dirinstall["$index"]=${dirinstall["$index"]//__COMPILO__/$compilo}
                 dirinstall["$index"]=${dirinstall["$index"]//__MPI_LIB__/$mpilib}
                 dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 args["$index"]=${args["$index"]//__COMPILO__/$compilo}
                 args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
                 args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 args["$index"]=${args["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                args["$index"]=${args["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 dirmodule["$index"]=${dirmodule["$index"]//__COMPILO__/$compilo}
                 dirmodule["$index"]=${dirmodule["$index"]//__MPI_LIB__/$mpilib}
                 dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 configfile["$index"]=${configfile["$index"]//__COMPILO__/$compilo}
                 configfile["$index"]=${configfile["$index"]//__MPI_LIB__/$mpilib}
                 configfile["$index"]=${configfile["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 configfile["$index"]=${configfile["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                configfile["$index"]=${configfile["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 patch_01["$index"]=${patch_01["$index"]//__COMPILO__/$compilo}
                 patch_01["$index"]=${patch_01["$index"]//__MPI_LIB__/$mpilib}
                 patch_01["$index"]=${patch_01["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 patch_01["$index"]=${patch_01["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                patch_01["$index"]=${patch_01["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 patch_02["$index"]=${patch_02["$index"]//__COMPILO__/$compilo}
                 patch_02["$index"]=${patch_02["$index"]//__MPI_LIB__/$mpilib}
                 patch_02["$index"]=${patch_02["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 patch_02["$index"]=${patch_02["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                patch_02["$index"]=${patch_02["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 patch_03["$index"]=${patch_03["$index"]//__COMPILO__/$compilo}
                 patch_03["$index"]=${patch_03["$index"]//__MPI_LIB__/$mpilib}
                 patch_03["$index"]=${patch_03["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 patch_03["$index"]=${patch_03["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                patch_03["$index"]=${patch_03["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 patch_04["$index"]=${patch_04["$index"]//__COMPILO__/$compilo}
                 patch_04["$index"]=${patch_04["$index"]//__MPI_LIB__/$mpilib}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                patch_04["$index"]=${patch_04["$index"]//__PYTHON_LIB__/$pythonlib}   
 
                 if [ "$installedPython" == "1" ];  then
                     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then

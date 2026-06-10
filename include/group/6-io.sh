@@ -15,7 +15,7 @@ groupname[$group]="I/O librairies"
 index=1
 name["$group-$index"]=parallel-netcdf
 version["$group-$index"]=1.13.0
-constraints='[ "__MPI_LIB__" != "none" ]' # MPI-only
+constraints='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]=https://parallel-netcdf.github.io/Release/pnetcdf-1.13.0.tar.gz
 filename["$group-$index"]=pnetcdf-1.13.0.tar.gz
@@ -57,7 +57,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=2
 name["$group-$index"]=parallel-netcdf
 version["$group-$index"]=1.6.1
-constraints='[ "__MPI_LIB__" != "none" ]' # MPI-only
+constraints='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]=http://cucis.ece.northwestern.edu/projects/PnetCDF/Release/parallel-netcdf-1.6.1.tar.gz
 filename["$group-$index"]=parallel-netcdf-1.6.1.tar.gz
@@ -130,7 +130,7 @@ index=4
 name["$group-$index"]=hdf5
 version["$group-$index"]=1.14.6
 options["$group-$index"]="+mpi"
-constraints='[ "__MPI_LIB__" != "none" ]' # MPI-only
+constraints='mpilib != none' # MPI-only
 details["$group-$index"]="(with parallel I/O)"
 url["$group-$index"]=https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz
 filename["$group-$index"]=hdf5-1.14.6.tar.gz
@@ -207,7 +207,7 @@ index=6
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.9.3
 options["$group-$index"]="+hdf5+mpi"
-constraints='[ "__MPI_LIB__" != "none" ]' # MPI-only
+constraints='[ mpilib != "none" ]' # MPI-only
 details["$group-$index"]="(version C)"
 url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.3.tar.gz -O netcdf-c-4.9.3.tar.gz"
 filename["$group-$index"]=netcdf-c-4.9.3.tar.gz
@@ -216,7 +216,7 @@ builder["$group-$index"]="configure"
 dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]="--enable-pnetcdf CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
+dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
 #if [[ "$mpi" == "openmpi" ]]; then
 #	dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
 #	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
@@ -301,7 +301,7 @@ index=8
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.5.3
 options["$group-$index"]="+fortran+hdf5+mpi"
-constraints='[ "__MPI_LIB__" != "none" ]' # MPI-only
+constraints='mpilib != none' # MPI-only
 details["$group-$index"]="(version Fortran)"
 url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.3.tar.gz -O netcdf-fortran-4.5.3.tar.gz"
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
