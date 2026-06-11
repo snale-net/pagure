@@ -241,17 +241,35 @@ build_index() {
 
 package_exists() {
     local query="$1"
+    query=$(echo "$query" | xargs)
+
     local spec
 
-    # Exact match (name==version[+options])
-    if [[ "$query" == *"=="* ]]; then
-        [[ -n "${pkg_key[$query]}" ]]
-        return
+    # parse query
+    local q_name="${query%%==*}"
+    local q_ver="${query#*==}"
+
+    # if query has no version part → match by name only
+    if [[ "$query" != *"=="* ]]; then
+        for spec in "${!pkg_key[@]}"; do
+            spec=$(echo "$spec" | xargs)
+            [[ "${spec%%==*}" == "$q_name" ]] && return 0
+        done
+        return 1
     fi
 
-    # Name-only match
+    # remove options from query version
+    q_ver="${q_ver%%+*}"
+
+    # scan all packages
     for spec in "${!pkg_key[@]}"; do
-        if [[ "${spec%%==*}" == "$query" ]]; then
+        spec=$(echo "$spec" | xargs)
+
+        local name="${spec%%==*}"
+        local ver_opts="${spec#*==}"
+        local ver="${ver_opts%%+*}"
+
+        if [[ "$name" == "$q_name" && "$ver" == "$q_ver" ]]; then
             return 0
         fi
     done
@@ -260,22 +278,28 @@ package_exists() {
 }
 
 get_package_keys() {
-    local query="$1"
-    local spec
-    local found=0
+     local query="$1"
+    query=$(echo "$query" | xargs)
 
-    if [[ "$query" == *"=="* ]]; then
-        # Exact match
-        if [[ -n "${pkg_key[$query]}" ]]; then
-            echo "${pkg_key[$query]}"
-            return 0
-        fi
+    local spec found=0
+
+    # only support name==version query
+    if [[ "$query" != *"=="* ]]; then
         return 1
     fi
 
-    # Name-only match
+    local q_name="${query%%==*}"
+    local q_ver="${query#*==}"
+    q_ver="${q_ver%%+*}"   # ignore options in query
+
     for spec in "${!pkg_key[@]}"; do
-        if [[ "${spec%%==*}" == "$query" ]]; then
+        spec=$(echo "$spec" | xargs)
+
+        local name="${spec%%==*}"
+        local ver="${spec#*==}"
+        ver="${ver%%+*}"   # ignore options in stored spec
+
+        if [[ "$name" == "$q_name" && "$ver" == "$q_ver" ]]; then
             echo "${pkg_key[$spec]}"
             found=1
         fi
@@ -866,13 +890,13 @@ elif [ "$mpi" == "openmpi" ]; then
 	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
     fi 
 
-    original_mpi_key=$(find_key_by_group 4)
-    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")
+    original_mpi_key=$(find_key_by_group 4)   
+    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")    
 
     if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
         replace_key "$original_mpi_key" "$new_mpi_key"	                     
-     elif [[ $installedMPI -eq 0 ]] && ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]]; then    
+    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then    
         log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
 	    leave 1   
     fi 
@@ -926,7 +950,7 @@ elif [ "$mpi" == "mpich" ] ; then
     if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
         replace_key "$original_mpi_key" "$new_mpi_key"	                     
-     elif [[ $installedMPI -eq 0 ]] && ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]]; then    
+    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion" ||     [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then   
         log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
 	    leave 1   
     fi  

@@ -143,3 +143,43 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pyth
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
 "
 
+#Python-3.10.20
+index=4
+name["$group-$index"]=python
+version["$group-$index"]=3.10
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.10'
+details["$group-$index"]=""
+url["$group-$index"]=https://www.python.org/ftp/python/3.10.20/Python-3.10.20.tgz
+filename["$group-$index"]=Python-3.10.20.tgz
+dirname["$group-$index"]=Python-3.10.20
+builder["$group-$index"]="python-builder"
+#dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="--enable-shared --enable-optimizations"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
+proc ModulesHelp { } {                                                                                                                                                                                                                      
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include/python${pythonVersion}m
+"
+

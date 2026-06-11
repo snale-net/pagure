@@ -150,9 +150,9 @@ patch_04["$group-$index"]="--- original/gcc-7.5.0/libsanitizer/sanitizer_common/
 patchfile_04["$group-$index"]="libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.h"
 builder["$group-$index"]="gcc"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -184,9 +184,9 @@ filename["$group-$index"]=gcc-11.5.0.zip
 dirname["$group-$index"]=gcc-releases-gcc-11.5.0
 builder["$group-$index"]="gcc"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

@@ -2189,20 +2189,20 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# vtk 9.1.0 + MPI
+# vtk 9.1.0
 index=67
 name["$group-$index"]=vtk
 version["$group-$index"]=9.1.0
-options["$group-$index"]="+mpi+hdf5+netcdf"
-constraints["$group-$index"]='mpilib != none' # MPI-only
-url["$group-$index"]="https://gitlab.kitware.com/vtk/vtk/-/archive/v9.1.0/vtk-v9.1.0.zip"
-filename["$group-$index"]=vtk-v9.1.0.zip
+options["$group-$index"]="+hdf5"
+constraints["$group-$index"]=''
+url["$group-$index"]="https://vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
+filename["$group-$index"]=VTK-9.1.0.tar.gz
 dirname["$group-$index"]=VTK-9.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.10.5 netcdf-c/hdf5.110/__MPI_LIB__/__COMPILO__/4.8.0"
-dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
-dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+dependencies["$group-$index"]="cmake/3.31.8 zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.12.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON  -DVTK_BUILD_TESTING=OFF -DVTK_BUILD_EXAMPLES=OFF"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -2223,5 +2223,8 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH  $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
+setenv VTK_DIR $prefix/${dirinstall["$group-$index"]}
+setenv VTK_INSTALL_PREFIX $prefix/${dirinstall["$group-$index"]}
 "
 

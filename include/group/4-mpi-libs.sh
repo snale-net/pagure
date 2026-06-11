@@ -188,6 +188,7 @@ setenv PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 index=6
 name["$group-$index"]=openmpi
 version["$group-$index"]=4.1.6
+options["$group-$index"]="+ucx+pmi+pmix"
 constraints["$group-$index"]='mpi == openmpi && mpiVersion == 4.1.6'
 details["$group-$index"]=""
 url["$group-$index"]=https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
@@ -196,7 +197,7 @@ dirname["$group-$index"]=openmpi-4.1.6
 builder["$group-$index"]="configure"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="--enable-mpi-cxx --disable-io-ompio"
+args["$group-$index"]="--with-ucx --with-pmi --enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple --with-pmix"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {

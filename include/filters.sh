@@ -43,10 +43,11 @@ cmake==3.31.8
 xml2==2.13.6
 xslt==1.1.45
 lapack-blas==3.9.1 
-openmpi==4.1.6
+openmpi==4.1.6+ucx+pmi+pmix
 zlib==1.2.11 
+hdf5==1.12.1+mpi
 petsc==3.18.6+mpi+hdf5+metis+parmetis+lapack+hypre+zoltan
-vtk==9.1.0+mpi+hdf5+netcdf
+vtk==9.1.0+hdf5
 spud==1.2.2
 fluidity==4.1.20"
 

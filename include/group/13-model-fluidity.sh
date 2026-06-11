@@ -40,7 +40,7 @@ patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ gtk/__COMPILO__/3.24.29 gtksourceview/__COMPILO__/3.24.11 xml2/__COMPILO__/2.13.6 xslt/__COMPILO__/1.1.45"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ xml2/__COMPILO__/2.13.6 xslt/__COMPILO__/1.1.45"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -67,15 +67,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv SPUD_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
-# fluidity snapshot
+# fluidity 4.1.20
 index=2
 name["$group-$index"]=fluidity
 version["$group-$index"]=4.1.20
 constraints["$group-$index"]='mpilib != none && compiler == gnu && CC_VERSION < 12'
 details["$group-$index"]=""
-url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/tags/4.1.20.tar.gz -O fluidity-4.1.20.tar.gz"
-filename["$group-$index"]=fluidity-4.1.20.tar.gz
-dirname["$group-$index"]=fluidity-4.1.20
+#url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/tags/4.1.20.tar.gz -O fluidity-4.1.20.tar.gz"
+url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/heads/main.zip -O fluidity-4.1.20.zip"
+filename["$group-$index"]=fluidity-4.1.20.zip
+dirname["$group-$index"]=fluidity-main
 patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.000000000 +0200
 +++ Makefile.in	2021-07-26 12:21:39.697289659 +0200
 @@ -559,7 +559,7 @@
@@ -90,9 +91,9 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__MPI_LIB__/__COMPILO__/9.6.1 zlib/__COMPILO__/1.2.11 spud/__COMPILO__/1.2.2"
+dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ lapack-blas/__COMPILO__/3.9.1 petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__COMPILO__/9.1.0 hdf5/__MPI_LIB__/__COMPILO__/1.12.1 spud/__COMPILO__/1.2.2"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/__MPI_LIB__/__COMPILO__/9.6.0/include/vtk-9.6 -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include -I$prefix/udunits/__COMPILO__/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/__COMPILO__/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5 --with-netcdf --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
+args["$group-$index"]="--enable-2d-adaptivity  --enable-openmp --with-vtk --with-hdf5 --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      

@@ -754,5 +754,43 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
 "
 
+# HDF5 1.12.1
+index=18
+name["$group-$index"]=hdf5
+version["$group-$index"]=1.12.1
+options["$group-$index"]="+mpi"
+constraints["$group-$index"]='mpi == openmpi' # MPI-only
+details["$group-$index"]="(with parallel I/O)"
+url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz
+filename["$group-$index"]=hdf5-1.12.1.tar.gz
+dirname["$group-$index"]=hdf5-1.12.1
+builder["$group-$index"]="configure"
+dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="CC=mpicc FC=mpif90 CXX=mpicxx --enable-parallel --with-zlib --enable-fortran"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
+"
+
 
 
