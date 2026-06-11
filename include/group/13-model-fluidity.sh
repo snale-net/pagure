@@ -67,12 +67,11 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv SPUD_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
-if [ "__MPI_LIB__" != "none" ]; then # MPI-only
-
 # fluidity snapshot
 index=2
 name["$group-$index"]=fluidity
 version["$group-$index"]=4.1.20
+constraints["$group-$index"]='mpilib != none && compiler == gnu && CC_VERSION < 12'
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/FluidityProject/fluidity/archive/refs/tags/4.1.20.tar.gz -O fluidity-4.1.20.tar.gz"
 filename["$group-$index"]=fluidity-4.1.20.tar.gz
@@ -91,9 +90,9 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="$mpi_dep python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ petsc/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/3.24.6 vtk/__MPI_LIB__/__COMPILO__/8.2.0 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 gmsh/__MPI_LIB__/__COMPILO__/4.8.4 spud/__COMPILO__/snapshot mpfr/__COMPILO__/4.1.0 udunits/__COMPILO__/2.2.28"
+dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__MPI_LIB__/__COMPILO__/9.6.1 zlib/__COMPILO__/1.2.11 spud/__COMPILO__/1.2.2"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/__MPI_LIB__/__COMPILO__/8.2.0/include/vtk-8.2 -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include -I$prefix/udunits/__COMPILO__/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/__COMPILO__/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5=yes --with-netcdf --with-libspud-root=$prefix/spud/__COMPILO__/snapshot"
+args["$group-$index"]="CPPFLAGS=\"-I$prefix/vtk/__MPI_LIB__/__COMPILO__/9.6.0/include/vtk-9.6 -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include -I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include -I$prefix/udunits/__COMPILO__/2.2.28/include \" LDFLAGS=\"-L$prefix/zlib/__COMPILO__/1.2.11/lib -lz\" --enable-2d-adaptivity  --enable-openmp --enable-vtk --with-hdf5 --with-netcdf --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
@@ -117,8 +116,6 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path DIAMOND_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/diamond/schemata
 "
-
-fi # end-MPI-only
 
 
 

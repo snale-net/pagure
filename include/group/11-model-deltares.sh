@@ -412,7 +412,7 @@ patch_04["$group-$index"]="--- scripts_lgpl/linux/oss-install_original.sh	2021-1
 "
 patchfile_04["$group-$index"]="scripts_lgpl/linux/oss-install.sh"
 builder["$group-$index"]="delft3d"
-dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 ruby/__COMPILO__/2.7.2"
+dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 ruby/__COMPILO__/2.7.2"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -445,7 +445,7 @@ url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar
 filename["$group-$index"]=swan4151.tar.gz
 dirname["$group-$index"]=swan4151
 builder["$group-$index"]="swan"
-dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3"
+dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
@@ -564,7 +564,7 @@ url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.g
 filename["$group-$index"]=swash-11.01.tar.gz
 dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
-dependencies["$group-$index"]="$mpi_dep"
+dependencies["$group-$index"]="__MPI_MODULE__"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
 if [[ $compiler == "intel" ]]; then
@@ -645,7 +645,7 @@ url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
+dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"

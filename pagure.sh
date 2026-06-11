@@ -239,10 +239,56 @@ build_index() {
     done
 }
 
+package_exists() {
+    local query="$1"
+    local spec
+
+    # Exact match (name==version[+options])
+    if [[ "$query" == *"=="* ]]; then
+        [[ -n "${pkg_key[$query]}" ]]
+        return
+    fi
+
+    # Name-only match
+    for spec in "${!pkg_key[@]}"; do
+        if [[ "${spec%%==*}" == "$query" ]]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+get_package_keys() {
+    local query="$1"
+    local spec
+    local found=0
+
+    if [[ "$query" == *"=="* ]]; then
+        # Exact match
+        if [[ -n "${pkg_key[$query]}" ]]; then
+            echo "${pkg_key[$query]}"
+            return 0
+        fi
+        return 1
+    fi
+
+    # Name-only match
+    for spec in "${!pkg_key[@]}"; do
+        if [[ "${spec%%==*}" == "$query" ]]; then
+            echo "${pkg_key[$spec]}"
+            found=1
+        fi
+    done
+
+    (( found ))
+}
+
 get_keys() {
     local list="$1"
     local item
     local found=0
+
 
     IFS=',' read -ra items <<< "$list"
     
@@ -280,6 +326,47 @@ get_version_from_filter() {
     done
 
     return 1
+}
+
+find_key_by_group() {
+    local group="$1"
+    local key
+
+    for key in "${libToInstall[@]}"; do
+        if [[ "$key" == "$group"-* ]]; then
+            echo "$key"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+replace_key() {
+    local old="$1"
+    local new="$2"
+    local i
+
+    for i in "${!libToInstall[@]}"; do
+        if [[ "${libToInstall[$i]}" == "$old" ]]; then
+            libToInstall[$i]="$new"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+remove_key() {
+    local target="$1"
+    local -a new_array=()
+    local item
+
+    for item in "${libToInstall[@]}"; do
+        [[ "$item" == "$target" ]] || new_array+=("$item")
+    done
+
+    libToInstall=("${new_array[@]}")
 }
 
 # Usage
@@ -599,24 +686,29 @@ else
 	leave 1	
 fi
 
+# Get the corresponding keys
 IFS=$'\n' read -r -d '' -a libToInstall < <(
     get_keys "$filter_string"
     printf '\0'
 )
 
 if [ -z "$mpi" ]; then
-	#log fail "You can't specify a MPI library (--mpi) when using a filter (--filter). The MPI library is automatically detected or selected by the filter. Please remove --mpi."
-	#leave 1	 	
-    if mpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
+
+    # We detect the MPI lib from the filter	 
+    if filterMpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
         mpi="openmpi"		
-    elif mpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
+    elif filterMpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
        mpi="mpich"		
     fi
+
+    if [ -z "$mpiVersion" ]; then    
+        mpiVersion=$filterMpiVersion
+    fi	   	
+    
 fi
 
 if [ -z "$pythonVersion" ]; then
-	#log fail "You can't specify a Python version (--python-version) when using a filter (--filter). The Python version is automatically selected by the filter. Please remove --python-version."
-	#leave 1
+    # We detect the Python version from the filter	 
     pythonVersion=$(get_version_from_filter python "$filter_string}")	 	
 fi
 
@@ -668,7 +760,7 @@ else
 		pythonInterpreter=python${pythonVersion}
 		log info "Python interpreter ${pythonVersion} will be installed"
 	else
-		log fail "Unable to find Python ${pythonVersion} in your system. You can install Python 3.7 with PAGURE" 
+		log fail "Unable to find Python ${pythonVersion} in your system. Please install it before or change the python version with --python-version= argument." 
 		leave 1
 	fi
 fi
@@ -760,22 +852,30 @@ elif [ "$mpi" == "openmpi" ]; then
 
     if [ -x "$(command -v mpicc)" ] ; then
     	installedMPI=1
-    	mpiVersion=$(mpirun --version | grep 'Open MPI' | sed 's/^.*\s\([0-9\.]*\)/\1/g')      
-    	if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]4-*[[:space:]] ]]; then
-		# On a détecté une lib MPI qui ne provient pas de PAGURE, on supprime l'installation du MPI       
-		for i in "${!libToInstall[@]}"; do          
-		    if [[ " ${libToInstall[i]} " =~ [[:space:]]4-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]4-2[[:space:]] ]]; then             
-		      unset 'libToInstall[i]'
-		    fi
-		done 
-		if [ $debug == "1" ]; then  
-			log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
-		fi       
-	fi    	 	
+    	mpiVersion=$(mpirun --version | grep 'Open MPI' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
+    	
+        if original_mpi_key=$(find_key_by_group 4); then
+		    # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+            remove_key "$original_mpi_key"		    
+		    if [ $debug == "1" ]; then  
+			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
+		    fi 
+        fi
     elif [ -z "$mpiVersion" ]; then
         mpiVersion=1.10.7
 	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
-    fi   
+    fi 
+
+    original_mpi_key=$(find_key_by_group 4)
+    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")
+
+    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+        # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
+        replace_key "$original_mpi_key" "$new_mpi_key"	                     
+     elif [[ $installedMPI -eq 0 ]] && ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]]; then    
+        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
+	    leave 1   
+    fi 
 
 	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
 	export MPICC=mpicc
@@ -804,10 +904,32 @@ elif [ "$mpi" == "intelmpi" ] ; then
 
 elif [ "$mpi" == "mpich" ] ; then
 
-    if [ -z "$mpiVersion" ]; then
+     if [ -x "$(command -v mpicc)" ] ; then
+    	installedMPI=1
+    	mpiVersion=$(mpirun --version | grep 'MPICH' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
+    	
+        if original_mpi_key=$(find_key_by_group 4); then
+		    # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+            remove_key "$original_mpi_key"		    
+		    if [ $debug == "1" ]; then  
+			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
+		    fi 
+        fi
+    elif [ -z "$mpiVersion" ]; then
         mpiVersion=3.2.1
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 3.2.1" 	   
-    fi   
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+    fi 
+      
+	original_mpi_key=$(find_key_by_group 4)
+    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")  
+
+    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+        # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
+        replace_key "$original_mpi_key" "$new_mpi_key"	                     
+     elif [[ $installedMPI -eq 0 ]] && ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]]; then    
+        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
+	    leave 1   
+    fi  
 
 	mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
 	export MPICC=mpicc
@@ -824,31 +946,14 @@ else
 	leave 1	
 fi
 
-if [ "$installedPython" == "1" ];  then
-	mpi_dep=""
-elif [ "$mpilib" == "openmpi110" ]; then
-	mpi_dep="openmpi/$compilo/1.10.7"
-elif [ "$mpilib" == "openmpi316" ]; then
-	mpi_dep="openmpi/$compilo/3.1.6"
-elif [ "$mpilib" == "intel2016" ]; then
-	mpi_dep="intelmpi/$compilo/2016"
-elif [ "$mpilib" == "intel2017" ]; then
-	mpi_dep="intelmpi/$compilo/2017"
-elif [ "$mpilib" == "intel2018" ]; then
-	mpi_dep="intelmpi/$compilo/2018"
-elif [ "$mpilib" == "intel2019" ]; then
-	mpi_dep="intelmpi/$compilo/2019"
-elif [ "$mpilib" == "mpich321" ]; then
-	mpi_dep="mpich/$compilo/3.2.1"
-elif [ "$mpilib" == "mpich332" ]; then
-	mpi_dep="mpich/$compilo/3.3.2"
-else
-    mpi_dep=""
-fi
-
-if [ "$mpilib" == "none" ]; then
+mpi_dep=""
+if [ "$mpilib" == "none" ]; then  
     log warn "No MPI library"  
 else
+    if [[ $installedMPI -eq 0 ]] && mpi_key=$(find_key_by_group 4); then 
+        mpi_dep=${dirmodule["$mpi_key"]//__COMPILO__/$compilo}/${version["$mpi_key"]}	
+    fi
+
     log info "MPI library is set to $mpilib"
 fi
 
@@ -980,27 +1085,10 @@ function install()
                 # On replace avec les valeurs dynamiques
                 dependencies["$index"]=${dependencies["$index"]//__COMPILO__/$compilo}
                 dependencies["$index"]=${dependencies["$index"]//__MPI_LIB__/$mpilib}
+                dependencies["$index"]=${dependencies["$index"]//__MPI_MODULE__/$mpi_dep}
                 dependencies["$index"]=${dependencies["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 dependencies["$index"]=${dependencies["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                dependencies["$index"]=${dependencies["$index"]//__PYTHON_LIB__/$pythonlib}                
-
-                dirinstall["$index"]=${dirinstall["$index"]//__COMPILO__/$compilo}
-                dirinstall["$index"]=${dirinstall["$index"]//__MPI_LIB__/$mpilib}
-                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_VERSION__/$pythonVersion}
-                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_LIB__/$pythonlib}   
-
-                args["$index"]=${args["$index"]//__COMPILO__/$compilo}
-                args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
-                args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
-                args["$index"]=${args["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                args["$index"]=${args["$index"]//__PYTHON_LIB__/$pythonlib}   
-
-                dirmodule["$index"]=${dirmodule["$index"]//__COMPILO__/$compilo}
-                dirmodule["$index"]=${dirmodule["$index"]//__MPI_LIB__/$mpilib}
-                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_VERSION__/$pythonVersion}
-                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_LIB__/$pythonlib}   
+                dependencies["$index"]=${dependencies["$index"]//__PYTHON_LIB__/$pythonlib} 
 
                 configfile["$index"]=${configfile["$index"]//__COMPILO__/$compilo}
                 configfile["$index"]=${configfile["$index"]//__MPI_LIB__/$mpilib}
@@ -1030,7 +1118,31 @@ function install()
                 patch_04["$index"]=${patch_04["$index"]//__MPI_LIB__/$mpilib}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                patch_04["$index"]=${patch_04["$index"]//__PYTHON_LIB__/$pythonlib}   
+                patch_04["$index"]=${patch_04["$index"]//__PYTHON_LIB__/$pythonlib} 
+
+                args["$index"]=${args["$index"]//__COMPILO__/$compilo}
+                args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
+                args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                args["$index"]=${args["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                args["$index"]=${args["$index"]//__PYTHON_LIB__/$pythonlib}                    
+
+                dirinstall["$index"]=${dirinstall["$index"]//__COMPILO__/$compilo}
+                dirinstall["$index"]=${dirinstall["$index"]//__MPI_LIB__/$mpilib}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dirinstall["$index"]=${dirinstall["$index"]//__PYTHON_LIB__/$pythonlib}
+
+                dirmodule["$index"]=${dirmodule["$index"]//__COMPILO__/$compilo}
+                dirmodule["$index"]=${dirmodule["$index"]//__MPI_LIB__/$mpilib}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dirmodule["$index"]=${dirmodule["$index"]//__PYTHON_LIB__/$pythonlib}  
+
+                modulefile["$index"]=${modulefile["$index"]//__COMPILO__/$compilo}
+                modulefile["$index"]=${modulefile["$index"]//__MPI_LIB__/$mpilib}
+                modulefile["$index"]=${modulefile["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                modulefile["$index"]=${modulefile["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                modulefile["$index"]=${modulefile["$index"]//__PYTHON_LIB__/$pythonlib}                
 
                 if [ "$installedPython" == "1" ];  then
                     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
@@ -1041,33 +1153,7 @@ function install()
 
                 fi  	
 				
-				if [ "$systemOS" == "cluster" ] ; then                    				
-					
-					if [ "${libToInstall}" == "none" ] ; then
-						# Uniquement si on n'utilise pas de filtre, on essait d'utiliser les dépendences du cluster
-					
-						if [ "$mpilib" != "none" ] ; then			
-
-							if  [ -x `command -v ${MPIF90}` ]
-							then					
-								# On enlève le module mpi pré-configuré pour le remplacer par celui du cluster
-								mpi_dep_no_slash=${mpi_dep//\//\\/}							
-								dependencies["$index"]=${dependencies["$index"]/$mpi_dep_no_slash/}				
-							fi	
-						fi		
-
-						# On enlève le module gdal
-						if [[ $moduleList == *"gdal"* ]]; then 
-							dependencies["$index"]=${dependencies["$index"]/gdal\/"$compilo"\/3.0.1/}
-						fi
-						
-						# On enlève le module proj
-						if [[ $moduleList == *"proj"* ]]; then 
-							dependencies["$index"]=${dependencies["$index"]/proj\/"$compilo"\/6.1.1/}
-						fi						
-							
-					fi
-					
+				if [ "$systemOS" == "cluster" ] ; then					
 					# On ajoute les dépendances sauvegarder au lancement + les dépendances mise à jour avec les deps du cluster				
 					dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`												
 				fi

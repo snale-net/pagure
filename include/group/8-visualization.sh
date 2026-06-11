@@ -22,7 +22,7 @@ builder["$group-$index"]="configure"
 if [ "__MPI_LIB__" == "none" ]; then 
 	dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28"
 else
-	dependencies["$group-$index"]="$mpi_dep zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28"
+	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28"
 fi
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
@@ -102,12 +102,11 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
-
 # xml2 2.13.6
 index=3
 name["$group-$index"]=xml2
 version["$group-$index"]=2.13.6
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.13.6/libxml2-v2.13.6.zip"
 filename["$group-$index"]=libxml2-v2.13.6.zip
@@ -144,6 +143,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=4
 name["$group-$index"]=xslt
 version["$group-$index"]=1.1.45
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.gnome.org/GNOME/libxslt/-/archive/v1.1.45/libxslt-v1.1.45.zip"
 filename["$group-$index"]=libxslt-v1.1.45.zip
@@ -180,6 +180,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=5
 name["$group-$index"]=lxml
 version["$group-$index"]=4.6.3
+constraints["$group-$index"]='pythonInterpreter != none'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
@@ -196,6 +197,7 @@ args["$group-$index"]=""
 index=6
 name["$group-$index"]=cairo
 version["$group-$index"]=1.17.8
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/cairo/cairo/-/archive/1.17.8/cairo-1.17.8.zip"
 filename["$group-$index"]=cairo-1.17.8.zip
@@ -229,6 +231,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=7
 name["$group-$index"]=pycairo
 version["$group-$index"]=1.20.1
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://files.pythonhosted.org/packages/bc/3f/64e6e066d163fbcf13213f9eeda0fc83376243335ea46a66cefd70d62e8f/pycairo-1.20.1.tar.gz"
 filename["$group-$index"]=pycairo-1.20.1.tar.gz
@@ -244,6 +247,7 @@ args["$group-$index"]=""
 index=8
 name["$group-$index"]=glib
 version["$group-$index"]=2.72.4
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/glib/2.72/glib-2.72.4.tar.xz"
 filename["$group-$index"]=glib-2.72.4.tar.xz
@@ -277,6 +281,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=9
 name["$group-$index"]=gobject-introspection
 version["$group-$index"]=1.72.1
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/gobject-introspection/1.72/gobject-introspection-1.72.1.tar.xz"
 filename["$group-$index"]=gobject-introspection-1.72.1.tar.xz
@@ -314,6 +319,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=10
 name["$group-$index"]=harfbuzz
 version["$group-$index"]=2.8.2
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/harfbuzz/harfbuzz/releases/download/2.8.2/harfbuzz-2.8.2.tar.xz"
 filename["$group-$index"]=harfbuzz-2.8.2.tar.xz
@@ -348,6 +354,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=11
 name["$group-$index"]=pango
 version["$group-$index"]=1.48.6
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/pango/1.48/pango-1.48.6.tar.xz"
 filename["$group-$index"]=pango-1.48.6.tar.xz
@@ -382,6 +389,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=12
 name["$group-$index"]=gdk-pixbuf
 version["$group-$index"]=2.42.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.0.tar.xz"
 filename["$group-$index"]=gdk-pixbuf-2.42.0.tar.xz
@@ -416,6 +424,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=13
 name["$group-$index"]=xorg-macros
 version["$group-$index"]=1.20.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/xorg/util/macros/-/archive/util-macros-1.20.0/macros-util-macros-1.20.0.zip"
 filename["$group-$index"]=macros-util-macros-1.20.0.zip
@@ -443,6 +452,7 @@ prepend-path ACLOCAL_PATH $prefix/${dirinstall["$group-$index"]}/share/aclocal
 index=14
 name["$group-$index"]=xorg-proto
 version["$group-$index"]=2023.1
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/archive/xorgproto-2023.1/xorgproto-xorgproto-2023.1.zip"
 filename["$group-$index"]=xorgproto-xorgproto-2023.1.zip
@@ -472,6 +482,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=15
 name["$group-$index"]=xrandr
 version["$group-$index"]=1.5.4
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxrandr/-/archive/libXrandr-1.5.4/libxrandr-libXrandr-1.5.4.zip"
 filename["$group-$index"]=libxrandr-libXrandr-1.5.4.zip
@@ -504,6 +515,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=16
 name["$group-$index"]=xi
 version["$group-$index"]=1.8.1
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxi/-/archive/libXi-1.8.1/libxi-libXi-1.8.1.zip"
 filename["$group-$index"]=libxi-libXi-1.8.1.zip
@@ -536,6 +548,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=17
 name["$group-$index"]=atk
 version["$group-$index"]=2.36.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/atk/2.36/atk-2.36.0.tar.xz"
 filename["$group-$index"]=atk-2.36.0.tar.xz
@@ -570,6 +583,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=18
 name["$group-$index"]=dbus
 version["$group-$index"]=1.13.18
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.tar.xz"
 filename["$group-$index"]=dbus-1.13.18.tar.xz
@@ -606,6 +620,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/lib/dbus-1.0/include
 index=19
 name["$group-$index"]=xtst
 version["$group-$index"]=1.2.3
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.freedesktop.org/xorg/lib/libxtst/-/archive/libXtst-1.2.3/libxtst-libXtst-1.2.3.tar.bz2"
 filename["$group-$index"]=libxtst-libXtst-1.2.3.tar.bz2
@@ -642,6 +657,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=20
 name["$group-$index"]=at-spi2-core
 version["$group-$index"]=2.42.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.gnome.org/GNOME/at-spi2-core/-/archive/AT_SPI2_CORE_2_42_0/at-spi2-core-AT_SPI2_CORE_2_42_0.zip"
 filename["$group-$index"]=at-spi2-core-AT_SPI2_CORE_2_42_0.zip
@@ -676,6 +692,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=21
 name["$group-$index"]=atk-bridge
 version["$group-$index"]=2.38.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz"
 filename["$group-$index"]=at-spi2-atk-2.38.0.tar.xz
@@ -710,6 +727,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=22
 name["$group-$index"]=wayland
 version["$group-$index"]=1.19.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz"
 filename["$group-$index"]=wayland-1.19.0.tar.xz
@@ -743,6 +761,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=23
 name["$group-$index"]=wayland-protocols
 version["$group-$index"]=1.21
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://wayland.freedesktop.org/releases/wayland-protocols-1.21.tar.xz"
 filename["$group-$index"]=wayland-protocols-1.21.tar.xz
@@ -769,6 +788,7 @@ prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/share/pkgcon
 index=24
 name["$group-$index"]=xkbcommon
 version["$group-$index"]=1.3.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://xkbcommon.org/download/libxkbcommon-1.3.0.tar.xz"
 filename["$group-$index"]=libxkbcommon-1.3.0.tar.xz
@@ -805,6 +825,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=25
 name["$group-$index"]=gtk
 version["$group-$index"]=3.24.29
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/gtk+/3.24/gtk%2B-3.24.29.tar.xz -O gtk-3.24.29.tar.xz"
 filename["$group-$index"]=gtk-3.24.29.tar.xz
@@ -842,6 +863,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=26
 name["$group-$index"]=graphviz
 version["$group-$index"]=3.0.0
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/3.0.0/graphviz-3.0.0.tar.gz"
 filename["$group-$index"]=graphviz-3.0.0.tar.gz
@@ -878,6 +900,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=27
 name["$group-$index"]=vala
 version["$group-$index"]=0.42.3
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="http://download.gnome.org/sources/vala/0.42/vala-0.42.3.tar.xz"
 filename["$group-$index"]=vala-0.42.3.tar.xz
@@ -914,6 +937,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=28
 name["$group-$index"]=gtksourceview
 version["$group-$index"]=3.24.11
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://download.gnome.org/sources/gtksourceview/3.24/gtksourceview-3.24.11.tar.xz"
 filename["$group-$index"]=gtksourceview-3.24.11.tar.xz
@@ -951,6 +975,7 @@ prepend-path GI_TYPELIB_PATH $prefix/${dirinstall["$group-$index"]}/lib/gireposi
 index=29
 name["$group-$index"]=gi
 version["$group-$index"]=3.40.1
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]="(Python module)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/51/2f/4d5d5afb7000b9151e33952b59163c9389bd867ac6fe85d62f85831fa061/PyGObject-3.40.1.tar.gz"
 filename["$group-$index"]=PyGObject-3.40.1.tar.gz
@@ -962,14 +987,12 @@ args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-fi  # end-only-if-Python
-
 
 # vtk 7.1.1
 index=30
 name["$group-$index"]=vtk
 version["$group-$index"]=7.1.1
-constraints["$group-$index"]='[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]'
+constraints["$group-$index"]='compiler == gnu && CC_VERSION < 10.0'
 details["$group-$index"]=""
 url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
 filename["$group-$index"]=VTK-7.1.1.tar.gz
@@ -2140,7 +2163,7 @@ patch_02["$group-$index"]="--- ex_open_par_original.c	2019-01-30 18:15:13.000000
 "
 patchfile_02["$group-$index"]="ThirdParty/exodusII/vtkexodusII/src/ex_open_par.c"
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/3.31.8 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.10.5 netcdf-c/hdf5.110/__MPI_LIB__/__COMPILO__/4.8.0"
+dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.10.5 netcdf-c/hdf5.110/__MPI_LIB__/__COMPILO__/4.8.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -2166,17 +2189,17 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# vtk 9.6.2 + MPI
+# vtk 9.1.0 + MPI
 index=67
 name["$group-$index"]=vtk
-version["$group-$index"]=9.6.2
+version["$group-$index"]=9.1.0
 options["$group-$index"]="+mpi+hdf5+netcdf"
-constraints["$group-$index"]=''
-url["$group-$index"]="https://vtk.org/files/release/9.6/VTK-9.6.2.tar.gz"
-filename["$group-$index"]=VTK-9.6.2.tar.gz
-dirname["$group-$index"]=VTK-9.6.2
+constraints["$group-$index"]='mpilib != none' # MPI-only
+url["$group-$index"]="https://gitlab.kitware.com/vtk/vtk/-/archive/v9.1.0/vtk-v9.1.0.zip"
+filename["$group-$index"]=vtk-v9.1.0.zip
+dirname["$group-$index"]=VTK-9.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="$mpi_dep cmake/3.31.8 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.10.5 netcdf-c/hdf5.110/__MPI_LIB__/__COMPILO__/4.8.0"
+dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 zlib/__COMPILO__/1.2.11 lapack-blas/__COMPILO__/3.9.1 hdf5/__MPI_LIB__/__COMPILO__/1.10.5 netcdf-c/hdf5.110/__MPI_LIB__/__COMPILO__/4.8.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"

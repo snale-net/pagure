@@ -9,6 +9,10 @@ if [ ! -d "$prefix/${dirinstall["$index"]}/bin" ] ; then mkdir -p "$prefix/${dir
 if [ ! -d "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/include/$pythonInterpreter" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
 if [ ! -d "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" ] ; then mkdir -p "$prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages" 2>&1 >&3 | tee -a $LOGFILE && leave; fi
 
+if [ -z ${PYTHONUSERBASE} ]; then
+    export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}
+fi
+
 if [ "$PYTHONUSERBASE" != "$prefix/${dirinstall["$index"]}" ] ; then      
     find ${PYTHONUSERBASE}/lib/$pythonInterpreter/site-packages -mindepth 1 -maxdepth 1 -name "*.egg" > $prefix/${dirinstall["$index"]}/lib/$pythonInterpreter/site-packages/basic-modules.pth
     export PYTHONUSERBASE=$prefix/${dirinstall["$index"]}

@@ -14,7 +14,7 @@ groupname[$group]="MPI librairies"
 index=1
 name["$group-$index"]=openmpi
 version["$group-$index"]=1.10.7
-constraints["$group-$index"]='[ "$mpi" = "openmpi" ] && [ "$(vercomp "$mpiVersion" 1.10.7)" != "2" ]'
+constraints["$group-$index"]='mpi == "openmpi" && mpiVersion == 1.10.7'
 details["$group-$index"]=""
 url["$group-$index"]=https://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-1.10.7.tar.gz
 filename["$group-$index"]=openmpi-1.10.7.tar.gz
@@ -49,7 +49,7 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 index=2
 name["$group-$index"]=openmpi
 version["$group-$index"]=3.1.6
-constraints["$group-$index"]='[ "$mpi" = "openmpi" ] && [ "$(vercomp "$mpiVersion" 3.1.6)" != "2" ]'
+constraints["$group-$index"]='mpi == openmpi && mpiVersion == 3.1.6'
 details["$group-$index"]=""
 url["$group-$index"]=https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.6.tar.gz
 filename["$group-$index"]=openmpi-3.1.6.tar.gz
@@ -154,7 +154,7 @@ setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 index=5
 name["$group-$index"]=mpi4py
 version["$group-$index"]=3.0.3
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "__MPI_LIB__" != "none" ]'
+constraints["$group-$index"]='pythonInterpreter != none &&  mpilib != none'
 details["$group-$index"]="(MPI support for Python)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566dd77e408d8136e2bab7fdf2b97ce06cab830ba8b50a2f588/mpi4py-3.0.3.tar.gz"
 filename["$group-$index"]=mpi4py-3.0.3.tar.gz
@@ -182,4 +182,39 @@ module-whatis \"Python MPI librairies\"
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
 setenv PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
+"
+
+#OpenMPI 4.1.6
+index=6
+name["$group-$index"]=openmpi
+version["$group-$index"]=4.1.6
+constraints["$group-$index"]='mpi == openmpi && mpiVersion == 4.1.6'
+details["$group-$index"]=""
+url["$group-$index"]=https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
+filename["$group-$index"]=openmpi-4.1.6.tar.gz
+dirname["$group-$index"]=openmpi-4.1.6
+builder["$group-$index"]="configure"
+#dependencies["$group-$index"]=""
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="--enable-mpi-cxx --disable-io-ompio"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+setenv MPI_HOME $prefix/${dirinstall["$group-$index"]}/
+setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "
