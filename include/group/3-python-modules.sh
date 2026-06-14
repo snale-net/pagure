@@ -14,65 +14,33 @@ groupname[$group]="Python modules"
 index=1
 name["$group-$index"]=setuptools
 version["$group-$index"]=68.0.0
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "1" ]'
-mandatory["$group-$index"]=1
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.5'
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/dc/98/5f896af066c128669229ff1aa81553ac14cfb3e5e74b6b44594132b8540e/setuptools-68.0.0.tar.gz
-filename["$group-$index"]=setuptools-68.0.0.tar.gz
-dirname["$group-$index"]=setuptools-68.0.0
-builder["$group-$index"]="python"
+builder["$group-$index"]="pip"
 dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 
 # setuptools 44.1.1
 index=2
 name["$group-$index"]=setuptools
 version["$group-$index"]=44.1.1
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "2" ]'
+constraints["$group-$index"]=' pythonInterpreter != none && pythonVersion < 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/b2/40/4e00501c204b457f10fe410da0c97537214b2265247bc9a5bc6edd55b9e4/setuptools-44.1.1.zip
-filename["$group-$index"]=setuptools-44.1.1.zip
-dirname["$group-$index"]=setuptools-44.1.1
-builder["$group-$index"]="python"
+builder["$group-$index"]="pip"
 dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # setuptools-scm 6.0.1
 index=3
 name["$group-$index"]=setuptools_scm
 version["$group-$index"]=6.0.1
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "1" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
-url["$group-$index"]=https://files.pythonhosted.org/packages/57/38/930b1241372a9f266a7df2b184fb9d4f497c2cef2e016b014f82f541fe7c/setuptools_scm-6.0.1.tar.gz
-filename["$group-$index"]=setuptools_scm-6.0.1.tar.gz
-dirname["$group-$index"]=setuptools_scm-6.0.1
-builder["$group-$index"]="python"
+builder["$group-$index"]="pip"
 dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # setuptools-scm 5.0.2
 index=4
@@ -142,7 +110,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=9
 name["$group-$index"]=numpy
 version["$group-$index"]=1.25.0
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.9)" == "1" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.9'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/d0/b2/fe774844d1857804cc884bba67bec38f649c99d0dc1ee7cbbf1da601357c/numpy-1.25.0.tar.gz
@@ -163,7 +131,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=10
 name["$group-$index"]=numpy
 version["$group-$index"]=1.21.4
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.7)" == "1" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.7'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip
@@ -185,7 +153,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=11
 name["$group-$index"]=numpy
 version["$group-$index"]=1.16.6
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.7)" == "2" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.7'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/b7/6f/24647f014eef9b67a24adfcbcd4f4928349b4a0f8393b3d7fe648d4d2de3/numpy-1.16.6.zip
@@ -438,4 +406,13 @@ dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modu
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 
+# numpy 1.25.0
+index=28
+name["$group-$index"]=numpy
+version["$group-$index"]=1.25.0
+options["$group-$index"]="+pip"
+details["$group-$index"]="(Python module)"
+builder["$group-$index"]="pip"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
 

@@ -323,6 +323,9 @@ get_keys() {
 
     local -a keys=()
     for item in "${items[@]}"; do
+	# Trim leading/trailing whitespace
+        item="${item#"${item%%[![:space:]]*}"}"
+        item="${item%"${item##*[![:space:]]}"}"
         if [[ -n "${pkg_key[$item]}" ]]; then
             keys+=("${pkg_key[$item]}")
             found=1
@@ -716,6 +719,10 @@ IFS=$'\n' read -r -d '' -a libToInstall < <(
     printf '\0'
 )
 
+#for key in "${!libToInstall[@]}"; do
+#   echo "$key => ${libToInstall[$key]}"
+#done 
+
 if [ -z "$mpi" ]; then
 
     # We detect the MPI lib from the filter	 
@@ -772,21 +779,20 @@ then
 		fi       
 	fi    
 else
-	if  [[ $(vercomp $pythonVersion 2.7) == 0 ]]; then # only Python==2.7
-		pythonInterpreter=python${pythonVersion}
-        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-		log info "Python interpreter ${pythonVersion} will be installed"
-	elif  [[ $(vercomp $pythonVersion 3.7) == 0 ]]; then # only Python==3.7
-		pythonInterpreter=python${pythonVersion}
-        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-		log info "Python interpreter ${pythonVersion} will be installed"
-	elif  [[ $(vercomp $pythonVersion 3.9) == 0 ]]; then # only Python==3.9
-		pythonInterpreter=python${pythonVersion}
-		log info "Python interpreter ${pythonVersion} will be installed"
-	else
-		log fail "Unable to find Python ${pythonVersion} in your system. Please install it before or change the python version with --python-version= argument." 
-		leave 1
-	fi
+	original_python_key=$(find_key_by_group 1)
+        new_python_key=$(get_package_keys "python==$pythonVersion")
+
+    if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+        # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
+        replace_key "$original_python_key" "$new_python_key"
+    elif [[ $installedPython -eq 0 ]] && ( ! package_exists "python==$pythonVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then
+        log fail "'python==$pythonVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."
+            leave 1
+    fi
+
+    pythonInterpreter=python${pythonVersion}
+    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+    log info "Python interpreter is set to $pythonInterpreter"
 fi
 
 # 7. Installation des paquets système
@@ -1389,7 +1395,7 @@ function install()
 						fi
 					fi
 					
-					if [ $autoRemove == "1" ]
+					if [ "$autoRemove" = "1" ] && [ "${builder[$index]}" != "pip" ]; 
 					then
 						log info "Removing archive file and source files"						
 						if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi

@@ -2189,20 +2189,20 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
-# vtk 9.1.0
+# vtk 9.1.0 + MPI
 index=67
 name["$group-$index"]=vtk
 version["$group-$index"]=9.1.0
-options["$group-$index"]="+hdf5"
+options["$group-$index"]="+hdf5+mpi"
 constraints["$group-$index"]=''
 url["$group-$index"]="https://vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
 filename["$group-$index"]=VTK-9.1.0.tar.gz
 dirname["$group-$index"]=VTK-9.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/3.31.8 zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.12.1"
-dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON  -DVTK_BUILD_TESTING=OFF -DVTK_BUILD_EXAMPLES=OFF"
-dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.12.1 glvnd/1.7.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="-DVTK_USE_MPI=ON -DVTK_MODULE_ENABLE_VTK_ParallelMPI=YES -DVTK_USE_SYSTEM_ZL_B=ON -DVTK_USE_SYSTEM_HDF5=ON  -DVTK_BUILD_TESTING=OFF -DVTK_BUILD_EXAMPLES=OFF"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -2226,5 +2226,40 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
 setenv VTK_DIR $prefix/${dirinstall["$group-$index"]}
 setenv VTK_INSTALL_PREFIX $prefix/${dirinstall["$group-$index"]}
+"
+# glvnd 1.7.0
+index=69
+name["$group-$index"]=glvnd
+version["$group-$index"]=1.7.0
+details["$group-$index"]=""
+url["$group-$index"]="https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v1.7.0/libglvnd-v1.7.0.zip"
+filename["$group-$index"]=libglvnd-v1.7.0.zip
+dirname["$group-$index"]=libglvnd-v1.7.0
+builder["$group-$index"]="autogen"
+dependencies["$group-$index"]="mesa/17.3.9"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}/"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path CMAKE_PREFIX_PATH $prefix/${dirinstall["$group-$index"]}/
 "
 

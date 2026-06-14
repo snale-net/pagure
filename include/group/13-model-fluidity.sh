@@ -91,9 +91,9 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ lapack-blas/__COMPILO__/3.9.1 petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__COMPILO__/9.1.0 hdf5/__MPI_LIB__/__COMPILO__/1.12.1 spud/__COMPILO__/1.2.2"
+dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ lapack-blas/__COMPILO__/3.9.1 petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__MPI_LIB__/__COMPILO__/9.1.0 hdf5/__MPI_LIB__/__COMPILO__/1.12.1 spud/__COMPILO__/1.2.2 udunits/__COMPILO__/2.2.28"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="--enable-2d-adaptivity  --enable-openmp --with-vtk --with-hdf5 --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
+args["$group-$index"]="--enable-2d-adaptivity  --enable-openmp --with-hdf5 --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
