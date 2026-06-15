@@ -110,6 +110,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=9
 name["$group-$index"]=numpy
 version["$group-$index"]=1.25.0
+options["$group-$index"]="+lapack"
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.9'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
@@ -131,6 +132,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=10
 name["$group-$index"]=numpy
 version["$group-$index"]=1.21.4
+options["$group-$index"]="+lapack"
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.7'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
@@ -153,6 +155,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=11
 name["$group-$index"]=numpy
 version["$group-$index"]=1.16.6
+options["$group-$index"]="+lapack"
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.7'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
@@ -410,7 +413,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=28
 name["$group-$index"]=numpy
 version["$group-$index"]=1.25.0
-options["$group-$index"]="+pip"
+options["$group-$index"]=""
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
 dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"

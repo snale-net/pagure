@@ -1527,7 +1527,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=28
 name["$group-$index"]=petsc
 version["$group-$index"]=3.18.6
-options["$group-$index"]="+mpi+hdf5+metis+parmetis+lapack+hypre+zoltan"
+options["$group-$index"]="+mpi+hdf5+metis+parmetis+lapack+hypre+zoltan+scalapack+mumps"
 constraints["$group-$index"]='mpi == openmpi' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]="https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-3.18.6.tar.gz"
@@ -1535,7 +1535,7 @@ filename["$group-$index"]=petsc-3.18.6.tar.gz
 dirname["$group-$index"]=petsc-3.18.6
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.12.1"
-args["$group-$index"]="--with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-c2html=0 --with-debugging=0 --with-fortran-bindings=1 --with-shared-libraries=1 --with-strict-petscerrorcode --COPTFLAGS='-O3 -march=native -mtune=native' --CXXOPTFLAGS='-O3 -march=native -mtune=native' --FOPTFLAGS='-O3 -march=native -mtune=native' --with-mpi=1 ---with-zlib=1 --download-fblaslapack --with-hdf5 --download-metis --download-parmetis --download-hypre --download-zoltan"
+args["$group-$index"]="--with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-c2html=0 --with-debugging=0 --with-fortran-bindings=1 --with-shared-libraries=1 --with-strict-petscerrorcode --COPTFLAGS='-O3 -march=native -mtune=native' --CXXOPTFLAGS='-O3 -march=native -mtune=native' --FOPTFLAGS='-O3 -march=native -mtune=native' --with-mpi=1 ---with-zlib=1 --download-fblaslapack --with-hdf5 --download-metis --download-parmetis --download-hypre --download-zoltan --download-mumps --download-scalapack"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
