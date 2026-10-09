@@ -255,4 +255,36 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
+# OpenBLAS 0.3.33
+index=10
+name["$group-$index"]=openblas
+version["$group-$index"]=0.3.33
+options["$group-$index"]=""
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.33.zip -O openblas-0.3.33.zip"
+filename["$group-$index"]=openblas-0.3.33.zip
+dirname["$group-$index"]=OpenBLAS-0.3.33
+builder["$group-$index"]="cmake"
+args["$group-$index"]="-DBUILD_SHARED_LIBS=ON -DDYNAMIC_ARCH=ON -DUSE_OPENMP=ON"
+dependencies["$group-$index"]="cmake/3.31.8"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path OPENBLAS $prefix/${dirinstall["$group-$index"]}
+"
 

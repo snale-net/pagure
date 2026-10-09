@@ -280,7 +280,8 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=18
 name["$group-$index"]=scipy
 version["$group-$index"]=1.11.1
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.9)" == "1" ]'
+options["$group-$index"]="+lapack"
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.9'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/a6/98/fceb84466a74b8fe74ce2dcc3a0a89cb7b4a689d4775e0fb4c95f335ef6a/scipy-1.11.1.tar.gz"
@@ -301,7 +302,8 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=19
 name["$group-$index"]=scipy
 version["$group-$index"]=1.6.3
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "1" ]'
+options["$group-$index"]="+lapack"
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.5 && pythonVersion < 3.9'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]="https://github.com/scipy/scipy/releases/download/v1.6.3/scipy-1.6.3.tar.gz"
@@ -322,7 +324,8 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=20
 name["$group-$index"]=scipy
 version["$group-$index"]=1.2.3
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "2" ]'
+options["$group-$index"]="+lapack"
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.5'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module - need Lapack-Blas 3.9.1)"
 url["$group-$index"]="https://github.com/scipy/scipy/archive/v1.2.3.tar.gz -O scipy-1.2.3.tar.gz"
@@ -413,6 +416,16 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=28
 name["$group-$index"]=numpy
 version["$group-$index"]=1.25.0
+options["$group-$index"]=""
+details["$group-$index"]="(Python module)"
+builder["$group-$index"]="pip"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
+
+# scipy 1.11.1
+index=29
+name["$group-$index"]=scipy
+version["$group-$index"]=1.11.1
 options["$group-$index"]=""
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"

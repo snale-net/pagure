@@ -41,14 +41,15 @@ python==3.10
 setuptools==68.0.0
 wheel==0.35.1
 numpy==1.25.0
+scipy==1.11.1
 cmake==3.31.8
 xml2==2.13.6
 xslt==1.1.45
-lapack-blas==3.9.1
+openblas==0.3.33
 openmpi==4.1.6+ucx+pmi+pmix
 zlib==1.2.11 
 hdf5==1.12.1+mpi
-petsc==3.18.6+mpi+hdf5+metis+parmetis+lapack+hypre+zoltan+scalapack+mumps
+petsc==3.18.6+mpi+hdf5+metis+parmetis+openblas+hypre+zoltan+scalapack+mumps
 xorg-macros==1.20.0
 pciaccess==0.17
 drm==2.4.119
