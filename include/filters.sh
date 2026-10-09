@@ -11,7 +11,7 @@ zlib==1.2.11
 parallel-netcdf==1.13.0
 hdf5==1.14.6+mpi
 netcdf==4.9.3+hdf5+mpi
-netcdf==4.5.3+fortran+hdf5++mpi"
+netcdf==4.5.3+fortran+hdf5+mpi"
 
 filters["WW3"]="
 openmpi==3.1.6

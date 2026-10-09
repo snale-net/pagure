@@ -207,7 +207,7 @@ index=6
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.9.3
 options["$group-$index"]="+hdf5+mpi"
-constraints["$group-$index"]='[ mpilib != "none" ]' # MPI-only
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(version C)"
 url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.3.tar.gz -O netcdf-c-4.9.3.tar.gz"
 filename["$group-$index"]=netcdf-c-4.9.3.tar.gz
