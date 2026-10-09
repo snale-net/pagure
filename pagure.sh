@@ -923,7 +923,15 @@ elif [ "$mpi" == "intelmpi" ] ; then
     
     installedMPI=1 
     mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Version\s\([0-9\.]*\)\s.*/\1/g') 
-    log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 	
+    log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 
+
+    if original_mpi_key=$(find_key_by_group 4); then
+        # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+        remove_key "$original_mpi_key"
+        if [ $debug == "1" ]; then
+                log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
+        fi
+    fi	
 
 	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
