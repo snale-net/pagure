@@ -435,6 +435,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=14
 name["$group-$index"]=med
 version["$group-$index"]=6.0.1
+options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]=https://mirror.snale.net/med-6.0.1.tar.gz
@@ -536,6 +537,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
+options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(parallel version)"
 url["$group-$index"]=https://mirror.snale.net/parmetis-4.0.3.tar.gz
@@ -673,6 +675,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=19
 name["$group-$index"]=ptscotch
 version["$group-$index"]=6.0.9
+options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]="--no-check-certificate https://gforge.inria.fr/frs/download.php/file/38187/scotch_6.0.9.tar.gz"
@@ -755,6 +758,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=20
 name["$group-$index"]=mumps
 version["$group-$index"]=5.7.3
+options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 url["$group-$index"]=https://distfiles.macports.org/mumps/MUMPS_5.7.3.tar.gz
 filename["$group-$index"]=MUMPS_5.7.3.tar.gz

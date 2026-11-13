@@ -67,7 +67,22 @@ fluidity==4.1.20"
 filters["DELFT3D"]="4-3,5-2,5-4,6-1,6-3,6-4,6-5,11-1"
 filters["XBEACH"]="1-3,3-1,3-33,5-2,6-3,6-4,6-5,11-5"
 filters["XBEACH-Parallel"]="1-3,3-1,3-33,4-3,5-2,6-1,6-3,6-4,6-5,11-4"
-filters["TELEMAC"]="2-1,2-6,4-1,5-1,5-2,6-1,6-3,6-4,6-5,7-14,7-15,7-16,7-17,7-18,7-19,7-20"
+filters["TELEMAC"]="
+lapack-blas==3.9.1
+openmpi==1.10.7
+scalapack==2.1.0+mpi
+zlib==1.2.11
+parallel-netcdf==1.13.0
+hdf5==1.14.6+mpi
+netcdf==4.9.3+hdf5+mpi
+netcdf==4.5.3+fortran+hdf5+mpi
+med==6.0.1+mpi
+aed2==1.3.0
+metis==5.1.0
+parmetis==4.0.3+mpi
+scotch==6.0.9
+ptscotch==6.0.9+mpi
+mumps==5.7.3+mpi"
 
 filters["WEB"]="1-3,9-1,9-2,9-3,9-4,9-5"
 filters["SuiteSparse"]="2-1,2-6,7-16,7-21,7-22,7-23"
