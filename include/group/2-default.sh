@@ -20,9 +20,9 @@ filename["$group-$index"]=cmake-v3.31.8.zip
 dirname["$group-$index"]=cmake-v3.31.8
 builder["$group-$index"]="cmake-builder"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -48,9 +48,9 @@ filename["$group-$index"]=bison-3.7.tar.xz
 dirname["$group-$index"]=bison-3.7
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -67,65 +67,66 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
 
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
-
-# meson 1.4.2
+# meson 1.9.2
 index=3
 name["$group-$index"]=meson
-version["$group-$index"]=1.4.2
+version["$group-$index"]=1.9.2
+constraints["$group-$index"]='pythonInterpreter != none' # only-if-Python
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python tool)"
-url["$group-$index"]="https://github.com/mesonbuild/meson/archive/refs/tags/1.4.2.tar.gz -O meson-1.4.2.tar.gz"
-filename["$group-$index"]=meson-1.4.2.tar.gz
-dirname["$group-$index"]=meson-1.4.2
+url["$group-$index"]="https://files.pythonhosted.org/packages/18/ca/0e3c232fb20f0707bbddf7bb639882a3dba8684bf2f9f4eced266775fcbc/meson-1.9.2.tar.gz"
+filename["$group-$index"]=meson-1.9.2.tar.gz
+dirname["$group-$index"]=meson-1.9.2
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# scikit-build 0.11.1
+# scikit-build 0.13.1
 index=4
 name["$group-$index"]=scikit-build
-version["$group-$index"]=0.11.1
+version["$group-$index"]=0.13.1
+constraints["$group-$index"]='pythonInterpreter != none' # only-if-Python
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/71/02/1e94506b7bee5739317f2d141cebab7dab5bb5731b377e718fddd3b3e7e7/scikit-build-0.11.1.tar.gz"
-filename["$group-$index"]=scikit-build-0.11.1.tar.gz
-dirname["$group-$index"]=scikit-build-0.11.1
+url["$group-$index"]="https://files.pythonhosted.org/packages/a5/e6/2d32573ff027be7b9e9aec560afe2a20ffc4f9d631e69c5cce252695f33b/scikit-build-0.13.1.tar.gz"
+filename["$group-$index"]=scikit-build-0.13.1.tar.gz
+dirname["$group-$index"]=scikit-build-0.13.1
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-# ninja 1.10.0.post2
+# ninja 1.10.2.4
 index=5
 name["$group-$index"]=ninja
-version["$group-$index"]=1.10.0.post2
+version["$group-$index"]=1.10.2.4
+constraints["$group-$index"]='pythonInterpreter != none' # only-if-Python
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python tool)"
-url["$group-$index"]="https://files.pythonhosted.org/packages/55/a3/56376f09d6be4be5b7ebfc492d3e89cb05206a61f8c5f695a5d1e8cc49b7/ninja-1.10.0.post2.tar.gz"
-filename["$group-$index"]=ninja-1.10.0.post2.tar.gz
-dirname["$group-$index"]=ninja-1.10.0.post2
+url["$group-$index"]="https://files.pythonhosted.org/packages/c6/3e/f14cc8da437224acea3bdb9a82bc9c128638211ca08ac029ed5c8716b7e9/ninja-1.10.2.4.tar.gz"
+filename["$group-$index"]=ninja-1.10.2.4.tar.gz
+dirname["$group-$index"]=ninja-1.10.2.4
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="python-modules/$compilo"
+dependencies["$group-$index"]="cmake/3.31.8 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
 args["$group-$index"]=""
 #dirmodule["$group-$index"]=""
 #modulefile["$group-$index"]=""
 
-fi  # end-only-if-Python
 
 #Lapack & Blas 3.9.1 Dynamic lib
 index=6
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.9.1
+options["$group-$index"]=""
 mandatory["$group-$index"]=1
 if [[ $compiler == "intel" ]]; then
-	details["$group-$index"]="(dynamic lib - requires Intel MKL)"
+	details["$group-$index"]="(static & dynamic lib - requires Intel MKL)"
 else
 	details["$group-$index"]="(static & dynamic lib)"
 fi
@@ -133,13 +134,9 @@ url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/ta
 filename["$group-$index"]=lapack-3.9.1.tar.gz
 dirname["$group-$index"]=lapack-3.9.1
 builder["$group-$index"]="lapack"
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
-dependencies["$group-$index"]="cmake/$compilo/3.31.8 python/$compilo/${pythonVersion} python-modules/$compilo/${pythonVersion}"
-else
-dependencies["$group-$index"]="cmake/$compilo/3.31.8"
-fi 
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dependencies["$group-$index"]="cmake/3.31.8"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -155,14 +152,52 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 "
 
-if [ "$showOldVersion" = "1" ]; then # old-version
+#Lapack & Blas 3.9.1 Dynamic lib
+index=7
+name["$group-$index"]=lapack-blas
+version["$group-$index"]=3.9.1
+options["$group-$index"]="+python"
+mandatory["$group-$index"]=1
+#if [[ $compiler == "intel" ]]; then
+#	details["$group-$index"]="(static & dynamic lib - requires Intel MKL)"
+#else
+#	details["$group-$index"]="(static & dynamic lib)"
+#fi
+details["$group-$index"]="(static & dynamic lib)"
+url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.9.1.tar.gz -O lapack-3.9.1.tar.gz"
+filename["$group-$index"]=lapack-3.9.1.tar.gz
+dirname["$group-$index"]=lapack-3.9.1
+builder["$group-$index"]="lapack"
+dependencies["$group-$index"]="cmake/3.31.8 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
+prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
+"
 
 #Lapack & Blas 3.8.0 Dynamic lib
-index=7
+index=8
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.8.0
 details["$group-$index"]="(static & dynamic lib)"
@@ -170,9 +205,9 @@ url["$group-$index"]=http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
 filename["$group-$index"]=lapack-3.8.0.tar.gz
 dirname["$group-$index"]=lapack-3.8.0
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="cmake/$compilo/3.31.8"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dependencies["$group-$index"]="cmake/3.31.8"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -188,14 +223,14 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 "
 
-fi # old-version
 
 # bazel 4.2.2
-index=8
+index=9
 name["$group-$index"]=bazel
 version["$group-$index"]=4.2.2
 details["$group-$index"]=""
@@ -203,10 +238,10 @@ url["$group-$index"]="https://github.com/bazelbuild/bazel/releases/download/4.2.
 filename["$group-$index"]=bazel-4.2.2-dist.all-in-root.zip
 dirname["$group-$index"]=bazel-4.2.2-dist
 builder["$group-$index"]="bazel"
-dependencies["$group-$index"]="python/$compilo/${pythonVersion}"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -220,4 +255,36 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
+# OpenBLAS 0.3.33
+index=10
+name["$group-$index"]=openblas
+version["$group-$index"]=0.3.33
+options["$group-$index"]=""
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/OpenMathLib/OpenBLAS/archive/refs/tags/v0.3.33.zip -O openblas-0.3.33.zip"
+filename["$group-$index"]=openblas-0.3.33.zip
+dirname["$group-$index"]=OpenBLAS-0.3.33
+builder["$group-$index"]="cmake"
+args["$group-$index"]="-DBUILD_SHARED_LIBS=ON -DDYNAMIC_ARCH=ON -DUSE_OPENMP=ON"
+dependencies["$group-$index"]="cmake/3.31.8"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+
+# Variables
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
+prepend-path OPENBLAS $prefix/${dirinstall["$group-$index"]}
+"
 

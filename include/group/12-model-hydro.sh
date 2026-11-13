@@ -48,9 +48,9 @@ patch_01["$group-$index"]="--- refdif1v25_original.f	1995-04-13 16:11:33.0000000
 patchfile_01["$group-$index"]="refdif1v25.f"
 builder["$group-$index"]="refdif"
 dependencies["$group-$index"]=""
-dirinstall["$group-$index"]=${name["$group-$index"]}/$compilo/${version["$group-$index"]}
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
