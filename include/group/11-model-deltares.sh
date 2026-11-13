@@ -10,12 +10,11 @@
 group=11
 groupname[$group]="Models from Deltares"
 
-if [ "__MPI_LIB__" != "none" ]; then # MPI-only
-
 # Delft3D v6.03 (rev68819)
 index=1
 name["$group-$index"]=delft3d
 version["$group-$index"]=6.03
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(revision 68819)"
 url["$group-$index"]=localfile
 filename["$group-$index"]=delft3d-rev68819.zip
@@ -440,6 +439,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 index=2
 name["$group-$index"]=swan
 version["$group-$index"]=41.51
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar.gz"
 filename["$group-$index"]=swan4151.tar.gz
@@ -559,6 +559,7 @@ index=3
 name["$group-$index"]=swash
 version["$group-$index"]=11.01
 options["$group-$index"]="+mpi"
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(parallel)"
 url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
 filename["$group-$index"]=swash-11.01.tar.gz
@@ -640,6 +641,8 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 index=4
 name["$group-$index"]=xbeach
 version["$group-$index"]=rev5961
+options["$group-$index"]="+mpi"
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(parallel version)"
 url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
@@ -666,8 +669,6 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 "
-
-fi # end-MPI-only
 
 # xbeach rev5961
 index=5

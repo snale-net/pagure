@@ -35,7 +35,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=3
 name["$group-$index"]=setuptools_scm
 version["$group-$index"]=6.0.1
-constraints["$group-$index"]='pythonInterpreter != none && pythonVersion == 3.5'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
@@ -46,7 +46,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=4
 name["$group-$index"]=setuptools_scm
 version["$group-$index"]=5.0.2
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "2" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/56/c9/09f4a531720b1bf54f316fdff926fbb937c59a9c4a34e3a533b26e501898/setuptools_scm-5.0.2.tar.gz
@@ -88,7 +88,7 @@ dirinstall["$group-$index"]="python-modules/__COMPILO__"
 index=7
 name["$group-$index"]=pip
 version["$group-$index"]=20.3.4
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.5)" == "2" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion <= 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
