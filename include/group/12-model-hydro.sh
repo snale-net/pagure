@@ -67,3 +67,24 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
+# symphonie
+index=2
+name["$group-$index"]=symphonie
+version["$group-$index"]="v391"
+constraints["$group-$index"]='mpilib != none' # MPI-only
+details["$group-$index"]=""
+dependencies["$group-$index"]="netcdf==4.5.3+fortran+hdf5+mpi"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+"
+

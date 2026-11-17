@@ -21,14 +21,9 @@ url["$group-$index"]=https://parallel-netcdf.github.io/Release/pnetcdf-1.13.0.ta
 filename["$group-$index"]=pnetcdf-1.13.0.tar.gz
 dirname["$group-$index"]=pnetcdf-1.13.0
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__"
+dependencies["$group-$index"]="openmpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared"
-#if [[ __MPI_LIB__ == mpich* ]] ; then
-#	args["$group-$index"]="--enable-shared CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"
-#else
-#	args["$group-$index"]="--enable-shared"
-#fi
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -63,7 +58,7 @@ url["$group-$index"]=http://cucis.ece.northwestern.edu/projects/PnetCDF/Release/
 filename["$group-$index"]=parallel-netcdf-1.6.1.tar.gz
 dirname["$group-$index"]=parallel-netcdf-1.6.1
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__"
+dependencies["$group-$index"]="openmpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -98,7 +93,7 @@ url["$group-$index"]=https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.1
 filename["$group-$index"]=hdf5-1.14.6.tar.gz
 dirname["$group-$index"]=hdf5-1.14.6
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/3.31.8 zlib/__COMPILO__/1.2.11"
+dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DHDF5_BUILD_FORTRAN=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -136,7 +131,7 @@ url["$group-$index"]=https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.1
 filename["$group-$index"]=hdf5-1.14.6.tar.gz
 dirname["$group-$index"]=hdf5-1.14.6
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/3.31.8 __MPI_MODULE__ zlib/__COMPILO__/1.2.11"
+dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -174,7 +169,7 @@ url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9
 filename["$group-$index"]=netcdf-c-4.9.3.tar.gz
 dirname["$group-$index"]=netcdf-c-4.9.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6"
+dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/c/${version["$group-$index"]}"	
 args["$group-$index"]="--disable-parallel4 CFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__COMPILO__/1.14.6/lib"
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__COMPILO__"
@@ -213,26 +208,10 @@ url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9
 filename["$group-$index"]=netcdf-c-4.9.3.tar.gz
 dirname["$group-$index"]=netcdf-c-4.9.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
+dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]="--enable-pnetcdf CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-#if [[ "$mpi" == "openmpi" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-#	args["$group-$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90 CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-#L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-#elif [[ "$mpi" == "mpich" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-#	args["$group-$index"]="--enable-pnetcdf F77=mpif90 FC=mpif90 CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-#L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-#elif [[ "$mpi" == "intelmpi" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-#	args["$group-$index"]="--enable-pnetcdf CC=mpiicc F77=mpiifort FC=mpiifort CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/#include LDFLAGS=-L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-#fi
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -268,7 +247,7 @@ url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tag
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.5.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3"
+dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/fortran/${version["$group-$index"]}"	
 args["$group-$index"]="LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__COMPILO__"
@@ -307,26 +286,10 @@ url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tag
 filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.5.3
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3"
+dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0 netcdf==4.9.3+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
 args["$group-$index"]="LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-#if [[ "$mpi" == "openmpi" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-#	args["$group-$index"]="F77=mpif90 FC=mpif90 LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-#elif [[ "$mpi" == "mpich" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-#	args["$group-$index"]="F77=mpif90 FC=mpif90 LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-#elif [[ "$mpi" == "intelmpi" ]]; then
-#	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3"
-#	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-#	args["$group-$index"]="F77=mpiifort FC=mpiifort LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
-#	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-#fi
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -360,36 +323,16 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 index=9
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.4.1.1
-if [ "__MPI_LIB__" == "none" ]; then
-	details["$group-$index"]="(version C - need HDF 1.14.6)"
-else
-	details["$group-$index"]="(version C - need HDF 1.14.6)"
-fi
+constraints["$group-$index"]='mpilib != none' # MPI-only
+details["$group-$index"]="(version C)"
 url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz
 filename["$group-$index"]=netcdf-4.4.1.1.tar.gz
 dirname["$group-$index"]=netcdf-4.4.1.1
 builder["$group-$index"]="configure"
-if [[ "$mpi" == "openmpi" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-elif [[ "$mpi" == "mpich" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-elif [[ "$mpi" == "intelmpi" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpiifort FC=mpiifort"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-else
-	dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/c/${version["$group-$index"]}"	
-	args["$group-$index"]=""
-	dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__COMPILO__"
-fi
+dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi"
+dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -422,36 +365,16 @@ index=10
 name["$group-$index"]=netcdf
 options["$group-$index"]="+fortran"
 version["$group-$index"]=4.4.4
-if [ "__MPI_LIB__" == "none" ]; then
-	details["$group-$index"]="(version Fortran - need Netcdf-C 4.4.1.1 and HDF 1.14.6)"
-else
-	details["$group-$index"]="(version Fortran - need Netcdf-C 4.4.1.1 and HDF 1.14.6)"
-fi
+constraints["$group-$index"]='mpilib != none' # MPI-only
+details["$group-$index"]="(version Fortran - need Netcdf-C 4.4.1.1 and HDF 1.14.6)"
 url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.4.4.tar.gz -O netcdf-fortran-4.4.4.tar.gz"
 filename["$group-$index"]=netcdf-fortran-4.4.4.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.4.4
 builder["$group-$index"]="configure"
-if [[ "$mpi" == "openmpi" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.4.1.1"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-elif [[ "$mpi" == "mpich" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.4.1.1"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpif90 FC=mpif90"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-elif [[ "$mpi" == "intelmpi" ]]; then
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.4.1.1"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
-	args["$group-$index"]="F77=mpiifort FC=mpiifort"
-	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-else
-	dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.4.1.1"
-	dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/fortran/${version["$group-$index"]}"	
-	args["$group-$index"]=""
-	dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__COMPILO__"
-fi
+dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.4.1.1+hdf5+mpi"
+dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
+args["$group-$index"]="F77=mpif90 FC=mpif90"
+dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -513,45 +436,21 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 
 #--------------------------------------------------------------
 # NetCDF Python
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python
 
 # netcdf4-python 1.6.4
 index=12
 name["$group-$index"]=netCDF4
 version["$group-$index"]=1.6.4
-if [ "__MPI_LIB__" == "none" ]; then 
-	details["$group-$index"]="(version Python - need HDF5 1.14.6 / NetCDF C 4.8.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28 )"
-else
-	details["$group-$index"]="(version Python - need HDF5 1.14.6 / NetCDF C 4.8.0 / Pnetcdf 1.13.0 / Cython 0.29.17 / cftime 1.0.4.2 / udunits 2.2.28)"
-fi
+constraints["$group-$index"]='pythonInterpreter != none && mpilib == none'
+details["$group-$index"]="(version Python)"
 url["$group-$index"]="https://github.com/Unidata/netcdf4-python/archive/refs/tags/v1.6.4rel.tar.gz -O netcdf4-python-1.6.4.tar.gz"
 filename["$group-$index"]=netcdf4-python-1.6.4.tar.gz
 dirname["$group-$index"]=netcdf4-python-1.6.4rel
 builder["$group-$index"]="python"
-if [ "__MPI_LIB__" == "none" ]; then 
-    if [[ "$compiler" == "intel" ]] ; then
-         args["$group-$index"]="LDSHARED=\"icc -shared\""
-    else
-        args["$group-$index"]=""
-    fi
-
-	dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
-	dirinstall["$group-$index"]="python-modules/__COMPILO__"
-    args["$group-$index"]=""
-	#dirmodule["$group-$index"]=""
-	#modulefile["$group-$index"]=""
-else
-    if [[ "$mpi" == "intelmpi" ]]; then
-         args["$group-$index"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
-    elif [[ "$compiler" == "intel" ]] ; then
-         args["$group-$index"]="LDSHARED=\"icc -shared\""
-    else
-         args["$group-$index"]=""
-    fi
-
-	dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 parallel-netcdf/__MPI_LIB__/__COMPILO__/1.13.0 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ python-modules/__MPI_LIB__/__COMPILO__/__PYTHON_VERSION__"
-	dirinstall["$group-$index"]="python-modules/__MPI_LIB__/__COMPILO__"   
-	dirmodule["$group-$index"]="python-modules/__MPI_LIB__/__COMPILO__"
+args["$group-$index-intel"]="LDSHARED=\"icc -shared\""
+args["$group-$index-intelmpi"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
+dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 udunits/__COMPILO__/2.2.28 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dirinstall["$group-$index"]="python-modules/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -565,15 +464,12 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path PYTHONPATH $prefix/${dirinstall["$group-$index"]}/lib/$pythonInterpreter/site-packages
 setenv PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 "
-fi
-
-
-if [ "$showOldVersion" = "1" ] && [ "__MPI_LIB__" == "none" ]; then
 
 # netCDF4 1.2.9
 index=13
 name["$group-$index"]=netCDF4
 version["$group-$index"]=1.2.9
+constraints["$group-$index"]='mpilib == none' # no MPI
 details["$group-$index"]="(version Python - need NetCDF C 4.4.1.1)"
 url["$group-$index"]=https://pypi.python.org/packages/6a/37/49fd7cc21af0fb173e40de5e15f7fdd48d521429922a90347219c77b0c36/netCDF4-1.2.9.tar.gz#md5=e320491d52c42e937e6df47b56a2579c
 filename["$group-$index"]=netCDF4-1.2.9.tar.gz
@@ -617,14 +513,8 @@ patch_01["$group-$index"]="--- setup.py	2017-06-18 22:38:30.000000000 +0200
 "
 patchfile_01["$group-$index"]="setup.py"
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.4.1.1 udunits/__COMPILO__/2.2.28 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python zlib==1.2.11 hdf5==1.14.6 netcdf==4.4.1.1+hdf5 udunits==2.2.28"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
-fi # end-old-version && no MPI
-fi  # end-only-if-Python
 
 # ecbuild 2021.05.0
 index=14
@@ -658,22 +548,17 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path ecbuild_DIR $prefix/${dirinstall["$group-$index"]}/cmake
 "
 
-if [ "$pythonInterpreter" != "none" ]; then # only-if-Python (Jasper need)
-
 # eccodes 2.22.1
 index=15
 name["$group-$index"]=eccodes
 version["$group-$index"]=2.22.1
+constraints["$group-$index"]='pythonInterpreter != none && mpilib != none' # MPI-only'
 details["$group-$index"]="(Grib file)"
 url["$group-$index"]="https://github.com/ecmwf/eccodes/archive/refs/tags/2.22.1.tar.gz -O eccodes-2.22.1.tar.gz"
 filename["$group-$index"]=eccodes-2.22.1.tar.gz
 dirname["$group-$index"]=eccodes-2.22.1
 builder["$group-$index"]="cmake"
-if [ "__MPI_LIB__" == "none" ]; then 
-	dependencies["$group-$index"]="cmake/3.31.8 zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__COMPILO__/4.5.3 jasper/__COMPILO__/2.0.26 ecbuild/__COMPILO__/2021.05.0"
-else
-	dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 jasper/__COMPILO__/2.0.26 ecbuild/__COMPILO__/2021.05.0"
-fi
+dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi jasper/==2.0.26 ecbuild==2021.05.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -695,28 +580,22 @@ prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 "
-fi  # end-only-if-Python
 
 #--------------------------------------------------------------
 # GRIB Python
-if [ "$pythonInterpreter" != "none" ] && (( $(echo "$pythonVersion >= 3.3" | bc -l) )); then # only-if-Python && only Python >= 3.3
 
 # cfgrib 0.9.7.7
 index=16
 name["$group-$index"]=cfgrib
 version["$group-$index"]=0.9.7.7
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.3'
 details["$group-$index"]="(version Python - need ecCodes 2.22.1)"
 url["$group-$index"]="https://github.com/ecmwf/cfgrib/archive/0.9.7.7.tar.gz -O cfgrib-0.9.7.7.tar.gz"
 filename["$group-$index"]=cfgrib-0.9.7.7.tar.gz
 dirname["$group-$index"]=cfgrib-0.9.7.7
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="eccodes/__COMPILO__/2.22.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python eccodes==2.22.1"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
-fi  # end-only-if-Python
 
 # HDF5 1.8.21
 index=17
@@ -727,7 +606,7 @@ url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf
 filename["$group-$index"]=hdf5-1.8.21.tar.gz
 dirname["$group-$index"]=hdf5-1.8.21
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11"
+dependencies["$group-$index"]="zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-fortran --enable-cxx"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -765,7 +644,7 @@ url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hd
 filename["$group-$index"]=hdf5-1.12.1.tar.gz
 dirname["$group-$index"]=hdf5-1.12.1
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11"
+dependencies["$group-$index"]="openmpi==3.1.6 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="CC=mpicc FC=mpif90 CXX=mpicxx --enable-parallel --with-zlib --enable-fortran"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"

@@ -15,15 +15,12 @@ index=1
 name["$group-$index"]=scalapack
 version["$group-$index"]=2.1.0
 options["$group-$index"]="+mpi"
-#if [[ $compiler == "intel" ]]; then
-#	details["$group-$index"]="(requires Intel MKL)"
-#fi
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
 filename["$group-$index"]=scalapack-2.1.0.tar.gz
 dirname["$group-$index"]=scalapack-2.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="__MPI_MODULE__ cmake/3.31.8 lapack-blas/__COMPILO__/3.9.1"
+dependencies["$group-$index"]="openmpi cmake==3.31.8 lapack-blas==3.9.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000000 +0100
 +++ CMakeLists.txt	2021-03-07 17:10:22.775977865 +0100
@@ -65,7 +62,7 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 index=2
 name["$group-$index"]=zlib
 version["$group-$index"]=1.2.11
-details["$group-$index"]="(needed by HDF5)"
+details["$group-$index"]=""
 url["$group-$index"]="https://github.com/madler/zlib/archive/refs/tags/v1.2.11.tar.gz -O zlib-1.2.11.tar.gz"
 filename["$group-$index"]=zlib-1.2.11.tar.gz
 dirname["$group-$index"]=zlib-1.2.11
@@ -160,13 +157,13 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 index=5
 name["$group-$index"]=jasper
 version["$group-$index"]=2.0.26
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ]'
+constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]="(needed by Eccodes)"
 url["$group-$index"]="https://github.com/jasper-software/jasper/archive/version-2.0.26.tar.gz -O jasper-2.0.26.tar.gz"
 filename["$group-$index"]=jasper-2.0.26.tar.gz
 dirname["$group-$index"]=jasper-version-2.0.26
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/3.31.8 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="cmake==3.31.8 python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -191,7 +188,6 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "
-
 
 # sqlite 3.36.0
 index=6

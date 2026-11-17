@@ -17,7 +17,7 @@ version["$group-$index"]=68.0.0
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.5'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # setuptools 44.1.1
@@ -28,7 +28,7 @@ constraints["$group-$index"]=' pythonInterpreter != none && pythonVersion < 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # setuptools-scm 6.0.1
@@ -39,7 +39,7 @@ constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # setuptools-scm 5.0.2
@@ -53,16 +53,8 @@ url["$group-$index"]=https://files.pythonhosted.org/packages/56/c9/09f4a531720b1
 filename["$group-$index"]=setuptools_scm-5.0.2.tar.gz
 dirname["$group-$index"]=setuptools_scm-5.0.2
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 
 # wheel 0.35.1
 index=5
@@ -71,7 +63,7 @@ version["$group-$index"]=0.35.1
 constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pip 21.1.3
@@ -81,7 +73,7 @@ version["$group-$index"]=21.1.3
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.6'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pip 20.3.4
@@ -92,9 +84,8 @@ constraints["$group-$index"]='pythonInterpreter != none && pythonVersion <= 3.5'
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-
 
 # Cython 0.29.35
 index=8
@@ -103,7 +94,7 @@ version["$group-$index"]=0.29.35
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # numpy 1.25.0
@@ -118,15 +109,8 @@ url["$group-$index"]=https://files.pythonhosted.org/packages/d0/b2/fe774844d1857
 filename["$group-$index"]=numpy-1.25.0.tar.gz
 dirname["$group-$index"]=numpy-1.25.0
 builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # numpy 1.21.4
 index=10
@@ -140,16 +124,8 @@ url["$group-$index"]=https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a
 filename["$group-$index"]=numpy-1.21.4.zip
 dirname["$group-$index"]=numpy-1.21.4
 builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 
 # numpy 1.16.6
 index=11
@@ -163,15 +139,8 @@ url["$group-$index"]=https://files.pythonhosted.org/packages/b7/6f/24647f014eef9
 filename["$group-$index"]=numpy-1.16.6.zip
 dirname["$group-$index"]=numpy-1.16.6
 builder["$group-$index"]="numpy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # dateutil 2.8.2
 index=12
@@ -180,7 +149,7 @@ version["$group-$index"]=2.8.2
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pybind11 2.4.3
@@ -193,15 +162,8 @@ url["$group-$index"]=https://files.pythonhosted.org/packages/aa/91/deb6743e79e22
 filename["$group-$index"]=pybind11-2.4.3.tar.gz
 dirname["$group-$index"]=pybind11-2.4.3
 builder["$group-$index"]="pybind11"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # pytz 2021.3
 index=14
@@ -210,7 +172,7 @@ version["$group-$index"]=2021.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pytzdata 2020.1
@@ -220,51 +182,36 @@ version["$group-$index"]=2020.1
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pandas 1.3.5
 index=16
 name["$group-$index"]=pandas
 version["$group-$index"]=1.3.5
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.7)" == "1" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion <= 3.7'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/99/f0/f99700ef327e51d291efdf4a6de29e685c4d198cbf8531541fc84d169e0e/pandas-1.3.5.tar.gz
 filename["$group-$index"]=pandas-1.3.5.tar.gz
 dirname["$group-$index"]=pandas-1.3.5
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # pandas 0.23.4
 index=16
 name["$group-$index"]=pandas
 version["$group-$index"]=0.23.4
-constraints["$group-$index"]='[ "$pythonInterpreter" != "none" ] && [ "$(vercomp "$pythonVersion" 3.7)" == "2" ]'
+constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.7'
 mandatory["$group-$index"]=0
 details["$group-$index"]="(Python module)"
 url["$group-$index"]=https://files.pythonhosted.org/packages/e9/ad/5e92ba493eff96055a23b0a1323a9a803af71ec859ae3243ced86fcbd0a4/pandas-0.23.4.tar.gz
 filename["$group-$index"]=pandas-0.23.4.tar.gz
 dirname["$group-$index"]=pandas-0.23.4
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 
 # pythran-0.13.1
 index=17
@@ -273,7 +220,7 @@ version["$group-$index"]=0.13.1
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # scipy 1.11.1
@@ -288,15 +235,8 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/a6/98/fceb84466a74
 filename["$group-$index"]=scipy-1.11.1.tar.gz
 dirname["$group-$index"]=scipy-1.11.1
 builder["$group-$index"]="scipy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # scipy 1.6.3
 index=19
@@ -310,15 +250,8 @@ url["$group-$index"]="https://github.com/scipy/scipy/releases/download/v1.6.3/sc
 filename["$group-$index"]=scipy-1.6.3.tar.gz
 dirname["$group-$index"]=scipy-1.6.3
 builder["$group-$index"]="scipy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # scipy 1.2.3
 index=20
@@ -332,15 +265,8 @@ url["$group-$index"]="https://github.com/scipy/scipy/archive/v1.2.3.tar.gz -O sc
 filename["$group-$index"]=scipy-1.2.3.tar.gz
 dirname["$group-$index"]=scipy-1.2.3
 builder["$group-$index"]="scipy"
-dependencies["$group-$index"]="lapack-blas/__COMPILO__/3.9.1 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="lapack-blas==3.9.1 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-#if [[ "$compiler" == "intel" ]] ; then
-#     args["$group-$index"]="LDSHARED=\"icc -shared\""
-#else
-#     args["$group-$index"]=""
-#fi
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # cftime 1.1.3
 index=21
@@ -349,7 +275,7 @@ version["$group-$index"]=1.1.3
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.6'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # pyparsing 2.4.7
@@ -359,7 +285,7 @@ version["$group-$index"]=2.4.7
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.6'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # matplotlib 3.1.1
@@ -369,7 +295,7 @@ version["$group-$index"]=3.1.1
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion > 3.6'
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # matplotlib 2.1.0
@@ -378,9 +304,8 @@ name["$group-$index"]=matplotlib
 version["$group-$index"]=2.1.0
 constraints["$group-$index"]='pythonInterpreter != none && pythonVersion < 3.6'
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-
 
 # array_split 0.5.2
 index=25
@@ -388,9 +313,8 @@ name["$group-$index"]=array_split
 version["$group-$index"]=0.5.2
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-
 
 # Jinja2 2.11.3
 index=26
@@ -399,7 +323,7 @@ version["$group-$index"]=2.11.3
 mandatory["$group-$index"]=1
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # f90nml 1.1.2
@@ -408,9 +332,8 @@ name["$group-$index"]=f90nml
 version["$group-$index"]=1.1.2
 details["$group-$index"]=
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-
 
 # numpy 1.25.0
 index=28
@@ -419,7 +342,7 @@ version["$group-$index"]=1.25.0
 options["$group-$index"]=""
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 
 # scipy 1.11.1
@@ -429,6 +352,6 @@ version["$group-$index"]=1.11.1
 options["$group-$index"]=""
 details["$group-$index"]="(Python module)"
 builder["$group-$index"]="pip"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
 

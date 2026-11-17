@@ -22,11 +22,8 @@ dirname["$group-$index"]=Python-3.7.7
 builder["$group-$index"]="python-builder"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-if [[ $compiler == "intel" ]]; then
-	args["$group-$index"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
-else
-	args["$group-$index"]="--enable-shared --enable-optimizations"
-fi
+args["$group-$index"]="--enable-shared --enable-optimizations"
+args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
@@ -66,11 +63,8 @@ dirname["$group-$index"]=Python-2.7.16
 builder["$group-$index"]="python-builder"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-if [[ $compiler == "intel" ]]; then
-	args["$group-$index"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
-else
-	args["$group-$index"]="--enable-shared --enable-optimizations"
-fi
+args["$group-$index"]="--enable-shared --enable-optimizations"
+args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
@@ -111,11 +105,8 @@ dirname["$group-$index"]=Python-3.9.13
 builder["$group-$index"]="python-builder"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-if [[ $compiler == "intel" ]]; then
-	args["$group-$index"]="--enable-shared --without-gcc --with-icc"
-else
-	args["$group-$index"]="--enable-shared"
-fi
+args["$group-$index"]="--enable-shared"
+args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      

@@ -160,15 +160,11 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/ec/8f/bbd8de5ba566
 filename["$group-$index"]=mpi4py-3.0.3.tar.gz
 dirname["$group-$index"]=mpi4py-3.0.3
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="$mpi_dep python/__COMPILO__/${pythonVersion} python-modules/__MPI_LIB__/__COMPILO__/${pythonVersion}"
+dependencies["$group-$index"]="openmpi python"
 dirinstall["$group-$index"]="python-modules/__MPI_LIB__/__COMPILO__"
-if [[ "$mpi" == "intelmpi" ]]; then
-     args["$group-$index"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
-elif [[ "$compiler" == "intel" ]] ; then
-     args["$group-$index"]="LDSHARED=\"icc -shared\""
-else
-     args["$group-$index"]=""
-fi
+args["$group-$index-intelmpi"]="CPP=\"mpiicc -E\" CC=mpiicc MPICC=mpiicc F77=ifort FC=mpiifort LDSHARED=\"mpiicc -shared\""
+args["$group-$index-intel"]="LDSHARED=\"icc -shared\""
+args["$group-$index"]=""
 dirmodule["$group-$index"]="python-modules/__MPI_LIB__/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -188,7 +184,7 @@ setenv PYTHONUSERBASE $prefix/${dirinstall["$group-$index"]}
 index=6
 name["$group-$index"]=openmpi
 version["$group-$index"]=4.1.6
-options["$group-$index"]="+ucx+pmi+pmix"
+options["$group-$index"]=""
 constraints["$group-$index"]='mpi == openmpi && mpiVersion == 4.1.6'
 details["$group-$index"]=""
 url["$group-$index"]=https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
@@ -197,7 +193,7 @@ dirname["$group-$index"]=openmpi-4.1.6
 builder["$group-$index"]="configure"
 #dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="--with-ucx --with-pmi --enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple --with-pmix"
+args["$group-$index"]="--enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
@@ -222,3 +218,12 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 setenv MPI_HOME $prefix/${dirinstall["$group-$index"]}/
 setenv MPI_RUN $prefix/${dirinstall["$group-$index"]}/bin/mpirun
 "
+
+# Variant avec ucx/pmi/pmix
+index=7
+declare_variant "$group" $index 6
+options["$group-$index"]="+ucx+pmi+pmix"
+details["$group-$index"]="(with ucx, pmi and pmix)"
+dirinstall["$group-$index"]="${name["$group-$index"]}/ucx-pmi-pmix/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="--with-ucx --with-pmi --enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple --with-pmix"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"

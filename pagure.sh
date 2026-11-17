@@ -231,11 +231,55 @@ humanize_condition() {
     echo "$dsl"
 }
 
+declare_variant() {
+    local group="$1"
+    local index="$2"
+    local original_index="$3"   
+
+    local key="$group-$index"
+    local original="$group-$original_index"
+
+    # Vérification de l'existence du paquet original
+    if [[ -z "${name[$original]:-}" ]]; then
+        echo "Erreur : paquet original '$original' introuvable" >&2
+        return 1
+    fi
+
+    # Copie des informations communes
+    name["$key"]="${name[$original]}"
+    version["$key"]="${version[$original]}"
+    details["$key"]="${details[$original]:-}"
+    url["$key"]="${url[$original]:-}"
+    filename["$key"]="${filename[$original]:-}"
+    dirname["$key"]="${dirname[$original]:-}"
+    builder["$key"]="${builder[$original]:-}"
+    dependencies["$key"]="${dependencies[$original]:-}"
+    configfilename["$key"]="${configfilename[$original]:-}"
+
+    # Informations spécifiques à la variante
+    options["$key"]="${options[$original]:-}"
+    constraints["$key"]="${constraints[$original]:-}"
+
+    # Répertoires par défaut : à adapter selon tes règles
+    dirinstall["$key"]="${dirinstall[$original]}"
+    dirmodule["$key"]="${dirmodule[$original]}"
+
+    # Arguments de compilation
+    args["$key"]="${args[$original]:-}"
+
+    # Copie des configurations
+    [[ -v "configfile[$original]" ]] &&
+        configfile["$key"]="${configfile[$original]}"
+
+    [[ -v "configfile[$original-intel]" ]] &&
+        configfile["$key-intel"]="${configfile[$original-intel]}"
+}
+
 # Create a build index
 build_index() {
     local key
     for key in "${!name[@]}"; do
-        pkg_key["${name[$key]}==${version[$key]}${options[$key]}"]="$key"
+        map_pkg_key["${name[$key]}==${version[$key]}${options[$key]}"]="$key"
     done
 }
 
@@ -251,7 +295,7 @@ package_exists() {
 
     # if query has no version part → match by name only
     if [[ "$query" != *"=="* ]]; then
-        for spec in "${!pkg_key[@]}"; do
+        for spec in "${!map_pkg_key[@]}"; do
             spec=$(echo "$spec" | xargs)
             [[ "${spec%%==*}" == "$q_name" ]] && return 0
         done
@@ -262,7 +306,7 @@ package_exists() {
     q_ver="${q_ver%%+*}"
 
     # scan all packages
-    for spec in "${!pkg_key[@]}"; do
+    for spec in "${!map_pkg_key[@]}"; do
         spec=$(echo "$spec" | xargs)
 
         local name="${spec%%==*}"
@@ -277,64 +321,171 @@ package_exists() {
     return 1
 }
 
-get_package_keys() {
-     local query="$1"
+get_package_key() {
+    local query="$1"
     query=$(echo "$query" | xargs)
 
-    local spec found=0
+    local q_name="${query%%==*}"
+    local q_ver=""
+    local q_opts=""
+    local spec name ver base_ver opts
+    local best_ver=""
+    local best_key=""
 
-    # only support name==version query
-    if [[ "$query" != *"=="* ]]; then
+    # Query with version
+    if [[ "$query" == *"=="* ]]; then
+        q_ver="${query#*==}"
+
+        # Exact match first, including options
+        for spec in "${!map_pkg_key[@]}"; do
+            spec=$(echo "$spec" | xargs)
+
+            if [[ "$spec" == "$query" ]]; then
+                echo "${map_pkg_key[$spec]}"
+                return 0
+            fi
+        done
+
+        # Options specified: no approximate match
+        if [[ "$q_ver" == *"+"* ]]; then
+            return 1
+        fi
+
+        # Match numerical version, ignoring options
+        for spec in "${!map_pkg_key[@]}"; do
+            spec=$(echo "$spec" | xargs)
+
+            name="${spec%%==*}"
+            [[ "$name" == "$q_name" ]] || continue
+
+            ver="${spec#*==}"
+            base_ver="${ver%%+*}"
+
+            if [[ "$base_ver" == "$q_ver" ]]; then
+                echo "${map_pkg_key[$spec]}"
+                return 0
+            fi
+        done
+
         return 1
     fi
 
-    local q_name="${query%%==*}"
-    local q_ver="${query#*==}"
-    q_ver="${q_ver%%+*}"   # ignore options in query
+    # Query with options but without version: netcdf+hdf5+mpi
+    if [[ "$query" == *"+"* ]]; then
+        q_name="${query%%+*}"
+        q_opts="${query#*+}"
 
-    for spec in "${!pkg_key[@]}"; do
+        for spec in "${!map_pkg_key[@]}"; do
+            spec=$(echo "$spec" | xargs)
+
+            name="${spec%%==*}"
+            [[ "$name" == "$q_name" ]] || continue
+
+            ver="${spec#*==}"
+            base_ver="${ver%%+*}"
+            opts="${ver#"$base_ver"}"
+
+            # Match options exactly
+            [[ "${opts#+}" == "$q_opts" ]] || continue
+
+            # Keep the latest numerical version
+            if [[ -z "$best_ver" ]] || \
+               [[ "$base_ver" != "$best_ver" && \
+                  "$(printf '%s\n' "$best_ver" "$base_ver" | sort -V | tail -n 1)" == "$base_ver" ]]; then
+                best_ver="$base_ver"
+                best_key="${map_pkg_key[$spec]}"
+            fi
+        done
+
+        if [[ -n "$best_key" ]]; then
+            echo "$best_key"
+            return 0
+        fi
+
+        return 1
+    fi
+
+    # Query with name only: select highest version,
+    # then prefer the variant with the fewest options
+    local best_opts_count=0
+    local opts_count
+
+    for spec in "${!map_pkg_key[@]}"; do
         spec=$(echo "$spec" | xargs)
 
-        local name="${spec%%==*}"
-        local ver="${spec#*==}"
-        ver="${ver%%+*}"   # ignore options in stored spec
+        name="${spec%%==*}"
+        [[ "$name" == "$q_name" ]] || continue
 
-        if [[ "$name" == "$q_name" && "$ver" == "$q_ver" ]]; then
-            echo "${pkg_key[$spec]}"
-            found=1
+        ver="${spec#*==}"
+        base_ver="${ver%%+*}"
+        opts="${ver#"$base_ver"}"
+
+        # Count options (+hdf5+mpi = 2 options)
+        opts_count=0
+        if [[ -n "$opts" ]]; then
+            opts_count=$(awk -F '+' '{print NF-1}' <<< "$opts")
+        fi
+
+        if [[ -z "$best_key" ]] || \
+           [[ "$(printf '%s\n' "$best_ver" "$base_ver" | sort -V | tail -n 1)" == "$base_ver" && \
+              "$base_ver" != "$best_ver" ]] || \
+           [[ "$base_ver" == "$best_ver" && "$opts_count" -lt "$best_opts_count" ]]; then
+            best_ver="$base_ver"
+            best_opts_count="$opts_count"
+            best_key="${map_pkg_key[$spec]}"
         fi
     done
 
-    (( found ))
+    if [[ -n "$best_key" ]]; then
+        echo "$best_key"
+        return 0
+    fi
+
+    return 1
 }
 
-get_keys() {
-    local list="$1"
-    local item
-    local found=0
+get_dependencies_recursive() {
+    local pkg_key="$1"
+    local dep
+    local key
+    local result
+    local -a dep_keys=()
 
+    [[ -z "$pkg_key" ]] && return 0
 
-    IFS=',' read -ra items <<< "$list"
-    
-    # To Debug, print all key => value
-    #for key in "${!pkg_key[@]}"; do
-    #	echo "$key => ${pkg_key[$key]}"
-    #done  
+    [[ -n "${visited_packages[$pkg_key]+x}" ]] && return 0
+    visited_packages["$pkg_key"]=1
 
-    local -a keys=()
-    for item in "${items[@]}"; do
-	# Trim leading/trailing whitespace
-        item="${item#"${item%%[![:space:]]*}"}"
-        item="${item%"${item##*[![:space:]]}"}"
-        if [[ -n "${pkg_key[$item]}" ]]; then
-            keys+=("${pkg_key[$item]}")
-            found=1
-        fi
+    for dep in ${dependencies[$pkg_key]}; do
+        [[ -z "$dep" ]] && continue
+
+        result=$(get_package_key "$dep") || {
+            log fail  "ERROR: dependency not found: $dep"
+            return 1
+        }
+
+        [[ -z "$result" ]] && {
+            log fail "ERROR: dependency not found: $dep" >&2
+            return 1
+        }
+
+        mapfile -t dep_keys <<< "$result"
+
+        for key in "${dep_keys[@]}"; do
+            [[ -z "$key" ]] && continue 
+          
+            # On construit les dépendances pour modules            
+            dependencies_module["$pkg_key"]+="${dirmodule[$key]}/${version[$key]} "          
+
+            get_dependencies_recursive "$key" || return 1
+        done
     done
 
-    printf '%s\n' "${keys[@]}"
-
-    (( found ))
+    # Add package AFTER its dependencies
+    if [[ -z "${seen_libs[$pkg_key]+x}" ]]; then
+        seen_libs["$pkg_key"]=1
+        libToInstall+=("$pkg_key")
+    fi
 }
 
 get_version_from_filter() {
@@ -342,11 +493,11 @@ get_version_from_filter() {
     local pkg_list="$2"
     local pkg
 
-    IFS=',' read -ra pkgs <<< "$pkg_list"
+    pkg_list="${pkg_list//,/ }"
 
-    for pkg in "${pkgs[@]}"; do
-        if [[ $pkg == "$pkg_name"==* ]]; then
-            pkg=${pkg#"$pkg_name"==}
+    for pkg in $pkg_list; do
+        if [[ "$pkg" == "$pkg_name=="* ]]; then
+            pkg="${pkg#"$pkg_name"==}"
             echo "${pkg%%+*}"
             return 0
         fi
@@ -462,11 +613,26 @@ for arg in "$@"; do
         leave 1 ; shift ;;   
     -mode=* | --mode=*) mode=`echo $arg | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $arg | sed 's/.*=//'`; shift ;;     
-    -force-reinstall=* | --force-reinstall=*) forceReinstall=`echo $arg | sed 's/.*=//'`; shift ;;     
-    -show-old-version=* | --show-old-version=*) oldVersion=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -auto-remove=* | --auto-remove=*) autoRemove=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -auto-install-mandatory=* | --auto-install-mandatory=* | -mandatory=* | --mandatory=* ) autoInstallMandatory=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
-    -debug=* | --debug=* ) debug=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;
+    -force-reinstall | --force-reinstall)
+    forceReinstall=1
+    shift
+    ;;
+
+    --force-reinstall=*)
+        forceReinstall="${arg#*=}"
+        shift
+        ;;  
+  
+    -auto-remove=* | --auto-remove=*) autoRemove=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;; 
+    -debug | --debug)
+    debug=1
+    shift
+    ;;
+
+    --debug=*)
+    debug="${arg#*=}"
+    shift
+    ;;
     *)
         positional+=("$arg")
         ;;           
@@ -623,44 +789,6 @@ else
 fi
 log info "Auto-remove is set to $autoRemove"
 
-# 4.5 Automatic installation of mandatory libraires
-if  [ "${forceReinstall}" == "1" ]; then
-	log warn "When using --force-reinstall=1, --auto-install-mandatory is set to 0"
-	autoInstallMandatory=0	
-elif [ "${mode}" == "manual" ]; then
-	log warn "When using --mode=manual,  --auto-instal-mandatory is set to 0"
-	autoInstallMandatory=0
-elif [ -z "$autoInstallMandatory" ]; then
-	autoInstallMandatory=1
-elif [ "${autoInstallMandatory}" == "0" ]; then
-	autoInstallMandatory=0
-elif  [ "${autoInstallMandatory}" == "1" ]; then
-	autoInstallMandatory=1
-else
-	log fail "Unable to decode boolean for argument auto-install-mandatory or mandatory : '${autoInstallMandatory}'" 
-	leave 1
-fi
-log info "Automatic installation of mandatory libraries is set to $autoInstallMandatory"
-
-# 4.6 Ancienne version
-if [ -z "$oldVersion" ]; then
-	showOldVersion=0
-elif [ "${oldVersion}" == "0" ]; then
-	showOldVersion=0
-elif  [ "${oldVersion}" == "1" ]; then
-	showOldVersion=1
-else
-	log fail "Unable to decode boolean for old version ${oldVersion}" 
-	leave 1
-fi
-# Si un filtre est selectionné
-if [ ! -z "$selectedFilter" ]
-then	
-	showOldVersion=1
-	log info "When using a filter, show old version is set to $showOldVersion"
-else
-	log info "Show old version is set to $showOldVersion"
-fi
 
 # 5. Chargement des logiciels
 declare -A groupname
@@ -685,11 +813,12 @@ declare -A patch_04
 declare -A patchfile_04
 declare -A builder
 declare -A dependencies
+declare -A dependencies_module
 declare -A dirinstall
 declare -A args
 declare -A dirmodule
 declare -A modulefile
-declare -A pkg_key
+declare -A map_pkg_key
 
 for f in `find $basedir/include/group/ -regextype egrep -regex '.*/([1-9]|[0-9]{3}).*.sh'`; do   
     maxGroup=$((maxGroup+1))  
@@ -698,49 +827,64 @@ done
 
 build_index
 
-# 5. Tester le filtre
-if [[ -v "filters[$package]" ]]; then
-	filter_string=$(
-	  echo "${filters["$package"]}" |
-	  sed '/^\s*$/d' |
-	  paste -sd, -
-	)
-
-elif keys=$(get_keys "$package"); then
-    filter_string=$package      
+# 5. Rechercher la lib
+if pkg_key=$(get_package_key "$package"); then   
+    filter_string=${dependencies[$pkg_key]}
 else
-	log fail "The filter '$package' doesn't exists. Please check available filters with the option --list" 
+	log fail "The package '$package' is not found in the available packages supported by PAGURE. Please contact the support to add it" 
 	leave 1	
 fi
 
-# Get the corresponding keys
-IFS=$'\n' read -r -d '' -a libToInstall < <(
-    get_keys "$filter_string"
-    printf '\0'
+libToInstall=()
+declare -A visited_packages=()
+declare -A seen_libs=()
+
+# Resolve dependencies
+mapfile -t initial_keys < <(
+    tr ' ' '\n' <<< "${dependencies[$pkg_key]}" |
+    sed '/^[[:space:]]*$/d' |
+    while IFS= read -r dependency; do
+        get_package_key "$dependency"
+    done
 )
 
-#for key in "${!libToInstall[@]}"; do
-#   echo "$key => ${libToInstall[$key]}"
-#done 
+for dep_key in "${initial_keys[@]}"; do
+    [[ -z "$dep_key" ]] && continue
+
+    get_dependencies_recursive "$dep_key"
+
+    if [[ -z "${seen_libs[$dep_key]+x}" ]]; then
+        seen_libs["$dep_key"]=1
+        libToInstall+=("$dep_key")
+    fi
+
+    dependencies_module["$pkg_key"]+="${dirmodule[$dep_key]}/${version[$dep_key]} " 
+    
+done
+libToInstall+=("$pkg_key") 
+
+for key in "${!libToInstall[@]}"; do
+   echo "$key => ${libToInstall[$key]}"  
+done 
 
 if [ -z "$mpi" ]; then
 
-    # We detect the MPI lib from the filter	 
-    if filterMpiVersion=$(get_version_from_filter openmpi "$filter_string"); then
-        mpi="openmpi"		
-    elif filterMpiVersion=$(get_version_from_filter mpich "$filter_string}"); then
-       mpi="mpich"		
-    fi
+   if original_mpi_key=$(find_key_by_group 4); then
+        # On a détecté une lib MPI à installer
+        mpi=${name[$original_mpi_key]} 
 
     if [ -z "$mpiVersion" ]; then    
-        mpiVersion=$filterMpiVersion
-    fi	   	
-    
+        mpiVersion=${version[$original_mpi_key]} 
+    fi 
+  fi
+
 fi
 
 if [ -z "$pythonVersion" ]; then
-    # We detect the Python version from the filter	 
-    pythonVersion=$(get_version_from_filter python "$filter_string}")	 	
+  if original_python_key=$(find_key_by_group 1); then
+        # On a détecté un python à installer
+        pythonVersion=${version[$original_python_key]}    
+  fi     	
 fi
 
 
@@ -768,7 +912,7 @@ then
 	log info "Python interpreter is set to $pythonInterpreter"	
 
     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
-        # On a détecté un python qui ne provient pas de PAGURE, on supprime l'installation du Python       
+        # On a détecté un python qui ne provient pas de PAGURE, on supprime l installation du Python       
         for i in "${!libToInstall[@]}"; do          
             if [[ " ${libToInstall[i]} " =~ [[:space:]]1-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-2[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-3[[:space:]] ]]; then             
               unset 'libToInstall[i]'
@@ -780,7 +924,7 @@ then
 	fi    
 else
 	original_python_key=$(find_key_by_group 1)
-        new_python_key=$(get_package_keys "python==$pythonVersion")
+        new_python_key=$(get_package_key "python==$pythonVersion")
 
     if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
@@ -885,7 +1029,7 @@ elif [ "$mpi" == "openmpi" ]; then
     	mpiVersion=$(mpirun --version | grep 'Open MPI' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
     	
         if original_mpi_key=$(find_key_by_group 4); then
-		    # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+		    # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
             remove_key "$original_mpi_key"		    
 		    if [ $debug == "1" ]; then  
 			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
@@ -894,16 +1038,19 @@ elif [ "$mpi" == "openmpi" ]; then
     elif [ -z "$mpiVersion" ]; then
         mpiVersion=1.10.7
 	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+    else
+    # options
     fi 
 
     original_mpi_key=$(find_key_by_group 4)   
-    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")    
+    new_mpi_key=$(get_package_key "$mpi==$mpiVersion")    
 
     if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
-        replace_key "$original_mpi_key" "$new_mpi_key"	                     
+        replace_key "$original_mpi_key" "$new_mpi_key" 
+                        
     elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then    
-        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
+        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."        
 	    leave 1   
     fi 
 
@@ -926,7 +1073,7 @@ elif [ "$mpi" == "intelmpi" ] ; then
     log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 
 
     if original_mpi_key=$(find_key_by_group 4); then
-        # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+        # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
         remove_key "$original_mpi_key"
         if [ $debug == "1" ]; then
                 log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
@@ -947,7 +1094,7 @@ elif [ "$mpi" == "mpich" ] ; then
     	mpiVersion=$(mpirun --version | grep 'MPICH' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
     	
         if original_mpi_key=$(find_key_by_group 4); then
-		    # On a détecté une lib MPI déjà installé, on supprime l'installation du MPI 
+		    # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
             remove_key "$original_mpi_key"		    
 		    if [ $debug == "1" ]; then  
 			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
@@ -959,7 +1106,7 @@ elif [ "$mpi" == "mpich" ] ; then
     fi 
       
 	original_mpi_key=$(find_key_by_group 4)
-    new_mpi_key=$(get_package_keys "$mpi==$mpiVersion")  
+    new_mpi_key=$(get_package_key "$mpi==$mpiVersion")  
 
     if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
@@ -994,6 +1141,10 @@ else
 
     log info "MPI library is set to $mpilib"
 fi
+
+for key in "${!libToInstall[@]}"; do
+   echo "$key => ${libToInstall[$key]}"  
+done 
 
 log raw "......................"
 
@@ -1091,7 +1242,7 @@ then
 		if ! eval_dsl "${constraints["$element"]}"; then
 			log fail "Library '${name["$element"]}==${version["$element"]}' does not meet the requirements '$(humanize_condition "${constraints["$element"]}")'. Check the compiler / MPI lib / Python."
 			leave 1
-		fi	
+		fi	      
 						
 		log info "${name["$element"]} ${version["$element"]} ${options["$element"]} ${details["$element"]}"
 	done	
@@ -1120,13 +1271,13 @@ function install()
 				# On vide les dépendances
 				exec_module "purge"
 
-                # On replace avec les valeurs dynamiques
-                dependencies["$index"]=${dependencies["$index"]//__COMPILO__/$compilo}
-                dependencies["$index"]=${dependencies["$index"]//__MPI_LIB__/$mpilib}
-                dependencies["$index"]=${dependencies["$index"]//__MPI_MODULE__/$mpi_dep}
-                dependencies["$index"]=${dependencies["$index"]//__PYTHON_VERSION__/$pythonVersion}
-                dependencies["$index"]=${dependencies["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                dependencies["$index"]=${dependencies["$index"]//__PYTHON_LIB__/$pythonlib} 
+                # On replace avec les valeurs dynamiques              
+                dependencies_module["$index"]=${dependencies_module["$index"]//__COMPILO__/$compilo}
+                dependencies_module["$index"]=${dependencies_module["$index"]//__MPI_LIB__/$mpilib}
+                dependencies_module["$index"]=${dependencies_module["$index"]//__MPI_MODULE__/$mpi_dep}
+                dependencies_module["$index"]=${dependencies_module["$index"]//__PYTHON_VERSION__/$pythonVersion}
+                dependencies_module["$index"]=${dependencies_module["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
+                dependencies_module["$index"]=${dependencies_module["$index"]//__PYTHON_LIB__/$pythonlib}                
 
                 configfile["$index"]=${configfile["$index"]//__COMPILO__/$compilo}
                 configfile["$index"]=${configfile["$index"]//__MPI_LIB__/$mpilib}
@@ -1158,6 +1309,20 @@ function install()
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_LIB__/$pythonlib} 
 
+                combined_key="$index-$compiler-$mpilib"
+                compiler_key="$index-$compiler"
+                mpilib_key="$index-$mpilib"
+
+                if [[ -n "$mpilib" && "$mpilib" != "none" && -n "${args[$combined_key]:-}" ]]; then
+                    args["$index"]="${args[$combined_key]}"
+                elif [[ -n "$mpilib" && "$mpilib" != "none" &&  -n "${args[$mpilib_key]:-}" ]]; then
+                    args["$index"]="${args[$mpilib_key]}"
+                elif [[ -n "${args[$compiler_key]:-}" ]]; then
+                    args["$index"]="${args[$compiler_key]}"              
+                else
+                    args["$index"]="${args[$index]:-}"
+                fi
+
                 args["$index"]=${args["$index"]//__COMPILO__/$compilo}
                 args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
                 args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
@@ -1185,15 +1350,15 @@ function install()
                 if [ "$installedPython" == "1" ];  then
                     if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
                         # On a détecté un python qui ne provient pas de PAGURE, on supprime la dep au module de PAGURE
-		                dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/$pythonVersion/}
-                        dependencies["$index"]=${dependencies["$index"]/python-modules\/"$compilo"\/$pythonVersion/}
+		                dependencies_module["$index"]=${dependencies_module["$index"]/python\/"$compilo"\/$pythonVersion/}
+                        dependencies_module["$index"]=${dependencies_module["$index"]/python-modules\/"$compilo"\/$pythonVersion/}
             		fi                   
 
                 fi  	
 				
 				if [ "$systemOS" == "cluster" ] ; then					
 					# On ajoute les dépendances sauvegarder au lancement + les dépendances mise à jour avec les deps du cluster				
-					dependencies["$index"]=`echo $moduleList ${dependencies["$index"]}`												
+					dependencies_module["$index"]=`echo $moduleList ${dependencies_module["$index"]}`												
 				fi
 
 				# Si on a déjà un python installé										
@@ -1205,14 +1370,14 @@ function install()
 								
 					if [ "$libTest" == "1" ] ; then
 						# Il n'existe pas alors on le supprime des dépendances pour utiliser celui du système		
-						dependencies["$index"]=${dependencies["$index"]/python\/"$compilo"\/${pythonVersion}/}						
+						dependencies_module["$index"]=${dependencies_module["$index"]/python\/"$compilo"\/${pythonVersion}/}						
 					fi			
 				fi 
 
 				# On charge les dépendances               
-				if [[ ! -z "${dependencies["$index"]}" ]] ; then
+				if [[ ! -z "${dependencies_module["$index"]}" ]] ; then
                     # On charge chaque librairie une par une
-                    IFS=' ' read -r -a depToLoad <<< "${dependencies["$index"]}" 	
+                    IFS=' ' read -r -a depToLoad <<< "${dependencies_module["$index"]}" 	
                     for libToLoad in "${depToLoad[@]}"
                     do
                         exec_module "load $libToLoad"	                       
@@ -1263,9 +1428,15 @@ function install()
 
                     if [ -d "$prefix/${dirinstall["$index"]}" ] && [[ ${dirinstall["$index"]} != python-modules* ]] && [ $forceReinstall == "1" ]		
                     then                       
-                        log info "Remove previous version of ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
-                        rm -rf $prefix/${dirinstall["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                        rm -rf $moduleDir/${dirmodule["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave	
+                       
+                        if [[ -n "${dirinstall[$index]:-}" && -d "$prefix/${dirinstall[$index]}" ]]; then
+                            log info "Remove previous install of ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
+                            rm -rf $prefix/${dirinstall["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi
+                        if [[ -n "${dirmodule[$index]:-}" && -d "$moduleDir/${dirmodule[$index]}" ]]; then
+                              log info "Remove previous modulefile of ${name["$index"]} ${version["$index"]} ${details["$index"]}"	
+                            rm -rf $moduleDir/${dirmodule["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+                        fi	
                     fi		
 
                     log info "Install ${name["$index"]} ${version["$index"]} ${details["$index"]}"
@@ -1275,6 +1446,7 @@ function install()
 
 					    cd $prefix/tgz
 
+                        # Download
 					    if [ ! -f "${filename["$index"]}" -a ! -d "${filename["$index"]}" -o $forceDownload == "1" ]; then 
 
 						    rm -f ${filename["$index"]}
@@ -1296,11 +1468,12 @@ function install()
 							    
 						    elif [[ ${url["$index"]} == "git clone"* ]] ; then                          
                                 ${url["$index"]} ${filename["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-                            else
+                            elif [[ -n "${url["$index"]:-}" ]]; then
 							    wget ${url["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
 						    fi
 					    fi
 
+                        # Extract
 					    if [ -d "$prefix/src/${dirname["$index"]}" ] ; then rm -rf $prefix/src/${dirname["$index"]} ; fi
 
 					    if [[ ${filename["$index"]} == *.tar.gz || ${filename["$index"]} == *.tgz ]] 
@@ -1341,51 +1514,57 @@ function install()
                             # C'est un répertoire, on copie son contenu  
                             mkdir -p ../src/${dirname["$index"]}
 						    cp -r ${filename["$index"]}/* ../src/${dirname["$index"]}/.
-                        else
+                        elif [[ -n "${filename["$index"]:-}" ]]; then
 						    mkdir -p ../src/${dirname["$index"]}
 						    mv ${filename["$index"]} ../src/${dirname["$index"]}/.
 					    fi
 
-					    cd ../src/${dirname["$index"]}
+                        # Configuration
+                        if [[ -n "${dirname["$index"]:-}" ]]; then
 
-					    if [[ ! -z "${configfile["$index"]}" && ! -z "${configfilename["$index"]}" ]]
-					    then			
-						    echo $"${configfile["$index"]}" > ${configfilename["$index"]}		
-					    fi			
+					        cd ../src/${dirname["$index"]}
 
-					    if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
-					    then		
-						    echo $"${patch_01["$index"]}" > patch_to_apply.patch
-						    dos2unix ${patchfile_01["$index"]}
-						    patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					    fi
-					    if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
-					    then			
-						    echo $"${patch_02["$index"]}" > patch_to_apply.patch
-						    dos2unix ${patchfile_02["$index"]}
-						    patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					    fi
-					    if [[ -f "${patchfile_03["$index"]}" && ! -z "${patch_03["$index"]}" ]]
-					    then			
-						    echo $"${patch_03["$index"]}" > patch_to_apply.patch
-						    dos2unix ${patchfile_03["$index"]}
-						    patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					    fi
-                        			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
-					    then			
-						    echo $"${patch_04["$index"]}" > patch_to_apply.patch
-						    dos2unix ${patchfile_04["$index"]}
-						    patch -i patch_to_apply.patch ${patchfile_04["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
-					    fi
+					        if [[ ! -z "${configfile["$index"]}" && ! -z "${configfilename["$index"]}" ]]
+					        then			
+						        echo $"${configfile["$index"]}" > ${configfilename["$index"]}		
+					        fi			
+
+					        if [[ -f "${patchfile_01["$index"]}" && ! -z "${patch_01["$index"]}" ]]
+					        then		
+						        echo $"${patch_01["$index"]}" > patch_to_apply.patch
+						        dos2unix ${patchfile_01["$index"]}
+						        patch -i patch_to_apply.patch ${patchfile_01["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					        fi
+					        if [[ -f "${patchfile_02["$index"]}" && ! -z "${patch_02["$index"]}" ]]
+					        then			
+						        echo $"${patch_02["$index"]}" > patch_to_apply.patch
+						        dos2unix ${patchfile_02["$index"]}
+						        patch -i patch_to_apply.patch ${patchfile_02["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					        fi
+					        if [[ -f "${patchfile_03["$index"]}" && ! -z "${patch_03["$index"]}" ]]
+					        then			
+						        echo $"${patch_03["$index"]}" > patch_to_apply.patch
+						        dos2unix ${patchfile_03["$index"]}
+						        patch -i patch_to_apply.patch ${patchfile_03["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					        fi
+                            			if [[ -f "${patchfile_04["$index"]}" && ! -z "${patch_04["$index"]}" ]]
+					        then			
+						        echo $"${patch_04["$index"]}" > patch_to_apply.patch
+						        dos2unix ${patchfile_04["$index"]}
+						        patch -i patch_to_apply.patch ${patchfile_04["$index"]} 2>&1 >&3 | tee -a $LOGFILE && leave
+					        fi
+                        fi
 			        fi
 					
 					# Compilation #
-					if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then
-						source $basedir/include/builder/${builder["$index"]}.sh
-					else
-						log fail "Unable to find the builder '${builder["$index"]}'."
-						leave 1
-					fi
+                    if [[ -n "${builder["$index"]:-}" ]]; then
+					    if [ -f "$basedir/include/builder/${builder["$index"]}.sh" ] ; then
+						    source $basedir/include/builder/${builder["$index"]}.sh
+					    else
+						    log fail "Unable to find the builder '${builder["$index"]}'."
+						    leave 1
+					    fi
+                    fi
 					
 					cd $prefix					
 
@@ -1394,12 +1573,18 @@ function install()
 						if [[ ! -d "$moduleDir/${dirmodule["$index"]}" ]] ; then
 							mkdir -p $moduleDir/${dirmodule["$index"]}	
 						fi 
+
+                        filtered_dependencies=$(
+                            tr ' ' '\n' <<< "${dependencies_module["$index"]}" |
+                            grep -vE '^cmake==[0-9]+(\.[0-9]+)*$' |
+                            paste -sd ' ' -
+                        )                        
 						
 						if [[ ${dirmodule["$index"]} == python-modules* ]]
 						then						                 
-						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
+						    echo $"${modulefile["$index"]/dependencies_modules/$filtered_dependencies}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
-						    echo $"${modulefile["$index"]/dependencies_modules/${dependencies["$index"]}}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]} 
+						    echo $"${modulefile["$index"]/dependencies_modules/$filtered_dependencies}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]}${options["$index"]}  
 						fi
 					fi
 					

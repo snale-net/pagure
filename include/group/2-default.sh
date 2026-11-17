@@ -15,7 +15,7 @@ index=1
 name["$group-$index"]=cmake
 version["$group-$index"]=3.31.8
 details["$group-$index"]=""
-url["$group-$index"]="https://gitlab.kitware.com/cmake/cmake/-/archive/v3.31.8/cmake-v3.31.8.zip"
+url["$group-$index"]="https://mirror.snale.net/cmake-v3.31.8.zip"
 filename["$group-$index"]=cmake-v3.31.8.zip
 dirname["$group-$index"]=cmake-v3.31.8
 builder["$group-$index"]="cmake-builder"
@@ -78,11 +78,8 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/18/ca/0e3c232fb20f
 filename["$group-$index"]=meson-1.9.2.tar.gz
 dirname["$group-$index"]=meson-1.9.2
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # scikit-build 0.13.1
 index=4
@@ -95,46 +92,33 @@ url["$group-$index"]="https://files.pythonhosted.org/packages/a5/e6/2d32573ff027
 filename["$group-$index"]=scikit-build-0.13.1.tar.gz
 dirname["$group-$index"]=scikit-build-0.13.1
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
 
 # ninja 1.10.2.4
 index=5
 name["$group-$index"]=ninja
 version["$group-$index"]=1.10.2.4
 constraints["$group-$index"]='pythonInterpreter != none' # only-if-Python
-mandatory["$group-$index"]=1
 details["$group-$index"]="(Python tool)"
 url["$group-$index"]="https://files.pythonhosted.org/packages/c6/3e/f14cc8da437224acea3bdb9a82bc9c128638211ca08ac029ed5c8716b7e9/ninja-1.10.2.4.tar.gz"
 filename["$group-$index"]=ninja-1.10.2.4.tar.gz
 dirname["$group-$index"]=ninja-1.10.2.4
 builder["$group-$index"]="python"
-dependencies["$group-$index"]="cmake/3.31.8 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="cmake==3.31.8 python"
 dirinstall["$group-$index"]="python-modules/__COMPILO__"
-args["$group-$index"]=""
-#dirmodule["$group-$index"]=""
-#modulefile["$group-$index"]=""
-
 
 #Lapack & Blas 3.9.1 Dynamic lib
 index=6
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.9.1
 options["$group-$index"]=""
-mandatory["$group-$index"]=1
-if [[ $compiler == "intel" ]]; then
-	details["$group-$index"]="(static & dynamic lib - requires Intel MKL)"
-else
-	details["$group-$index"]="(static & dynamic lib)"
-fi
+details["$group-$index"]="(static & dynamic lib)"
 url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.9.1.tar.gz -O lapack-3.9.1.tar.gz"
 filename["$group-$index"]=lapack-3.9.1.tar.gz
 dirname["$group-$index"]=lapack-3.9.1
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="cmake/3.31.8"
+dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
@@ -162,18 +146,12 @@ index=7
 name["$group-$index"]=lapack-blas
 version["$group-$index"]=3.9.1
 options["$group-$index"]="+python"
-mandatory["$group-$index"]=1
-#if [[ $compiler == "intel" ]]; then
-#	details["$group-$index"]="(static & dynamic lib - requires Intel MKL)"
-#else
-#	details["$group-$index"]="(static & dynamic lib)"
-#fi
-details["$group-$index"]="(static & dynamic lib)"
+details["$group-$index"]="(static & dynamic lib with python)"
 url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.9.1.tar.gz -O lapack-3.9.1.tar.gz"
 filename["$group-$index"]=lapack-3.9.1.tar.gz
 dirname["$group-$index"]=lapack-3.9.1
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="cmake/3.31.8 python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="cmake==3.31.8 python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
@@ -205,7 +183,7 @@ url["$group-$index"]=http://www.netlib.org/lapack/lapack-3.8.0.tar.gz
 filename["$group-$index"]=lapack-3.8.0.tar.gz
 dirname["$group-$index"]=lapack-3.8.0
 builder["$group-$index"]="lapack"
-dependencies["$group-$index"]="cmake/3.31.8"
+dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
@@ -228,7 +206,6 @@ prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 "
 
-
 # bazel 4.2.2
 index=9
 name["$group-$index"]=bazel
@@ -238,7 +215,7 @@ url["$group-$index"]="https://github.com/bazelbuild/bazel/releases/download/4.2.
 filename["$group-$index"]=bazel-4.2.2-dist.all-in-root.zip
 dirname["$group-$index"]=bazel-4.2.2-dist
 builder["$group-$index"]="bazel"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__"
+dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -266,7 +243,7 @@ filename["$group-$index"]=openblas-0.3.33.zip
 dirname["$group-$index"]=OpenBLAS-0.3.33
 builder["$group-$index"]="cmake"
 args["$group-$index"]="-DBUILD_SHARED_LIBS=ON -DDYNAMIC_ARCH=ON -DUSE_OPENMP=ON"
-dependencies["$group-$index"]="cmake/3.31.8"
+dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
 modulefile["$group-$index"]="#%Module1.0
