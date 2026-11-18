@@ -10,19 +10,20 @@
 group=8
 groupname[$group]="Visualization librairies"
 
-# Ncview 2.1.7
+# Ncview 2.1.11
 index=1
 name["$group-$index"]=ncview
-version["$group-$index"]=2.1.7
+version["$group-$index"]=2.1.11
 details["$group-$index"]=""
-url["$group-$index"]=ftp://cirrus.ucsd.edu/pub/ncview/ncview-2.1.7.tar.gz
-filename["$group-$index"]=ncview-2.1.7.tar.gz
-dirname["$group-$index"]=ncview-2.1.7
+url["$group-$index"]=https://mirror.snale.net/ncview-2.1.11.tar.gz
+filename["$group-$index"]=ncview-2.1.11.tar.gz
+dirname["$group-$index"]=ncview-2.1.11
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="netcdf==4.9.3+hdf5 udunits==2.2.28"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -76,6 +77,7 @@ dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -112,6 +114,7 @@ dependencies["$group-$index"]="python cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -149,6 +152,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python xml2==2.13.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -203,6 +207,7 @@ dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -253,6 +258,7 @@ dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -287,6 +293,7 @@ dependencies["$group-$index"]="python bison==3.7"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -325,6 +332,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Dintrospection=enabled"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -360,6 +368,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -395,6 +404,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Dman=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -430,6 +440,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -458,6 +469,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -488,6 +500,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xorg-proto==2023.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -521,6 +534,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xorg-proto==2023.1 xfixes==6.
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -554,6 +568,7 @@ dependencies["$group-$index"]="python cairo==1.17.8 gobject-introspection==1.72.
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -589,6 +604,7 @@ dependencies["$group-$index"]="cmake/3.31.8 gobject-introspection==1.72.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -626,6 +642,7 @@ dependencies["$group-$index"]="xfixes==6.0.1 xi==1.8.1 xorg-macros==1.20.0 xorg-
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -663,6 +680,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -698,6 +716,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -733,6 +752,7 @@ dependencies["$group-$index"]="python xml2==2.13.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Ddocumentation=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -767,6 +787,7 @@ dependencies["$group-$index"]="python wayland==1.19.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Dtests=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -794,6 +815,7 @@ dependencies["$group-$index"]="python xml2==2.13.6 wayland==1.19.0 wayland-proto
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Denable-docs=false"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -831,6 +853,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python cairo==1.17.8 gobject-intros
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -869,6 +892,7 @@ dependencies["$group-$index"]="glib==2.72.4 cairo==1.17.8 pango==1.48.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -906,6 +930,7 @@ dependencies["$group-$index"]="glib==2.72.4 graphviz==3.0.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -943,6 +968,7 @@ dependencies["$group-$index"]="python gtk==3.24.29 vala==0.42.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-introspection=yes --enable-vala=no"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -994,10 +1020,11 @@ url["$group-$index"]="https://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz"
 filename["$group-$index"]=VTK-7.1.1.tar.gz
 dirname["$group-$index"]=VTK-7.1.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="xtst==1.2.3 xcursor==1.2.1 xft==2.3.8 xres==1.2.2 sm==1.2.4 xmu==1.1.4 xpm==3.5.17 xrandr==1.5.4 xt==1.2.1 xtrans==1.5.0 ice==1.1.0 xslt==1.1.45 xaw==1.0.15 x11==1.7.5 xfixes==6.0.1 xi==1.8.1 xorg-macros==1.20.0 xorg-proto==2023.1 xtst==1.2.3 xinerama==1.1.5 xxf86vm==1.1.5 xcb==1.15 xcomposite==0.4.6 xdamage==1.1.6 xcb-util==0.3.6 xkbfile==1.1.2 xdmcp==1.1.4 xss==1.2.4 xv==1.0.12 gcc/7.5.0 python==3.7 python-modules==3.7 xml2==2.13.6 wayland==1.19.0 wayland-protocols==1.21 xkbcommon==1.3.0 xcb-errors==1.0.1 xcb-cursor==0.1.6 xcb-xrm==1.3 cmake/3.31.8 mesa==17.3.9"
+dependencies["$group-$index"]="xtst==1.2.3 xcursor==1.2.1 xft==2.3.8 xres==1.2.2 sm==1.2.4 xmu==1.1.4 xpm==3.5.17 xrandr==1.5.4 xt==1.2.1 xtrans==1.5.0 ice==1.1.0 xslt==1.1.45 xaw==1.0.15 x11==1.7.5 xfixes==6.0.1 xi==1.8.1 xorg-macros==1.20.0 xorg-proto==2023.1 xtst==1.2.3 xinerama==1.1.5 xxf86vm==1.1.5 xcb==1.15 xcomposite==0.4.6 xdamage==1.1.6 xcb-util==0.3.6 xkbfile==1.1.2 xdmcp==1.1.4 xss==1.2.4 xv==1.0.12 python==3.7 xml2==2.13.6 wayland==1.19.0 wayland-protocols==1.21 xkbcommon==1.3.0 xcb-errors==1.0.1 xcb-cursor==0.0.99 cmake==3.31.8 mesa==17.3.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/__COMPILO__/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/__COMPILO__/17.3.9/include"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -1033,6 +1060,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1065,6 +1093,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 ice==1.1.0 xtrans==1.5.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1097,6 +1126,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xtrans==1.5.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1130,6 +1160,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 sm==1.2.4 ice==1.1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1162,6 +1193,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1192,6 +1224,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 sm==1.2.4 ice==1.1.0 xtrans==
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1224,6 +1257,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1256,6 +1290,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1288,6 +1323,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xt==1.2.1 sm==1.2.4 ice==1.1.
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1320,6 +1356,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xfixes==6.0.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1352,6 +1389,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xt==1.2.1 sm==1.2.4 ice==1.1.
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1384,6 +1422,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1416,6 +1455,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xfixes==6.0.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1448,6 +1488,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xfixes==6.0.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1480,6 +1521,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1512,6 +1554,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1543,6 +1586,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1575,6 +1619,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xcb==1.15 gperf==3.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1607,6 +1652,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1639,6 +1685,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 xcb-proto==1.15.2"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1671,6 +1718,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1699,6 +1747,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}==${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1728,6 +1777,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1760,6 +1810,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1792,6 +1843,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1824,6 +1876,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1856,6 +1909,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1888,6 +1942,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 drm==2.4.119 xdamage==1.1.6 x
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--with-gallium-drivers=\"nouveau,swrast\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1920,6 +1975,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0 pciaccess==0.17"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-Dintel=enabled"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1952,6 +2008,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1984,6 +2041,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -2012,10 +2070,11 @@ url["$group-$index"]="https://github.com/freeglut/freeglut/releases/download/v3.
 filename["$group-$index"]=freeglut-3.2.0.tar.gz
 dirname["$group-$index"]=freeglut-3.2.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake/3.31.8 mesa==17.3.9 glu==9.0.1 xi==1.8.1"
+dependencies["$group-$index"]="cmake==3.31.8 mesa==17.3.9 glu==9.0.1 xi==1.8.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DOPENGL_gl_LIBRARY=$prefix/mesa/__COMPILO__/17.3.9/lib/libGL.so.1 -DOPENGL_INCLUDE_DIR=$prefix/mesa/__COMPILO__/17.3.9/include -DOPENGL_glu_LIBRARY=$prefix/glu/__COMPILO__/9.0.1/lib/libGLU.so.1"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -2048,6 +2107,7 @@ dependencies["$group-$index"]="mesa==17.3.9 drm==2.4.119"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -2080,6 +2140,7 @@ dependencies["$group-$index"]="makedepend==1.0.6 mesa==17.3.9 glu==9.0.1 xmu==1.
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -2112,6 +2173,7 @@ dependencies["$group-$index"]="xorg-macros==1.20.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -2159,10 +2221,11 @@ patch_02["$group-$index"]="--- ex_open_par_original.c	2019-01-30 18:15:13.000000
 "
 patchfile_02["$group-$index"]="ThirdParty/exodusII/vtkexodusII/src/ex_open_par.c"
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5/__MPI_LIB__==1.10.5 netcdf-c/hdf5.110/__MPI_LIB__==4.8.0"
+dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5==1.10.5+mpi netcdf==4.8.0+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -2195,10 +2258,11 @@ url["$group-$index"]="https://vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
 filename["$group-$index"]=VTK-9.1.0.tar.gz
 dirname["$group-$index"]=VTK-9.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5/__MPI_LIB__==1.12.1 glvnd/1.7.0"
+dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5==1.12.1+mpi glvnd/1.7.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DVTK_USE_MPI=ON -DVTK_MODULE_ENABLE_VTK_ParallelMPI=YES -DVTK_USE_SYSTEM_ZL_B=ON -DVTK_USE_SYSTEM_HDF5=ON  -DVTK_BUILD_TESTING=OFF -DVTK_BUILD_EXAMPLES=OFF"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -2236,6 +2300,7 @@ dependencies["$group-$index"]="mesa/17.3.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

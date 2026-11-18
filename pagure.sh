@@ -263,16 +263,39 @@ declare_variant() {
     # Répertoires par défaut : à adapter selon tes règles
     dirinstall["$key"]="${dirinstall[$original]}"
     dirmodule["$key"]="${dirmodule[$original]}"
+    modulefilename["$key"]="${modulefilename[$original]}"
 
     # Arguments de compilation
-    args["$key"]="${args[$original]:-}"
+    [[ -v "args[$original]" ]] &&
+        args["$key"]="${args["$original"]}"
+
+    [[ -v "args[$original-intel]" ]] &&
+        args["$key-intel"]="${args["$original-intel"]}"
+
+    [[ -v "args[$original-intelmpi]" ]] &&
+        args["$key-intelmpi"]="${args["$original-intelmpi"]}"
+
+     [[ -v "args[$original-mpich]" ]] &&
+        args["$key-mpich"]="${args["$original-mpich"]}"
+
+     [[ -v "args[$original-openmpi]" ]] &&
+        args["$key-openmpi"]="${args["$original-openmpi"]}"
 
     # Copie des configurations
     [[ -v "configfile[$original]" ]] &&
-        configfile["$key"]="${configfile[$original]}"
+        configfile["$key"]="${configfile["$original"]}"
 
     [[ -v "configfile[$original-intel]" ]] &&
-        configfile["$key-intel"]="${configfile[$original-intel]}"
+        configfile["$key-intel"]="${configfile["$original-intel"]}"
+
+    [[ -v "configfile[$original-intelmpi]" ]] &&
+        configfile["$key-intelmpi"]="${configfile["$original-intelmpi"]}"
+
+     [[ -v "configfile[$original-mpich]" ]] &&
+        configfile["$key-mpich"]="${configfile["$original-mpich"]}"
+
+     [[ -v "configfile[$original-openmpi]" ]] &&
+        configfile["$key-openmpi"]="${configfile["$original-openmpi"]}"
 }
 
 # Create a build index
@@ -460,12 +483,12 @@ get_dependencies_recursive() {
         [[ -z "$dep" ]] && continue
 
         result=$(get_package_key "$dep") || {
-            log fail  "ERROR: dependency not found: $dep"
+            log fail  "Unable to find dependency: $dep"
             return 1
         }
 
         [[ -z "$result" ]] && {
-            log fail "ERROR: dependency not found: $dep" >&2
+            log fail "Unable to find dependency: $dep" >&2
             return 1
         }
 
@@ -475,7 +498,7 @@ get_dependencies_recursive() {
             [[ -z "$key" ]] && continue 
           
             # On construit les dépendances pour modules            
-            dependencies_module["$pkg_key"]+="${dirmodule[$key]}/${version[$key]} "          
+            dependencies_module["$pkg_key"]+="${dirmodule[$key]}/${modulefilename[$key]} "          
 
             get_dependencies_recursive "$key" || return 1
         done
@@ -817,6 +840,7 @@ declare -A dependencies_module
 declare -A dirinstall
 declare -A args
 declare -A dirmodule
+declare -A modulefilename
 declare -A modulefile
 declare -A map_pkg_key
 
@@ -840,6 +864,7 @@ declare -A visited_packages=()
 declare -A seen_libs=()
 
 # Resolve dependencies
+log info "Resolving dependencies..."
 mapfile -t initial_keys < <(
     tr ' ' '\n' <<< "${dependencies[$pkg_key]}" |
     sed '/^[[:space:]]*$/d' |
@@ -858,14 +883,14 @@ for dep_key in "${initial_keys[@]}"; do
         libToInstall+=("$dep_key")
     fi
 
-    dependencies_module["$pkg_key"]+="${dirmodule[$dep_key]}/${version[$dep_key]} " 
+    dependencies_module["$pkg_key"]+="${dirmodule[$dep_key]}/${modulefilename[$dep_key]} " 
     
 done
 libToInstall+=("$pkg_key") 
 
-for key in "${!libToInstall[@]}"; do
-   echo "$key => ${libToInstall[$key]}"  
-done 
+#for key in "${!libToInstall[@]}"; do
+#   echo "$key => ${libToInstall[$key]}"  
+#done 
 
 if [ -z "$mpi" ]; then
 
@@ -874,7 +899,8 @@ if [ -z "$mpi" ]; then
         mpi=${name[$original_mpi_key]} 
 
     if [ -z "$mpiVersion" ]; then    
-        mpiVersion=${version[$original_mpi_key]} 
+        mpiVersion=${version[$original_mpi_key]}
+        mpiOptions=${options[$original_mpi_key]}
     fi 
   fi
 
@@ -1037,20 +1063,18 @@ elif [ "$mpi" == "openmpi" ]; then
         fi
     elif [ -z "$mpiVersion" ]; then
         mpiVersion=1.10.7
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
-    else
-    # options
-    fi 
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 
+    fi    
 
     original_mpi_key=$(find_key_by_group 4)   
-    new_mpi_key=$(get_package_key "$mpi==$mpiVersion")    
+    new_mpi_key=$(get_package_key "$mpi==$mpiVersion$mpiOptions")    
 
-    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion$mpiOptions" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
         replace_key "$original_mpi_key" "$new_mpi_key" 
                         
-    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then    
-        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."        
+    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion$mpiOptions" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then    
+        log fail "'$mpi==$mpiVersion$mpiOptions' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."        
 	    leave 1   
     fi 
 
@@ -1102,17 +1126,17 @@ elif [ "$mpi" == "mpich" ] ; then
         fi
     elif [ -z "$mpiVersion" ]; then
         mpiVersion=3.2.1
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 	   
+	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 3.2.1" 	   
     fi 
       
 	original_mpi_key=$(find_key_by_group 4)
-    new_mpi_key=$(get_package_key "$mpi==$mpiVersion")  
+    new_mpi_key=$(get_package_key "$mpi==$mpiVersion$mpiOptions")  
 
-    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion$mpiOptions" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
         # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
         replace_key "$original_mpi_key" "$new_mpi_key"	                     
-    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion" ||     [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then   
-        log fail "'$mpi==$mpiVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
+    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion$mpiOptions" ||     [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then   
+        log fail "'$mpi==$mpiVersion$mpiOptions' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
 	    leave 1   
     fi  
 
@@ -1136,15 +1160,11 @@ if [ "$mpilib" == "none" ]; then
     log warn "No MPI library"  
 else
     if [[ $installedMPI -eq 0 ]] && mpi_key=$(find_key_by_group 4); then 
-        mpi_dep=${dirmodule["$mpi_key"]//__COMPILO__/$compilo}/${version["$mpi_key"]}	
+        mpi_dep=${dirmodule["$mpi_key"]//__COMPILO__/$compilo}/${modulefilename["$mpi_key"]}	
     fi
 
     log info "MPI library is set to $mpilib"
 fi
-
-for key in "${!libToInstall[@]}"; do
-   echo "$key => ${libToInstall[$key]}"  
-done 
 
 log raw "......................"
 
@@ -1584,7 +1604,7 @@ function install()
 						then						                 
 						    echo $"${modulefile["$index"]/dependencies_modules/$filtered_dependencies}" > $moduleDir/${dirmodule["$index"]}/${pythonVersion}
 						else                                      
-						    echo $"${modulefile["$index"]/dependencies_modules/$filtered_dependencies}" > $moduleDir/${dirmodule["$index"]}/${version["$index"]}${options["$index"]}  
+						    echo $"${modulefile["$index"]/dependencies_modules/$filtered_dependencies}" > $moduleDir/${dirmodule["$index"]}/${modulefilename["$index"]} 
 						fi
 					fi
 					

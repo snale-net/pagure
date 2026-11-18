@@ -51,6 +51,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -75,6 +76,7 @@ constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 dependencies["$group-$index"]="netcdf==4.5.3+fortran+hdf5+mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

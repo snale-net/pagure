@@ -24,6 +24,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-mpi-cxx --without-ucx"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -59,6 +60,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-mpi-cxx --disable-io-ompio"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -94,6 +96,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -129,6 +132,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -195,6 +199,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -227,3 +232,4 @@ details["$group-$index"]="(with ucx, pmi and pmix)"
 dirinstall["$group-$index"]="${name["$group-$index"]}/ucx-pmi-pmix/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--with-ucx --with-pmi --enable-mpi-fortran --enable-shared --enable-static --enable-mpi-thread-multiple --with-pmix"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}-ucx-pmi-pmix"

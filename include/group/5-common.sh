@@ -14,7 +14,7 @@ groupname[$group]="Common librairies"
 index=1
 name["$group-$index"]=scalapack
 version["$group-$index"]=2.1.0
-options["$group-$index"]="+mpi"
+options["$group-$index"]=""
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v2.1.0.tar.gz -O scalapack-2.1.0.tar.gz"
 filename["$group-$index"]=scalapack-2.1.0.tar.gz
@@ -41,6 +41,7 @@ patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.00000
 patchfile_01["$group-$index"]="CMakeLists.txt"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=RELEASE -DBUILD_SHARED_LIBS=ON -DLAPACK_LIBRARIES=$prefix/lapack-blas/__COMPILO__/3.9.1/lib/liblapack.so -DBLAS_LIBRARIES=$prefix/lapack-blas/__COMPILO__/3.9.1/lib/libblas.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -71,6 +72,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -102,6 +104,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -134,6 +137,7 @@ builder["$group-$index"]="configure"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -167,6 +171,7 @@ dependencies["$group-$index"]="cmake==3.31.8 python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -202,6 +207,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion

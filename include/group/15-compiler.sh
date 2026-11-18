@@ -153,6 +153,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
 dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -187,6 +188,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-languages=c,c++,fortran,go --enable-bootstrap --disable-multilib"
 dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

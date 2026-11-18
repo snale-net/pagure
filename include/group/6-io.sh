@@ -25,6 +25,7 @@ dependencies["$group-$index"]="openmpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -62,6 +63,7 @@ dependencies["$group-$index"]="openmpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -97,6 +99,7 @@ dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DHDF5_BUILD_FORTRAN=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -120,44 +123,17 @@ prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
 "
-# HDF5 1.14.6+mpi
+
+# Variant avec mpi
 index=4
-name["$group-$index"]=hdf5
-version["$group-$index"]=1.14.6
+declare_variant "$group" $index 3
 options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(with parallel I/O)"
-url["$group-$index"]=https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz
-filename["$group-$index"]=hdf5-1.14.6.tar.gz
-dirname["$group-$index"]=hdf5-1.14.6
-builder["$group-$index"]="cmake"
 dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-module load dependencies_modules
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path HDF5_DIR $prefix/${dirinstall["$group-$index"]}/
-"
 
 # Netcdf-C 4.9.3
 index=5
@@ -173,6 +149,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/c/${version["$group-$index"]}"	
 args["$group-$index"]="--disable-parallel4 CFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__COMPILO__/1.14.6/lib"
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -197,45 +174,16 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 
-# Netcdf-C 4.9.3 + MPI
+# Variant avec mpi
 index=6
-name["$group-$index"]=netcdf
-version["$group-$index"]=4.9.3
+declare_variant "$group" $index 5
 options["$group-$index"]="+hdf5+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
-details["$group-$index"]="(version C)"
-url["$group-$index"]="https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.3.tar.gz -O netcdf-c-4.9.3.tar.gz"
-filename["$group-$index"]=netcdf-c-4.9.3.tar.gz
-dirname["$group-$index"]=netcdf-c-4.9.3
-builder["$group-$index"]="configure"
 dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]="--enable-pnetcdf CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Version C ${version["$group-$index"]}
-
-# Dependencies
-module load dependencies_modules
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
-
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 
 # Netcdf-Fortran 4.5.3
 index=7
@@ -251,6 +199,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__COMPILO__/fortran/${version["$group-$index"]}"	
 args["$group-$index"]="LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -275,45 +224,15 @@ prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
 prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 
-# Netcdf-Fortran 4.5.3 + MPI
+# Variant avec mpi
 index=8
-name["$group-$index"]=netcdf
-version["$group-$index"]=4.5.3
+declare_variant "$group" $index 7
 options["$group-$index"]="+fortran+hdf5+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
-details["$group-$index"]="(version Fortran)"
-url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.3.tar.gz -O netcdf-fortran-4.5.3.tar.gz"
-filename["$group-$index"]=netcdf-fortran-4.5.3.tar.gz
-dirname["$group-$index"]=netcdf-fortran-4.5.3
-builder["$group-$index"]="configure"
 dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0 netcdf==4.9.3+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
 args["$group-$index"]="LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Version Fortran ${version["$group-$index"]}
-
-# Dependencies
-module load dependencies_modules
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/man
-prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
-prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
-
 
 
 #------------------------------------------------------------------
@@ -324,6 +243,7 @@ index=9
 name["$group-$index"]=netcdf
 version["$group-$index"]=4.4.1.1
 constraints["$group-$index"]='mpilib != none' # MPI-only
+options["$group-$index"]="+hdf5+mpi"
 details["$group-$index"]="(version C)"
 url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz
 filename["$group-$index"]=netcdf-4.4.1.1.tar.gz
@@ -333,6 +253,7 @@ dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -363,7 +284,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include"
 # compiled with HDF 1.14.6
 index=10
 name["$group-$index"]=netcdf
-options["$group-$index"]="+fortran"
+options["$group-$index"]="+fortran+hdf5+mpi"
 version["$group-$index"]=4.4.4
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(version Fortran - need Netcdf-C 4.4.1.1 and HDF 1.14.6)"
@@ -375,6 +296,7 @@ dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.4
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
 args["$group-$index"]="F77=mpif90 FC=mpif90"
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -413,6 +335,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -428,6 +351,7 @@ module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
@@ -562,6 +486,7 @@ dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5==1.14.6+m
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -610,6 +535,7 @@ dependencies["$group-$index"]="zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-fortran --enable-cxx"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -626,6 +552,7 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
@@ -648,6 +575,7 @@ dependencies["$group-$index"]="openmpi==3.1.6 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="CC=mpicc FC=mpif90 CXX=mpicxx --enable-parallel --with-zlib --enable-fortran"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -664,6 +592,7 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
 prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 

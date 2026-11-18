@@ -415,6 +415,7 @@ dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -445,11 +446,10 @@ url["$group-$index"]="https://swanmodel.sourceforge.io/download/zip/swan4151.tar
 filename["$group-$index"]=swan4151.tar.gz
 dirname["$group-$index"]=swan4151
 builder["$group-$index"]="swan"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3"
+dependencies["$group-$index"]="mpich zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
-if [[ $compiler == "intel" ]]; then
-configfile["$group-$index"]="##############################################################################
+configfile["$group-$index-intel"]="##############################################################################
 # IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
 ##############################################################################
 F90_SER = ifort
@@ -491,7 +491,6 @@ else
   swch = -unix
 endif
 "
-else
 configfile["$group-$index"]="##############################################################################
 # IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
 ##############################################################################
@@ -535,9 +534,9 @@ else
   swch = -unix
 endif
 "
-fi
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -567,9 +566,8 @@ dirname["$group-$index"]=swash-11.01
 builder["$group-$index"]="swash"
 dependencies["$group-$index"]="__MPI_MODULE__"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
-configfilename["$group-$index"]="macros.inc"
-if [[ $compiler == "intel" ]]; then
-configfile["$group-$index"]="##############################################################################
+configfilename["$group-$index"]="macros.inc"n
+configfile["$group-$index-intel"]="##############################################################################
 # IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
 ##############################################################################
 F90_SER = ifort
@@ -593,7 +591,6 @@ MAKE = make
 RM = rm -f
 swch = -unix
 "
-else
 configfile["$group-$index"]="##############################################################################
 # IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
 ##############################################################################
@@ -618,9 +615,9 @@ MAKE = make
 RM = rm -f
 swch = -unix
 "
-fi
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -641,48 +638,16 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 index=4
 name["$group-$index"]=xbeach
 version["$group-$index"]=rev5961
-options["$group-$index"]="+mpi"
-constraints["$group-$index"]='mpilib != none' # MPI-only
-details["$group-$index"]="(parallel version)"
-url["$group-$index"]=localfile
-filename["$group-$index"]=xbeach-rev5961.zip
-dirname["$group-$index"]=xbeach
-builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
-dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/lib\""
-dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-module load dependencies_modules
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-"
-
-# xbeach rev5961
-index=5
-name["$group-$index"]=xbeach
-version["$group-$index"]=rev5961
 details["$group-$index"]="(sequential version)"
 url["$group-$index"]=localfile
 filename["$group-$index"]=xbeach-rev5961.zip
 dirname["$group-$index"]=xbeach
 builder["$group-$index"]="xbeach"
-dependencies["$group-$index"]="zlib/__COMPILO__/1.2.11 hdf5/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__COMPILO__/4.5.3 python/__COMPILO__/${pythonVersion} python-modules/__COMPILO__/${pythonVersion}"
+dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 netcdf==4.5.3+fortran+hdf5 python"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}
 args["$group-$index"]="NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__COMPILO__/fortran/4.5.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -700,6 +665,17 @@ prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 "
+
+# Variant avec MPI
+index=5
+declare_variant "$group" $index 4
+options["$group-$index"]="+mpi"
+constraints["$group-$index"]='mpilib != none' # MPI-only
+details["$group-$index"]="(parallel version)"
+dependencies["$group-$index"]="mipch zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi python"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/include\" NETCDF_FORTRAN_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/include\" NETCDF_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib -lnetcdf\" NETCDF_FORTRAN_LIBS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/4.5.3/lib\""
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 
 # SWASH-Sequential
 index=6
@@ -714,8 +690,7 @@ builder["$group-$index"]="swash_ser"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]=${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}
 configfilename["$group-$index"]="macros.inc"
-if [[ $compiler == "intel" ]]; then
-configfile["$group-$index"]="##############################################################################
+configfile["$group-$index-intel"]="##############################################################################
 # IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
 ##############################################################################
 F90_SER = ifort
@@ -739,7 +714,6 @@ MAKE = make
 RM = rm -f
 swch = -unix
 "
-else
 configfile["$group-$index"]="##############################################################################
 # IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
 ##############################################################################
@@ -764,9 +738,9 @@ MAKE = make
 RM = rm -f
 swch = -unix
 "
-fi
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

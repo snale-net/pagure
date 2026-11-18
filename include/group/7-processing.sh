@@ -37,6 +37,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -71,6 +72,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="ANTLR_ROOT=$prefix/antlr/__COMPILO__/2.7.7"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -106,6 +108,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -137,6 +140,7 @@ dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -168,6 +172,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DTIFF_INCLUDE_DIR=$prefix/tiff/__COMPILO__/4.4.0/include -DTIFF_LIBRARY_RELEASE=$prefix/tiff/__COMPILO__/4.4.0/lib/libtiff.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -217,6 +222,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 args["$group-$index"]="--with-sqlite3=$prefix/sqlite/__COMPILO__/3.36.0 --with-proj=$prefix/proj/__COMPILO__/9.7.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -268,6 +274,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.4.1.1+hdf5 ud
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--with-proj=$prefix/proj/__COMPILO__/9.7.1"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -332,6 +339,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/__COMPILO__/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/__COMPILO__/2.1.0"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -367,6 +375,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 args["$group-$index"]="--with-hdf5=$prefix/hdf5/__COMPILO__/1.14.6/ --with-netcdf=$prefix/netcdf/hdf5.146/__COMPILO__/c/4.9.3/ --with-udunits2=$prefix/udunits/__COMPILO__/2.2.28 --with-proj=$prefix/proj/__COMPILO__/9.7.1/"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -407,6 +416,7 @@ args["$group-$index-intelmpi"]="--with-hdf5=$prefix/hdf5/__MPI_LIB__/__COMPILO__
 args["$group-$index-mpich"]="--with-hdf5=$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 args["$group-$index-openmpi"]="--with-hdf5=$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6 --disable-python CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -441,6 +451,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -471,6 +482,7 @@ dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -492,7 +504,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=17
 name["$group-$index"]=parmetis
 version["$group-$index"]=4.0.3
-options["$group-$index"]="+mpi"
+options["$group-$index"]=""
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(parallel version)"
 url["$group-$index"]=https://mirror.snale.net/parmetis-4.0.3.tar.gz
@@ -514,14 +526,11 @@ patchfile_02["$group-$index"]="libparmetis/CMakeLists.txt"
 builder["$group-$index"]="parmetis"
 dependencies["$group-$index"]="openmpi cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-if [[ "$mpi" == "intelmpi" ]] ; then
-	args["$group-$index"]="cc=mpiicc cxx=mpiicpc"
-elif [[ "$mpi" == "mpich" ]] ; then
-	args["$group-$index"]="cc=mpicc cxx=mpic++"	
-elif [[ "$mpi" == "openmpi" ]] ; then	
-	args["$group-$index"]="cc=mpicc cxx=mpic++"	
-fi
+args["$group-$index-intempi"]="cc=mpiicc cxx=mpiicpc"
+args["$group-$index-mpich"]="cc=mpicc cxx=mpic++"	
+args["$group-$index-openmpi"]="cc=mpicc cxx=mpic++"	
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -603,6 +612,7 @@ YACC		= bison -pscotchyy -y -b y
 "
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -628,14 +638,14 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=19
 name["$group-$index"]=ptscotch
 version["$group-$index"]=6.0.9
-options["$group-$index"]="+mpi"
+options["$group-$index"]=""
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]="--no-check-certificate https://gforge.inria.fr/frs/download.php/file/38187/scotch_6.0.9.tar.gz"
 filename["$group-$index"]=scotch_6.0.9.tar.gz
 dirname["$group-$index"]=scotch_6.0.9
 builder["$group-$index"]="ptscotch"
-dependencies["$group-$index"]="openmpi parmetis==4.0.3+mpi"
+dependencies["$group-$index"]="openmpi parmetis==4.0.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 configfilename["$group-$index"]="src/Makefile.inc"
 configfile["$group-$index-intel"]="EXE		=
@@ -685,6 +695,7 @@ YACC		= bison -pscotchyy -y -b y
 "
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -717,7 +728,7 @@ url["$group-$index"]=https://distfiles.macports.org/mumps/MUMPS_5.7.3.tar.gz
 filename["$group-$index"]=MUMPS_5.7.3.tar.gz
 dirname["$group-$index"]=MUMPS_5.7.3
 builder["$group-$index"]="mumps"
-dependencies["$group-$index"]="openmpi zlib==1.2.11 lapack-blas==3.9.1 scalapack==2.1.0+mpi parmetis==4.0.3+mpi ptscotch==6.0.9+mpi"
+dependencies["$group-$index"]="openmpi zlib==1.2.11 lapack-blas==3.9.1 scalapack==2.1.0 parmetis==4.0.3 ptscotch==6.0.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 configfilename["$group-$index"]="Makefile.inc"
 configfile["$group-$index-intel"]="#
@@ -856,6 +867,7 @@ LIBSEQNEEDED =
 "
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -889,6 +901,7 @@ dependencies["$group-$index"]=""
 args["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -920,6 +933,7 @@ dependencies["$group-$index"]="gmp==6.2.1"
 args["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -954,6 +968,7 @@ dependencies["$group-$index"]="cmake==3.31.8 lapack-blas==3.9.1 metis==5.1.0 mpf
 args["$group-$index"]="MY_METIS_LIB=\"-L$prefix/metis/__COMPILO__/5.1.0/lib -lmetis\" MY_METIS_INC=$prefix/metis/__COMPILO__/5.1.0/include LAPACK=\"-L$prefix/lapack-blas/__COMPILO__/3.9.1/lib -llapack\" BLAS=\"-L$prefix/lapack-blas/__COMPILO__/3.9.1/lib -lblas\" LDFLAGS=\"-L$prefix/${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}/lib -L$prefix/mpfr/__COMPILO__/4.1.0/lib -lmpfr -L$prefix/gmp/__COMPILO__/6.2.1/lib -lgmp\""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -980,6 +995,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 index=24
 name["$group-$index"]=boost
 version["$group-$index"]=1.72.0
+options["$group-$index"]="+python"
 constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://archives.boost.io/release/1.72.0/source/boost_1_72_0.tar.gz"
@@ -1001,15 +1017,10 @@ patch_01["$group-$index"]="--- ./boost/thread/pthread/thread_data.hpp.original  
 builder["$group-$index"]="boost"
 args["$group-$index-intel"]="--toolset=intel --with-python=__PYTHON_INTERPRETER__"
 args["$group-$index"]="--with-python=__PYTHON_INTERPRETER__"
-if [ "__MPI_LIB__" == "none" ]; then 
-	dependencies["$group-$index"]="python"    
-    dirinstall["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"   
-    dirmodule["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__"
-else
-	dependencies["$group-$index"]="openmpi python"
-    dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"	
-	dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
-fi
+dependencies["$group-$index"]="python"    
+dirinstall["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"   
+dirmodule["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1033,27 +1044,30 @@ prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 prepend-path CMAKE_MODULE_PATH $prefix/${dirinstall["$group-$index"]}/lib/cmake
 "
 
-# Boost 1.90.0
+# Variant avec MPI
 index=25
+declare_variant "$group" $index 24
+options["$group-$index"]="+python+mpi"
+constraints["$group-$index"]='pythonInterpreter != none && mpilib != none'
+dependencies["$group-$index"]="openmpi python"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"	
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
+
+# Boost 1.90.0
+index=26
 name["$group-$index"]=boost
 version["$group-$index"]=1.90.0
-constraints["$group-$index"]='pythonInterpreter != none'
 details["$group-$index"]=""
 url["$group-$index"]="https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.gz"
 filename["$group-$index"]=boost_1_90_0.tar.gz
 dirname["$group-$index"]=boost_1_90_0
 builder["$group-$index"]="boost"
-args["$group-$index-intel"]="--toolset=intel --with-python=__PYTHON_INTERPRETER__"
-args["$group-$index"]="--with-python=__PYTHON_INTERPRETER__"
-if [ "__MPI_LIB__" == "none" ]; then 
-	dependencies["$group-$index"]="python"    
-    dirinstall["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"   
-    dirmodule["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__"
-else
-	dependencies["$group-$index"]="openmpi python"
-    dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"	
-	dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
-fi
+args["$group-$index-intel"]="--toolset=intel"
+args["$group-$index"]=""
+dependencies["$group-$index"]=""    
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"   
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1076,8 +1090,27 @@ prepend-path BOOST_ROOT $prefix/${dirinstall["$group-$index"]}
 prepend-path BOOST_DIR $prefix/${dirinstall["$group-$index"]}
 "
 
+# Variant avec python
+index=27
+declare_variant "$group" $index 26
+constraints["$group-$index"]='pythonInterpreter != none'
+args["$group-$index-intel"]="--toolset=intel --with-python=__PYTHON_INTERPRETER__"
+args["$group-$index"]="--with-python=__PYTHON_INTERPRETER__"
+dependencies["$group-$index"]="python"    
+dirinstall["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"   
+dirmodule["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__"
+
+# Variant avec python + MPI
+index=28
+declare_variant "$group" $index 26
+options["$group-$index"]="+python+mpi"
+constraints["$group-$index"]='pythonInterpreter != none && mpilib != none'
+dependencies["$group-$index"]="openmpi python"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"	
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
+
 # Cgal 5.5.2
-index=26
+index=29
 name["$group-$index"]=cgal
 version["$group-$index"]=5.5.2
 details["$group-$index"]=""
@@ -1089,6 +1122,7 @@ dependencies["$group-$index"]="cmake==3.31.8 boost==1.90.0 gmp==6.2.1 mpfr==4.1.
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/__COMPILO__/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/__COMPILO__/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/__COMPILO__/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/__COMPILO__/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1122,10 +1156,11 @@ url["$group-$index"]="https://web.cels.anl.gov/projects/petsc/download/release-s
 filename["$group-$index"]=petsc-3.24.6.tar.gz
 dirname["$group-$index"]=petsc-3.24.6
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi zlib==1.2.11 lapack-blas==3.9.1 scalapack==2.1.0+mpi med==6.0.1+mpi parmetis==4.0.3+mpi scotch==6.0.9 ptscotch==6.0.9+mpi suitesparse==5.10.1 python boost==1.72.0+python+mpi hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi parallel-netcdf==1.13.0 mumps==5.7.3+mpi zoltan==3.83+mpi"
+dependencies["$group-$index"]="openmpi zlib==1.2.11 lapack-blas==3.9.1 scalapack==2.1.0+mpi med==6.0.1+mpi parmetis==4.0.3 scotch==6.0.9 ptscotch==6.0.9 suitesparse==5.10.1 python boost==1.72.0+python+mpi hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi parallel-netcdf==1.13.0 mumps==5.7.3+mpi zoltan==3.83+mpi"
 args["$group-$index"]="--with-debugging=0 --with-shared-libraries=1 --with-strict-petscerrorcode --COPTFLAGS='-O3 -march=native -mtune=native' --CXXOPTFLAGS='-O3 -march=native -mtune=native' --FOPTFLAGS='-O3 -march=native -mtune=native'  --with-openmp=1 --with-zlib=1 --with-hdf5=1 --with-netcdf=1 --with-pnetcdf=1 --with-metis=1 --with-parmetis=1 --with-ptscotch=1 --with-mumps=1 --with-scalapack=1 --with-suitesparse=1 --with-boost=1 --with-med=1 --with-python --with-zoltan=1 --download-petsc4py=1 --with-valgrind=0 --with-mpi4py=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1159,10 +1194,11 @@ url["$group-$index"]="https://gmsh.info/src/gmsh-4.15.2-source.tgz"
 filename["$group-$index"]=gmsh-4.15.2-source.tgz
 dirname["$group-$index"]=gmsh-4.15.2-source
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi metis==5.1.0 parmetis==4.0.3+mpi med==6.0.1+mpi mumps==5.7.3+mpi"
+dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi metis==5.1.0 parmetis==4.0.3 med==6.0.1+mpi mumps==5.7.3+mpi"
 args["$group-$index"]="-DENABLE_BLAS_LAPACK=1 -DENABLE_METIS=1 -DENABLE_OPENMP=1 -DENABLE_MED=1 -DENABLE_MUMPS=1 -DENABLE_FLTK=0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1198,6 +1234,7 @@ dependencies["$group-$index"]="zlib==1.2.11 hdf5==1.14.6 netcdf==4.9.3+hdf5 udun
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DGSHHG_PATH=$prefix/gshhg-gmt/__COMPILO__/2.3.7 -DDCW_PATH=$prefix/dcw-gmt/__COMPILO__/2.1.0"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1225,6 +1262,7 @@ prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 index=30
 name["$group-$index"]=hypre
 version["$group-$index"]=2.11.1
+options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]=""
 url["$group-$index"]="https://github.com/hypre-space/hypre/archive/refs/tags/v2.11.1.tar.gz -O hypre-2.11.1.tar.gz"
@@ -1244,10 +1282,11 @@ patch_01["$group-$index"]="--- Makefile	2016-06-09 16:48:30.000000000 +0200
 "
 patchfile_01["$group-$index"]="lib/Makefile"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="__MPI_MODULE__"
+dependencies["$group-$index"]="openmpi"
 args["$group-$index"]="--enable-shared"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1292,6 +1331,7 @@ dependencies["$group-$index"]="openmpi python cmake==3.31.8 lapack-blas==3.9.1 b
 args["$group-$index"]="--with-python --with-debugging=0 --known-mpi-shared-libraries=1 --with-c-support=1 --with-c++-support=1 --with-shared-libraries=1 --with-mpi=1 --with-lapack-lib=$prefix/lapack-blas/__COMPILO__/3.9.1/lib/liblapack.so --with-blas-lib=$prefix/lapack-blas/__COMPILO__/3.9.1/lib/libblas.so --download-suitesparse=1 --download-ml --download-blacs --download-scalapack --download-mumps --download-ptscotch --with-fortran-interfaces=1 --download-prometheus --download-parmetis --download-metis --with-hypre=1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1323,10 +1363,11 @@ url["$group-$index"]="https://github.com/CGAL/cgal/archive/refs/tags/v6.1.tar.gz
 filename["$group-$index"]=cgal-6.1.tar.gz
 dirname["$group-$index"]=cgal-6.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="cmake==3.31.8 boost==1.90.0+mpi gmp==6.2.1 mpfr==4.1.0"
+dependencies["$group-$index"]="cmake==3.31.8 boost==1.90.0 gmp==6.2.1 mpfr==4.1.0"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DGMP_INCLUDE_DIR=$prefix/gmp/__COMPILO__/6.2.1/include -DGMP_LIBRARIES=$prefix/gmp/__COMPILO__/6.2.1/lib -DMPFR_INCLUDE_DIR=$prefix/mpfr/__COMPILO__/4.1.0/include -DMPFR_LIBRARIES=$prefix/mpfr/__COMPILO__/4.1.0/lib"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1362,6 +1403,7 @@ dependencies["$group-$index"]="cmake==3.31.8 zlib==1.2.11 hdf5==1.14.6 netcdf-c/
 args["$group-$index"]="-DPROJ_LIBRARY_RELEASE=$prefix/proj/__COMPILO__/9.7.1/lib/libproj.so -DTIFF_LIBRARY_RELEASE=$prefix/tiff/__COMPILO__/4.4.0/lib/libtiff.so"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1392,10 +1434,11 @@ url["$group-$index"]="https://github.com/xiaoyeli/superlu/archive/refs/tags/v7.0
 filename["$group-$index"]=superlu-7.0.1.tar.gz
 dirname["$group-$index"]=superlu-7.0.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="lapack-blas==3.9.1metis==5.1.0"
+dependencies["$group-$index"]="lapack-blas==3.9.1 metis==5.1.0"
 args["$group-$index"]="-DTPL_ENABLE_METISLIB=ON -DTPL_METIS_INCLUDE_DIRS=$prefix/metis/__COMPILO__/5.1.0/include -DTPL_METIS_LIBRARIES=$prefix/metis/__COMPILO__/5.1.0/lib/libmetis.so"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1426,10 +1469,11 @@ url["$group-$index"]="https://github.com/sandialabs/Zoltan/archive/refs/tags/v3.
 filename["$group-$index"]=zoltan-3.83.tar.gz
 dirname["$group-$index"]=Zoltan-3.83
 builder["$group-$index"]="zoltan"
-dependencies["$group-$index"]="openmpi parmetis==4.0.3+mpi scotch==6.0.9 ptscotch==6.0.9+mpi"
+dependencies["$group-$index"]="openmpi parmetis==4.0.3+mpi scotch==6.0.9 ptscotch==6.0.9"
 args["$group-$index"]="--with-mpi-compilers=yes --with-fcflags=-fallow-argument-mismatch --enable-f90interface --with-parmetis --with-parmetis-incdir=$prefix/parmetis/__MPI_LIB__/__COMPILO__/4.0.3/include --with-parmetis-libdir=$prefix/parmetis/__MPI_LIB__/__COMPILO__/4.0.3/lib --with-scotch --with-scotch-incdir=$prefix/scotch/__COMPILO__/6.0.9/include --with-scotch-libdir=$prefix/scotch/__COMPILO__/6.0.9/lib CC=mpicc CXX=mpic++ F77=mpif90 FC=mpif90"	
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -1466,6 +1510,7 @@ dependencies["$group-$index"]="openmpi hdf5==1.12.1+mpi openblas==0.3.33"
 args["$group-$index"]="--with-cc=mpicc --with-cxx=mpicxx --with-fc=mpif90 --with-c2html=0 --with-debugging=0 --with-fortran-bindings=1 --with-shared-libraries=1 --with-strict-petscerrorcode --COPTFLAGS='-O3 -march=native -mtune=native' --CXXOPTFLAGS='-O3 -march=native -mtune=native' --FOPTFLAGS='-O3 -march=native -mtune=native' --with-mpi=1 ---with-zlib=1 --download-fblaslapack=0 --download-f2cblaslapack=0 --with-blaslapack-lib=$prefix/openblas/__COMPILO__/0.3.33/lib/libopenblas.so --with-hdf5 --download-metis --download-parmetis --download-hypre --download-zoltan --download-mumps --download-scalapack"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

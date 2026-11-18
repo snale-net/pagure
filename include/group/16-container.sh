@@ -14,10 +14,11 @@ url["$group-$index"]="https://github.com/seccomp/libseccomp/archive/refs/tags/v2
 filename["$group-$index"]=seccomp-2.6.0.tar.gz
 dirname["$group-$index"]=libseccomp-2.6.0
 builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="gperf/$compilo/3.3"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dependencies["$group-$index"]="gperf==3.3"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -47,10 +48,11 @@ url["$group-$index"]="https://github.com/sylabs/singularity/releases/download/v3
 filename["$group-$index"]=singularity-ce-3.11.4.tar.gz
 dirname["$group-$index"]=singularity-ce-3.11.4
 builder["$group-$index"]="singularity"
-dependencies["$group-$index"]="seccomp/$compilo/2.6.0"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dependencies["$group-$index"]="seccomp==2.6.0"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--without-suid"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -82,9 +84,10 @@ filename["$group-$index"]=slurm-23.11.8.tar.bz2
 dirname["$group-$index"]=slurm-23.11.8
 builder["$group-$index"]="configure"
 dependencies["$group-$index"]="--with-pmi --with-pmix"
-dirinstall["$group-$index"]="${name["$group-$index"]}/$compilo/${version["$group-$index"]}"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--sysconfdir=/etc/slurm"
-dirmodule["$group-$index"]="${name["$group-$index"]}/$compilo"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -119,6 +122,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/${version["$group-$index"]}"
 args["$group-$index"]="--enable-mt --with-mcpu --with-rc --with-ud --with-dc --with-mlx5-dv --with-dm --with-avx --with-march"
 dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion

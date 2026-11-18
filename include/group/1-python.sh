@@ -25,6 +25,7 @@ dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$gr
 args["$group-$index"]="--enable-shared --enable-optimizations"
 args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -66,6 +67,7 @@ dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$gr
 args["$group-$index"]="--enable-shared --enable-optimizations"
 args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc --enable-optimizations"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -108,6 +110,7 @@ dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$gr
 args["$group-$index"]="--enable-shared"
 args["$group-$index-intel"]="--enable-shared --without-gcc --with-icc"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -148,6 +151,7 @@ builder["$group-$index"]="python-builder"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared --enable-optimizations"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion

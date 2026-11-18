@@ -23,6 +23,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -51,6 +52,7 @@ dependencies["$group-$index"]=""
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion
@@ -121,6 +123,7 @@ builder["$group-$index"]="lapack"
 dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -141,38 +144,15 @@ prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
 prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
 "
 
-#Lapack & Blas 3.9.1 Dynamic lib
+# Variant avec python
 index=7
-name["$group-$index"]=lapack-blas
-version["$group-$index"]=3.9.1
+declare_variant "$group" $index 6
 options["$group-$index"]="+python"
 details["$group-$index"]="(static & dynamic lib with python)"
-url["$group-$index"]="https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.9.1.tar.gz -O lapack-3.9.1.tar.gz"
-filename["$group-$index"]=lapack-3.9.1.tar.gz
-dirname["$group-$index"]=lapack-3.9.1
-builder["$group-$index"]="lapack"
 dependencies["$group-$index"]="cmake==3.31.8 python"
-dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
-dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-
-# Variables
-prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
-prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include
-prepend-path PKG_CONFIG_PATH $prefix/${dirinstall["$group-$index"]}/lib/pkgconfig
-prepend-path LAPACK $prefix/${dirinstall["$group-$index"]}
-prepend-path BLAS $prefix/${dirinstall["$group-$index"]}
-"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__/${version["$group-$index"]}"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__PYTHON_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}-python"
 
 #Lapack & Blas 3.8.0 Dynamic lib
 index=8
@@ -186,6 +166,7 @@ builder["$group-$index"]="lapack"
 dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -219,6 +200,7 @@ dependencies["$group-$index"]="python"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -246,6 +228,7 @@ args["$group-$index"]="-DBUILD_SHARED_LIBS=ON -DDYNAMIC_ARCH=ON -DUSE_OPENMP=ON"
 dependencies["$group-$index"]="cmake==3.31.8"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
