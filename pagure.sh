@@ -467,6 +467,22 @@ get_package_key() {
     return 1
 }
 
+get_group_dependencies() {
+    local group="$1"
+    local dependency key
+
+    for dependency in "${initial_deps[@]}"; do
+        key=$(get_package_key "$dependency") || continue
+
+        if [[ "$key" == "$group-"* ]]; then
+            printf '%s' "$key"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
 get_dependencies_recursive() {
     local pkg_key="$1"
     local dep
@@ -480,7 +496,9 @@ get_dependencies_recursive() {
     visited_packages["$pkg_key"]=1
 
     for dep in ${dependencies[$pkg_key]}; do
-        [[ -z "$dep" ]] && continue
+        dep=${dep//__MPI_DEP__/$mpidep}
+
+        [[ -z "$dep" ]] && continue       
 
         result=$(get_package_key "$dep") || {
             log fail  "Unable to find dependency: $dep"
@@ -531,9 +549,10 @@ get_version_from_filter() {
 
 find_key_by_group() {
     local group="$1"
+    local array="${2:-libToInstall}"
     local key
 
-    for key in "${libToInstall[@]}"; do
+    for key in "${array[@]}"; do
         if [[ "$key" == "$group"-* ]]; then
             echo "$key"
             return 0
@@ -548,9 +567,9 @@ replace_key() {
     local new="$2"
     local i
 
-    for i in "${!libToInstall[@]}"; do
-        if [[ "${libToInstall[$i]}" == "$old" ]]; then
-            libToInstall[$i]="$new"
+    for i in "${!initial_deps[@]}"; do
+        if [[ "${initial_deps[$i]}" == "$old" ]]; then
+            initial_deps[$i]="$new"
             return 0
         fi
     done
@@ -632,30 +651,16 @@ for arg in "$@"; do
     -python-version=* | --python-version=*) pythonVersion=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;;   
     -module-dir=* | --module-dir=*) moduleDir=`echo $arg | sed 's/.*=//'`; shift ;; 
     -filter=* | --filter=*) 
-        log fail "--filter argument not exists anymore, please use $0 install filter_name | package_name"
+        log fail "--filter argument not exists anymore, please use $0 install package_name"
         leave 1 ; shift ;;   
     -mode=* | --mode=*) mode=`echo $arg | sed 's/.*=//'`; shift ;;
     -force-download=* | --force-download=*) forceDownload=`echo $arg | sed 's/.*=//'`; shift ;;     
     -force-reinstall | --force-reinstall)
-    forceReinstall=1
-    shift
-    ;;
-
-    --force-reinstall=*)
-        forceReinstall="${arg#*=}"
-        shift
-        ;;  
-  
+    forceReinstall=1 shift ;;
+    --force-reinstall=*)  forceReinstall="${arg#*=}" shift ;;    
     -auto-remove=* | --auto-remove=*) autoRemove=`echo $arg | sed 's/.*=//' | awk '{print tolower($0)}'`; shift ;; 
-    -debug | --debug)
-    debug=1
-    shift
-    ;;
-
-    --debug=*)
-    debug="${arg#*=}"
-    shift
-    ;;
+    -debug | --debug) debug=1 shift ;;
+    --debug=*) debug="${arg#*=}" shift ;;
     *)
         positional+=("$arg")
         ;;           
@@ -843,6 +848,9 @@ declare -A dirmodule
 declare -A modulefilename
 declare -A modulefile
 declare -A map_pkg_key
+libToInstall=()
+declare -A visited_packages=()
+declare -A seen_libs=()
 
 for f in `find $basedir/include/group/ -regextype egrep -regex '.*/([1-9]|[0-9]{3}).*.sh'`; do   
     maxGroup=$((maxGroup+1))  
@@ -859,140 +867,6 @@ else
 	leave 1	
 fi
 
-libToInstall=()
-declare -A visited_packages=()
-declare -A seen_libs=()
-
-# Resolve dependencies
-log info "Resolving dependencies..."
-mapfile -t initial_keys < <(
-    tr ' ' '\n' <<< "${dependencies[$pkg_key]}" |
-    sed '/^[[:space:]]*$/d' |
-    while IFS= read -r dependency; do
-        get_package_key "$dependency"
-    done
-)
-
-for dep_key in "${initial_keys[@]}"; do
-    [[ -z "$dep_key" ]] && continue
-
-    get_dependencies_recursive "$dep_key"
-
-    if [[ -z "${seen_libs[$dep_key]+x}" ]]; then
-        seen_libs["$dep_key"]=1
-        libToInstall+=("$dep_key")
-    fi
-
-    dependencies_module["$pkg_key"]+="${dirmodule[$dep_key]}/${modulefilename[$dep_key]} " 
-    
-done
-libToInstall+=("$pkg_key") 
-
-#for key in "${!libToInstall[@]}"; do
-#   echo "$key => ${libToInstall[$key]}"  
-#done 
-
-if [ -z "$mpi" ]; then
-
-   if original_mpi_key=$(find_key_by_group 4); then
-        # On a détecté une lib MPI à installer
-        mpi=${name[$original_mpi_key]} 
-
-    if [ -z "$mpiVersion" ]; then    
-        mpiVersion=${version[$original_mpi_key]}
-        mpiOptions=${options[$original_mpi_key]}
-    fi 
-  fi
-
-fi
-
-if [ -z "$pythonVersion" ]; then
-  if original_python_key=$(find_key_by_group 1); then
-        # On a détecté un python à installer
-        pythonVersion=${version[$original_python_key]}    
-  fi     	
-fi
-
-
-# 6. Tester la version de Python
-installedPython=0
-if [ -z "$pythonVersion" ]; then
-	if ! hash python 2>/dev/null; then        
-		log warn "No Python interpreter" 
-		pythonInterpreter="none"	    
-	else	
-		python --version &> version_test
-		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
-		rm -f version_test
-		pythonInterpreter=python${pythonVersion}
-		installedPython=1
-        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-		log info "Python interpreter is set to $pythonInterpreter"
-	fi
-
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-	installedPython=1
-    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-	log info "Python interpreter is set to $pythonInterpreter"	
-
-    if  [[ ! " ${libToInstall[@]} " =~ [[:space:]]1-*[[:space:]] ]]; then
-        # On a détecté un python qui ne provient pas de PAGURE, on supprime l installation du Python       
-        for i in "${!libToInstall[@]}"; do          
-            if [[ " ${libToInstall[i]} " =~ [[:space:]]1-1[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-2[[:space:]] ]] || [[ " ${libToInstall[i]} " =~ [[:space:]]1-3[[:space:]] ]]; then             
-              unset 'libToInstall[i]'
-            fi
-        done 
-        if [ $debug == "1" ]; then  
-			log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
-		fi       
-	fi    
-else
-	original_python_key=$(find_key_by_group 1)
-        new_python_key=$(get_package_key "python==$pythonVersion")
-
-    if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
-        # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
-        replace_key "$original_python_key" "$new_python_key"
-    elif [[ $installedPython -eq 0 ]] && ( ! package_exists "python==$pythonVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then
-        log fail "'python==$pythonVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."
-            leave 1
-    fi
-
-    pythonInterpreter=python${pythonVersion}
-    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-    log info "Python interpreter is set to $pythonInterpreter"
-fi
-
-# 7. Installation des paquets système
-if [ ! "$systemOS" == "cluster" ] && [ ! "$mode" == "docker" ]
-then
-	log raw "......................"
-	while true; do
-		read -p "Do you wish to install system packages (root acces is required) ? (y/n)" yn
-		case $yn in
-		        [Yy]* )
-	log step "Install System packages (root acces is required)"
-	
-	if [ -f "$basedir/include/group/0-system-$systemOS.sh" ] ; then
-		source $basedir/include/group/0-system-$systemOS.sh
-	else
-		log fail "Unable to find the specific file for $systemOS" 
-		leave 1
-	fi
-
-	log 0 "Install System packages"
-	break;;
-		        [Nn]* )
-		        log skip "We skip the system packages installation"
-		        break ;;
-		        *) echo "Please answer yes or no." ;;
-		esac
-	done	
-fi
-
-log raw "......................"
 # 8. Récupérer la version du compilateur
 if [ -z "$compiler" ] || [ ! -z "$compiler" -a "$compiler" == "gnu" ]
 then
@@ -1001,9 +875,9 @@ then
 		leave 1
 	fi
 	CC_VERSION=$(gcc --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-        CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
-        FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
-        compiler="gnu"
+    CXX_VERSION=$(g++ --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')
+    FC_VERSION=$(gfortran --version | sed -n 's/^.*\s\([0-9]*\)\.\([0-9]*\)[\.0-9]*[\s]*.*/\1.\2/p')  
+    compiler="gnu"
 	compilo=gcc${CC_VERSION//.}
 	export CC=gcc
 	export CXX=g++
@@ -1044,46 +918,115 @@ if [[ $compiler == "gnu" ]] && [[ $(vercomp ${CC_VERSION} 10.0) != 2 ]]; then # 
 	export FCFLAGS="-fallow-argument-mismatch"	
 fi
 
-# 9. Tester la version du MPI
+# Resolve dependencies
+declare -a initial_deps
+IFS=$' \t\n' read -ra initial_deps <<< "${dependencies[$pkg_key]}"
+
+# On vérifie le MPI
 installedMPI=0
 if [ -z "$mpi" ]; then
-	mpilib="none" 
+
+   if original_mpi_key=$(get_group_dependencies 4) ||
+   [[ "${dependencies[$pkg_key]}" == *__MPI_DEP__* ]]; then
+
+        # On doit installer un MPI
+        if [[ -z "$original_mpi_key" ]]; then
+            # Aucun MPI n'est sélectioné dans les dépendances, on installe openmpi
+            original_mpi_key=$(get_package_key "openmpi")
+        fi
+
+        mpi=${name[$original_mpi_key]} 
+      
+        if [ -z "$mpiVersion" ]; then    
+            mpiVersion=${version[$original_mpi_key]}
+            mpiOptions=${options[$original_mpi_key]}
+        fi 
+
+        mpiSuffix=""
+        [[ -n "$mpiVersion" ]] && mpiSuffix="==$mpiVersion$mpiOptions"
+        mpidep=$mpi$mpiSuffix  
+
+        if [ "$mpi" == "openmpi" ] ; then
+            mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	        export MPICC=mpicc
+	        export MPIF77=mpif90
+	        export MPIFC=mpif90
+	        export MPIF90=mpif90
+	        export MPICXX=mpic++
+
+        elif [ "$mpi" == "mpich" ] ; then
+            mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	        export MPICC=mpicc
+	        export MPIF77=mpif90
+	        export MPIFC=mpif90
+	        export MPIF90=mpif90
+	        export MPICXX=mpic++
+	        
+	        unset F90 
+	        unset F90FLAGS	
+        fi
+    
+    else
+        mpilib="none" 
+        mpidep=""
+    fi
+
 elif [ "$mpi" == "openmpi" ]; then
 
     if [ -x "$(command -v mpicc)" ] ; then
     	installedMPI=1
     	mpiVersion=$(mpirun --version | grep 'Open MPI' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
-    	
-        if original_mpi_key=$(find_key_by_group 4); then
-		    # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
-            remove_key "$original_mpi_key"		    
-		    if [ $debug == "1" ]; then  
-			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
-		    fi 
-        fi
-    elif [ -z "$mpiVersion" ]; then
-        mpiVersion=1.10.7
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 1.10.7" 
-    fi    
+        mpiSuffix=""
+        [[ -n "$mpiVersion" ]] && mpiSuffix="==$mpiVersion$mpiOptions"
+        mpidep=""	
 
-    original_mpi_key=$(find_key_by_group 4)   
-    new_mpi_key=$(get_package_key "$mpi==$mpiVersion$mpiOptions")    
+	    if [ $debug == "1" ]; then  
+		    log debug "We detect a previous installation of OpenMPI"
+	    fi
 
-    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion$mpiOptions" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
-        # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
-        replace_key "$original_mpi_key" "$new_mpi_key" 
-                        
-    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion$mpiOptions" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then    
-        log fail "'$mpi==$mpiVersion$mpiOptions' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."        
-	    leave 1   
+        mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	    export MPICC=mpicc
+	    export MPIF77=mpif90
+	    export MPIFC=mpif90
+	    export MPIF90=mpif90
+	    export MPICXX=mpic++
+
+     elif original_mpi_key=$(get_group_dependencies 4) ||
+        [[ "${dependencies[$pkg_key]}" == *__MPI_DEP__* ]]; then        
+
+        # On doit installer un MPI
+        if [[ -z "$original_mpi_key" ]]; then
+            # Aucun MPI n'est sélectioné dans les dépendances, on installe openmpi
+            original_mpi_key=$(get_package_key "openmpi")
+       elif [[ "${name[$original_mpi_key]}" != "$mpi" ||
+        ( -n "$mpiVersion" && "${version[$original_mpi_key]}" != "$mpiVersion" ) ]]; then
+            # We detect a different MPI provider
+            new_mpiSuffix=""
+            [[ -n "$mpiVersion" ]] && new_mpiSuffix="==$mpiVersion"
+            new_mpi_key=$(get_package_key "$mpi$new_mpiSuffix")
+            for i in "${!initial_deps[@]}"; do
+                [[ "${initial_deps[$i]}" == "${name[$original_mpi_key]}" ]] && initial_deps[$i]="$mpi$new_mpiSuffix"
+            done         
+            original_mpi_key=$new_mpi_key
+        fi 
+       
+        mpiVersion=${version[$original_mpi_key]}
+        mpiOptions=${options[$original_mpi_key]}
+        mpiSuffix=""
+        [[ -n "$mpiVersion" ]] && mpiSuffix="==$mpiVersion$mpiOptions"
+        mpidep=$mpi$mpiSuffix   
+
+        mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	    export MPICC=mpicc
+	    export MPIF77=mpif90
+	    export MPIFC=mpif90
+	    export MPIF90=mpif90
+	    export MPICXX=mpic++    
+    else
+        log warn "You select mpi with Openmpi but OpenMPI is not required for the package"
+        mpilib="none" 
+        mpidep=""
     fi 
-
-	mpilib="openmpi$(echo $mpiVersion | tr -d . | cut -c1-3)"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
 
 elif [ "$mpi" == "intelmpi" ] ; then        
 
@@ -1094,15 +1037,8 @@ elif [ "$mpi" == "intelmpi" ] ; then
     
     installedMPI=1 
     mpiVersion=$(mpirun --version | grep ^Intel | sed 's/^.*Version\s\([0-9\.]*\)\s.*/\1/g') 
+    mpidep=""
     log warn "When using Intel MPI, --mpi-version argument is ignored. Detected version is $mpiVersion" 
-
-    if original_mpi_key=$(find_key_by_group 4); then
-        # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
-        remove_key "$original_mpi_key"
-        if [ $debug == "1" ]; then
-                log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
-        fi
-    fi	
 
 	mpilib="intel$(echo $mpiVersion | tr -d . | cut -c1-4)"
 	export MPICC=mpiicc
@@ -1116,54 +1052,187 @@ elif [ "$mpi" == "mpich" ] ; then
      if [ -x "$(command -v mpicc)" ] ; then
     	installedMPI=1
     	mpiVersion=$(mpirun --version | grep 'MPICH' | sed 's/^.*\s\([0-9\.]*\)/\1/g') 
-    	
-        if original_mpi_key=$(find_key_by_group 4); then
-		    # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
-            remove_key "$original_mpi_key"		    
-		    if [ $debug == "1" ]; then  
-			    log debug "We detect a previous installation of OpenMPI ${mpiVersion} so we removed its installation"
-		    fi 
-        fi
-    elif [ -z "$mpiVersion" ]; then
-        mpiVersion=3.2.1
-	    log warn "No MPI version was specified with --mpi-version argument. Default selected version is 3.2.1" 	   
+        mpiSuffix=""
+        [[ -n "$mpiVersion" ]] && mpiSuffix="==$mpiVersion$mpiOptions"    
+        mpidep=""	
+
+	    if [ $debug == "1" ]; then  
+		    log debug "We detect a previous installation of MPICH"
+	    fi
+
+        mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	    export MPICC=mpicc
+	    export MPIF77=mpif90
+	    export MPIFC=mpif90
+	    export MPIF90=mpif90
+	    export MPICXX=mpic++
+	    
+	    unset F90 
+	    unset F90FLAGS	
+
+     elif original_mpi_key=$(get_group_dependencies 4) ||
+        [[ "${dependencies[$pkg_key]}" == *__MPI_DEP__* ]]; then
+
+        # On doit installer un MPICH
+        if [[ -z "$original_mpi_key" ]]; then
+            # Aucun MPI n'est sélectioné dans les dépendances, on installe MPICH
+            original_mpi_key=$(get_package_key "mpich")
+        elif [[ "${name[$original_mpi_key]}" != "$mpi" ||
+        ( -n "$mpiVersion" && "${version[$original_mpi_key]}" != "$mpiVersion" ) ]]; then
+            # We detect a different MPI
+            new_mpiSuffix=""
+            [[ -n "$mpiVersion" ]] && new_mpiSuffix="==$mpiVersion"
+            new_mpi_key=$(get_package_key "$mpi$new_mpiSuffix")
+            for i in "${!initial_deps[@]}"; do
+                [[ "${initial_deps[$i]}" == "${name[$original_mpi_key]}" ]] && initial_deps[$i]="$mpi$new_mpiSuffix"
+            done           
+            original_mpi_key=$new_mpi_key
+        fi 
+       
+         
+        mpiVersion=${version[$original_mpi_key]}
+        mpiOptions=${options[$original_mpi_key]}
+        mpiSuffix=""
+        [[ -n "$mpiVersion" ]] && mpiSuffix="==$mpiVersion$mpiOptions"
+        mpidep=$mpi$mpiSuffix 
+
+	    mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
+	    export MPICC=mpicc
+	    export MPIF77=mpif90
+	    export MPIFC=mpif90
+	    export MPIF90=mpif90
+	    export MPICXX=mpic++
+	    
+	    unset F90 
+	    unset F90FLAGS	
+    else
+        log warn "You select mpi with MPICH but OpenMPI is not required for the package"
+        mpilib="none" 
+        mpidep=""
     fi 
-      
-	original_mpi_key=$(find_key_by_group 4)
-    new_mpi_key=$(get_package_key "$mpi==$mpiVersion$mpiOptions")  
-
-    if [[ $installedMPI -eq 0 ]] && package_exists "$mpi==$mpiVersion$mpiOptions" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
-        # On a détecté une lib MPI différente de celle spécifiée initialement, on remplace la lib MPI
-        replace_key "$original_mpi_key" "$new_mpi_key"	                     
-    elif [[ $installedMPI -eq 0 ]] && ( ! package_exists "$mpi==$mpiVersion$mpiOptions" ||     [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then   
-        log fail "'$mpi==$mpiVersion$mpiOptions' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module." 
-	    leave 1   
-    fi  
-
-	mpilib="mpich$(echo $mpiVersion | tr -d . | cut -c1-3)"
-	export MPICC=mpicc
-	export MPIF77=mpif90
-	export MPIFC=mpif90
-	export MPIF90=mpif90
-	export MPICXX=mpic++
-	
-	unset F90 
-	unset F90FLAGS	
 	
 else   
     log fail "Unable to decode argument '--mpi'. Accepted values : openmpi|intelmpi|mpich" 
 	leave 1	
 fi
 
-mpi_dep=""
 if [ "$mpilib" == "none" ]; then  
     log warn "No MPI library"  
 else
-    if [[ $installedMPI -eq 0 ]] && mpi_key=$(find_key_by_group 4); then 
-        mpi_dep=${dirmodule["$mpi_key"]//__COMPILO__/$compilo}/${modulefilename["$mpi_key"]}	
+    log info "MPI library is set to $mpilib"
+fi
+
+log raw "......................"
+
+log info "Resolving dependencies..."
+
+mapfile -t initial_keys < <(
+    for dependency in "${initial_deps[@]}"; do
+        get_package_key "${dependency//__MPI_DEP__/$mpidep}"
+    done
+)
+
+for dep_key in "${initial_keys[@]}"; do
+    [[ -z "$dep_key" ]] && continue
+
+    if ! get_dependencies_recursive "$dep_key"; then       
+        leave 1
     fi
 
-    log info "MPI library is set to $mpilib"
+    if [[ -z "${seen_libs[$dep_key]+x}" ]]; then
+        seen_libs["$dep_key"]=1
+        libToInstall+=("$dep_key")
+    fi
+
+    dependencies_module["$pkg_key"]+="${dirmodule[$dep_key]}/${modulefilename[$dep_key]} " 
+    
+done
+libToInstall+=("$pkg_key") 
+
+#for key in "${!libToInstall[@]}"; do
+#   echo "$key => ${libToInstall[$key]}"  
+#done 
+
+if [ -z "$pythonVersion" ]; then
+  if original_python_key=$(find_key_by_group 1); then
+        # On a détecté un python à installer
+        pythonVersion=${version[$original_python_key]}    
+  fi     	
+fi
+
+
+# 6. Tester la version de Python
+installedPython=0
+if [ -z "$pythonVersion" ]; then
+	if ! hash python 2>/dev/null; then        
+		log warn "No Python interpreter" 
+		pythonInterpreter="none"	    
+	else	
+		python --version &> version_test
+		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		rm -f version_test
+		pythonInterpreter=python${pythonVersion}
+		installedPython=1
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+		log info "Python interpreter is set to $pythonInterpreter"
+	fi
+
+elif hash python${pythonVersion} 2>/dev/null
+then    
+	pythonInterpreter=python${pythonVersion}
+	installedPython=1
+    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+	log info "Python interpreter is set to $pythonInterpreter"	
+
+     if original_python_key=$(find_key_by_group 1); then
+        # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
+        remove_key "$original_python_key"		    
+        if [ $debug == "1" ]; then  
+            log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
+        fi 
+     fi    
+else
+	original_python_key=$(find_key_by_group 1)
+    new_python_key=$(get_package_key "python==$pythonVersion")
+
+    if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+        # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
+        replace_key "$original_python_key" "$new_python_key"
+    elif [[ $installedPython -eq 0 ]] && ( ! package_exists "python==$pythonVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then
+        log fail "'python==$pythonVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."
+        leave 1
+    fi
+
+    pythonInterpreter=python${pythonVersion}
+    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
+    log info "Python interpreter is set to $pythonInterpreter"
+fi
+
+# 7. Installation des paquets système
+if [ ! "$systemOS" == "cluster" ] && [ ! "$mode" == "docker" ]
+then
+	log raw "......................"
+	while true; do
+		read -p "Do you wish to install system packages (root acces is required) ? (y/n)" yn
+		case $yn in
+		        [Yy]* )
+	log step "Install System packages (root acces is required)"
+	
+	if [ -f "$basedir/include/group/0-system-$systemOS.sh" ] ; then
+		source $basedir/include/group/0-system-$systemOS.sh
+	else
+		log fail "Unable to find the specific file for $systemOS" 
+		leave 1
+	fi
+
+	log 0 "Install System packages"
+	break;;
+		        [Nn]* )
+		        log skip "We skip the system packages installation"
+		        break ;;
+		        *) echo "Please answer yes or no." ;;
+		esac
+	done	
 fi
 
 log raw "......................"

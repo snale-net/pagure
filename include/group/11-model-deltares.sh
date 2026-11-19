@@ -411,7 +411,7 @@ patch_04["$group-$index"]="--- scripts_lgpl/linux/oss-install_original.sh	2021-1
 "
 patchfile_04["$group-$index"]="scripts_lgpl/linux/oss-install.sh"
 builder["$group-$index"]="delft3d"
-dependencies["$group-$index"]="__MPI_MODULE__ zlib/__COMPILO__/1.2.11 hdf5/__MPI_LIB__/__COMPILO__/1.14.6 netcdf-c/hdf5.146/__MPI_LIB__/__COMPILO__/4.9.3 netcdf-fortran/hdf5.146/__MPI_LIB__/__COMPILO__/4.5.3 ruby/__COMPILO__/2.7.2"
+dependencies["$group-$index"]="mpich zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi ruby==2.7.2"
 dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
 args["$group-$index"]="--with-netcdf --with-mpi"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -434,7 +434,6 @@ prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
 "	
-
 
 # SWAN
 index=2
@@ -553,89 +552,8 @@ module load dependencies_modules
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
 
-# SWASH
-index=3
-name["$group-$index"]=swash
-version["$group-$index"]=11.01
-options["$group-$index"]="+mpi"
-constraints["$group-$index"]='mpilib != none' # MPI-only
-details["$group-$index"]="(parallel)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
-filename["$group-$index"]=swash-11.01.tar.gz
-dirname["$group-$index"]=swash-11.01
-builder["$group-$index"]="swash"
-dependencies["$group-$index"]="__MPI_MODULE__"
-dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
-configfilename["$group-$index"]="macros.inc"n
-configfile["$group-$index-intel"]="##############################################################################
-# IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
-##############################################################################
-F90_SER = ifort
-F90_OMP = ifort
-F90_MPI = \$(MPIF90)
-FLAGS_OPT = -O2
-FLAGS_MSC = -W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291
-FLAGS90_MSC = \$(FLAGS_MSC)
-FLAGS_DYN = -fPIC
-FLAGS_SER = 
-FLAGS_OMP = -qopenmp
-INCS_SER =
-INCS_OMP =
-INCS_MPI =
-LIBS_SER =
-LIBS_OMP = -static-libgcc
-LIBS_MPI =
-OUT = -o
-EXTO = o
-MAKE = make
-RM = rm -f
-swch = -unix
-"
-configfile["$group-$index"]="##############################################################################
-# IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
-##############################################################################
-F90_SER = gfortran
-F90_OMP = gfortran
-F90_MPI = \$(MPIF90)
-FLAGS_OPT = -O
-FLAGS_MSC = -w -fno-second-underscore
-FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
-FLAGS_SER =
-FLAGS_OMP = -fopenmp
-FLAGS_MPI =
-INCS_SER =
-INCS_OMP =
-INCS_MPI =
-LIBS_SER =
-LIBS_OMP = -static-libgcc
-LIBS_MPI =
-OUT = -o
-EXTO = o
-MAKE = make
-RM = rm -f
-swch = -unix
-"
-args["$group-$index"]=""
-dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
-modulefilename["$group-$index"]="${version["$group-$index"]}"
-modulefile["$group-$index"]="#%Module1.0
-proc ModulesHelp { } {
-global dotversion
- 
-puts stderr \"\t$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-}
- 
-module-whatis \"$(tr '[:lower:]' '[:upper:]' <<< ${name["$group-$index"]:0:1})${name["$group-$index"]:1} ${version["$group-$index"]}\"
-
-# Dependencies
-module load dependencies_modules
-
-# Variables
-prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
-"
-
 # xbeach rev5961
-index=4
+index=3
 name["$group-$index"]=xbeach
 version["$group-$index"]=rev5961
 details["$group-$index"]="(sequential version)"
@@ -667,8 +585,8 @@ prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
 "
 
 # Variant avec MPI
-index=5
-declare_variant "$group" $index 4
+index=4
+declare_variant "$group" $index 3
 options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(parallel version)"
@@ -678,14 +596,14 @@ args["$group-$index"]="--with-mpi NETCDF_CFLAGS=\"-I$prefix/netcdf/hdf5.146/__MP
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 
 # SWASH-Sequential
-index=6
+index=5
 name["$group-$index"]=swash
-version["$group-$index"]=11.01
+version["$group-$index"]=12.01
 options["$group-$index"]=""
 details["$group-$index"]="(sequential)"
-url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-11.01.tar.gz
-filename["$group-$index"]=swash-11.01.tar.gz
-dirname["$group-$index"]=swash-11.01
+url["$group-$index"]=https://swash.sourceforge.io/download/zip/swash-12.01.tar.gz
+filename["$group-$index"]=swash-12.01.tar.gz
+dirname["$group-$index"]=swash-12.01
 builder["$group-$index"]="swash_ser"
 dependencies["$group-$index"]=""
 dirinstall["$group-$index"]=${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}
@@ -756,4 +674,63 @@ module load dependencies_modules
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
+
+# Variant avec MPI
+index=6
+declare_variant "$group" $index 5
+options["$group-$index"]="+mpi"
+constraints["$group-$index"]='mpilib != none' # MPI-only
+details["$group-$index"]="(parallel)"
+dependencies["$group-$index"]="mpich"
+dirinstall["$group-$index"]=${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}
+configfilename["$group-$index"]="macros.inc"
+configfile["$group-$index-intel"]="##############################################################################
+# IA32_Intel/x86-64_Intel:      Intel Pentium with Linux using Intel compiler.
+##############################################################################
+F90_SER = ifort
+F90_OMP = ifort
+F90_MPI = \$(MPIF90)
+FLAGS_OPT = -O2
+FLAGS_MSC = -W0 -assume byterecl -traceback -diag-disable 8290 -diag-disable 8291
+FLAGS90_MSC = \$(FLAGS_MSC)
+FLAGS_DYN = -fPIC
+FLAGS_SER = 
+FLAGS_OMP = -qopenmp
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
+OUT = -o
+EXTO = o
+MAKE = make
+RM = rm -f
+swch = -unix
+"
+configfile["$group-$index"]="##############################################################################
+# IA32_GNU:             Intel Pentium with Linux using GNU compiler gfortran.
+##############################################################################
+F90_SER = gfortran
+F90_OMP = gfortran
+F90_MPI = \$(MPIF90)
+FLAGS_OPT = -O
+FLAGS_MSC = -w -fno-second-underscore
+FLAGS90_MSC = \$(FLAGS_MSC) -ffree-line-length-none
+FLAGS_SER =
+FLAGS_OMP = -fopenmp
+FLAGS_MPI =
+INCS_SER =
+INCS_OMP =
+INCS_MPI =
+LIBS_SER =
+LIBS_OMP = -static-libgcc
+LIBS_MPI =
+OUT = -o
+EXTO = o
+MAKE = make
+RM = rm -f
+swch = -unix
+"
+dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 

@@ -152,7 +152,7 @@ filename["$group-$index"]=eigen-3.2.3.tar.gz
 dirname["$group-$index"]=eigen-3.2.3
 builder["$group-$index"]="cmake"
 args["$group-$index"]="-DMETIS_LIBRARIES=${PETSC_DIR}/lib/libmetis.so -DSCOTCH_LIBRARIES=${PETSC_DIR}/lib/libscotch.a"
-dependencies["$group-$index"]="openmpi python cmake==3.31.8 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0"
+dependencies["$group-$index"]="__MPI_DEP__ python cmake==3.31.8 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefilename["$group-$index"]="${version["$group-$index"]}"
@@ -181,7 +181,7 @@ filename["$group-$index"]=dolphin-tferma-v1.0.tar.gz
 dirname["$group-$index"]=tferma-dolfin-75dc693dce68
 builder["$group-$index"]="cmake"
 args["$group-$index"]="-DCMAKE_BUILD_TYPE=RelWithDebInfo -DDOLFIN_ENABLE_CHOLMOD:BOOL=OFF -DDOLFIN_ENABLE_UMFPACK:BOOL=OFF -DDOLFIN_ENABLE_TRILINOS:BOOL=OFF -DDOLFIN_ENABLE_SLEPC:BOOL=OFF -DDOLFIN_ENABLE_TESTING:BOOL=OFF -DBOOST_ROOT=$prefix/boost/__MPI_LIB__/__PYTHON_LIB__/__COMPILO__/1.72.0 -DEIGEN3_INCLUDE_DIR=$prefix/eigen/__MPI_LIB__/__COMPILO__/3.2.3/include/eigen3"
-dependencies["$group-$index"]="openmpi python cmake==3.31.8 swig==3.0.12 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0 eigen==3.2.3"
+dependencies["$group-$index"]="__MPI_DEP__ python cmake==3.31.8 swig==3.0.12 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0 eigen==3.2.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefilename["$group-$index"]="${version["$group-$index"]}"
@@ -213,7 +213,7 @@ filename["$group-$index"]=spud-9f53a5f.tar.gz
 dirname["$group-$index"]=spud-last-merge-into-fluidity-pre-subtree
 builder["$group-$index"]="spud-tferma-v1.0"
 args["$group-$index"]=""
-dependencies["$group-$index"]="openmpi python cmake==3.31.8 swig==3.0.12 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0 eigen==3.2.3"
+dependencies["$group-$index"]="__MPI_DEP__ python cmake==3.31.8 swig==3.0.12 lapack-blas==3.9.1 vtk==7.1.1 boost==1.72.0+python+mpi petsc==tferma-v1.0 eigen==3.2.3"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefilename["$group-$index"]="${version["$group-$index"]}"
@@ -276,7 +276,7 @@ patch_01["$group-$index"]="*** buckettools/cpp/CMakeLists.txt.old	2019-08-05 17:
 "
 patchfile_01["$group-$index"]="buckettools/cpp/CMakeLists.txt"
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi python cmake==3.31.8 lapack-blas==3.9.1 vtk==7.1.1 spud==tferma-v1.0 boost==1.72.0+python+mpi petsc==tferma-v1.0 dolfin==tferma-v1.0"
+dependencies["$group-$index"]="__MPI_DEP__ python cmake==3.31.8 lapack-blas==3.9.1 vtk==7.1.1 spud==tferma-v1.0 boost==1.72.0+python+mpi petsc==tferma-v1.0 dolfin==tferma-v1.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/$compilo/${version["$group-$index"]}"
 args["$group-$index"]="-DSPUD_INCLUDE_DIRS=$prefix/spud/__COMPILO__/tferma-v1.0/include -DSPUD_LIBRARIES=$prefix/spud/__COMPILO__/tferma-v1.0/lib/libspud.so"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"

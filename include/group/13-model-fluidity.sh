@@ -40,10 +40,11 @@ patch_01["$group-$index"]="--- Makefile.in	2023-05-24 16:41:10.412341191 +0200
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ xml2/__COMPILO__/2.13.6 xslt/__COMPILO__/1.1.45"
+dependencies["$group-$index"]="python xml2==2.13.6 xslt==1.1.45"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0
 proc ModulesHelp { } {
 global dotversion
@@ -91,10 +92,11 @@ patch_01["$group-$index"]="--- Makefile_original.in	2021-06-08 21:22:05.00000000
 "
 patchfile_01["$group-$index"]="Makefile.in"
 builder["$group-$index"]="fluidity"
-dependencies["$group-$index"]="__MPI_MODULE__ python/__COMPILO__/__PYTHON_VERSION__ python-modules/__COMPILO__/__PYTHON_VERSION__ openblas/__COMPILO__/0.3.33 petsc/__MPI_LIB__/__COMPILO__/3.18.6 vtk/__MPI_LIB__/__COMPILO__/9.1.0 hdf5/__MPI_LIB__/__COMPILO__/1.12.1 spud/__COMPILO__/1.2.2 udunits/__COMPILO__/2.2.28"
+dependencies["$group-$index"]="__MPI_DEP__ python openblas==0.3.33 petsc==3.18.6 vtk==9.1.0 hdf5==1.12.1+mpi spud==1.2.2 udunits==2.2.28"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-2d-adaptivity  --enable-openmp --with-hdf5 --with-libspud-root=$prefix/spud/__COMPILO__/1.2.2"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0                                                                                                                                                                                                                                 
 proc ModulesHelp { } {                                                                                                                                                                                                                      
 global dotversion

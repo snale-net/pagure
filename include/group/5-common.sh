@@ -20,7 +20,7 @@ url["$group-$index"]="https://github.com/Reference-ScaLAPACK/scalapack/archive/v
 filename["$group-$index"]=scalapack-2.1.0.tar.gz
 dirname["$group-$index"]=scalapack-2.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 lapack-blas==3.9.1"
+dependencies["$group-$index"]="__MPI_DEP__ cmake==3.31.8 lapack-blas==3.9.1"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 patch_01["$group-$index"]="--- CMakeLists_original.txt	2019-11-26 21:37:04.000000000 +0100
 +++ CMakeLists.txt	2021-03-07 17:10:22.775977865 +0100

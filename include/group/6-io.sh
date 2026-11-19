@@ -21,7 +21,7 @@ url["$group-$index"]=https://parallel-netcdf.github.io/Release/pnetcdf-1.13.0.ta
 filename["$group-$index"]=pnetcdf-1.13.0.tar.gz
 dirname["$group-$index"]=pnetcdf-1.13.0
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi"
+dependencies["$group-$index"]="__MPI_DEP__"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--enable-shared"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -59,7 +59,7 @@ url["$group-$index"]=http://cucis.ece.northwestern.edu/projects/PnetCDF/Release/
 filename["$group-$index"]=parallel-netcdf-1.6.1.tar.gz
 dirname["$group-$index"]=parallel-netcdf-1.6.1
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi"
+dependencies["$group-$index"]="__MPI_DEP__"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -130,7 +130,7 @@ declare_variant "$group" $index 3
 options["$group-$index"]="+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(with parallel I/O)"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11"
+dependencies["$group-$index"]="__MPI_DEP__ cmake==3.31.8 zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DHDF5_ENABLE_PARALLEL=ON -DHDF5_BUILD_FORTRAN=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -179,7 +179,7 @@ index=6
 declare_variant "$group" $index 5
 options["$group-$index"]="+hdf5+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
-dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0"
+dependencies["$group-$index"]="__MPI_DEP__ zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]="--enable-pnetcdf CFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include CXXFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include FCFLAGS=-I$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/include LDFLAGS=-L$prefix/hdf5/__MPI_LIB__/__COMPILO__/1.14.6/lib"
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
@@ -229,7 +229,7 @@ index=8
 declare_variant "$group" $index 7
 options["$group-$index"]="+fortran+hdf5+mpi"
 constraints["$group-$index"]='mpilib != none' # MPI-only
-dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0 netcdf==4.9.3+hdf5+mpi"
+dependencies["$group-$index"]="__MPI_DEP__ zlib==1.2.11 hdf5==1.14.6+mpi parallel-netcdf==1.13.0 netcdf==4.9.3+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
 args["$group-$index"]="LDFLAGS=\"-L$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3/lib\""
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
@@ -249,7 +249,7 @@ url["$group-$index"]=ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz
 filename["$group-$index"]=netcdf-4.4.1.1.tar.gz
 dirname["$group-$index"]=netcdf-4.4.1.1
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi"
+dependencies["$group-$index"]="__MPI_DEP__ zlib==1.2.11 hdf5==1.14.6+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/c/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}-c/hdf5.146/__MPI_LIB__/__COMPILO__"
@@ -292,7 +292,7 @@ url["$group-$index"]="https://github.com/Unidata/netcdf-fortran/archive/refs/tag
 filename["$group-$index"]=netcdf-fortran-4.4.4.tar.gz
 dirname["$group-$index"]=netcdf-fortran-4.4.4
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.4.1.1+hdf5+mpi"
+dependencies["$group-$index"]="__MPI_DEP__ zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.4.1.1+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/hdf5.146/__MPI_LIB__/__COMPILO__/fortran/${version["$group-$index"]}"
 args["$group-$index"]="F77=mpif90 FC=mpif90"
 dirmodule["$group-$index"]="${name["$group-$index"]}-fortran/hdf5.146/__MPI_LIB__/__COMPILO__"
@@ -482,7 +482,7 @@ url["$group-$index"]="https://github.com/ecmwf/eccodes/archive/refs/tags/2.22.1.
 filename["$group-$index"]=eccodes-2.22.1.tar.gz
 dirname["$group-$index"]=eccodes-2.22.1
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi jasper/==2.0.26 ecbuild==2021.05.0"
+dependencies["$group-$index"]="__MPI_DEP__ cmake==3.31.8 zlib==1.2.11 hdf5==1.14.6+mpi netcdf==4.9.3+hdf5+mpi netcdf==4.5.3+fortran+hdf5+mpi jasper/==2.0.26 ecbuild==2021.05.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DNETCDF_PATH=$prefix/netcdf/hdf5.146/__MPI_LIB__/__COMPILO__/c/4.9.3"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"
@@ -565,15 +565,16 @@ index=18
 name["$group-$index"]=hdf5
 version["$group-$index"]=1.12.1
 options["$group-$index"]="+mpi"
-constraints["$group-$index"]='mpi == openmpi' # MPI-only
+constraints["$group-$index"]='mpilib != none' # MPI-only
 details["$group-$index"]="(with parallel I/O)"
 url["$group-$index"]=https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.1/src/hdf5-1.12.1.tar.gz
 filename["$group-$index"]=hdf5-1.12.1.tar.gz
 dirname["$group-$index"]=hdf5-1.12.1
 builder["$group-$index"]="configure"
-dependencies["$group-$index"]="openmpi==3.1.6 zlib==1.2.11"
+dependencies["$group-$index"]="__MPI_DEP__ zlib==1.2.11"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
-args["$group-$index"]="CC=mpicc FC=mpif90 CXX=mpicxx --enable-parallel --with-zlib --enable-fortran"
+args["$group-$index-openmpi"]="CC=mpicc FC=mpif90 CXX=mpicxx --enable-parallel --with-zlib --enable-fortran"
+args["$group-$index"]="--enable-parallel --with-zlib --enable-fortran"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
 modulefilename["$group-$index"]="${version["$group-$index"]}"
 modulefile["$group-$index"]="#%Module1.0

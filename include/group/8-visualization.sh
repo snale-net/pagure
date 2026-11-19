@@ -2221,7 +2221,7 @@ patch_02["$group-$index"]="--- ex_open_par_original.c	2019-01-30 18:15:13.000000
 "
 patchfile_02["$group-$index"]="ThirdParty/exodusII/vtkexodusII/src/ex_open_par.c"
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5==1.10.5+mpi netcdf==4.8.0+hdf5+mpi"
+dependencies["$group-$index"]="__MPI_DEP__ cmake==3.31.8 zlib==1.2.11 lapack-blas==3.9.1 hdf5==1.10.5+mpi netcdf==4.8.0+hdf5+mpi"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DModule_vtkParallelMPI:BOOL=ON -DVTK_Group_MPI:BOOL=ON -DVTK_USE_SYSTEM_ZLIB=ON -DVTK_USE_SYSTEM_HDF5=ON -DVTK_USE_SYSTEM_NETCDF=ON"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -2258,7 +2258,7 @@ url["$group-$index"]="https://vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
 filename["$group-$index"]=VTK-9.1.0.tar.gz
 dirname["$group-$index"]=VTK-9.1.0
 builder["$group-$index"]="cmake"
-dependencies["$group-$index"]="openmpi cmake==3.31.8 zlib==1.2.11 hdf5==1.12.1+mpi glvnd/1.7.0"
+dependencies["$group-$index"]="__MPI_DEP__ cmake==3.31.8 zlib==1.2.11 hdf5==1.12.1+mpi glvnd==1.7.0"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="-DVTK_USE_MPI=ON -DVTK_MODULE_ENABLE_VTK_ParallelMPI=YES -DVTK_USE_SYSTEM_ZL_B=ON -DVTK_USE_SYSTEM_HDF5=ON  -DVTK_BUILD_TESTING=OFF -DVTK_BUILD_EXAMPLES=OFF"
 dirmodule["$group-$index"]="${name["$group-$index"]}/__MPI_LIB__/__COMPILO__"
@@ -2296,7 +2296,7 @@ url["$group-$index"]="https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v1
 filename["$group-$index"]=libglvnd-v1.7.0.zip
 dirname["$group-$index"]=libglvnd-v1.7.0
 builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="mesa/17.3.9"
+dependencies["$group-$index"]="mesa==17.3.9"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]=""
 dirmodule["$group-$index"]="${name["$group-$index"]}/"
