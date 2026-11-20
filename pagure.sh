@@ -549,8 +549,10 @@ get_version_from_filter() {
 
 find_key_by_group() {
     local group="$1"
-    local array="${2:-libToInstall}"
+    local array_name="${2:-libToInstall}"
     local key
+
+    declare -n array="$array_name"
 
     for key in "${array[@]}"; do
         if [[ "$key" == "$group"-* ]]; then
@@ -567,9 +569,9 @@ replace_key() {
     local new="$2"
     local i
 
-    for i in "${!initial_deps[@]}"; do
-        if [[ "${initial_deps[$i]}" == "$old" ]]; then
-            initial_deps[$i]="$new"
+    for i in "${!libToInstall[@]}"; do
+        if [[ "${libToInstall[$i]}" == "$old" ]]; then
+            libToInstall[$i]="$new"
             return 0
         fi
     done
@@ -1153,60 +1155,59 @@ libToInstall+=("$pkg_key")
 #   echo "$key => ${libToInstall[$key]}"  
 #done 
 
-if [ -z "$pythonVersion" ]; then
-  if original_python_key=$(find_key_by_group 1); then
-        # On a détecté un python à installer
-        pythonVersion=${version[$original_python_key]}    
-  fi     	
-fi
-
-
-# 6. Tester la version de Python
+# Detection de Python
 installedPython=0
-if [ -z "$pythonVersion" ]; then
-	if ! hash python 2>/dev/null; then        
-		log warn "No Python interpreter" 
-		pythonInterpreter="none"	    
-	else	
+if original_python_key=$(find_key_by_group 1); then
+    
+    # On a détecté un python à installer
+    pythonVersion=${version[$original_python_key]} 
+
+    if hash python 2>/dev/null; then
 		python --version &> version_test
-		pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
+		installed_pythonVersion=$(cat version_test | sed -n 's/^[A-Z][a-z]*\s\([0-9]\.[0-9]*\).*/\1/p')
 		rm -f version_test
+
+        if [ "$installed_pythonVersion" == "$pythonVersion" ] ; then 
+            # On a détecté un python avec la même version installé, on supprime l installation
+            remove_key "$original_python_key"		    
+            if [ $debug == "1" ]; then  
+                log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
+            fi 
+        fi
+
 		pythonInterpreter=python${pythonVersion}
 		installedPython=1
-        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-		log info "Python interpreter is set to $pythonInterpreter"
-	fi
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"		
 
-elif hash python${pythonVersion} 2>/dev/null
-then    
-	pythonInterpreter=python${pythonVersion}
-	installedPython=1
-    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
-	log info "Python interpreter is set to $pythonInterpreter"	
-
-     if original_python_key=$(find_key_by_group 1); then
-        # On a détecté une lib MPI déjà installé, on supprime l installation du MPI 
+    elif hash python${pythonVersion} 2>/dev/null
+    then    
+	    pythonInterpreter=python${pythonVersion}
+	    installedPython=1
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"	    
+       
+        # On a détecté un python avec la même version installé, on supprime l installation
         remove_key "$original_python_key"		    
         if [ $debug == "1" ]; then  
             log debug "We detect a previous installation of 'python${pythonVersion}' so we removed its installation"
-        fi 
-     fi    
-else
-	original_python_key=$(find_key_by_group 1)
-    new_python_key=$(get_package_key "python==$pythonVersion")
+        fi             
+    else	   
+        new_python_key=$(get_package_key "python==$pythonVersion")
 
-    if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
-        # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
-        replace_key "$original_python_key" "$new_python_key"
-    elif [[ $installedPython -eq 0 ]] && ( ! package_exists "python==$pythonVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then
-        log fail "'python==$pythonVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."
-        leave 1
+        if [[ $installedPython -eq 0 ]] && package_exists "python==$pythonVersion" && [[ "$original_mpi_key" != "$new_mpi_key" ]]; then
+            # On a détecté un python différent de celui spécifié initialement, on remplace la version de Python
+            replace_key "$original_python_key" "$new_python_key"
+        elif [[ $installedPython -eq 0 ]] && ( ! package_exists "python==$pythonVersion" || [[ "$original_mpi_key" != "$new_mpi_key" ]] ); then
+            log fail "'python==$pythonVersion' is not installed and we can't install it with PAGURE. Please install it before or load the appropriate module."
+            leave 1
+        fi
+
+        pythonInterpreter=python${pythonVersion}
+        pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"        
     fi
 
-    pythonInterpreter=python${pythonVersion}
-    pythonlib="py$(echo $pythonVersion | tr -d . | cut -c1-3)"
     log info "Python interpreter is set to $pythonInterpreter"
-fi
+  
+fi 	 
 
 # 7. Installation des paquets système
 if [ ! "$systemOS" == "cluster" ] && [ ! "$mode" == "docker" ]
@@ -1348,7 +1349,7 @@ function install()
 		log raw "......................"
 		while true; do		
 			
-			if [[ $mode == "auto" || $mode == "docker" || $autoInstallMandatory == "1" && ! -z "${mandatory["$index"]}" && "${mandatory["$index"]}" == "1" ]]; then
+			if [[ $mode == "auto" || $mode == "docker" ]]; then
 				yn="y"
 			else
 				read -p "Do you wish to install ${name["$index"]} ${version["$index"]} ${details["$index"]} ? (y/n) " yn
@@ -1398,14 +1399,14 @@ function install()
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
                 patch_04["$index"]=${patch_04["$index"]//__PYTHON_LIB__/$pythonlib} 
 
-                combined_key="$index-$compiler-$mpilib"
+                combined_key="$index-$compiler-$mpi"
                 compiler_key="$index-$compiler"
-                mpilib_key="$index-$mpilib"
+                mpi_key="$index-$mpi"              
 
                 if [[ -n "$mpilib" && "$mpilib" != "none" && -n "${args[$combined_key]:-}" ]]; then
                     args["$index"]="${args[$combined_key]}"
-                elif [[ -n "$mpilib" && "$mpilib" != "none" &&  -n "${args[$mpilib_key]:-}" ]]; then
-                    args["$index"]="${args[$mpilib_key]}"
+                elif [[ -n "$mpilib" && "$mpilib" != "none" &&  -n "${args[$mpi_key]:-}" ]]; then
+                    args["$index"]="${args[$mpi_key]}"
                 elif [[ -n "${args[$compiler_key]:-}" ]]; then
                     args["$index"]="${args[$compiler_key]}"              
                 else
@@ -1416,7 +1417,7 @@ function install()
                 args["$index"]=${args["$index"]//__MPI_LIB__/$mpilib}
                 args["$index"]=${args["$index"]//__PYTHON_VERSION__/$pythonVersion}
                 args["$index"]=${args["$index"]//__PYTHON_INTERPRETER__/$pythonInterpreter}
-                args["$index"]=${args["$index"]//__PYTHON_LIB__/$pythonlib}                    
+                args["$index"]=${args["$index"]//__PYTHON_LIB__/$pythonlib}                                       
 
                 dirinstall["$index"]=${dirinstall["$index"]//__COMPILO__/$compilo}
                 dirinstall["$index"]=${dirinstall["$index"]//__MPI_LIB__/$mpilib}
@@ -1654,8 +1655,13 @@ function install()
 						    leave 1
 					    fi
                     fi
+
+                   if [[ ! -d "$prefix/${dirinstall[$index]}" || -z "$(ls -A "$prefix/${dirinstall[$index]}" 2>/dev/null)" ]]; then
+                      log fail "Something was wrong during the installation because '$prefix/${dirinstall[$index]}' is empty."
+					  leave 1
+                   fi
 					
-					cd $prefix					
+					cd $prefix	                    				
 
 					if [[ ! -z "${modulefile["$index"]}" ]]
 					then
