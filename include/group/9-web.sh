@@ -10,11 +10,79 @@
 group=9
 groupname[$group]="Web librairies"
 
-# nodejs 26.13.1
+# nodejs 18.17.1
 index=1
 name["$group-$index"]=nodejs
-version["$group-$index"]=26.13.1
+version["$group-$index"]=18.17.1
 constraints["$group-$index"]='pythonInterpreter != none'
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/nodejs/node/archive/refs/tags/v18.17.1.tar.gz -O node-v18.17.1.tar.gz"
+filename["$group-$index"]=node-v18.17.1.tar.gz
+dirname["$group-$index"]=node-18.17.1
+builder["$group-$index"]="nodejs"
+dependencies["$group-$index"]="python"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\tNodeJS ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"NodeJS ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+prepend-path LD_LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path LIBRARY_PATH $prefix/${dirinstall["$group-$index"]}/lib
+prepend-path MANPATH $prefix/${dirinstall["$group-$index"]}/share/man
+prepend-path C_INCLUDE_PATH $prefix/${dirinstall["$group-$index"]}/include
+prepend-path INCLUDE $prefix/${dirinstall["$group-$index"]}/include 
+prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include 
+"
+
+# yarn 1.22.19
+index=2
+name["$group-$index"]=yarn
+version["$group-$index"]=1.22.19
+constraints["$group-$index"]='pythonInterpreter != none'
+details["$group-$index"]=""
+url["$group-$index"]="https://github.com/yarnpkg/yarn/archive/refs/tags/v1.22.19.tar.gz -O yarn-1.22.19.tar.gz"
+filename["$group-$index"]=yarn-1.22.19.tar.gz
+dirname["$group-$index"]=yarn-1.22.19
+builder["$group-$index"]="yarn"
+dependencies["$group-$index"]="nodejs==18.17.1"
+dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
+args["$group-$index"]=""
+dirmodule["$group-$index"]="${name["$group-$index"]}"
+modulefilename["$group-$index"]="${version["$group-$index"]}"
+modulefile["$group-$index"]="#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr \"\t${name["$group-$index"]} ${version["$group-$index"]}\"
+}
+ 
+module-whatis \"${name["$group-$index"]} ${version["$group-$index"]}\"
+
+# Dependencies
+module load dependencies_modules
+
+# Variables
+prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
+"
+
+# nodejs 26.13.1
+index=3
+name["$group-$index"]=nodejs
+version["$group-$index"]=26.13.1
+constraints["$group-$index"]='pythonInterpreter != none && compiler == gnu && CC_VERSION > 13'
 details["$group-$index"]=""
 url["$group-$index"]="https://nodejs.org/dist/v26.13.1/node-v26.13.1.tar.gz"
 filename["$group-$index"]=node-v26.13.1.tar.gz
@@ -48,7 +116,7 @@ prepend-path CPATH $prefix/${dirinstall["$group-$index"]}/include
 "
 
 # yarn 4.18.1
-index=2
+index=4
 name["$group-$index"]=yarn
 version["$group-$index"]=4.18.1
 constraints["$group-$index"]='pythonInterpreter != none'
@@ -77,7 +145,5 @@ module load dependencies_modules
 # Variables
 prepend-path PATH $prefix/${dirinstall["$group-$index"]}/bin
 "
-
-
 
 

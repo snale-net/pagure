@@ -1938,7 +1938,7 @@ url["$group-$index"]="https://archive.mesa3d.org/older-versions/17.x/mesa-17.3.9
 filename["$group-$index"]=mesa-17.3.9.tar.xz
 dirname["$group-$index"]=mesa-17.3.9
 builder["$group-$index"]="autogen"
-dependencies["$group-$index"]="xorg-macros==1.20.0 drm==2.4.119 xdamage==1.1.6 xfixes==6.0.1 shmfence==1.3.2 pciaccess==0.17"
+dependencies["$group-$index"]="xorg-macros==1.20.0 drm==2.4.119 xdamage==1.1.6 xfixes==6.0.1 shmfence==1.3.2 pciaccess==0.17 xcb==1.15 x11==1.7.5"
 dirinstall["$group-$index"]="${name["$group-$index"]}/__COMPILO__/${version["$group-$index"]}"
 args["$group-$index"]="--with-gallium-drivers=\"nouveau,swrast\""
 dirmodule["$group-$index"]="${name["$group-$index"]}/__COMPILO__"

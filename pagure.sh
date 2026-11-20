@@ -1656,7 +1656,7 @@ function install()
 					    fi
                     fi
 
-                   if [[ ! -d "$prefix/${dirinstall[$index]}" || -z "$(ls -A "$prefix/${dirinstall[$index]}" 2>/dev/null)" ]]; then
+                   if [[ -n "${dirinstall[$index]}" && ( ! -d "$prefix/${dirinstall[$index]}" || -z "$(ls -A "$prefix/${dirinstall[$index]}" 2>/dev/null)" ) ]]; then
                       log fail "Something was wrong during the installation because '$prefix/${dirinstall[$index]}' is empty."
 					  leave 1
                    fi
